@@ -1,0 +1,7 @@
+{
+  "profile_method": "one warmup with forward/inverse verification; three timed calls; median; local diagnostic only",
+  "input": "results/standard-benchmark-pipeline-20260930T210634.482409Z/fixtures/ambiguous-ids-2000.json",
+  "before_source_sha256": "11308127edf44e19c4ea50055feefef988fc5f35031dadfb6900bb28a2496946",
+  "final_source_sha256": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+  "note": "after profile precedes final best serialized-cost pruning tweak; final timings recorded separately in formal pipeline; guarded rationalize unchanged"
+}

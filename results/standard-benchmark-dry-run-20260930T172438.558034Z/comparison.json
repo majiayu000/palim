@@ -1,0 +1,347 @@
+[
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "json-patch",
+    "input_bytes": 649,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "small-config-edit",
+    "ok": true,
+    "operation_counts": {
+      "replace": 1
+    },
+    "operations": 1,
+    "patch_bytes": 53,
+    "pipeline_samples_ms": [],
+    "rss_mib": 1.875,
+    "process_seconds": 0.47656525002093986,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "plain",
+    "input_bytes": 649,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "small-config-edit",
+    "ok": true,
+    "operation_counts": {
+      "replace": 1
+    },
+    "operations": 1,
+    "patch_bytes": 53,
+    "pipeline_samples_ms": [],
+    "rss_mib": 2.078125,
+    "process_seconds": 0.005887708975933492,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "optimized",
+    "input_bytes": 649,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "small-config-edit",
+    "ok": true,
+    "operation_counts": {
+      "replace": 1
+    },
+    "operations": 1,
+    "patch_bytes": 53,
+    "pipeline_samples_ms": [],
+    "rss_mib": 2.109375,
+    "process_seconds": 0.005642666015774012,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "plain",
+    "input_bytes": 68002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "rotate-2000",
+    "ok": true,
+    "operation_counts": {
+      "move": 1
+    },
+    "operations": 1,
+    "patch_bytes": 42,
+    "pipeline_samples_ms": [],
+    "rss_mib": 3.09375,
+    "process_seconds": 0.007354417000897229,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "optimized",
+    "input_bytes": 68002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "rotate-2000",
+    "ok": true,
+    "operation_counts": {
+      "move": 1
+    },
+    "operations": 1,
+    "patch_bytes": 42,
+    "pipeline_samples_ms": [],
+    "rss_mib": 3.265625,
+    "process_seconds": 0.007683749950956553,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "json-patch",
+    "input_bytes": 68002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "rotate-2000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 2000
+    },
+    "operations": 2000,
+    "patch_bytes": 112891,
+    "pipeline_samples_ms": [],
+    "rss_mib": 3.234375,
+    "process_seconds": 0.0073227499960921705,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "optimized",
+    "input_bytes": 68002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "disjoint-2000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 1
+    },
+    "operations": 1,
+    "patch_bytes": 34038,
+    "pipeline_samples_ms": [],
+    "rss_mib": 9.203125,
+    "process_seconds": 0.3003436659928411,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "json-patch",
+    "input_bytes": 68002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "disjoint-2000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 2000
+    },
+    "operations": 2000,
+    "patch_bytes": 112891,
+    "pipeline_samples_ms": [],
+    "rss_mib": 3.40625,
+    "process_seconds": 0.009824374981690198,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "plain",
+    "input_bytes": 68002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "disjoint-2000",
+    "ok": true,
+    "operation_counts": {
+      "add": 2000,
+      "remove": 2000
+    },
+    "operations": 4000,
+    "patch_bytes": 165781,
+    "pipeline_samples_ms": [],
+    "rss_mib": 8.28125,
+    "process_seconds": 0.01501979201566428,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "json-patch",
+    "input_bytes": 267363,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "keyed-rotate-edit-2000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 8000
+    },
+    "operations": 8000,
+    "patch_bytes": 479232,
+    "pipeline_samples_ms": [],
+    "rss_mib": 18.78125,
+    "process_seconds": 0.021369459049310535,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "plain",
+    "input_bytes": 267363,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "keyed-rotate-edit-2000",
+    "ok": true,
+    "operation_counts": {
+      "move": 1,
+      "replace": 1
+    },
+    "operations": 2,
+    "patch_bytes": 116,
+    "pipeline_samples_ms": [],
+    "rss_mib": 17.203125,
+    "process_seconds": 0.01619087503058836,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "optimized",
+    "input_bytes": 267363,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "keyed-rotate-edit-2000",
+    "ok": true,
+    "operation_counts": {
+      "move": 1,
+      "replace": 1
+    },
+    "operations": 2,
+    "patch_bytes": 116,
+    "pipeline_samples_ms": [],
+    "rss_mib": 25.828125,
+    "process_seconds": 0.024277124961372465,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "plain",
+    "input_bytes": 360009,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "long-text-ascii",
+    "ok": true,
+    "operation_counts": {
+      "replace": 1
+    },
+    "operations": 1,
+    "patch_bytes": 180044,
+    "pipeline_samples_ms": [],
+    "rss_mib": 4.5,
+    "process_seconds": 0.010306124982889742,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "optimized",
+    "input_bytes": 360009,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "long-text-ascii",
+    "ok": true,
+    "operation_counts": {
+      "replace": 1
+    },
+    "operations": 1,
+    "patch_bytes": 180044,
+    "pipeline_samples_ms": [],
+    "rss_mib": 4.515625,
+    "process_seconds": 0.008273417013697326,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "json-patch",
+    "input_bytes": 360009,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "long-text-ascii",
+    "ok": true,
+    "operation_counts": {
+      "replace": 1
+    },
+    "operations": 1,
+    "patch_bytes": 180044,
+    "pipeline_samples_ms": [],
+    "rss_mib": 3.703125,
+    "process_seconds": 0.009056166978552938,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "optimized",
+    "input_bytes": 17002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "halfswap-500",
+    "ok": true,
+    "operation_counts": {
+      "replace": 1
+    },
+    "operations": 1,
+    "patch_bytes": 8538,
+    "pipeline_samples_ms": [],
+    "rss_mib": 2.9375,
+    "process_seconds": 0.010975582990795374,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "json-patch",
+    "input_bytes": 17002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "halfswap-500",
+    "ok": true,
+    "operation_counts": {
+      "replace": 500
+    },
+    "operations": 500,
+    "patch_bytes": 27891,
+    "pipeline_samples_ms": [],
+    "rss_mib": 2.34375,
+    "process_seconds": 0.00823733297875151,
+    "repetition": 1
+  },
+  {
+    "boundary": "parse both documents -> typed standard diff -> serialize Patch",
+    "dry_run": true,
+    "engine": "plain",
+    "input_bytes": 17002,
+    "iterations_per_sample": 0,
+    "measured": false,
+    "name": "halfswap-500",
+    "ok": true,
+    "operation_counts": {
+      "move": 250
+    },
+    "operations": 250,
+    "patch_bytes": 10001,
+    "pipeline_samples_ms": [],
+    "rss_mib": 2.859375,
+    "process_seconds": 0.009114667016547173,
+    "repetition": 1
+  }
+]

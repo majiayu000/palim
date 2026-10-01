@@ -1,0 +1,5248 @@
+{
+  "cases": [
+    {
+      "case": "keyed-rotate-edit-2000",
+      "left_json_bytes": 133681,
+      "native_delta_bytes": 74,
+      "rfc_unoptimized_bytes": 116,
+      "right_json_bytes": 133682
+    },
+    {
+      "case": "long-text-ascii",
+      "left_json_bytes": 180002,
+      "native_delta_bytes": 56,
+      "rfc_unoptimized_bytes": 180044,
+      "right_json_bytes": 180007
+    },
+    {
+      "case": "long-text-unicode",
+      "left_json_bytes": 175002,
+      "native_delta_bytes": 56,
+      "rfc_unoptimized_bytes": 175044,
+      "right_json_bytes": 175007
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "left_json_bytes": 1048625,
+      "native_delta_bytes": 36,
+      "rfc_unoptimized_bytes": 57,
+      "right_json_bytes": 1048624
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "left_json_bytes": 1048590,
+      "native_delta_bytes": 1048597,
+      "rfc_unoptimized_bytes": 41,
+      "right_json_bytes": 4
+    }
+  ],
+  "method": {
+    "allocation_bytes": "sum of requested sizes for successful alloc/alloc_zeroed",
+    "gross_requested_bytes": "allocation bytes + realloc requested sizes, not resident/live/unique memory",
+    "instrumented_us": "exploration only; allocation counter and concurrent agents affect CPU timing",
+    "realloc_requested_bytes": "sum of requested NEW sizes, not incremental memory",
+    "samples": 5,
+    "transfer_setup": "owned-transfer clones fixture before measured scope; copy-inside charges that clone",
+    "warmups": 2
+  },
+  "rows": [
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "baseline_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 2667307,
+          "allocations": 20003,
+          "gross_requested_bytes": 2667307,
+          "instrumented_us": 315.792,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 2667307,
+          "allocations": 20003,
+          "gross_requested_bytes": 2667307,
+          "instrumented_us": 310.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 2667307,
+          "allocations": 20003,
+          "gross_requested_bytes": 2667307,
+          "instrumented_us": 280.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 2667307,
+          "allocations": 20003,
+          "gross_requested_bytes": 2667307,
+          "instrumented_us": 292.792,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 2667307,
+          "allocations": 20003,
+          "gross_requested_bytes": 2667307,
+          "instrumented_us": 287.458,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "delta_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 2723,
+          "allocations": 17,
+          "gross_requested_bytes": 2723,
+          "instrumented_us": 0.417,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 2723,
+          "allocations": 17,
+          "gross_requested_bytes": 2723,
+          "instrumented_us": 0.333,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 2723,
+          "allocations": 17,
+          "gross_requested_bytes": 2723,
+          "instrumented_us": 0.333,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 2723,
+          "allocations": 17,
+          "gross_requested_bytes": 2723,
+          "instrumented_us": 0.291,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 2723,
+          "allocations": 17,
+          "gross_requested_bytes": 2723,
+          "instrumented_us": 0.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "native_diff_parsed",
+      "samples": [
+        {
+          "allocation_bytes": 388904,
+          "allocations": 12063,
+          "gross_requested_bytes": 711058,
+          "instrumented_us": 663.834,
+          "realloc_requested_bytes": 322154,
+          "reallocations": 2019
+        },
+        {
+          "allocation_bytes": 388904,
+          "allocations": 12063,
+          "gross_requested_bytes": 711058,
+          "instrumented_us": 636.0,
+          "realloc_requested_bytes": 322154,
+          "reallocations": 2019
+        },
+        {
+          "allocation_bytes": 388904,
+          "allocations": 12063,
+          "gross_requested_bytes": 711058,
+          "instrumented_us": 596.292,
+          "realloc_requested_bytes": 322154,
+          "reallocations": 2019
+        },
+        {
+          "allocation_bytes": 388904,
+          "allocations": 12063,
+          "gross_requested_bytes": 711058,
+          "instrumented_us": 583.958,
+          "realloc_requested_bytes": 322154,
+          "reallocations": 2019
+        },
+        {
+          "allocation_bytes": 388904,
+          "allocations": 12063,
+          "gross_requested_bytes": 711058,
+          "instrumented_us": 633.875,
+          "realloc_requested_bytes": 322154,
+          "reallocations": 2019
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "native_patch_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 319.334,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 339.125,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 313.959,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 321.0,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 326.625,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "native_patch_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 65237,
+          "allocations": 42,
+          "gross_requested_bytes": 161339,
+          "instrumented_us": 38.75,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 65237,
+          "allocations": 42,
+          "gross_requested_bytes": 161339,
+          "instrumented_us": 41.0,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 65237,
+          "allocations": 42,
+          "gross_requested_bytes": 161339,
+          "instrumented_us": 32.958,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 65237,
+          "allocations": 42,
+          "gross_requested_bytes": 161339,
+          "instrumented_us": 36.458,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 65237,
+          "allocations": 42,
+          "gross_requested_bytes": 161339,
+          "instrumented_us": 29.875,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "native_patch_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 304.667,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 320.542,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 291.583,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 334.125,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        },
+        {
+          "allocation_bytes": 2732544,
+          "allocations": 20045,
+          "gross_requested_bytes": 2828646,
+          "instrumented_us": 320.834,
+          "realloc_requested_bytes": 96102,
+          "reallocations": 7
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_apply_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 310.584,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 290.417,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 301.417,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 304.0,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 285.375,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_apply_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 116,
+          "allocations": 14,
+          "gross_requested_bytes": 96116,
+          "instrumented_us": 22.542,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 116,
+          "allocations": 14,
+          "gross_requested_bytes": 96116,
+          "instrumented_us": 22.417,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 116,
+          "allocations": 14,
+          "gross_requested_bytes": 96116,
+          "instrumented_us": 23.792,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 116,
+          "allocations": 14,
+          "gross_requested_bytes": 96116,
+          "instrumented_us": 35.291,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 116,
+          "allocations": 14,
+          "gross_requested_bytes": 96116,
+          "instrumented_us": 22.167,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_apply_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 292.708,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 289.792,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 290.708,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 302.25,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 2667423,
+          "allocations": 20017,
+          "gross_requested_bytes": 2763423,
+          "instrumented_us": 280.75,
+          "realloc_requested_bytes": 96000,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "native_delta_serialize_to_vec",
+      "samples": [
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.417,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.166,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "native_delta_serialize_writer_presized",
+      "samples": [
+        {
+          "allocation_bytes": 74,
+          "allocations": 1,
+          "gross_requested_bytes": 74,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 74,
+          "allocations": 1,
+          "gross_requested_bytes": 74,
+          "instrumented_us": 0.209,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 74,
+          "allocations": 1,
+          "gross_requested_bytes": 74,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 74,
+          "allocations": 1,
+          "gross_requested_bytes": 74,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 74,
+          "allocations": 1,
+          "gross_requested_bytes": 74,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "native_delta_serialize_writer_reused",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "native_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 5723903,
+          "allocations": 60070,
+          "gross_requested_bytes": 6307689,
+          "instrumented_us": 2255.0,
+          "realloc_requested_bytes": 583786,
+          "reallocations": 2037
+        },
+        {
+          "allocation_bytes": 5723903,
+          "allocations": 60070,
+          "gross_requested_bytes": 6307689,
+          "instrumented_us": 2263.833,
+          "realloc_requested_bytes": 583786,
+          "reallocations": 2037
+        },
+        {
+          "allocation_bytes": 5723903,
+          "allocations": 60070,
+          "gross_requested_bytes": 6307689,
+          "instrumented_us": 2257.125,
+          "realloc_requested_bytes": 583786,
+          "reallocations": 2037
+        },
+        {
+          "allocation_bytes": 5723903,
+          "allocations": 60070,
+          "gross_requested_bytes": 6307689,
+          "instrumented_us": 2197.375,
+          "realloc_requested_bytes": 583786,
+          "reallocations": 2037
+        },
+        {
+          "allocation_bytes": 5723903,
+          "allocations": 60070,
+          "gross_requested_bytes": 6307689,
+          "instrumented_us": 2217.959,
+          "realloc_requested_bytes": 583786,
+          "reallocations": 2037
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_export_from_existing_delta",
+      "samples": [
+        {
+          "allocation_bytes": 2815568,
+          "allocations": 20082,
+          "gross_requested_bytes": 2944496,
+          "instrumented_us": 617.375,
+          "realloc_requested_bytes": 128928,
+          "reallocations": 23
+        },
+        {
+          "allocation_bytes": 2815568,
+          "allocations": 20082,
+          "gross_requested_bytes": 2944496,
+          "instrumented_us": 584.583,
+          "realloc_requested_bytes": 128928,
+          "reallocations": 23
+        },
+        {
+          "allocation_bytes": 2815568,
+          "allocations": 20082,
+          "gross_requested_bytes": 2944496,
+          "instrumented_us": 680.167,
+          "realloc_requested_bytes": 128928,
+          "reallocations": 23
+        },
+        {
+          "allocation_bytes": 2815568,
+          "allocations": 20082,
+          "gross_requested_bytes": 2944496,
+          "instrumented_us": 568.542,
+          "realloc_requested_bytes": 128928,
+          "reallocations": 23
+        },
+        {
+          "allocation_bytes": 2815568,
+          "allocations": 20082,
+          "gross_requested_bytes": 2944496,
+          "instrumented_us": 630.166,
+          "realloc_requested_bytes": 128928,
+          "reallocations": 23
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_generate_no_optim",
+      "samples": [
+        {
+          "allocation_bytes": 5937016,
+          "allocations": 52190,
+          "gross_requested_bytes": 6484200,
+          "instrumented_us": 1775.75,
+          "realloc_requested_bytes": 547184,
+          "reallocations": 2049
+        },
+        {
+          "allocation_bytes": 5937016,
+          "allocations": 52190,
+          "gross_requested_bytes": 6484200,
+          "instrumented_us": 1627.625,
+          "realloc_requested_bytes": 547184,
+          "reallocations": 2049
+        },
+        {
+          "allocation_bytes": 5937016,
+          "allocations": 52190,
+          "gross_requested_bytes": 6484200,
+          "instrumented_us": 1838.417,
+          "realloc_requested_bytes": 547184,
+          "reallocations": 2049
+        },
+        {
+          "allocation_bytes": 5937016,
+          "allocations": 52190,
+          "gross_requested_bytes": 6484200,
+          "instrumented_us": 1781.958,
+          "realloc_requested_bytes": 547184,
+          "reallocations": 2049
+        },
+        {
+          "allocation_bytes": 5937016,
+          "allocations": 52190,
+          "gross_requested_bytes": 6484200,
+          "instrumented_us": 1778.167,
+          "realloc_requested_bytes": 547184,
+          "reallocations": 2049
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_generate_factorize",
+      "samples": [
+        {
+          "allocation_bytes": 10030655,
+          "allocations": 126254,
+          "gross_requested_bytes": 10858579,
+          "instrumented_us": 4754.458,
+          "realloc_requested_bytes": 827924,
+          "reallocations": 14039
+        },
+        {
+          "allocation_bytes": 10030655,
+          "allocations": 126254,
+          "gross_requested_bytes": 10858579,
+          "instrumented_us": 4780.833,
+          "realloc_requested_bytes": 827924,
+          "reallocations": 14039
+        },
+        {
+          "allocation_bytes": 10030655,
+          "allocations": 126254,
+          "gross_requested_bytes": 10858579,
+          "instrumented_us": 4961.0,
+          "realloc_requested_bytes": 827924,
+          "reallocations": 14039
+        },
+        {
+          "allocation_bytes": 10030655,
+          "allocations": 126254,
+          "gross_requested_bytes": 10858579,
+          "instrumented_us": 4715.458,
+          "realloc_requested_bytes": 827924,
+          "reallocations": 14039
+        },
+        {
+          "allocation_bytes": 10030655,
+          "allocations": 126254,
+          "gross_requested_bytes": 10858579,
+          "instrumented_us": 4725.208,
+          "realloc_requested_bytes": 827924,
+          "reallocations": 14039
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_generate_rationalize",
+      "samples": [
+        {
+          "allocation_bytes": 16770012,
+          "allocations": 148309,
+          "gross_requested_bytes": 18365772,
+          "instrumented_us": 4848.875,
+          "realloc_requested_bytes": 1595760,
+          "reallocations": 2073
+        },
+        {
+          "allocation_bytes": 16770012,
+          "allocations": 148309,
+          "gross_requested_bytes": 18365772,
+          "instrumented_us": 4831.25,
+          "realloc_requested_bytes": 1595760,
+          "reallocations": 2073
+        },
+        {
+          "allocation_bytes": 16770012,
+          "allocations": 148309,
+          "gross_requested_bytes": 18365772,
+          "instrumented_us": 4929.25,
+          "realloc_requested_bytes": 1595760,
+          "reallocations": 2073
+        },
+        {
+          "allocation_bytes": 16770012,
+          "allocations": 148309,
+          "gross_requested_bytes": 18365772,
+          "instrumented_us": 5040.083,
+          "realloc_requested_bytes": 1595760,
+          "reallocations": 2073
+        },
+        {
+          "allocation_bytes": 16770012,
+          "allocations": 148309,
+          "gross_requested_bytes": 18365772,
+          "instrumented_us": 4756.709,
+          "realloc_requested_bytes": 1595760,
+          "reallocations": 2073
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_generate_default",
+      "samples": [
+        {
+          "allocation_bytes": 20863651,
+          "allocations": 222373,
+          "gross_requested_bytes": 22740151,
+          "instrumented_us": 8025.334,
+          "realloc_requested_bytes": 1876500,
+          "reallocations": 14063
+        },
+        {
+          "allocation_bytes": 20863651,
+          "allocations": 222373,
+          "gross_requested_bytes": 22740151,
+          "instrumented_us": 7654.166,
+          "realloc_requested_bytes": 1876500,
+          "reallocations": 14063
+        },
+        {
+          "allocation_bytes": 20863651,
+          "allocations": 222373,
+          "gross_requested_bytes": 22740151,
+          "instrumented_us": 8086.834,
+          "realloc_requested_bytes": 1876500,
+          "reallocations": 14063
+        },
+        {
+          "allocation_bytes": 20863651,
+          "allocations": 222373,
+          "gross_requested_bytes": 22740151,
+          "instrumented_us": 7869.208,
+          "realloc_requested_bytes": 1876500,
+          "reallocations": 14063
+        },
+        {
+          "allocation_bytes": 20863651,
+          "allocations": 222373,
+          "gross_requested_bytes": 22740151,
+          "instrumented_us": 7978.083,
+          "realloc_requested_bytes": 1876500,
+          "reallocations": 14063
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "rfc_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 26198650,
+          "allocations": 270380,
+          "gross_requested_bytes": 28336782,
+          "instrumented_us": 9574.666,
+          "realloc_requested_bytes": 2138132,
+          "reallocations": 14081
+        },
+        {
+          "allocation_bytes": 26198650,
+          "allocations": 270380,
+          "gross_requested_bytes": 28336782,
+          "instrumented_us": 9599.625,
+          "realloc_requested_bytes": 2138132,
+          "reallocations": 14081
+        },
+        {
+          "allocation_bytes": 26198650,
+          "allocations": 270380,
+          "gross_requested_bytes": 28336782,
+          "instrumented_us": 9719.125,
+          "realloc_requested_bytes": 2138132,
+          "reallocations": 14081
+        },
+        {
+          "allocation_bytes": 26198650,
+          "allocations": 270380,
+          "gross_requested_bytes": 28336782,
+          "instrumented_us": 9510.333,
+          "realloc_requested_bytes": 2138132,
+          "reallocations": 14081
+        },
+        {
+          "allocation_bytes": 26198650,
+          "allocations": 270380,
+          "gross_requested_bytes": 28336782,
+          "instrumented_us": 9772.959,
+          "realloc_requested_bytes": 2138132,
+          "reallocations": 14081
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "parse_left_value",
+      "samples": [
+        {
+          "allocation_bytes": 2667435,
+          "allocations": 24003,
+          "gross_requested_bytes": 2798251,
+          "instrumented_us": 573.625,
+          "realloc_requested_bytes": 130816,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 2667435,
+          "allocations": 24003,
+          "gross_requested_bytes": 2798251,
+          "instrumented_us": 571.958,
+          "realloc_requested_bytes": 130816,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 2667435,
+          "allocations": 24003,
+          "gross_requested_bytes": 2798251,
+          "instrumented_us": 573.209,
+          "realloc_requested_bytes": 130816,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 2667435,
+          "allocations": 24003,
+          "gross_requested_bytes": 2798251,
+          "instrumented_us": 629.083,
+          "realloc_requested_bytes": 130816,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 2667435,
+          "allocations": 24003,
+          "gross_requested_bytes": 2798251,
+          "instrumented_us": 598.292,
+          "realloc_requested_bytes": 130816,
+          "reallocations": 9
+        }
+      ]
+    },
+    {
+      "case": "keyed-rotate-edit-2000",
+      "phase": "parse_left_raw_value",
+      "samples": [
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 184.833,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 182.333,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 190.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 264.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 170.958,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "baseline_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 175000,
+          "allocations": 1,
+          "gross_requested_bytes": 175000,
+          "instrumented_us": 2.958,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 175000,
+          "allocations": 1,
+          "gross_requested_bytes": 175000,
+          "instrumented_us": 2.834,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 175000,
+          "allocations": 1,
+          "gross_requested_bytes": 175000,
+          "instrumented_us": 2.875,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 175000,
+          "allocations": 1,
+          "gross_requested_bytes": 175000,
+          "instrumented_us": 2.875,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 175000,
+          "allocations": 1,
+          "gross_requested_bytes": 175000,
+          "instrumented_us": 2.875,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "delta_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "native_diff_parsed",
+      "samples": [
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 66.875,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 66.75,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 66.792,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 80.0,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 66.709,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "native_patch_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 335.458,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 333.75,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 324.125,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 335.791,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 275.417,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "native_patch_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 292073,
+          "allocations": 13,
+          "gross_requested_bytes": 992145,
+          "instrumented_us": 281.041,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 292073,
+          "allocations": 13,
+          "gross_requested_bytes": 992145,
+          "instrumented_us": 287.917,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 292073,
+          "allocations": 13,
+          "gross_requested_bytes": 992145,
+          "instrumented_us": 298.625,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 292073,
+          "allocations": 13,
+          "gross_requested_bytes": 992145,
+          "instrumented_us": 284.917,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 292073,
+          "allocations": 13,
+          "gross_requested_bytes": 992145,
+          "instrumented_us": 291.833,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "native_patch_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 331.583,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 300.667,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 293.417,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 304.583,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 467073,
+          "allocations": 14,
+          "gross_requested_bytes": 1167145,
+          "instrumented_us": 295.334,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_apply_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 6.791,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.917,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.583,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.458,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.333,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_apply_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 175021,
+          "allocations": 2,
+          "gross_requested_bytes": 175021,
+          "instrumented_us": 2.417,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 175021,
+          "allocations": 2,
+          "gross_requested_bytes": 175021,
+          "instrumented_us": 2.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 175021,
+          "allocations": 2,
+          "gross_requested_bytes": 175021,
+          "instrumented_us": 2.417,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 175021,
+          "allocations": 2,
+          "gross_requested_bytes": 175021,
+          "instrumented_us": 2.459,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 175021,
+          "allocations": 2,
+          "gross_requested_bytes": 175021,
+          "instrumented_us": 2.458,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_apply_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.375,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 350021,
+          "allocations": 3,
+          "gross_requested_bytes": 350021,
+          "instrumented_us": 5.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "native_delta_serialize_to_vec",
+      "samples": [
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "native_delta_serialize_writer_presized",
+      "samples": [
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.208,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "native_delta_serialize_writer_reused",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "native_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 351152,
+          "allocations": 34,
+          "gross_requested_bytes": 1465634,
+          "instrumented_us": 206.833,
+          "realloc_requested_bytes": 1114482,
+          "reallocations": 35
+        },
+        {
+          "allocation_bytes": 351152,
+          "allocations": 34,
+          "gross_requested_bytes": 1465634,
+          "instrumented_us": 196.625,
+          "realloc_requested_bytes": 1114482,
+          "reallocations": 35
+        },
+        {
+          "allocation_bytes": 351152,
+          "allocations": 34,
+          "gross_requested_bytes": 1465634,
+          "instrumented_us": 235.5,
+          "realloc_requested_bytes": 1114482,
+          "reallocations": 35
+        },
+        {
+          "allocation_bytes": 351152,
+          "allocations": 34,
+          "gross_requested_bytes": 1465634,
+          "instrumented_us": 230.666,
+          "realloc_requested_bytes": 1114482,
+          "reallocations": 35
+        },
+        {
+          "allocation_bytes": 351152,
+          "allocations": 34,
+          "gross_requested_bytes": 1465634,
+          "instrumented_us": 272.417,
+          "realloc_requested_bytes": 1114482,
+          "reallocations": 35
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_export_from_existing_delta",
+      "samples": [
+        {
+          "allocation_bytes": 642336,
+          "allocations": 18,
+          "gross_requested_bytes": 1342408,
+          "instrumented_us": 287.875,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 642336,
+          "allocations": 18,
+          "gross_requested_bytes": 1342408,
+          "instrumented_us": 298.625,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 642336,
+          "allocations": 18,
+          "gross_requested_bytes": 1342408,
+          "instrumented_us": 293.125,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 642336,
+          "allocations": 18,
+          "gross_requested_bytes": 1342408,
+          "instrumented_us": 300.542,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 642336,
+          "allocations": 18,
+          "gross_requested_bytes": 1342408,
+          "instrumented_us": 302.542,
+          "realloc_requested_bytes": 700072,
+          "reallocations": 5
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_generate_no_optim",
+      "samples": [
+        {
+          "allocation_bytes": 1110360,
+          "allocations": 61,
+          "gross_requested_bytes": 2511010,
+          "instrumented_us": 673.875,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        },
+        {
+          "allocation_bytes": 1110360,
+          "allocations": 61,
+          "gross_requested_bytes": 2511010,
+          "instrumented_us": 647.375,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        },
+        {
+          "allocation_bytes": 1110360,
+          "allocations": 61,
+          "gross_requested_bytes": 2511010,
+          "instrumented_us": 645.333,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        },
+        {
+          "allocation_bytes": 1110360,
+          "allocations": 61,
+          "gross_requested_bytes": 2511010,
+          "instrumented_us": 665.459,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        },
+        {
+          "allocation_bytes": 1110360,
+          "allocations": 61,
+          "gross_requested_bytes": 2511010,
+          "instrumented_us": 691.458,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_generate_factorize",
+      "samples": [
+        {
+          "allocation_bytes": 1985643,
+          "allocations": 67,
+          "gross_requested_bytes": 3386293,
+          "instrumented_us": 840.458,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        },
+        {
+          "allocation_bytes": 1985643,
+          "allocations": 67,
+          "gross_requested_bytes": 3386293,
+          "instrumented_us": 844.667,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        },
+        {
+          "allocation_bytes": 1985643,
+          "allocations": 67,
+          "gross_requested_bytes": 3386293,
+          "instrumented_us": 897.166,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        },
+        {
+          "allocation_bytes": 1985643,
+          "allocations": 67,
+          "gross_requested_bytes": 3386293,
+          "instrumented_us": 866.833,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        },
+        {
+          "allocation_bytes": 1985643,
+          "allocations": 67,
+          "gross_requested_bytes": 3386293,
+          "instrumented_us": 838.958,
+          "realloc_requested_bytes": 1400650,
+          "reallocations": 19
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_generate_rationalize",
+      "samples": [
+        {
+          "allocation_bytes": 1110488,
+          "allocations": 62,
+          "gross_requested_bytes": 3035170,
+          "instrumented_us": 744.5,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        },
+        {
+          "allocation_bytes": 1110488,
+          "allocations": 62,
+          "gross_requested_bytes": 3035170,
+          "instrumented_us": 763.875,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        },
+        {
+          "allocation_bytes": 1110488,
+          "allocations": 62,
+          "gross_requested_bytes": 3035170,
+          "instrumented_us": 737.125,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        },
+        {
+          "allocation_bytes": 1110488,
+          "allocations": 62,
+          "gross_requested_bytes": 3035170,
+          "instrumented_us": 732.0,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        },
+        {
+          "allocation_bytes": 1110488,
+          "allocations": 62,
+          "gross_requested_bytes": 3035170,
+          "instrumented_us": 740.708,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_generate_default",
+      "samples": [
+        {
+          "allocation_bytes": 1985771,
+          "allocations": 68,
+          "gross_requested_bytes": 3910453,
+          "instrumented_us": 912.25,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        },
+        {
+          "allocation_bytes": 1985771,
+          "allocations": 68,
+          "gross_requested_bytes": 3910453,
+          "instrumented_us": 899.25,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        },
+        {
+          "allocation_bytes": 1985771,
+          "allocations": 68,
+          "gross_requested_bytes": 3910453,
+          "instrumented_us": 904.416,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        },
+        {
+          "allocation_bytes": 1985771,
+          "allocations": 68,
+          "gross_requested_bytes": 3910453,
+          "instrumented_us": 925.25,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        },
+        {
+          "allocation_bytes": 1985771,
+          "allocations": 68,
+          "gross_requested_bytes": 3910453,
+          "instrumented_us": 947.209,
+          "realloc_requested_bytes": 1924682,
+          "reallocations": 30
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "rfc_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 2335972,
+          "allocations": 73,
+          "gross_requested_bytes": 5898662,
+          "instrumented_us": 1165.625,
+          "realloc_requested_bytes": 3562690,
+          "reallocations": 67
+        },
+        {
+          "allocation_bytes": 2335972,
+          "allocations": 73,
+          "gross_requested_bytes": 5898662,
+          "instrumented_us": 1133.458,
+          "realloc_requested_bytes": 3562690,
+          "reallocations": 67
+        },
+        {
+          "allocation_bytes": 2335972,
+          "allocations": 73,
+          "gross_requested_bytes": 5898662,
+          "instrumented_us": 1127.75,
+          "realloc_requested_bytes": 3562690,
+          "reallocations": 67
+        },
+        {
+          "allocation_bytes": 2335972,
+          "allocations": 73,
+          "gross_requested_bytes": 5898662,
+          "instrumented_us": 1151.167,
+          "realloc_requested_bytes": 3562690,
+          "reallocations": 67
+        },
+        {
+          "allocation_bytes": 2335972,
+          "allocations": 73,
+          "gross_requested_bytes": 5898662,
+          "instrumented_us": 1125.0,
+          "realloc_requested_bytes": 3562690,
+          "reallocations": 67
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "parse_left_value",
+      "samples": [
+        {
+          "allocation_bytes": 175034,
+          "allocations": 2,
+          "gross_requested_bytes": 732022,
+          "instrumented_us": 78.083,
+          "realloc_requested_bytes": 556988,
+          "reallocations": 13
+        },
+        {
+          "allocation_bytes": 175034,
+          "allocations": 2,
+          "gross_requested_bytes": 732022,
+          "instrumented_us": 69.541,
+          "realloc_requested_bytes": 556988,
+          "reallocations": 13
+        },
+        {
+          "allocation_bytes": 175034,
+          "allocations": 2,
+          "gross_requested_bytes": 732022,
+          "instrumented_us": 69.584,
+          "realloc_requested_bytes": 556988,
+          "reallocations": 13
+        },
+        {
+          "allocation_bytes": 175034,
+          "allocations": 2,
+          "gross_requested_bytes": 732022,
+          "instrumented_us": 69.709,
+          "realloc_requested_bytes": 556988,
+          "reallocations": 13
+        },
+        {
+          "allocation_bytes": 175034,
+          "allocations": 2,
+          "gross_requested_bytes": 732022,
+          "instrumented_us": 69.625,
+          "realloc_requested_bytes": 556988,
+          "reallocations": 13
+        }
+      ]
+    },
+    {
+      "case": "long-text-ascii",
+      "phase": "parse_left_raw_value",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 57.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 56.958,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 57.0,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 57.166,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 57.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "baseline_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 170000,
+          "allocations": 1,
+          "gross_requested_bytes": 170000,
+          "instrumented_us": 3.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 170000,
+          "allocations": 1,
+          "gross_requested_bytes": 170000,
+          "instrumented_us": 3.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 170000,
+          "allocations": 1,
+          "gross_requested_bytes": 170000,
+          "instrumented_us": 3.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 170000,
+          "allocations": 1,
+          "gross_requested_bytes": 170000,
+          "instrumented_us": 3.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 170000,
+          "allocations": 1,
+          "gross_requested_bytes": 170000,
+          "instrumented_us": 3.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "delta_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.166,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 142,
+          "allocations": 4,
+          "gross_requested_bytes": 142,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "native_diff_parsed",
+      "samples": [
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 95.083,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 99.625,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 96.917,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 101.875,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        },
+        {
+          "allocation_bytes": 951,
+          "allocations": 29,
+          "gross_requested_bytes": 1457,
+          "instrumented_us": 103.834,
+          "realloc_requested_bytes": 506,
+          "reallocations": 9
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "native_patch_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 267.334,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 273.167,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 255.708,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 262.5,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 252.833,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "native_patch_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 233739,
+          "allocations": 13,
+          "gross_requested_bytes": 1153817,
+          "instrumented_us": 249.5,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 233739,
+          "allocations": 13,
+          "gross_requested_bytes": 1153817,
+          "instrumented_us": 260.125,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 233739,
+          "allocations": 13,
+          "gross_requested_bytes": 1153817,
+          "instrumented_us": 251.083,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 233739,
+          "allocations": 13,
+          "gross_requested_bytes": 1153817,
+          "instrumented_us": 257.0,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 233739,
+          "allocations": 13,
+          "gross_requested_bytes": 1153817,
+          "instrumented_us": 249.5,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "native_patch_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 256.375,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 252.875,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 249.584,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 251.584,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 403739,
+          "allocations": 14,
+          "gross_requested_bytes": 1323817,
+          "instrumented_us": 272.75,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_apply_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.75,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.917,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.75,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.708,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.75,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_apply_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 170021,
+          "allocations": 2,
+          "gross_requested_bytes": 170021,
+          "instrumented_us": 2.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 170021,
+          "allocations": 2,
+          "gross_requested_bytes": 170021,
+          "instrumented_us": 2.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 170021,
+          "allocations": 2,
+          "gross_requested_bytes": 170021,
+          "instrumented_us": 2.542,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 170021,
+          "allocations": 2,
+          "gross_requested_bytes": 170021,
+          "instrumented_us": 2.542,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 170021,
+          "allocations": 2,
+          "gross_requested_bytes": 170021,
+          "instrumented_us": 2.5,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_apply_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.709,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.584,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.584,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 340021,
+          "allocations": 3,
+          "gross_requested_bytes": 340021,
+          "instrumented_us": 5.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "native_delta_serialize_to_vec",
+      "samples": [
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "native_delta_serialize_writer_presized",
+      "samples": [
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 56,
+          "allocations": 1,
+          "gross_requested_bytes": 56,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "native_delta_serialize_writer_reused",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "native_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 341150,
+          "allocations": 34,
+          "gross_requested_bytes": 1422868,
+          "instrumented_us": 241.292,
+          "realloc_requested_bytes": 1081718,
+          "reallocations": 35
+        },
+        {
+          "allocation_bytes": 341150,
+          "allocations": 34,
+          "gross_requested_bytes": 1422868,
+          "instrumented_us": 251.208,
+          "realloc_requested_bytes": 1081718,
+          "reallocations": 35
+        },
+        {
+          "allocation_bytes": 341150,
+          "allocations": 34,
+          "gross_requested_bytes": 1422868,
+          "instrumented_us": 254.167,
+          "realloc_requested_bytes": 1081718,
+          "reallocations": 35
+        },
+        {
+          "allocation_bytes": 341150,
+          "allocations": 34,
+          "gross_requested_bytes": 1422868,
+          "instrumented_us": 247.25,
+          "realloc_requested_bytes": 1081718,
+          "reallocations": 35
+        },
+        {
+          "allocation_bytes": 341150,
+          "allocations": 34,
+          "gross_requested_bytes": 1422868,
+          "instrumented_us": 254.291,
+          "realloc_requested_bytes": 1081718,
+          "reallocations": 35
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_export_from_existing_delta",
+      "samples": [
+        {
+          "allocation_bytes": 574002,
+          "allocations": 18,
+          "gross_requested_bytes": 1494080,
+          "instrumented_us": 256.666,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 574002,
+          "allocations": 18,
+          "gross_requested_bytes": 1494080,
+          "instrumented_us": 258.958,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 574002,
+          "allocations": 18,
+          "gross_requested_bytes": 1494080,
+          "instrumented_us": 265.75,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 574002,
+          "allocations": 18,
+          "gross_requested_bytes": 1494080,
+          "instrumented_us": 259.0,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        },
+        {
+          "allocation_bytes": 574002,
+          "allocations": 18,
+          "gross_requested_bytes": 1494080,
+          "instrumented_us": 256.666,
+          "realloc_requested_bytes": 920078,
+          "reallocations": 6
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_generate_no_optim",
+      "samples": [
+        {
+          "allocation_bytes": 978692,
+          "allocations": 61,
+          "gross_requested_bytes": 2819354,
+          "instrumented_us": 681.75,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        },
+        {
+          "allocation_bytes": 978692,
+          "allocations": 61,
+          "gross_requested_bytes": 2819354,
+          "instrumented_us": 629.083,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        },
+        {
+          "allocation_bytes": 978692,
+          "allocations": 61,
+          "gross_requested_bytes": 2819354,
+          "instrumented_us": 641.375,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        },
+        {
+          "allocation_bytes": 978692,
+          "allocations": 61,
+          "gross_requested_bytes": 2819354,
+          "instrumented_us": 637.083,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        },
+        {
+          "allocation_bytes": 978692,
+          "allocations": 61,
+          "gross_requested_bytes": 2819354,
+          "instrumented_us": 614.334,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_generate_factorize",
+      "samples": [
+        {
+          "allocation_bytes": 1828975,
+          "allocations": 67,
+          "gross_requested_bytes": 3669637,
+          "instrumented_us": 794.791,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        },
+        {
+          "allocation_bytes": 1828975,
+          "allocations": 67,
+          "gross_requested_bytes": 3669637,
+          "instrumented_us": 808.791,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        },
+        {
+          "allocation_bytes": 1828975,
+          "allocations": 67,
+          "gross_requested_bytes": 3669637,
+          "instrumented_us": 839.292,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        },
+        {
+          "allocation_bytes": 1828975,
+          "allocations": 67,
+          "gross_requested_bytes": 3669637,
+          "instrumented_us": 783.416,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        },
+        {
+          "allocation_bytes": 1828975,
+          "allocations": 67,
+          "gross_requested_bytes": 3669637,
+          "instrumented_us": 761.625,
+          "realloc_requested_bytes": 1840662,
+          "reallocations": 21
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_generate_rationalize",
+      "samples": [
+        {
+          "allocation_bytes": 978820,
+          "allocations": 62,
+          "gross_requested_bytes": 3343514,
+          "instrumented_us": 676.458,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        },
+        {
+          "allocation_bytes": 978820,
+          "allocations": 62,
+          "gross_requested_bytes": 3343514,
+          "instrumented_us": 705.584,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        },
+        {
+          "allocation_bytes": 978820,
+          "allocations": 62,
+          "gross_requested_bytes": 3343514,
+          "instrumented_us": 670.417,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        },
+        {
+          "allocation_bytes": 978820,
+          "allocations": 62,
+          "gross_requested_bytes": 3343514,
+          "instrumented_us": 669.542,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        },
+        {
+          "allocation_bytes": 978820,
+          "allocations": 62,
+          "gross_requested_bytes": 3343514,
+          "instrumented_us": 641.459,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_generate_default",
+      "samples": [
+        {
+          "allocation_bytes": 1829103,
+          "allocations": 68,
+          "gross_requested_bytes": 4193797,
+          "instrumented_us": 828.375,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        },
+        {
+          "allocation_bytes": 1829103,
+          "allocations": 68,
+          "gross_requested_bytes": 4193797,
+          "instrumented_us": 830.167,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        },
+        {
+          "allocation_bytes": 1829103,
+          "allocations": 68,
+          "gross_requested_bytes": 4193797,
+          "instrumented_us": 840.541,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        },
+        {
+          "allocation_bytes": 1829103,
+          "allocations": 68,
+          "gross_requested_bytes": 4193797,
+          "instrumented_us": 848.666,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        },
+        {
+          "allocation_bytes": 1829103,
+          "allocations": 68,
+          "gross_requested_bytes": 4193797,
+          "instrumented_us": 889.834,
+          "realloc_requested_bytes": 2364694,
+          "reallocations": 32
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "rfc_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 2169302,
+          "allocations": 73,
+          "gross_requested_bytes": 6139240,
+          "instrumented_us": 1110.208,
+          "realloc_requested_bytes": 3969938,
+          "reallocations": 69
+        },
+        {
+          "allocation_bytes": 2169302,
+          "allocations": 73,
+          "gross_requested_bytes": 6139240,
+          "instrumented_us": 1154.958,
+          "realloc_requested_bytes": 3969938,
+          "reallocations": 69
+        },
+        {
+          "allocation_bytes": 2169302,
+          "allocations": 73,
+          "gross_requested_bytes": 6139240,
+          "instrumented_us": 994.709,
+          "realloc_requested_bytes": 3969938,
+          "reallocations": 69
+        },
+        {
+          "allocation_bytes": 2169302,
+          "allocations": 73,
+          "gross_requested_bytes": 6139240,
+          "instrumented_us": 1145.791,
+          "realloc_requested_bytes": 3969938,
+          "reallocations": 69
+        },
+        {
+          "allocation_bytes": 2169302,
+          "allocations": 73,
+          "gross_requested_bytes": 6139240,
+          "instrumented_us": 1060.958,
+          "realloc_requested_bytes": 3969938,
+          "reallocations": 69
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "parse_left_value",
+      "samples": [
+        {
+          "allocation_bytes": 170033,
+          "allocations": 2,
+          "gross_requested_bytes": 710639,
+          "instrumented_us": 69.417,
+          "realloc_requested_bytes": 540606,
+          "reallocations": 13
+        },
+        {
+          "allocation_bytes": 170033,
+          "allocations": 2,
+          "gross_requested_bytes": 710639,
+          "instrumented_us": 69.334,
+          "realloc_requested_bytes": 540606,
+          "reallocations": 13
+        },
+        {
+          "allocation_bytes": 170033,
+          "allocations": 2,
+          "gross_requested_bytes": 710639,
+          "instrumented_us": 76.25,
+          "realloc_requested_bytes": 540606,
+          "reallocations": 13
+        },
+        {
+          "allocation_bytes": 170033,
+          "allocations": 2,
+          "gross_requested_bytes": 710639,
+          "instrumented_us": 69.333,
+          "realloc_requested_bytes": 540606,
+          "reallocations": 13
+        },
+        {
+          "allocation_bytes": 170033,
+          "allocations": 2,
+          "gross_requested_bytes": 710639,
+          "instrumented_us": 69.333,
+          "realloc_requested_bytes": 540606,
+          "reallocations": 13
+        }
+      ]
+    },
+    {
+      "case": "long-text-unicode",
+      "phase": "parse_left_raw_value",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 57.0,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 61.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 56.959,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 61.291,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 57.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "baseline_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 1049864,
+          "allocations": 8,
+          "gross_requested_bytes": 1049864,
+          "instrumented_us": 14.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049864,
+          "allocations": 8,
+          "gross_requested_bytes": 1049864,
+          "instrumented_us": 14.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049864,
+          "allocations": 8,
+          "gross_requested_bytes": 1049864,
+          "instrumented_us": 13.917,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049864,
+          "allocations": 8,
+          "gross_requested_bytes": 1049864,
+          "instrumented_us": 13.958,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049864,
+          "allocations": 8,
+          "gross_requested_bytes": 1049864,
+          "instrumented_us": 13.875,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "delta_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 1342,
+          "allocations": 5,
+          "gross_requested_bytes": 1342,
+          "instrumented_us": 0.166,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1342,
+          "allocations": 5,
+          "gross_requested_bytes": 1342,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1342,
+          "allocations": 5,
+          "gross_requested_bytes": 1342,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1342,
+          "allocations": 5,
+          "gross_requested_bytes": 1342,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1342,
+          "allocations": 5,
+          "gross_requested_bytes": 1342,
+          "instrumented_us": 0.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "native_diff_parsed",
+      "samples": [
+        {
+          "allocation_bytes": 1498,
+          "allocations": 24,
+          "gross_requested_bytes": 1722,
+          "instrumented_us": 89.791,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 1498,
+          "allocations": 24,
+          "gross_requested_bytes": 1722,
+          "instrumented_us": 77.917,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 1498,
+          "allocations": 24,
+          "gross_requested_bytes": 1722,
+          "instrumented_us": 71.959,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 1498,
+          "allocations": 24,
+          "gross_requested_bytes": 1722,
+          "instrumented_us": 68.083,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 1498,
+          "allocations": 24,
+          "gross_requested_bytes": 1722,
+          "instrumented_us": 67.75,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "native_patch_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 16.417,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 16.25,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 15.791,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 16.291,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 16.417,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "native_patch_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 92,
+          "allocations": 13,
+          "gross_requested_bytes": 172,
+          "instrumented_us": 0.667,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 92,
+          "allocations": 13,
+          "gross_requested_bytes": 172,
+          "instrumented_us": 0.667,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 92,
+          "allocations": 13,
+          "gross_requested_bytes": 172,
+          "instrumented_us": 0.541,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 92,
+          "allocations": 13,
+          "gross_requested_bytes": 172,
+          "instrumented_us": 0.625,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 92,
+          "allocations": 13,
+          "gross_requested_bytes": 172,
+          "instrumented_us": 0.583,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "native_patch_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 17.166,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 20.291,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 16.542,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 16.458,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 1049956,
+          "allocations": 21,
+          "gross_requested_bytes": 1050036,
+          "instrumented_us": 16.083,
+          "realloc_requested_bytes": 80,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_apply_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 15.75,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 16.292,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 15.708,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 16.083,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 17.875,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_apply_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 48,
+          "allocations": 5,
+          "gross_requested_bytes": 112,
+          "instrumented_us": 0.458,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 48,
+          "allocations": 5,
+          "gross_requested_bytes": 112,
+          "instrumented_us": 0.291,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 48,
+          "allocations": 5,
+          "gross_requested_bytes": 112,
+          "instrumented_us": 0.292,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 48,
+          "allocations": 5,
+          "gross_requested_bytes": 112,
+          "instrumented_us": 0.333,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 48,
+          "allocations": 5,
+          "gross_requested_bytes": 112,
+          "instrumented_us": 0.334,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_apply_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 16.291,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 16.333,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 16.083,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 16.083,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049912,
+          "allocations": 13,
+          "gross_requested_bytes": 1049976,
+          "instrumented_us": 15.625,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "native_delta_serialize_to_vec",
+      "samples": [
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.75,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 128,
+          "instrumented_us": 0.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "native_delta_serialize_writer_presized",
+      "samples": [
+        {
+          "allocation_bytes": 36,
+          "allocations": 1,
+          "gross_requested_bytes": 36,
+          "instrumented_us": 0.375,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 36,
+          "allocations": 1,
+          "gross_requested_bytes": 36,
+          "instrumented_us": 0.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 36,
+          "allocations": 1,
+          "gross_requested_bytes": 36,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 36,
+          "allocations": 1,
+          "gross_requested_bytes": 36,
+          "instrumented_us": 0.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 36,
+          "allocations": 1,
+          "gross_requested_bytes": 36,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "native_delta_serialize_writer_reused",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.042,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 0.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "native_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 2101386,
+          "allocations": 43,
+          "gross_requested_bytes": 2101610,
+          "instrumented_us": 304.542,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 2101386,
+          "allocations": 43,
+          "gross_requested_bytes": 2101610,
+          "instrumented_us": 281.041,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 2101386,
+          "allocations": 43,
+          "gross_requested_bytes": 2101610,
+          "instrumented_us": 282.417,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 2101386,
+          "allocations": 43,
+          "gross_requested_bytes": 2101610,
+          "instrumented_us": 313.458,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        },
+        {
+          "allocation_bytes": 2101386,
+          "allocations": 43,
+          "gross_requested_bytes": 2101610,
+          "instrumented_us": 324.708,
+          "realloc_requested_bytes": 224,
+          "reallocations": 5
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_export_from_existing_delta",
+      "samples": [
+        {
+          "allocation_bytes": 1050246,
+          "allocations": 27,
+          "gross_requested_bytes": 1050342,
+          "instrumented_us": 16.917,
+          "realloc_requested_bytes": 96,
+          "reallocations": 3
+        },
+        {
+          "allocation_bytes": 1050246,
+          "allocations": 27,
+          "gross_requested_bytes": 1050342,
+          "instrumented_us": 17.042,
+          "realloc_requested_bytes": 96,
+          "reallocations": 3
+        },
+        {
+          "allocation_bytes": 1050246,
+          "allocations": 27,
+          "gross_requested_bytes": 1050342,
+          "instrumented_us": 16.583,
+          "realloc_requested_bytes": 96,
+          "reallocations": 3
+        },
+        {
+          "allocation_bytes": 1050246,
+          "allocations": 27,
+          "gross_requested_bytes": 1050342,
+          "instrumented_us": 16.0,
+          "realloc_requested_bytes": 96,
+          "reallocations": 3
+        },
+        {
+          "allocation_bytes": 1050246,
+          "allocations": 27,
+          "gross_requested_bytes": 1050342,
+          "instrumented_us": 15.75,
+          "realloc_requested_bytes": 96,
+          "reallocations": 3
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_generate_no_optim",
+      "samples": [
+        {
+          "allocation_bytes": 2101700,
+          "allocations": 72,
+          "gross_requested_bytes": 2102100,
+          "instrumented_us": 118.0,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        },
+        {
+          "allocation_bytes": 2101700,
+          "allocations": 72,
+          "gross_requested_bytes": 2102100,
+          "instrumented_us": 105.417,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        },
+        {
+          "allocation_bytes": 2101700,
+          "allocations": 72,
+          "gross_requested_bytes": 2102100,
+          "instrumented_us": 110.042,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        },
+        {
+          "allocation_bytes": 2101700,
+          "allocations": 72,
+          "gross_requested_bytes": 2102100,
+          "instrumented_us": 110.75,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        },
+        {
+          "allocation_bytes": 2101700,
+          "allocations": 72,
+          "gross_requested_bytes": 2102100,
+          "instrumented_us": 103.709,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_generate_factorize",
+      "samples": [
+        {
+          "allocation_bytes": 4200986,
+          "allocations": 90,
+          "gross_requested_bytes": 4201386,
+          "instrumented_us": 733.708,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        },
+        {
+          "allocation_bytes": 4200986,
+          "allocations": 90,
+          "gross_requested_bytes": 4201386,
+          "instrumented_us": 749.417,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        },
+        {
+          "allocation_bytes": 4200986,
+          "allocations": 90,
+          "gross_requested_bytes": 4201386,
+          "instrumented_us": 736.834,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        },
+        {
+          "allocation_bytes": 4200986,
+          "allocations": 90,
+          "gross_requested_bytes": 4201386,
+          "instrumented_us": 753.458,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        },
+        {
+          "allocation_bytes": 4200986,
+          "allocations": 90,
+          "gross_requested_bytes": 4201386,
+          "instrumented_us": 741.917,
+          "realloc_requested_bytes": 400,
+          "reallocations": 10
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_generate_rationalize",
+      "samples": [
+        {
+          "allocation_bytes": 6302736,
+          "allocations": 126,
+          "gross_requested_bytes": 12594943,
+          "instrumented_us": 951.75,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 6302736,
+          "allocations": 126,
+          "gross_requested_bytes": 12594943,
+          "instrumented_us": 981.625,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 6302736,
+          "allocations": 126,
+          "gross_requested_bytes": 12594943,
+          "instrumented_us": 1047.625,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 6302736,
+          "allocations": 126,
+          "gross_requested_bytes": 12594943,
+          "instrumented_us": 996.958,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 6302736,
+          "allocations": 126,
+          "gross_requested_bytes": 12594943,
+          "instrumented_us": 962.084,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_generate_default",
+      "samples": [
+        {
+          "allocation_bytes": 8402022,
+          "allocations": 144,
+          "gross_requested_bytes": 14694229,
+          "instrumented_us": 1589.917,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 8402022,
+          "allocations": 144,
+          "gross_requested_bytes": 14694229,
+          "instrumented_us": 1564.042,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 8402022,
+          "allocations": 144,
+          "gross_requested_bytes": 14694229,
+          "instrumented_us": 1638.0,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 8402022,
+          "allocations": 144,
+          "gross_requested_bytes": 14694229,
+          "instrumented_us": 1627.708,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 8402022,
+          "allocations": 144,
+          "gross_requested_bytes": 14694229,
+          "instrumented_us": 1610.084,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "rfc_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 10501910,
+          "allocations": 163,
+          "gross_requested_bytes": 16794117,
+          "instrumented_us": 1847.042,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 10501910,
+          "allocations": 163,
+          "gross_requested_bytes": 16794117,
+          "instrumented_us": 1864.75,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 10501910,
+          "allocations": 163,
+          "gross_requested_bytes": 16794117,
+          "instrumented_us": 1885.667,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 10501910,
+          "allocations": 163,
+          "gross_requested_bytes": 16794117,
+          "instrumented_us": 1848.375,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        },
+        {
+          "allocation_bytes": 10501910,
+          "allocations": 163,
+          "gross_requested_bytes": 16794117,
+          "instrumented_us": 1854.958,
+          "realloc_requested_bytes": 6292207,
+          "reallocations": 14
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "parse_left_value",
+      "samples": [
+        {
+          "allocation_bytes": 1049880,
+          "allocations": 9,
+          "gross_requested_bytes": 1049880,
+          "instrumented_us": 114.417,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049880,
+          "allocations": 9,
+          "gross_requested_bytes": 1049880,
+          "instrumented_us": 108.584,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049880,
+          "allocations": 9,
+          "gross_requested_bytes": 1049880,
+          "instrumented_us": 116.542,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049880,
+          "allocations": 9,
+          "gross_requested_bytes": 1049880,
+          "instrumented_us": 105.5,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049880,
+          "allocations": 9,
+          "gross_requested_bytes": 1049880,
+          "instrumented_us": 110.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-subtree-single-field",
+      "phase": "parse_left_raw_value",
+      "samples": [
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 87.75,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 113.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 112.084,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 92.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 8,
+          "allocations": 1,
+          "gross_requested_bytes": 8,
+          "instrumented_us": 115.917,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "baseline_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 14.292,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 14.292,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 14.209,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 14.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 14.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "delta_value_clone",
+      "samples": [
+        {
+          "allocation_bytes": 1049279,
+          "allocations": 4,
+          "gross_requested_bytes": 1049279,
+          "instrumented_us": 14.209,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049279,
+          "allocations": 4,
+          "gross_requested_bytes": 1049279,
+          "instrumented_us": 14.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049279,
+          "allocations": 4,
+          "gross_requested_bytes": 1049279,
+          "instrumented_us": 14.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049279,
+          "allocations": 4,
+          "gross_requested_bytes": 1049279,
+          "instrumented_us": 14.208,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049279,
+          "allocations": 4,
+          "gross_requested_bytes": 1049279,
+          "instrumented_us": 14.125,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "native_diff_parsed",
+      "samples": [
+        {
+          "allocation_bytes": 1049327,
+          "allocations": 7,
+          "gross_requested_bytes": 1049391,
+          "instrumented_us": 16.292,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049327,
+          "allocations": 7,
+          "gross_requested_bytes": 1049391,
+          "instrumented_us": 14.875,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049327,
+          "allocations": 7,
+          "gross_requested_bytes": 1049391,
+          "instrumented_us": 19.333,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049327,
+          "allocations": 7,
+          "gross_requested_bytes": 1049391,
+          "instrumented_us": 14.708,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 1049327,
+          "allocations": 7,
+          "gross_requested_bytes": 1049391,
+          "instrumented_us": 14.75,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "native_patch_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 39.375,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 39.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 38.666,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 38.708,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 38.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "native_patch_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 24.458,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 24.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 25.375,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 24.583,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 24.333,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "native_patch_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 39.166,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 39.0,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 38.958,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 38.417,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 39.208,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_apply_borrowed",
+      "samples": [
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 14.75,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 14.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 13.917,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 13.583,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 13.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_apply_owned_transfer",
+      "samples": [
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 0.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 0.208,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 0.166,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 0.167,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 16,
+          "allocations": 1,
+          "gross_requested_bytes": 16,
+          "instrumented_us": 0.208,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_apply_owned_copy_inside",
+      "samples": [
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 13.542,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 13.667,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 13.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 13.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049231,
+          "allocations": 4,
+          "gross_requested_bytes": 1049231,
+          "instrumented_us": 13.625,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "native_delta_serialize_to_vec",
+      "samples": [
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 366.458,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 362.542,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 349.208,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 357.708,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 369.125,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "native_delta_serialize_writer_presized",
+      "samples": [
+        {
+          "allocation_bytes": 1048597,
+          "allocations": 1,
+          "gross_requested_bytes": 1048597,
+          "instrumented_us": 323.875,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1048597,
+          "allocations": 1,
+          "gross_requested_bytes": 1048597,
+          "instrumented_us": 327.5,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1048597,
+          "allocations": 1,
+          "gross_requested_bytes": 1048597,
+          "instrumented_us": 337.458,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1048597,
+          "allocations": 1,
+          "gross_requested_bytes": 1048597,
+          "instrumented_us": 329.0,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1048597,
+          "allocations": 1,
+          "gross_requested_bytes": 1048597,
+          "instrumented_us": 360.375,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "native_delta_serialize_writer_reused",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 339.458,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 323.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 345.958,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 323.5,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 328.833,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "native_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 2098670,
+          "allocations": 11,
+          "gross_requested_bytes": 5244501,
+          "instrumented_us": 492.083,
+          "realloc_requested_bytes": 3145831,
+          "reallocations": 3
+        },
+        {
+          "allocation_bytes": 2098670,
+          "allocations": 11,
+          "gross_requested_bytes": 5244501,
+          "instrumented_us": 530.875,
+          "realloc_requested_bytes": 3145831,
+          "reallocations": 3
+        },
+        {
+          "allocation_bytes": 2098670,
+          "allocations": 11,
+          "gross_requested_bytes": 5244501,
+          "instrumented_us": 482.0,
+          "realloc_requested_bytes": 3145831,
+          "reallocations": 3
+        },
+        {
+          "allocation_bytes": 2098670,
+          "allocations": 11,
+          "gross_requested_bytes": 5244501,
+          "instrumented_us": 474.75,
+          "realloc_requested_bytes": 3145831,
+          "reallocations": 3
+        },
+        {
+          "allocation_bytes": 2098670,
+          "allocations": 11,
+          "gross_requested_bytes": 5244501,
+          "instrumented_us": 496.5,
+          "realloc_requested_bytes": 3145831,
+          "reallocations": 3
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_export_from_existing_delta",
+      "samples": [
+        {
+          "allocation_bytes": 1049487,
+          "allocations": 5,
+          "gross_requested_bytes": 1049487,
+          "instrumented_us": 46.25,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049487,
+          "allocations": 5,
+          "gross_requested_bytes": 1049487,
+          "instrumented_us": 40.5,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049487,
+          "allocations": 5,
+          "gross_requested_bytes": 1049487,
+          "instrumented_us": 39.834,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049487,
+          "allocations": 5,
+          "gross_requested_bytes": 1049487,
+          "instrumented_us": 40.083,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049487,
+          "allocations": 5,
+          "gross_requested_bytes": 1049487,
+          "instrumented_us": 39.75,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_generate_no_optim",
+      "samples": [
+        {
+          "allocation_bytes": 3148045,
+          "allocations": 16,
+          "gross_requested_bytes": 3148109,
+          "instrumented_us": 108.75,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 3148045,
+          "allocations": 16,
+          "gross_requested_bytes": 3148109,
+          "instrumented_us": 94.75,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 3148045,
+          "allocations": 16,
+          "gross_requested_bytes": 3148109,
+          "instrumented_us": 91.25,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 3148045,
+          "allocations": 16,
+          "gross_requested_bytes": 3148109,
+          "instrumented_us": 90.792,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 3148045,
+          "allocations": 16,
+          "gross_requested_bytes": 3148109,
+          "instrumented_us": 90.708,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_generate_factorize",
+      "samples": [
+        {
+          "allocation_bytes": 5246104,
+          "allocations": 21,
+          "gross_requested_bytes": 5246168,
+          "instrumented_us": 449.709,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 5246104,
+          "allocations": 21,
+          "gross_requested_bytes": 5246168,
+          "instrumented_us": 430.667,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 5246104,
+          "allocations": 21,
+          "gross_requested_bytes": 5246168,
+          "instrumented_us": 435.75,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 5246104,
+          "allocations": 21,
+          "gross_requested_bytes": 5246168,
+          "instrumented_us": 435.041,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 5246104,
+          "allocations": 21,
+          "gross_requested_bytes": 5246168,
+          "instrumented_us": 436.5,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_generate_rationalize",
+      "samples": [
+        {
+          "allocation_bytes": 3148173,
+          "allocations": 17,
+          "gross_requested_bytes": 3148237,
+          "instrumented_us": 105.542,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 3148173,
+          "allocations": 17,
+          "gross_requested_bytes": 3148237,
+          "instrumented_us": 93.125,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 3148173,
+          "allocations": 17,
+          "gross_requested_bytes": 3148237,
+          "instrumented_us": 90.125,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 3148173,
+          "allocations": 17,
+          "gross_requested_bytes": 3148237,
+          "instrumented_us": 90.5,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 3148173,
+          "allocations": 17,
+          "gross_requested_bytes": 3148237,
+          "instrumented_us": 89.333,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_generate_default",
+      "samples": [
+        {
+          "allocation_bytes": 5246232,
+          "allocations": 22,
+          "gross_requested_bytes": 5246296,
+          "instrumented_us": 435.792,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 5246232,
+          "allocations": 22,
+          "gross_requested_bytes": 5246296,
+          "instrumented_us": 449.333,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 5246232,
+          "allocations": 22,
+          "gross_requested_bytes": 5246296,
+          "instrumented_us": 449.25,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 5246232,
+          "allocations": 22,
+          "gross_requested_bytes": 5246296,
+          "instrumented_us": 443.541,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 5246232,
+          "allocations": 22,
+          "gross_requested_bytes": 5246296,
+          "instrumented_us": 432.5,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "rfc_pipeline_parse_diff_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 6295575,
+          "allocations": 26,
+          "gross_requested_bytes": 6295639,
+          "instrumented_us": 554.375,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 6295575,
+          "allocations": 26,
+          "gross_requested_bytes": 6295639,
+          "instrumented_us": 570.208,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 6295575,
+          "allocations": 26,
+          "gross_requested_bytes": 6295639,
+          "instrumented_us": 553.875,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 6295575,
+          "allocations": 26,
+          "gross_requested_bytes": 6295639,
+          "instrumented_us": 525.583,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        },
+        {
+          "allocation_bytes": 6295575,
+          "allocations": 26,
+          "gross_requested_bytes": 6295639,
+          "instrumented_us": 535.459,
+          "realloc_requested_bytes": 64,
+          "reallocations": 1
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "parse_left_value",
+      "samples": [
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 112.833,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 104.791,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 106.583,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 116.416,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 1049215,
+          "allocations": 3,
+          "gross_requested_bytes": 1049215,
+          "instrumented_us": 116.583,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "parse_left_raw_value",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 94.292,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 95.291,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 98.667,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 96.666,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 106.0,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "single_leaf_borrowed_delta_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 352.25,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 380.0,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 351.0,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 367.083,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145895,
+          "instrumented_us": 350.792,
+          "realloc_requested_bytes": 3145767,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "one-mib-root-replacement",
+      "phase": "single_leaf_raw_delta_parse_serialize",
+      "samples": [
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145901,
+          "instrumented_us": 135.75,
+          "realloc_requested_bytes": 3145773,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145901,
+          "instrumented_us": 140.458,
+          "realloc_requested_bytes": 3145773,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145901,
+          "instrumented_us": 136.0,
+          "realloc_requested_bytes": 3145773,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145901,
+          "instrumented_us": 121.5,
+          "realloc_requested_bytes": 3145773,
+          "reallocations": 2
+        },
+        {
+          "allocation_bytes": 128,
+          "allocations": 1,
+          "gross_requested_bytes": 3145901,
+          "instrumented_us": 128.333,
+          "realloc_requested_bytes": 3145773,
+          "reallocations": 2
+        }
+      ]
+    },
+    {
+      "case": "decimal-2000-repeat-100",
+      "phase": "canonical_uncached_four_passes",
+      "samples": [
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1238.25,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        },
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1271.25,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        },
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1300.209,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        },
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1269.458,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        },
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1246.416,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        }
+      ]
+    },
+    {
+      "case": "decimal-2000-repeat-100",
+      "phase": "canonical_local_cache_four_passes",
+      "samples": [
+        {
+          "allocation_bytes": 21460,
+          "allocations": 106,
+          "gross_requested_bytes": 25160,
+          "instrumented_us": 369.917,
+          "realloc_requested_bytes": 3700,
+          "reallocations": 100
+        },
+        {
+          "allocation_bytes": 21460,
+          "allocations": 106,
+          "gross_requested_bytes": 25160,
+          "instrumented_us": 362.334,
+          "realloc_requested_bytes": 3700,
+          "reallocations": 100
+        },
+        {
+          "allocation_bytes": 21460,
+          "allocations": 106,
+          "gross_requested_bytes": 25160,
+          "instrumented_us": 359.709,
+          "realloc_requested_bytes": 3700,
+          "reallocations": 100
+        },
+        {
+          "allocation_bytes": 21460,
+          "allocations": 106,
+          "gross_requested_bytes": 25160,
+          "instrumented_us": 372.916,
+          "realloc_requested_bytes": 3700,
+          "reallocations": 100
+        },
+        {
+          "allocation_bytes": 21460,
+          "allocations": 106,
+          "gross_requested_bytes": 25160,
+          "instrumented_us": 368.583,
+          "realloc_requested_bytes": 3700,
+          "reallocations": 100
+        }
+      ]
+    },
+    {
+      "case": "decimal-2000-unique",
+      "phase": "canonical_uncached_four_passes",
+      "samples": [
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1267.291,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        },
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1257.417,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        },
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1257.625,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        },
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1312.959,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        },
+        {
+          "allocation_bytes": 80000,
+          "allocations": 8000,
+          "gross_requested_bytes": 376000,
+          "instrumented_us": 1296.208,
+          "realloc_requested_bytes": 296000,
+          "reallocations": 8000
+        }
+      ]
+    },
+    {
+      "case": "decimal-2000-unique",
+      "phase": "canonical_local_cache_four_passes",
+      "samples": [
+        {
+          "allocation_bytes": 683316,
+          "allocations": 2011,
+          "gross_requested_bytes": 757316,
+          "instrumented_us": 738.917,
+          "realloc_requested_bytes": 74000,
+          "reallocations": 2000
+        },
+        {
+          "allocation_bytes": 683316,
+          "allocations": 2011,
+          "gross_requested_bytes": 757316,
+          "instrumented_us": 743.5,
+          "realloc_requested_bytes": 74000,
+          "reallocations": 2000
+        },
+        {
+          "allocation_bytes": 683316,
+          "allocations": 2011,
+          "gross_requested_bytes": 757316,
+          "instrumented_us": 732.875,
+          "realloc_requested_bytes": 74000,
+          "reallocations": 2000
+        },
+        {
+          "allocation_bytes": 683316,
+          "allocations": 2011,
+          "gross_requested_bytes": 757316,
+          "instrumented_us": 722.542,
+          "realloc_requested_bytes": 74000,
+          "reallocations": 2000
+        },
+        {
+          "allocation_bytes": 683316,
+          "allocations": 2011,
+          "gross_requested_bytes": 757316,
+          "instrumented_us": 720.084,
+          "realloc_requested_bytes": 74000,
+          "reallocations": 2000
+        }
+      ]
+    },
+    {
+      "case": "integer-2000-repeat-100",
+      "phase": "canonical_uncached_four_passes",
+      "samples": [
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 165.75,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 163.542,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 168.459,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 169.917,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 0,
+          "allocations": 0,
+          "gross_requested_bytes": 0,
+          "instrumented_us": 164.458,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    },
+    {
+      "case": "integer-2000-repeat-100",
+      "phase": "canonical_local_cache_four_passes",
+      "samples": [
+        {
+          "allocation_bytes": 20460,
+          "allocations": 6,
+          "gross_requested_bytes": 20460,
+          "instrumented_us": 243.875,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 20460,
+          "allocations": 6,
+          "gross_requested_bytes": 20460,
+          "instrumented_us": 247.708,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 20460,
+          "allocations": 6,
+          "gross_requested_bytes": 20460,
+          "instrumented_us": 249.292,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 20460,
+          "allocations": 6,
+          "gross_requested_bytes": 20460,
+          "instrumented_us": 245.375,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        },
+        {
+          "allocation_bytes": 20460,
+          "allocations": 6,
+          "gross_requested_bytes": 20460,
+          "instrumented_us": 256.041,
+          "realloc_requested_bytes": 0,
+          "reallocations": 0
+        }
+      ]
+    }
+  ]
+}

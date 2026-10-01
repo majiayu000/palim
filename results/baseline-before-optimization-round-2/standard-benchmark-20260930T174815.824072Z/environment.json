@@ -1,0 +1,41 @@
+{
+  "recorded_at": "2026-09-30T17:48:15.845492+00:00",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6",
+  "dry_run": false,
+  "fixture_sha256": {
+    "small-config-edit": "3745eab3d3f6ff3b76cb41d393d295b54f0b1bf990f7cbc204262b912e57d1ab",
+    "rotate-2000": "39e80b12379524e4d99f37bfe732ea67469f38a8ae19062b27e0ebb22b1e27e5",
+    "disjoint-2000": "e97c6d10b31fb448530783a80078075ab5c1e3af0474c085b0fda4431ca6883c",
+    "keyed-rotate-edit-2000": "52ffc7d104e9bca8d8ec44d254140c135f0d597b314ed5f5adfd88f38e9906cb",
+    "long-text-ascii": "2f000ff7ab437a48cf27e4f1d002ec26267e7ee90bb87f386acc04bea83e3af8",
+    "halfswap-500": "97a030f0bc2cc8cc5f40d3fdcd6d58ad74044685b0b25ae6be3484bbe8b4a6a8"
+  },
+  "cargo_lock_sha256": "ff6fd19977b2bdf762ab559db9b5659f5118b42c7ca8b52d096e886f049d4bcb",
+  "source_sha256": {
+    "src/compare.rs": "71d799b98ea6ca282a5907dddea4a92048fc0741df5edaeb1a074551a1e18a6e",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "73af71075775b286fd3cb8ccb8c64676bf580314542a3ad54b6b973e670c82fa",
+    "src/export.rs": "aa86e17348779a478154b6059a334bac7bf797165d512449a3591cc769a50fe0",
+    "src/lib.rs": "da1520a3b5da54e90f8dc7a2157ea7b28bb33bbd927406642abf0c90330e2ff6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "171d652d8041dc65f80187a50a8d6b29024136fc3ed011c14056bc6f554257ac",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "4772df023af1ca622a5162a6f1e2d9931685a8c729b0e0a6509c38907aea5a70",
+    "src/text.rs": "6174f7cb6e949306e0fff0bc8365fdba9d0659f916e928e9e11122e4e5f252cf"
+  },
+  "runner_sha256": "77d86e1e2a6ae0e15bb67ce05d4d057107caef156de7b80512728860ed0d78ba",
+  "script_sha256": "ff0a4426973f4f4e71f74760792d878520a8e21b4ab8b03e5fe617dac418ba2f",
+  "binary_sha256": "2c61b805144a10b03411b35ff989e92c3a57fe2e3de8176b591ade9f767edd9f",
+  "method": "identical bytes; parse both -> typed diff -> serialize standard Patch",
+  "sampling": "20 warmups, >=25ms calibration (cap 16384 iterations), 10 raw samples per process",
+  "repetitions": 3,
+  "rss_method": "whole process peak; includes runtime, verification, warmup and samples",
+  "engine_semantics": {
+    "json-patch": "typed json_patch::diff; positional arrays; no added guards",
+    "plain": "DiffPatcher::diff_json_patch; ID matching; factorize/rationalize/tests=false",
+    "optimized": "same DiffPatcher; factorize/rationalize=true; tests=false"
+  },
+  "cpu": "Apple M2 Max"
+}

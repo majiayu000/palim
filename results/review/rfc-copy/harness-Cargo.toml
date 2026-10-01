@@ -1,0 +1,8 @@
+[package]
+name = "rfc-stage-timing"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+jsondiffpatch-rs = { path = "/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs" }
+serde_json = "1.0"

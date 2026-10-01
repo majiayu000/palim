@@ -1,0 +1,200 @@
+[
+  {
+    "boundary": "baseline and supplied typed Patch -> inverse -> serialize Patch",
+    "dry_run": false,
+    "engine": "plain",
+    "input_bytes": 374940,
+    "inverse_ms": 2.66974478125,
+    "iterations_per_sample": 16,
+    "measured": true,
+    "name": "batch-replace-2000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 2000
+    },
+    "operations": 2000,
+    "output_bytes": 125781,
+    "patch_bytes": 125781,
+    "samples_ms": [
+      2.6788046875,
+      2.7002890625,
+      2.867921875,
+      2.7018125,
+      2.7255390624999998,
+      2.603315125,
+      2.63015625,
+      2.6317603750000003,
+      2.6313333125,
+      2.660684875
+    ],
+    "task": "inverse",
+    "rss_mib": 23.921875,
+    "process_seconds": 0.5908090420416556,
+    "repetition": 1
+  },
+  {
+    "boundary": "baseline and supplied typed Patch -> inverse -> serialize Patch",
+    "dry_run": false,
+    "engine": "plain",
+    "input_bytes": 374940,
+    "inverse_ms": 3.3464115000000003,
+    "iterations_per_sample": 8,
+    "measured": true,
+    "name": "batch-guarded-4000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 2000
+    },
+    "operations": 2000,
+    "output_bytes": 125781,
+    "patch_bytes": 125781,
+    "samples_ms": [
+      3.3154322499999997,
+      3.6405625,
+      3.42054175,
+      3.346520875,
+      3.3450051249999997,
+      3.38115625,
+      3.30227075,
+      3.3463021250000002,
+      3.288145875,
+      3.3628801249999998
+    ],
+    "task": "inverse",
+    "rss_mib": 25.9375,
+    "process_seconds": 0.40953054203419015,
+    "repetition": 1
+  },
+  {
+    "boundary": "baseline and supplied typed Patch -> inverse -> serialize Patch",
+    "dry_run": false,
+    "engine": "plain",
+    "input_bytes": 374940,
+    "inverse_ms": 2.6924153750000004,
+    "iterations_per_sample": 16,
+    "measured": true,
+    "name": "batch-replace-2000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 2000
+    },
+    "operations": 2000,
+    "output_bytes": 125781,
+    "patch_bytes": 125781,
+    "samples_ms": [
+      2.7611953125,
+      2.644734375,
+      2.6513854374999997,
+      2.6682995,
+      2.680078125,
+      2.7222526250000003,
+      2.8310546875,
+      2.8773724375,
+      2.7047526250000002,
+      2.67269275
+    ],
+    "task": "inverse",
+    "rss_mib": 24.21875,
+    "process_seconds": 0.5980338339577429,
+    "repetition": 2
+  },
+  {
+    "boundary": "baseline and supplied typed Patch -> inverse -> serialize Patch",
+    "dry_run": false,
+    "engine": "plain",
+    "input_bytes": 374940,
+    "inverse_ms": 3.380872375,
+    "iterations_per_sample": 8,
+    "measured": true,
+    "name": "batch-guarded-4000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 2000
+    },
+    "operations": 2000,
+    "output_bytes": 125781,
+    "patch_bytes": 125781,
+    "samples_ms": [
+      3.53071875,
+      3.3920781250000003,
+      3.3838125,
+      3.37793225,
+      3.5741875000000003,
+      3.334125,
+      3.31918225,
+      3.301072875,
+      3.4438020000000003,
+      3.350979125
+    ],
+    "task": "inverse",
+    "rss_mib": 25.78125,
+    "process_seconds": 0.4115552079747431,
+    "repetition": 2
+  },
+  {
+    "boundary": "baseline and supplied typed Patch -> inverse -> serialize Patch",
+    "dry_run": false,
+    "engine": "plain",
+    "input_bytes": 374940,
+    "inverse_ms": 2.72150521875,
+    "iterations_per_sample": 16,
+    "measured": true,
+    "name": "batch-replace-2000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 2000
+    },
+    "operations": 2000,
+    "output_bytes": 125781,
+    "patch_bytes": 125781,
+    "samples_ms": [
+      2.6715755,
+      2.7160364375,
+      2.710309875,
+      2.9048645625000002,
+      2.7269740000000002,
+      2.6906953125000004,
+      2.7405025624999997,
+      2.6622578125,
+      2.7690546875,
+      2.7515468750000003
+    ],
+    "task": "inverse",
+    "rss_mib": 23.875,
+    "process_seconds": 0.5957360829925165,
+    "repetition": 3
+  },
+  {
+    "boundary": "baseline and supplied typed Patch -> inverse -> serialize Patch",
+    "dry_run": false,
+    "engine": "plain",
+    "input_bytes": 374940,
+    "inverse_ms": 3.3599349375,
+    "iterations_per_sample": 8,
+    "measured": true,
+    "name": "batch-guarded-4000",
+    "ok": true,
+    "operation_counts": {
+      "replace": 2000
+    },
+    "operations": 2000,
+    "output_bytes": 125781,
+    "patch_bytes": 125781,
+    "samples_ms": [
+      3.340880125,
+      3.4122760000000003,
+      3.3912343750000002,
+      3.580671875,
+      3.497401125,
+      3.351338625,
+      3.28265625,
+      3.338708375,
+      3.3553073749999998,
+      3.3645625
+    ],
+    "task": "inverse",
+    "rss_mib": 25.84375,
+    "process_seconds": 0.41316749999532476,
+    "repetition": 3
+  }
+]

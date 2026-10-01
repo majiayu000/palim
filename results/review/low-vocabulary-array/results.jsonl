@@ -1,0 +1,12 @@
+{"diff_ms": 183.92891699999998, "engine": "histogram", "hunks": 3, "insert_delete_tokens": 6, "mode": "replace3", "period": 8}
+{"diff_ms": 191.812042, "engine": "myers", "hunks": 3, "insert_delete_tokens": 6, "mode": "replace3", "period": 8}
+{"correct": true, "diff_ms": 191.266708, "engine": "json", "mode": "replace3", "native_ops": 6, "period": 8}
+{"diff_ms": 186.62408299999998, "engine": "histogram", "hunks": 2, "insert_delete_tokens": 2, "mode": "rotate1", "period": 8}
+{"diff_ms": 196.002333, "engine": "myers", "hunks": 2, "insert_delete_tokens": 2, "mode": "rotate1", "period": 8}
+{"correct": true, "diff_ms": 204.76, "engine": "json", "mode": "rotate1", "native_ops": 1, "period": 8}
+{"diff_ms": 254.069709, "engine": "histogram", "hunks": 3, "insert_delete_tokens": 6, "mode": "replace3", "period": 32}
+{"diff_ms": 201.947583, "engine": "myers", "hunks": 3, "insert_delete_tokens": 6, "mode": "replace3", "period": 32}
+{"correct": true, "diff_ms": 225.95779199999998, "engine": "json", "mode": "replace3", "native_ops": 6, "period": 32}
+{"diff_ms": 281.28437499999995, "engine": "histogram", "hunks": 2, "insert_delete_tokens": 2, "mode": "rotate1", "period": 32}
+{"diff_ms": 231.458875, "engine": "myers", "hunks": 2, "insert_delete_tokens": 2, "mode": "rotate1", "period": 32}
+{"correct": true, "diff_ms": 196.571542, "engine": "json", "mode": "rotate1", "native_ops": 1, "period": 32}

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "fuzz",
+    "run",
+    "core",
+    "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/artifacts/oom-da39a3ee5e6b4b0d3255bfef95601890afd80709",
+    "--",
+    "-runs=1",
+    "-rss_limit_mb=512"
+  ],
+  "exit_code": 0,
+  "log": "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/replay.log",
+  "artifact_bytes": 0
+}

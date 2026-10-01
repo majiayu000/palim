@@ -1,0 +1,59 @@
+{
+  "recorded_at": "2026-09-30T21:43:41.567725+00:00",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6",
+  "dry_run": false,
+  "fixture_sha256": {
+    "small-config-edit": "0468579325dcbe07a430ff8c22b6e31c204cf00fe514b842cc0dc446c328d453",
+    "rotate-2000": "6d9a75a69fb65b645439b7b3bc9ec4a55d0a6f742b37fb9be858ba2874773142",
+    "disjoint-2000": "06491afb454e6f2f9b3e030b55cebb4d24289d35f488a8a831832c58bc305324",
+    "keyed-rotate-edit-2000": "35ac11ec8b4c51f3061cb18a16211e8a666c14ada0c05db806a82abbb4674c8c",
+    "long-text-ascii": "6c145bfef68aef3a6da7f93cea6fda98b44fc8e2a909003585a3cf98eff345f7",
+    "halfswap-500": "4679c1586b26fc84d4fbf9ad2e2680cf9b9835c8cc3e9e9089aebf15838f9030",
+    "unicode-first": "f584dd8fd0a573067254c632307029380d4da47c41380d42f8890f3cbb8b4a77",
+    "unicode-middle": "c7c80f385926b159863d7366604fe74a0582c647604bf530d048177e6ee040ae",
+    "unicode-last": "d8860a8ccfeeab7f9a93265b432631e7543da2ebeb92de3e0e36ccb1d5446143",
+    "unicode-three-edits": "8d238e952309bbbcfb038b0ff05d6268a91773f254f72ce3c8b1341c8dbea188",
+    "unicode-disjoint": "3686d7d3a89ee376391d6cf8285b4e92f48a6d7ca631ea4e1b807b778e9aac97",
+    "shuffle-2000": "0509c572302458e03b1483a9513efbf6904768b526d61867591f822feb389fd1",
+    "reverse-2000": "d840a69905b305cfdea262985382dbb5bc9aef7394015b6fdf1b88d80b478bff",
+    "duplicates-high-2000": "0a971115553bc7640e67e46f59f42acbfda69e001a9a8071785866d2e1eb1a29",
+    "duplicates-low-2000": "6a76ab6482993aa0e5c0697207119f703beb9f2af1dd17208780943682a3ad4e",
+    "ambiguous-ids-2000": "366b16fffb84e736841994e4f6a040cb5d5a6a4d2db41dcf88b85a7d75bc8f68"
+  },
+  "task": "pipeline",
+  "engines": [
+    "json-patch",
+    "plain",
+    "optimized"
+  ],
+  "cargo_lock_sha256": "ff6fd19977b2bdf762ab559db9b5659f5118b42c7ca8b52d096e886f049d4bcb",
+  "source_sha256": {
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "2a818050187755d3d535c269149cc58db13ed401616bbd1a4b81ff93585f5b87",
+    "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+    "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+    "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+  },
+  "runner_sha256": "37b1c1f1aaf57eb88467ded5c601e64d7fa65db12261a63e5e3f4a1c80f639be",
+  "script_sha256": "e456cc5b86d9dcf639743ec88951b6ffd13dd79a49eba9bf57ca943e9560d6b3",
+  "binary_sha256": "eb7eea56a991d0fa4568e8745a2fc5fa80def50feb91e7f9b75298e0eb19b6d6",
+  "method": "identical bytes; parse both -> typed diff -> serialize standard Patch",
+  "sampling": "20 warmups, >=25ms calibration (cap 16384 iterations), 10 raw samples per process",
+  "repetitions": 3,
+  "rss_method": "whole process peak; includes runtime, verification, warmup and samples",
+  "engine_semantics": {
+    "json-patch": "typed json_patch::diff; positional arrays; no added guards",
+    "plain": "DiffPatcher::diff_json_patch; ID matching; factorize/rationalize/tests=false",
+    "optimized": "same DiffPatcher; factorize/rationalize=true; tests=false",
+    "guarded": "same DiffPatcher; factorize/rationalize=false; tests=true; guard cost is explicit"
+  },
+  "budget": "20k reorder fixtures are correctness-only; any 180s process overrun is skipped, not failed",
+  "cpu": "Apple M2 Max"
+}

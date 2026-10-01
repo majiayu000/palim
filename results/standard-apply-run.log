@@ -1,0 +1,19 @@
+batch-replace-2000 json-patch: verified; ops=2000 bytes=122891
+batch-replace-2000 plain: verified; ops=2000 bytes=122891
+batch-guarded-4000 plain: verified; ops=4000 bytes=242671
+batch-guarded-4000 json-patch: verified; ops=4000 bytes=242671
+batch-inverse-2000 json-patch: verified; ops=2000 bytes=125781
+batch-inverse-2000 plain: verified; ops=2000 bytes=125781
+batch-replace-2000 plain: verified; ops=2000 bytes=122891
+batch-replace-2000 json-patch: verified; ops=2000 bytes=122891
+batch-guarded-4000 json-patch: verified; ops=4000 bytes=242671
+batch-guarded-4000 plain: verified; ops=4000 bytes=242671
+batch-inverse-2000 plain: verified; ops=2000 bytes=125781
+batch-inverse-2000 json-patch: verified; ops=2000 bytes=125781
+batch-replace-2000 json-patch: verified; ops=2000 bytes=122891
+batch-replace-2000 plain: verified; ops=2000 bytes=122891
+batch-guarded-4000 plain: verified; ops=4000 bytes=242671
+batch-guarded-4000 json-patch: verified; ops=4000 bytes=242671
+batch-inverse-2000 json-patch: verified; ops=2000 bytes=125781
+batch-inverse-2000 plain: verified; ops=2000 bytes=125781
+{"verified": 18, "measured": 18, "budget_skipped": 0, "unsupported": 0, "dry_run": false, "output": "/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/results/standard-benchmark-apply-20260930T214511.142280Z"}

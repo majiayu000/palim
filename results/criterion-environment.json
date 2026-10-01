@@ -1,0 +1,20 @@
+{
+  "recorded_utc": "2026-09-30T21:43:05.290481+00:00",
+  "source_sha256": {
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "2a818050187755d3d535c269149cc58db13ed401616bbd1a4b81ff93585f5b87",
+    "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+    "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+    "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+  },
+  "benchmark_sha256": "6141573e5d6a9898fff22379c144ca99559607ee510cf637f3d6d7352de1fbf5",
+  "cargo_lock_sha256": "ff6fd19977b2bdf762ab559db9b5659f5118b42c7ca8b52d096e886f049d4bcb",
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6",
+  "measurements": 94,
+  "method": "20 samples,100ms warmup,300ms target,5000 bootstrap resamples; Criterion may extend target for slow workloads"
+}

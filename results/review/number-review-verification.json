@@ -1,0 +1,11 @@
+{
+  "source_sha256": {
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c"
+  },
+  "reference_result": "/tmp/number-tolerance-reference-result.json",
+  "reference_cases": 13208,
+  "reference_failures": 0,
+  "budget_cases": 6,
+  "budget_expected_errors": 6
+}

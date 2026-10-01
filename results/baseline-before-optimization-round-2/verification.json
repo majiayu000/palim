@@ -1,0 +1,128 @@
+{
+  "task_date": "2026-10-01",
+  "recorded_at": "2026-09-30T17:56:43.917766+00:00",
+  "checks": {
+    "cargo test --locked": {
+      "exit_code": 0,
+      "integration_tests": 98,
+      "unit_tests": 1,
+      "doctests": 1
+    },
+    "cargo test --release --locked": {
+      "exit_code": 0,
+      "integration_tests": 98,
+      "unit_tests": 1,
+      "doctests": 1,
+      "fixed_seed_property_cases": 25344,
+      "exhaustive_nonidentity_unique_permutations": 5906,
+      "saved_document_pairs": 373,
+      "active_rfc_cases": 92
+    },
+    "cargo clippy --all-targets --locked -- -D warnings": {
+      "exit_code": 0
+    },
+    "cargo fmt --check": {
+      "exit_code": 0
+    },
+    "cargo +1.85.0 check --lib --locked": {
+      "exit_code": 0
+    },
+    "cargo build --release --example fixture_runner --example standard_bench --locked": {
+      "exit_code": 0
+    },
+    "node tools/interop.mjs": {
+      "exit_code": 0,
+      "cases": 1073,
+      "required_failures": 0,
+      "upstream_js_own_inverse_failures": 507
+    },
+    "cargo bench --bench core --locked -- --noplot": {
+      "exit_code": 0,
+      "measurements": 62,
+      "log": "results/criterion-run.log"
+    },
+    "python3 tools/benchmark.py": {
+      "exit_code": 0,
+      "measurements": 36,
+      "budget_skips": 4,
+      "log": "results/native-comparison-run.log"
+    },
+    "python3 tools/standard-benchmark.py": {
+      "exit_code": 0,
+      "measurements": 54,
+      "independent_process_repetitions": 3,
+      "raw_samples_per_process": 10,
+      "directory": "results/standard-benchmark-20260930T174815.824072Z",
+      "log": "results/standard-comparison-run.log"
+    },
+    "cargo package --allow-dirty --locked": {
+      "exit_code": 0,
+      "verified_extracted_package": true,
+      "published": false,
+      "files": 39,
+      "source_and_documentation_match": true,
+      "compressed_bytes": 113550
+    }
+  },
+  "source_sha256_at_delivery": {
+    "src/compare.rs": "71d799b98ea6ca282a5907dddea4a92048fc0741df5edaeb1a074551a1e18a6e",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "73af71075775b286fd3cb8ccb8c64676bf580314542a3ad54b6b973e670c82fa",
+    "src/export.rs": "aa86e17348779a478154b6059a334bac7bf797165d512449a3591cc769a50fe0",
+    "src/lib.rs": "da1520a3b5da54e90f8dc7a2157ea7b28bb33bbd927406642abf0c90330e2ff6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "171d652d8041dc65f80187a50a8d6b29024136fc3ed011c14056bc6f554257ac",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "4772df023af1ca622a5162a6f1e2d9931685a8c729b0e0a6509c38907aea5a70",
+    "src/text.rs": "6174f7cb6e949306e0fff0bc8365fdba9d0659f916e928e9e11122e4e5f252cf"
+  },
+  "cargo_lock_sha256": "ff6fd19977b2bdf762ab559db9b5659f5118b42c7ca8b52d096e886f049d4bcb",
+  "readme_sha256": "5f8a0f86ccf4ed166ff19aac1227c40adc9057a530f4cf4369675f725eabe424",
+  "benchmark_source_sha256": {
+    "benches/core.rs": "209baa818a815b04d2ddc8ae1ba8f3ac412dc23298d0542fe110ffb0484d473e",
+    "examples/fixture_runner.rs": "580822161c0773e3067f81aaebdd243cc4a6c35ca7cf51df3829129f01181338",
+    "examples/standard_bench.rs": "77d86e1e2a6ae0e15bb67ce05d4d057107caef156de7b80512728860ed0d78ba",
+    "tools/benchmark.py": "509f555b3914f78e696c78c7144fdc5b70df1e1e00bc9bf3997ff7066740ffc8",
+    "tools/bench-js.mjs": "87b24784c4f68de885613869973219944bc162b02cfef5a4901a8fd6a0017d18",
+    "tools/standard-benchmark.py": "ff0a4426973f4f4e71f74760792d878520a8e21b4ab8b03e5fe617dac418ba2f"
+  },
+  "test_source_sha256": {
+    "tests/application.rs": "a9e402f6a01f7c25d417d11eb38b44f5a661fc26e4a06a62a260bc365487ee8f",
+    "tests/array_quality.rs": "d9a5726641bdbed55fbe7e082d80074bf69c3c36f30f3ac8d2abe15dc6515d32",
+    "tests/compare.rs": "b2c9a283e073620a5b3b747b2aa3425b5c17a3ee552e2eeb87e13d1608604cf9",
+    "tests/core.rs": "ec075d9977b67a6150399015232ac3ce211dfbb9fef57f36c802977a30324b29",
+    "tests/fixtures.rs": "7aeb37d687cb4591c0ce323ea86595279b211998d03a500df7b7f398142cfab0",
+    "tests/merge.rs": "079a9e9d04a91f58aa8712aa3b8a326f3cde687e9c7a0865e6044503f741be1a",
+    "tests/numbers.rs": "c6805891ae2ee5b7e231d87bb5b59798d056b10f13bfc5f1da51acb4eae2d820",
+    "tests/properties.rs": "507acccb1a5a4e0c5d258a8d13bb07f59728ac1ae7124f61bd2b726c62a65f1d",
+    "tests/protocol_properties.rs": "450a8664c21089c91637c5544f8bf2e02e62784d61b6f62c35654865a6a22059",
+    "tests/rfc_extended.rs": "7e655115c429f6690dad3e1c672a325b926cb57acedffdcbd7ccaceb763d3da0",
+    "tests/standard_semantics.rs": "00ca5a5a4fef0abbd38e19c6f0021295b7a7b34e7cf87f2664a8c2defd402db1",
+    "tests/text_extended.rs": "b2a83a2f757c0dcf7bb5aec0e376ac32f85b20b7009c2a27eb94efdc20e16240"
+  },
+  "package_sha256": "ee94eb423c12da0b8f9fc4b3a0308230702694afb23c62df04955cfeaf58a9eb",
+  "historical_baseline": "results/baseline-20260930/verification.json",
+  "regressions_fixed": [
+    "RFC numeric test equality",
+    "root self move",
+    "normalized text coordinate overflow",
+    "included move old-value checks and edited inverse values",
+    "fuzzy substitution endpoint tie",
+    "u128 tagged serde export loss",
+    "copy candidate scan performance"
+  ],
+  "limits": [
+    "minimum single-item move guarantee for unique permutations only",
+    "heuristic byte optimization and long fuzzy anchors",
+    "approximate f64 tolerance with explicit unsupported-number errors",
+    "no uniform cross-language performance ranking",
+    "ordinary JS Number does not preserve arbitrary precision",
+    "new APIs and tests have single-host evidence, no verified downstream adoption"
+  ],
+  "documentation_sha256": {
+    "README.md": "5f8a0f86ccf4ed166ff19aac1227c40adc9057a530f4cf4369675f725eabe424",
+    "DESIGN.md": "41f52eaff38cf274127f71533f89e0782ebe3eb7d94d7e91b7b7e006c414b141",
+    "COMPARISON.md": "1b1d8ac3e6566abcf51f2152bd580dc6ad64075c41b24fb7ac4acf5fb23427a0",
+    "BENCHMARK.md": "d726f57c7b4216fff41c4e2d1c132265a46cd25cde787d290e711859fb7a7fb0"
+  }
+}

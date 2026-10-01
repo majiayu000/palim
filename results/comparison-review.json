@@ -1,0 +1,1172 @@
+{
+  "recorded_at": "2026-09-30T22:58:42.788949+08:00",
+  "scope": "13 parallel research agents; official-source comparison plus bounded local correctness probes and one sequential supplementary benchmark. Production Rust source unchanged.",
+  "source_sha256": {
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "fc734c7362a87c0d025fb50da2fe4a5a5592d7a570a9eda8a286eda2b6c72928",
+    "src/export.rs": "efd78b9d97e5e3bec0645a1056ac8c2a9ba8845407b272af11e6fd27499ecd62",
+    "src/lib.rs": "21aa164999617b05c97c620081c34f9b4621db7ecc1c7e2a034b95ab9c976f41",
+    "src/patch.rs": "15c87c4ab9d54b44961fbb8268c1bf908dbc1b7a8d0e3fe8e2017c9a635343fc",
+    "src/text.rs": "315820edc4db2d04d49cdd1853fed2c1fa3c81a4ae8abd26072d7a84b4694d62"
+  },
+  "standard_probes": [
+    {
+      "error": "/x: operation '/0' failed at path '/x': value did not match",
+      "name": "numeric_scalar",
+      "ok": false
+    },
+    {
+      "error": "/x: operation '/0' failed at path '/x': value did not match",
+      "name": "numeric_nested",
+      "ok": false
+    },
+    {
+      "error": "<root>: operation '/0' failed at path '': \"from\" path is invalid",
+      "name": "root_move_self",
+      "ok": false
+    },
+    {
+      "name": "same_integer",
+      "ok": true,
+      "output": {
+        "x": 1
+      }
+    }
+  ],
+  "standard_probe_source": "use jsondiffpatch_rs::{apply_json_patch, Patch};\nuse serde_json::{Value, json};\nfn main() {\n let cases = vec![\n (\"numeric_scalar\",json!({\"x\":1}),json!([{\"op\":\"test\",\"path\":\"/x\",\"value\":1.0}])),\n (\"numeric_nested\",json!({\"x\":{\"y\":[1]}}),json!([{\"op\":\"test\",\"path\":\"/x\",\"value\":{\"y\":[1.0]}}])),\n (\"root_move_self\",json!({\"x\":1}),json!([{\"op\":\"move\",\"from\":\"\",\"path\":\"\"}])),\n (\"same_integer\",json!({\"x\":1}),json!([{\"op\":\"test\",\"path\":\"/x\",\"value\":1}])),\n ];\n for (name,doc,p) in cases {\n  let patch:Patch=serde_json::from_value(p).unwrap();\n  let out:Value=match apply_json_patch(&doc,&patch) {\n   Ok(v)=>json!({\"name\":name,\"ok\":true,\"output\":v}),\n   Err(e)=>json!({\"name\":name,\"ok\":false,\"error\":e.to_string()})\n  };\n  println!(\"{out}\");\n }\n}\n",
+  "debug_text_overflow": {
+    "stdout": "accepted=true forward=Ok(String(\"b\"))\nreverse_panicked=true\n",
+    "stderr": "\nthread 'main' (34145917) panicked at /Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/src/text.rs:36:9:\nattempt to add with overflow\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+    "source": "use jsondiffpatch_rs::{Delta, reverse, patch};\nuse serde_json::json;\nfn main() {\n let text=format!(\"@@ -{},0 +0,0 @@\\n-a\\n+b\\n\",usize::MAX);\n let d=Delta::from_value(json!([text,0,2])).unwrap();\n println!(\"accepted={} forward={:?}\",true,patch(&json!(\"a\"),&d));\n let result=std::panic::catch_unwind(||reverse(&d));\n match result { Ok(r)=>println!(\"reverse={r:?}\"),Err(_)=>println!(\"reverse_panicked=true\") }\n}\n",
+    "manifest": "[package]\nname=\"jsondiffpatch-review-debug-probe\"\nversion=\"0.0.0\"\nedition=\"2024\"\n[dependencies]\njsondiffpatch-rs={path=\"/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs\"}\nserde_json=\"1.0\"\n",
+    "exit_code": 0,
+    "note": "The probe catches the library panic; exit 0 does not mean reverse succeeded."
+  },
+  "supplementary_benchmark": {
+    "method": "single process sequential; 20 warmups; 5 batches calibrated to >=20ms; parse both JSON values + diff + typed serialize; native_to_rfc includes public export API; no memory measurement",
+    "rows": [
+      {
+        "bytes": 28,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 1488,
+        "name": "small-config-edit",
+        "operations": null,
+        "pipeline_ms": 0.012210965725806452,
+        "samples_ms": [
+          0.012422071236559138,
+          0.012107442876344087,
+          0.012210965725806452,
+          0.012113659274193549,
+          0.012213766129032258
+        ]
+      },
+      {
+        "bytes": 53,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 1313,
+        "name": "small-config-edit",
+        "operations": 1,
+        "pipeline_ms": 0.015502412033511043,
+        "samples_ms": [
+          0.015502412033511043,
+          0.015490734196496573,
+          0.015490416603198782,
+          0.01557996953541508,
+          0.015529988575780654
+        ]
+      },
+      {
+        "bytes": 53,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 2538,
+        "name": "small-config-edit",
+        "operations": 1,
+        "pipeline_ms": 0.008011820330969267,
+        "samples_ms": [
+          0.008022392828999211,
+          0.0080893585500394,
+          0.007993318360914107,
+          0.008011820330969267,
+          0.00796297951142632
+        ]
+      },
+      {
+        "bytes": 22,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 46,
+        "name": "prepend-2000",
+        "operations": null,
+        "pipeline_ms": 0.4362844347826087,
+        "samples_ms": [
+          0.43436776086956524,
+          0.42926902173913045,
+          0.4383297173913043,
+          0.4362844347826087,
+          0.43701813043478266
+        ]
+      },
+      {
+        "bytes": 40,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 37,
+        "name": "prepend-2000",
+        "operations": 1,
+        "pipeline_ms": 0.5244864864864864,
+        "samples_ms": [
+          0.5244864864864864,
+          0.5228907567567568,
+          0.5159605945945945,
+          0.5386700540540541,
+          0.5269594594594595
+        ]
+      },
+      {
+        "bytes": 112933,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 41,
+        "name": "prepend-2000",
+        "operations": 2001,
+        "pipeline_ms": 0.48850709756097566,
+        "samples_ms": [
+          0.48680690243902436,
+          0.48850709756097566,
+          0.4950660487804878,
+          0.4909308780487805,
+          0.48722458536585367
+        ]
+      },
+      {
+        "bytes": 27,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 45,
+        "name": "rotate-2000",
+        "operations": null,
+        "pipeline_ms": 0.4401490666666667,
+        "samples_ms": [
+          0.4387685111111111,
+          0.4431611111111111,
+          0.4401490666666667,
+          0.4336694444444445,
+          0.444475
+        ]
+      },
+      {
+        "bytes": 42,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 38,
+        "name": "rotate-2000",
+        "operations": 1,
+        "pipeline_ms": 0.5390515526315789,
+        "samples_ms": [
+          0.5329692894736843,
+          0.5490668947368421,
+          0.5379693157894737,
+          0.5390515526315789,
+          0.5453377105263157
+        ]
+      },
+      {
+        "bytes": 112891,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 39,
+        "name": "rotate-2000",
+        "operations": 2000,
+        "pipeline_ms": 0.48884507692307694,
+        "samples_ms": [
+          0.49161325641025644,
+          0.48436005128205123,
+          0.4826613076923077,
+          0.48884507692307694,
+          0.49455020512820513
+        ]
+      },
+      {
+        "bytes": 111790,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 15,
+        "name": "disjoint-2000",
+        "operations": null,
+        "pipeline_ms": 1.3958194666666666,
+        "samples_ms": [
+          1.3638583333333334,
+          1.3869278,
+          1.3958194666666666,
+          1.4035305333333334,
+          1.3984860666666665
+        ]
+      },
+      {
+        "bytes": 165781,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 5,
+        "name": "disjoint-2000",
+        "operations": 4000,
+        "pipeline_ms": 4.5161668,
+        "samples_ms": [
+          4.598075,
+          4.5161668,
+          4.5015666,
+          4.5078916,
+          4.5226832
+        ]
+      },
+      {
+        "bytes": 112891,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 41,
+        "name": "disjoint-2000",
+        "operations": 2000,
+        "pipeline_ms": 0.4870070975609757,
+        "samples_ms": [
+          0.48598982926829265,
+          0.48983129268292686,
+          0.4870070975609757,
+          0.48641260975609757,
+          0.49254675609756093
+        ]
+      },
+      {
+        "bytes": 74,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 9,
+        "name": "keyed-rotate-edit-2000",
+        "operations": null,
+        "pipeline_ms": 2.267314777777778,
+        "samples_ms": [
+          2.308847222222222,
+          2.218958333333333,
+          2.331421333333333,
+          2.1755324444444444,
+          2.267314777777778
+        ]
+      },
+      {
+        "bytes": 116,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 6,
+        "name": "keyed-rotate-edit-2000",
+        "operations": 2,
+        "pipeline_ms": 3.5534236666666668,
+        "samples_ms": [
+          3.502777833333333,
+          3.5534236666666668,
+          3.5824306666666668,
+          3.5643124999999998,
+          3.5471179999999998
+        ]
+      },
+      {
+        "bytes": 479232,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 7,
+        "name": "keyed-rotate-edit-2000",
+        "operations": 8000,
+        "pipeline_ms": 3.065476285714286,
+        "samples_ms": [
+          3.045125,
+          3.065476285714286,
+          3.0839584285714285,
+          3.1477321428571434,
+          3.041089285714286
+        ]
+      },
+      {
+        "bytes": 141,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 26,
+        "name": "crates-metadata-rotate-edit-100",
+        "operations": null,
+        "pipeline_ms": 0.765875,
+        "samples_ms": [
+          0.8055945384615384,
+          0.773935923076923,
+          0.7620641153846154,
+          0.765875,
+          0.7568221153846154
+        ]
+      },
+      {
+        "bytes": 150,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 18,
+        "name": "crates-metadata-rotate-edit-100",
+        "operations": 2,
+        "pipeline_ms": 1.1249236111111112,
+        "samples_ms": [
+          1.1225092222222222,
+          1.0918750000000002,
+          1.130379611111111,
+          1.1249236111111112,
+          1.1417870555555556
+        ]
+      },
+      {
+        "bytes": 155518,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 17,
+        "name": "crates-metadata-rotate-edit-100",
+        "operations": 1832,
+        "pipeline_ms": 1.223578411764706,
+        "samples_ms": [
+          1.2111691176470587,
+          1.223578411764706,
+          1.2367279411764707,
+          1.2171813529411766,
+          1.2376764705882355
+        ]
+      },
+      {
+        "bytes": 56,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 20,
+        "name": "long-text-ascii",
+        "operations": null,
+        "pipeline_ms": 1.0523520999999998,
+        "samples_ms": [
+          1.0581875,
+          1.05182085,
+          1.0523520999999998,
+          1.0575625,
+          1.0519521
+        ]
+      },
+      {
+        "bytes": 180044,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 14,
+        "name": "long-text-ascii",
+        "operations": 1,
+        "pipeline_ms": 1.4507916428571428,
+        "samples_ms": [
+          1.4345892857142857,
+          1.4441964285714286,
+          1.4586309285714285,
+          1.4594762142857145,
+          1.4507916428571428
+        ]
+      },
+      {
+        "bytes": 180044,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 77,
+        "name": "long-text-ascii",
+        "operations": 1,
+        "pipeline_ms": 0.2496661168831169,
+        "samples_ms": [
+          0.24546590909090912,
+          0.24855249350649353,
+          0.25087824675324677,
+          0.2525373376623377,
+          0.2496661168831169
+        ]
+      },
+      {
+        "bytes": 800,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 692,
+        "name": "half-swap-100",
+        "operations": null,
+        "pipeline_ms": 0.029046845375722545,
+        "samples_ms": [
+          0.029242533236994224,
+          0.028692076589595376,
+          0.029049433526011564,
+          0.029046845375722545,
+          0.029012163294797687
+        ]
+      },
+      {
+        "bytes": 22982,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 50,
+        "name": "half-swap-100",
+        "operations": 576,
+        "pipeline_ms": 0.38323999999999997,
+        "samples_ms": [
+          0.38283166,
+          0.39172084000000007,
+          0.39305166,
+          0.38277668,
+          0.38323999999999997
+        ]
+      },
+      {
+        "bytes": 4081,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 1270,
+        "name": "half-swap-100",
+        "operations": 100,
+        "pipeline_ms": 0.01613549842519685,
+        "samples_ms": [
+          0.016102296850393702,
+          0.01613549842519685,
+          0.016022244094488186,
+          0.016260892125984253,
+          0.016136482677165356
+        ]
+      },
+      {
+        "bytes": 4400,
+        "correct": true,
+        "engine": "native",
+        "iterations_per_sample": 137,
+        "name": "half-swap-500",
+        "operations": null,
+        "pipeline_ms": 0.14885127737226278,
+        "samples_ms": [
+          0.14876308029197083,
+          0.14885127737226278,
+          0.14803679562043795,
+          0.1514014598540146,
+          0.15084610948905108
+        ]
+      },
+      {
+        "bytes": 380543,
+        "correct": true,
+        "engine": "native_to_rfc",
+        "iterations_per_sample": 3,
+        "name": "half-swap-500",
+        "operations": 9075,
+        "pipeline_ms": 6.7883613333333335,
+        "samples_ms": [
+          6.790125,
+          6.7883613333333335,
+          6.829972333333333,
+          6.744180666666666,
+          6.709236333333333
+        ]
+      },
+      {
+        "bytes": 21281,
+        "correct": true,
+        "engine": "json_patch",
+        "iterations_per_sample": 263,
+        "name": "half-swap-500",
+        "operations": 500,
+        "pipeline_ms": 0.0769285475285171,
+        "samples_ms": [
+          0.07708190494296578,
+          0.0769285475285171,
+          0.07638165399239544,
+          0.07706400380228137,
+          0.07658047908745248
+        ]
+      }
+    ]
+  },
+  "supplementary_benchmark_source": "use jsondiffpatch_rs::{Delta,DiffOptions,DiffPatcher,patch,reverse};\nuse serde_json::{Value,json};\nuse std::{fs,hint::black_box,sync::Arc,time::Instant};\nfn encoded(engine:&str, dp:&DiffPatcher,a:&Value,b:&Value)->Vec<u8> {\n match engine {\n  \"native\"=>serde_json::to_vec(&dp.diff(a,b).unwrap()).unwrap(),\n  \"native_to_rfc\"=>{let d=dp.diff(a,b).unwrap();let p=d.map(|d|d.to_json_patch(a).unwrap()).unwrap_or_default();serde_json::to_vec(&p).unwrap()},\n  \"json_patch\"=>serde_json::to_vec(&json_patch::diff(a,b)).unwrap(),\n  _=>unreachable!()\n }\n}\nfn main(){\n let dp=DiffPatcher::new(DiffOptions{object_hash:Some(Arc::new(|v,_|v.get(\"id\").map(Value::to_string))),..Default::default()});\n let mut inputs=Vec::new();\n let base=\"/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/results/fixtures/\";\n for name in [\"small-config-edit\",\"prepend-2000\",\"rotate-2000\",\"disjoint-2000\",\"keyed-rotate-edit-2000\",\"crates-metadata-rotate-edit-100\",\"long-text-ascii\"] {\n  inputs.push(serde_json::from_slice::<Value>(&fs::read(format!(\"{base}{name}.json\")).unwrap()).unwrap());\n }\n for n in [100,500] {let a:Vec<usize>=(0..n).collect();let b:Vec<usize>=(n/2..n).chain(0..n/2).collect();inputs.push(json!({\"name\":format!(\"half-swap-{n}\"),\"left\":a,\"right\":b}));}\n let mut rows=Vec::new();\n for input in &inputs {let a=&input[\"left\"];let b=&input[\"right\"];let raw_a=serde_json::to_vec(a).unwrap();let raw_b=serde_json::to_vec(b).unwrap();\n  for engine in [\"native\",\"native_to_rfc\",\"json_patch\"] {\n   let bytes=encoded(engine,&dp,a,b);\n   let parsed:Value=serde_json::from_slice(&bytes).unwrap();\n   let ops=if engine==\"native\" {if parsed.is_null(){assert_eq!(a,b)}else{let d=Delta::from_value(parsed.clone()).unwrap();assert_eq!(patch(a,&d).unwrap(),*b);assert_eq!(patch(b,&reverse(&d).unwrap()).unwrap(),*a);}None}\n   else {let p:json_patch::Patch=serde_json::from_slice(&bytes).unwrap();let mut copy=a.clone();json_patch::patch(&mut copy,&p).unwrap();assert_eq!(copy,*b);Some(p.0.len())};\n   let call=||{let a:Value=serde_json::from_slice(&raw_a).unwrap();let b:Value=serde_json::from_slice(&raw_b).unwrap();black_box(encoded(engine,&dp,&a,&b));};\n   for _ in 0..20 {call();}\n   let start=Instant::now();for _ in 0..5 {call();}let each=start.elapsed().as_secs_f64()/5.;\n   let iterations=(0.020/each.max(0.0000001)).ceil().clamp(1.,100000.) as usize;\n   let mut samples=Vec::new();for _ in 0..5 {let start=Instant::now();for _ in 0..iterations {call();}samples.push(start.elapsed().as_secs_f64()*1000./iterations as f64);}\n   let mut sorted=samples.clone();sorted.sort_by(f64::total_cmp);\n   let row=json!({\"name\":input[\"name\"],\"engine\":engine,\"pipeline_ms\":sorted[2],\"samples_ms\":samples,\"iterations_per_sample\":iterations,\"bytes\":bytes.len(),\"operations\":ops,\"correct\":true});\n   eprintln!(\"{} {} {:.4}ms {}B\",input[\"name\"],engine,sorted[2],bytes.len());rows.push(row);\n  }\n }\n println!(\"{}\",serde_json::to_string_pretty(&json!({\"method\":\"single process sequential; 20 warmups; 5 batches calibrated to >=20ms; parse both JSON values + diff + typed serialize; native_to_rfc includes public export API; no memory measurement\", \"rows\":rows})).unwrap());\n}\n",
+  "supplementary_benchmark_compilation": "rustc --edition=2024 -O; links the original target/release/deps jsondiffpatch_rs, serde_json and json_patch rlibs; same serde_json feature set for both engines",
+  "algorithm_rust": {
+    "case_count": 5906,
+    "native_excess_count": 1573,
+    "rfc_excess_over_native_count": 3072,
+    "first_native_excess": [
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "right": [
+          3,
+          0,
+          2,
+          1
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 3,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_0": [
+            "",
+            1,
+            3
+          ],
+          "_1": [
+            "",
+            3,
+            3
+          ],
+          "_2": [
+            "",
+            2,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/2"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      },
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "right": [
+          3,
+          1,
+          0,
+          2
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 3,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_0": [
+            "",
+            2,
+            3
+          ],
+          "_1": [
+            "",
+            1,
+            3
+          ],
+          "_2": [
+            "",
+            3,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/2"
+          },
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/3"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      },
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "right": [
+          0,
+          4,
+          1,
+          3,
+          2
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 3,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_1": [
+            "",
+            2,
+            3
+          ],
+          "_2": [
+            "",
+            4,
+            3
+          ],
+          "_3": [
+            "",
+            3,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/4"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/4"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/3"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      },
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "right": [
+          0,
+          4,
+          2,
+          1,
+          3
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 3,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_1": [
+            "",
+            3,
+            3
+          ],
+          "_2": [
+            "",
+            2,
+            3
+          ],
+          "_3": [
+            "",
+            4,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/4"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/4"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      },
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "right": [
+          1,
+          4,
+          2,
+          0,
+          3
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 3,
+        "rfc_operation_count": 4,
+        "delta": {
+          "_0": [
+            "",
+            3,
+            3
+          ],
+          "_2": [
+            "",
+            2,
+            3
+          ],
+          "_3": [
+            "",
+            4,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/4"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/4"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/3"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      }
+    ],
+    "first_rfc_excess": [
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "right": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 2,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_0": [
+            "",
+            2,
+            3
+          ],
+          "_2": [
+            "",
+            3,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/2"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/2"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      },
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "right": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 2,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_0": [
+            "",
+            2,
+            3
+          ],
+          "_1": [
+            "",
+            3,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/2"
+          },
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/2"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      },
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "right": [
+          0,
+          2,
+          4,
+          1,
+          3
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 2,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_1": [
+            "",
+            3,
+            3
+          ],
+          "_3": [
+            "",
+            4,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/2",
+            "op": "move",
+            "path": "/4"
+          },
+          {
+            "from": "/2",
+            "op": "move",
+            "path": "/3"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      },
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "right": [
+          0,
+          3,
+          4,
+          1,
+          2
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 2,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_1": [
+            "",
+            3,
+            3
+          ],
+          "_2": [
+            "",
+            4,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/1",
+            "op": "move",
+            "path": "/4"
+          },
+          {
+            "from": "/2",
+            "op": "move",
+            "path": "/3"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      },
+      {
+        "left": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "right": [
+          1,
+          2,
+          4,
+          0,
+          3
+        ],
+        "minimum_move_operations": 2,
+        "native_move_entries": 2,
+        "rfc_operation_count": 3,
+        "delta": {
+          "_0": [
+            "",
+            3,
+            3
+          ],
+          "_3": [
+            "",
+            4,
+            3
+          ],
+          "_t": "a"
+        },
+        "json_patch": [
+          {
+            "from": "/0",
+            "op": "move",
+            "path": "/3"
+          },
+          {
+            "from": "/2",
+            "op": "move",
+            "path": "/4"
+          },
+          {
+            "from": "/2",
+            "op": "move",
+            "path": "/3"
+          }
+        ],
+        "forward_and_inverse_ok": true
+      }
+    ]
+  },
+  "algorithm_js": {
+    "case_count": 5906,
+    "native_excess_count": 0,
+    "forward_failures": 0,
+    "reverse_failures": 0,
+    "examples": [
+      {
+        "name": "4:1,3,0,2",
+        "left": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "right": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "minimum": 2,
+        "delta": {
+          "_t": "a",
+          "_1": [
+            "",
+            0,
+            3
+          ],
+          "_3": [
+            "",
+            1,
+            3
+          ]
+        },
+        "json_patch": [
+          {
+            "op": "move",
+            "from": "/1",
+            "path": "/0"
+          },
+          {
+            "op": "move",
+            "from": "/3",
+            "path": "/1"
+          }
+        ]
+      },
+      {
+        "name": "4:3,0,2,1",
+        "left": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "right": [
+          3,
+          0,
+          2,
+          1
+        ],
+        "minimum": 2,
+        "delta": {
+          "_t": "a",
+          "_2": [
+            "",
+            2,
+            3
+          ],
+          "_3": [
+            "",
+            0,
+            3
+          ]
+        },
+        "json_patch": [
+          {
+            "op": "move",
+            "from": "/3",
+            "path": "/0"
+          },
+          {
+            "op": "move",
+            "from": "/3",
+            "path": "/2"
+          }
+        ]
+      }
+    ]
+  },
+  "export_scaling": [
+    {
+      "n": 4,
+      "native_moves": 2,
+      "rfc_ops": 3,
+      "ok": true
+    },
+    {
+      "n": 6,
+      "native_moves": 3,
+      "rfc_ops": 6,
+      "ok": true
+    },
+    {
+      "n": 8,
+      "native_moves": 4,
+      "rfc_ops": 9,
+      "ok": true
+    },
+    {
+      "n": 10,
+      "native_moves": 5,
+      "rfc_ops": 13,
+      "ok": true
+    },
+    {
+      "n": 20,
+      "native_moves": 10,
+      "rfc_ops": 41,
+      "ok": true
+    },
+    {
+      "n": 50,
+      "native_moves": 25,
+      "rfc_ops": 184,
+      "ok": true
+    },
+    {
+      "n": 100,
+      "native_moves": 50,
+      "rfc_ops": 576,
+      "ok": true
+    }
+  ],
+  "additional_array_validation": {
+    "generated_scenarios": 5946,
+    "generated_scenarios_passed": 5946,
+    "independent_imported_deltas": 10000,
+    "independent_imported_deltas_passed": 10000,
+    "note": "The 5906 permutation optimality cases overlap this generated suite; do not add counts as independent coverage."
+  },
+  "additional_text_validation": {
+    "cases": 240,
+    "native_roundtrip": 240,
+    "rust_delta_to_js": 240,
+    "rust_inverse_to_js": 240,
+    "js_forward_delta_to_rust_roundtrip": 240
+  },
+  "js_inverse_compatibility": {
+    "js_self_inverse_correct": 566,
+    "cases": 1073,
+    "rust_accepts_same_js_inverse_correct": 442,
+    "same_js_inverse_false": 602,
+    "null_delta": 29,
+    "js_correct_but_rust_rejects": 95,
+    "note": "Includes intentional exact-vs-fuzzy text contract differences; 1073/1073 earlier means JS forward delta followed by Rust-generated reverse."
+  }
+}

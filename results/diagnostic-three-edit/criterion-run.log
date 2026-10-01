@@ -1,0 +1,903 @@
+   Compiling jsondiffpatch-rs v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs)
+    Finished `bench` profile [optimized] target(s) in 2.67s
+     Running benches/core.rs (target/release/deps/core-dc54803a360ee73e)
+Gnuplot not found, using plotters backend
+Benchmarking core/diff/small
+Benchmarking core/diff/small: Warming up for 100.00 ms
+Benchmarking core/diff/small: Collecting 20 samples in estimated 300.08 ms (318k iterations)
+Benchmarking core/diff/small: Analyzing
+core/diff/small         time:   [938.25 ns 1.1428 µs 1.4269 µs]
+                        change: [−1.8414% +7.8482% +31.164%] (p = 0.32 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking core/patch/small
+Benchmarking core/patch/small: Warming up for 100.00 ms
+Benchmarking core/patch/small: Collecting 20 samples in estimated 300.08 ms (460k iterations)
+Benchmarking core/patch/small: Analyzing
+core/patch/small        time:   [649.91 ns 719.54 ns 859.90 ns]
+                        change: [−7.2365% +0.7105% +9.2617%] (p = 0.89 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking core/reverse/small
+Benchmarking core/reverse/small: Warming up for 100.00 ms
+Benchmarking core/reverse/small: Collecting 20 samples in estimated 300.12 ms (447k iterations)
+Benchmarking core/reverse/small: Analyzing
+core/reverse/small      time:   [670.63 ns 700.06 ns 731.51 ns]
+                        change: [+0.0737% +3.3233% +5.8155%] (p = 0.09 > 0.05)
+                        No change in performance detected.
+Found 4 outliers among 20 measurements (20.00%)
+  1 (5.00%) high mild
+  3 (15.00%) high severe
+Benchmarking core/diff/identical-2000
+Benchmarking core/diff/identical-2000: Warming up for 100.00 ms
+Benchmarking core/diff/identical-2000: Collecting 20 samples in estimated 300.62 ms (18k iterations)
+Benchmarking core/diff/identical-2000: Analyzing
+core/diff/identical-2000
+                        time:   [14.503 µs 14.827 µs 15.202 µs]
+                        change: [−6.6586% −4.2071% −1.3951%] (p = 0.01 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking core/diff/prepend-2000
+Benchmarking core/diff/prepend-2000: Warming up for 100.00 ms
+Benchmarking core/diff/prepend-2000: Collecting 20 samples in estimated 329.22 ms (1050 iterations)
+Benchmarking core/diff/prepend-2000: Analyzing
+core/diff/prepend-2000  time:   [307.82 µs 324.84 µs 354.95 µs]
+                        change: [−2.1403% +0.5804% +4.4707%] (p = 0.79 > 0.05)
+                        No change in performance detected.
+Found 4 outliers among 20 measurements (20.00%)
+  3 (15.00%) high mild
+  1 (5.00%) high severe
+Benchmarking core/patch/prepend-2000
+Benchmarking core/patch/prepend-2000: Warming up for 100.00 ms
+Benchmarking core/patch/prepend-2000: Collecting 20 samples in estimated 306.04 ms (5670 iterations)
+Benchmarking core/patch/prepend-2000: Analyzing
+core/patch/prepend-2000 time:   [53.601 µs 55.742 µs 58.380 µs]
+                        change: [−4.0449% −0.0489% +3.4599%] (p = 0.97 > 0.05)
+                        No change in performance detected.
+Benchmarking core/reverse/prepend-2000
+Benchmarking core/reverse/prepend-2000: Warming up for 100.00 ms
+Benchmarking core/reverse/prepend-2000: Collecting 20 samples in estimated 300.02 ms (616k iterations)
+Benchmarking core/reverse/prepend-2000: Analyzing
+core/reverse/prepend-2000
+                        time:   [468.72 ns 479.66 ns 506.81 ns]
+                        change: [−6.5673% −2.8318% +3.0520%] (p = 0.32 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking core/diff/rotate-2000
+Benchmarking core/diff/rotate-2000: Warming up for 100.00 ms
+Benchmarking core/diff/rotate-2000: Collecting 20 samples in estimated 338.61 ms (1050 iterations)
+Benchmarking core/diff/rotate-2000: Analyzing
+core/diff/rotate-2000   time:   [314.60 µs 324.99 µs 338.59 µs]
+                        change: [−3.6093% +0.3662% +4.5095%] (p = 0.89 > 0.05)
+                        No change in performance detected.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking core/patch/rotate-2000
+Benchmarking core/patch/rotate-2000: Warming up for 100.00 ms
+Benchmarking core/patch/rotate-2000: Collecting 20 samples in estimated 303.73 ms (5670 iterations)
+Benchmarking core/patch/rotate-2000: Analyzing
+core/patch/rotate-2000  time:   [51.590 µs 54.550 µs 59.953 µs]
+                        change: [−2.9659% +9.7111% +24.093%] (p = 0.24 > 0.05)
+                        No change in performance detected.
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+Benchmarking core/reverse/rotate-2000
+Benchmarking core/reverse/rotate-2000: Warming up for 100.00 ms
+Benchmarking core/reverse/rotate-2000: Collecting 20 samples in estimated 300.08 ms (543k iterations)
+Benchmarking core/reverse/rotate-2000: Analyzing
+core/reverse/rotate-2000
+                        time:   [540.07 ns 610.19 ns 683.46 ns]
+                        change: [−1.6343% +5.1662% +13.841%] (p = 0.31 > 0.05)
+                        No change in performance detected.
+Found 4 outliers among 20 measurements (20.00%)
+  4 (20.00%) high severe
+Benchmarking core/diff/reverse-2000
+Benchmarking core/diff/reverse-2000: Warming up for 100.00 ms
+Benchmarking core/diff/reverse-2000: Collecting 20 samples in estimated 417.29 ms (420 iterations)
+Benchmarking core/diff/reverse-2000: Analyzing
+core/diff/reverse-2000  time:   [944.93 µs 1.0202 ms 1.1216 ms]
+                        change: [+4.6240% +18.316% +47.542%] (p = 0.01 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking core/patch/reverse-2000
+Benchmarking core/patch/reverse-2000: Warming up for 100.00 ms
+Benchmarking core/patch/reverse-2000: Collecting 20 samples in estimated 349.96 ms (420 iterations)
+Benchmarking core/patch/reverse-2000: Analyzing
+core/patch/reverse-2000 time:   [780.04 µs 808.04 µs 840.60 µs]
+                        change: [+1.4739% +4.3459% +7.4603%] (p = 0.02 < 0.05)
+                        Performance has regressed.
+Benchmarking core/reverse/reverse-2000
+Benchmarking core/reverse/reverse-2000: Warming up for 100.00 ms
+Benchmarking core/reverse/reverse-2000: Collecting 20 samples in estimated 403.89 ms (420 iterations)
+Benchmarking core/reverse/reverse-2000: Analyzing
+core/reverse/reverse-2000
+                        time:   [967.03 µs 986.38 µs 1.0186 ms]
+                        change: [−2.8674% +2.8345% +8.7488%] (p = 0.36 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking core/diff/disjoint-2000
+Benchmarking core/diff/disjoint-2000: Warming up for 100.00 ms
+Benchmarking core/diff/disjoint-2000: Collecting 20 samples in estimated 575.00 ms (420 iterations)
+Benchmarking core/diff/disjoint-2000: Analyzing
+core/diff/disjoint-2000 time:   [1.3539 ms 1.3690 ms 1.3905 ms]
+                        change: [+0.9389% +2.1356% +3.3481%] (p = 0.00 < 0.05)
+                        Change within noise threshold.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking core/patch/disjoint-2000
+Benchmarking core/patch/disjoint-2000: Warming up for 100.00 ms
+Benchmarking core/patch/disjoint-2000: Collecting 20 samples in estimated 407.86 ms (420 iterations)
+Benchmarking core/patch/disjoint-2000: Analyzing
+core/patch/disjoint-2000
+                        time:   [1.0043 ms 1.0256 ms 1.0456 ms]
+                        change: [−1.1280% +0.6595% +2.1829%] (p = 0.48 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking core/reverse/disjoint-2000
+Benchmarking core/reverse/disjoint-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 408.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking core/reverse/disjoint-2000: Collecting 20 samples in estimated 408.68 ms (210 iterations)
+Benchmarking core/reverse/disjoint-2000: Analyzing
+core/reverse/disjoint-2000
+                        time:   [1.9931 ms 2.0713 ms 2.1444 ms]
+                        change: [−0.2244% +1.8056% +4.0288%] (p = 0.16 > 0.05)
+                        No change in performance detected.
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high mild
+Benchmarking core/diff/keyed-2000
+Benchmarking core/diff/keyed-2000: Warming up for 100.00 ms
+Benchmarking core/diff/keyed-2000: Collecting 20 samples in estimated 322.47 ms (630 iterations)
+Benchmarking core/diff/keyed-2000: Analyzing
+core/diff/keyed-2000    time:   [504.61 µs 523.76 µs 559.93 µs]
+                        change: [+0.9642% +4.6503% +10.252%] (p = 0.08 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking core/patch/keyed-2000
+Benchmarking core/patch/keyed-2000: Warming up for 100.00 ms
+Benchmarking core/patch/keyed-2000: Collecting 20 samples in estimated 373.37 ms (840 iterations)
+Benchmarking core/patch/keyed-2000: Analyzing
+core/patch/keyed-2000   time:   [497.16 µs 504.16 µs 512.07 µs]
+                        change: [+34.613% +40.877% +51.373%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking core/reverse/keyed-2000
+Benchmarking core/reverse/keyed-2000: Warming up for 100.00 ms
+Benchmarking core/reverse/keyed-2000: Collecting 20 samples in estimated 300.23 ms (234k iterations)
+Benchmarking core/reverse/keyed-2000: Analyzing
+core/reverse/keyed-2000 time:   [1.2871 µs 1.2925 µs 1.2998 µs]
+                        change: [+1.2718% +2.4328% +3.5231%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking core/diff/identical-20000
+Benchmarking core/diff/identical-20000: Warming up for 100.00 ms
+Benchmarking core/diff/identical-20000: Collecting 20 samples in estimated 319.61 ms (2310 iterations)
+Benchmarking core/diff/identical-20000: Analyzing
+core/diff/identical-20000
+                        time:   [137.62 µs 141.74 µs 147.47 µs]
+                        change: [−15.870% −13.122% −10.649%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking core/diff/prepend-20000
+Benchmarking core/diff/prepend-20000: Warming up for 100.00 ms
+Benchmarking core/diff/prepend-20000: Collecting 20 samples in estimated 335.15 ms (100 iterations)
+Benchmarking core/diff/prepend-20000: Analyzing
+core/diff/prepend-20000 time:   [3.3930 ms 3.5205 ms 3.7226 ms]
+                        change: [+1.1039% +5.2706% +12.349%] (p = 0.03 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+Benchmarking core/patch/prepend-20000
+Benchmarking core/patch/prepend-20000: Warming up for 100.00 ms
+Benchmarking core/patch/prepend-20000: Collecting 20 samples in estimated 405.90 ms (630 iterations)
+Benchmarking core/patch/prepend-20000: Analyzing
+core/patch/prepend-20000
+                        time:   [538.22 µs 547.76 µs 561.40 µs]
+                        change: [+1.9325% +4.8589% +7.4175%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking core/reverse/prepend-20000
+Benchmarking core/reverse/prepend-20000: Warming up for 100.00 ms
+Benchmarking core/reverse/prepend-20000: Collecting 20 samples in estimated 300.07 ms (602k iterations)
+Benchmarking core/reverse/prepend-20000: Analyzing
+core/reverse/prepend-20000
+                        time:   [494.71 ns 531.17 ns 576.53 ns]
+                        change: [+5.9241% +13.909% +23.154%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Benchmarking core/diff/rotate-20000
+Benchmarking core/diff/rotate-20000: Warming up for 100.00 ms
+Benchmarking core/diff/rotate-20000: Collecting 20 samples in estimated 335.46 ms (100 iterations)
+Benchmarking core/diff/rotate-20000: Analyzing
+core/diff/rotate-20000  time:   [3.4078 ms 3.5566 ms 3.7663 ms]
+                        change: [+3.3730% +8.0536% +14.526%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+Benchmarking core/patch/rotate-20000
+Benchmarking core/patch/rotate-20000: Warming up for 100.00 ms
+Benchmarking core/patch/rotate-20000: Collecting 20 samples in estimated 338.52 ms (630 iterations)
+Benchmarking core/patch/rotate-20000: Analyzing
+core/patch/rotate-20000 time:   [517.44 µs 521.76 µs 528.09 µs]
+                        change: [+0.0814% +0.9722% +2.0230%] (p = 0.06 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking core/reverse/rotate-20000
+Benchmarking core/reverse/rotate-20000: Warming up for 100.00 ms
+Benchmarking core/reverse/rotate-20000: Collecting 20 samples in estimated 300.06 ms (572k iterations)
+Benchmarking core/reverse/rotate-20000: Analyzing
+core/reverse/rotate-20000
+                        time:   [513.37 ns 517.39 ns 525.07 ns]
+                        change: [+1.6384% +8.2759% +21.094%] (p = 0.07 > 0.05)
+                        No change in performance detected.
+Found 4 outliers among 20 measurements (20.00%)
+  4 (20.00%) high severe
+Benchmarking core/diff/reverse-20000
+Benchmarking core/diff/reverse-20000: Warming up for 100.00 ms
+Benchmarking core/diff/reverse-20000: Collecting 20 samples in estimated 406.60 ms (40 iterations)
+Benchmarking core/diff/reverse-20000: Analyzing
+core/diff/reverse-20000 time:   [9.9297 ms 10.814 ms 12.225 ms]
+                        change: [+3.8718% +13.594% +26.676%] (p = 0.02 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking core/patch/reverse-20000
+Benchmarking core/patch/reverse-20000: Warming up for 100.00 ms
+Benchmarking core/patch/reverse-20000: Collecting 20 samples in estimated 352.48 ms (40 iterations)
+Benchmarking core/patch/reverse-20000: Analyzing
+core/patch/reverse-20000
+                        time:   [8.0698 ms 8.2217 ms 8.3928 ms]
+                        change: [+1.1544% +3.2764% +5.6909%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking core/reverse/reverse-20000
+Benchmarking core/reverse/reverse-20000: Warming up for 100.00 ms
+Benchmarking core/reverse/reverse-20000: Collecting 20 samples in estimated 415.74 ms (40 iterations)
+Benchmarking core/reverse/reverse-20000: Analyzing
+core/reverse/reverse-20000
+                        time:   [10.120 ms 10.268 ms 10.467 ms]
+                        change: [+0.0789% +1.9644% +3.8343%] (p = 0.04 < 0.05)
+                        Change within noise threshold.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking core/diff/disjoint-20000
+Benchmarking core/diff/disjoint-20000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 303.8ms, or reduce sample count to 10.
+Benchmarking core/diff/disjoint-20000: Collecting 20 samples in estimated 303.83 ms (20 iterations)
+Benchmarking core/diff/disjoint-20000: Analyzing
+core/diff/disjoint-20000
+                        time:   [14.836 ms 14.930 ms 15.028 ms]
+                        change: [+6.1266% +7.1470% +8.1428%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking core/patch/disjoint-20000
+Benchmarking core/patch/disjoint-20000: Warming up for 100.00 ms
+Benchmarking core/patch/disjoint-20000: Collecting 20 samples in estimated 417.47 ms (40 iterations)
+Benchmarking core/patch/disjoint-20000: Analyzing
+core/patch/disjoint-20000
+                        time:   [10.408 ms 10.509 ms 10.620 ms]
+                        change: [+3.6323% +4.8682% +5.9186%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 4 outliers among 20 measurements (20.00%)
+  4 (20.00%) high mild
+Benchmarking core/reverse/disjoint-20000
+Benchmarking core/reverse/disjoint-20000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 427.6ms, or reduce sample count to 10.
+Benchmarking core/reverse/disjoint-20000: Collecting 20 samples in estimated 427.56 ms (20 iterations)
+Benchmarking core/reverse/disjoint-20000: Analyzing
+core/reverse/disjoint-20000
+                        time:   [23.191 ms 24.484 ms 26.022 ms]
+                        change: [+14.276% +19.874% +27.145%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking core/diff/keyed-20000
+Benchmarking core/diff/keyed-20000: Warming up for 100.00 ms
+Benchmarking core/diff/keyed-20000: Collecting 20 samples in estimated 331.81 ms (40 iterations)
+Benchmarking core/diff/keyed-20000: Analyzing
+core/diff/keyed-20000   time:   [7.2678 ms 7.5264 ms 7.7916 ms]
+                        change: [+4.6849% +9.8903% +16.119%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Benchmarking core/patch/keyed-20000
+Benchmarking core/patch/keyed-20000: Warming up for 100.00 ms
+Benchmarking core/patch/keyed-20000: Collecting 20 samples in estimated 359.23 ms (80 iterations)
+Benchmarking core/patch/keyed-20000: Analyzing
+core/patch/keyed-20000  time:   [6.5437 ms 8.5324 ms 11.433 ms]
+                        change: [+56.651% +105.85% +170.23%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking core/reverse/keyed-20000
+Benchmarking core/reverse/keyed-20000: Warming up for 100.00 ms
+Benchmarking core/reverse/keyed-20000: Collecting 20 samples in estimated 300.07 ms (203k iterations)
+Benchmarking core/reverse/keyed-20000: Analyzing
+core/reverse/keyed-20000
+                        time:   [1.3350 µs 1.9804 µs 3.0944 µs]
+                        change: [+15.894% +55.155% +85.918%] (p = 0.02 < 0.05)
+                        Performance has regressed.
+Found 4 outliers among 20 measurements (20.00%)
+  4 (20.00%) high severe
+Benchmarking core/diff/text
+Benchmarking core/diff/text: Warming up for 100.00 ms
+Benchmarking core/diff/text: Collecting 20 samples in estimated 300.76 ms (36k iterations)
+Benchmarking core/diff/text: Analyzing
+core/diff/text          time:   [5.2706 µs 5.4135 µs 5.5975 µs]
+                        change: [−97.089% −97.023% −96.940%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking core/patch/text
+Benchmarking core/patch/text: Warming up for 100.00 ms
+Benchmarking core/patch/text: Collecting 20 samples in estimated 345.41 ms (1470 iterations)
+Benchmarking core/patch/text: Analyzing
+core/patch/text         time:   [228.88 µs 287.81 µs 393.13 µs]
+                        change: [+9.6730% +27.686% +57.543%] (p = 0.02 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking core/reverse/text
+Benchmarking core/reverse/text: Warming up for 100.00 ms
+Benchmarking core/reverse/text: Collecting 20 samples in estimated 300.17 ms (280k iterations)
+Benchmarking core/reverse/text: Analyzing
+core/reverse/text       time:   [1.1668 µs 1.3814 µs 1.7177 µs]
+                        change: [+16.369% +47.733% +85.681%] (p = 0.01 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking core/diff/halfswap-500
+Benchmarking core/diff/halfswap-500: Warming up for 100.00 ms
+Benchmarking core/diff/halfswap-500: Collecting 20 samples in estimated 320.40 ms (1470 iterations)
+Benchmarking core/diff/halfswap-500: Analyzing
+core/diff/halfswap-500  time:   [151.30 µs 160.55 µs 174.52 µs]
+                        change: [+7.2957% +14.916% +24.316%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking core/patch/halfswap-500
+Benchmarking core/patch/halfswap-500: Warming up for 100.00 ms
+Benchmarking core/patch/halfswap-500: Collecting 20 samples in estimated 326.57 ms (2520 iterations)
+Benchmarking core/patch/halfswap-500: Analyzing
+core/patch/halfswap-500 time:   [93.249 µs 109.95 µs 131.27 µs]
+                        change: [+1.8346% +15.158% +32.106%] (p = 0.01 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking core/reverse/halfswap-500
+Benchmarking core/reverse/halfswap-500: Warming up for 100.00 ms
+Benchmarking core/reverse/halfswap-500: Collecting 20 samples in estimated 303.30 ms (2310 iterations)
+Benchmarking core/reverse/halfswap-500: Analyzing
+core/reverse/halfswap-500
+                        time:   [129.72 µs 137.76 µs 149.28 µs]
+                        change: [+4.9066% +12.148% +25.951%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+Benchmarking standard/export-precomputed/small
+Benchmarking standard/export-precomputed/small: Warming up for 100.00 ms
+Benchmarking standard/export-precomputed/small: Collecting 20 samples in estimated 300.19 ms (283k iterations)
+Benchmarking standard/export-precomputed/small: Analyzing
+standard/export-precomputed/small
+                        time:   [912.56 ns 944.84 ns 979.39 ns]
+                        change: [−32.167% −29.382% −26.143%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking standard/plain/small
+Benchmarking standard/plain/small: Warming up for 100.00 ms
+Benchmarking standard/plain/small: Collecting 20 samples in estimated 300.20 ms (185k iterations)
+Benchmarking standard/plain/small: Analyzing
+standard/plain/small    time:   [1.2957 µs 1.4627 µs 1.7155 µs]
+                        change: [−56.820% −53.088% −48.831%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking standard/optimized/small
+Benchmarking standard/optimized/small: Warming up for 100.00 ms
+Benchmarking standard/optimized/small: Collecting 20 samples in estimated 300.43 ms (130k iterations)
+Benchmarking standard/optimized/small: Analyzing
+standard/optimized/small
+                        time:   [2.2514 µs 2.3618 µs 2.5475 µs]
+                        change: [−61.543% −58.894% −56.268%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 4 outliers among 20 measurements (20.00%)
+  4 (20.00%) high severe
+Benchmarking standard/export-precomputed/rotate-2000
+Benchmarking standard/export-precomputed/rotate-2000: Warming up for 100.00 ms
+Benchmarking standard/export-precomputed/rotate-2000: Collecting 20 samples in estimated 309.56 ms (4620 iterations)
+Benchmarking standard/export-precomputed/rotate-2000: Analyzing
+standard/export-precomputed/rotate-2000
+                        time:   [65.841 µs 66.652 µs 67.358 µs]
+                        change: [−24.188% −23.274% −22.251%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Benchmarking standard/plain/rotate-2000
+Benchmarking standard/plain/rotate-2000: Warming up for 100.00 ms
+Benchmarking standard/plain/rotate-2000: Collecting 20 samples in estimated 358.56 ms (1050 iterations)
+Benchmarking standard/plain/rotate-2000: Analyzing
+standard/plain/rotate-2000
+                        time:   [334.33 µs 339.22 µs 344.05 µs]
+                        change: [−26.758% −25.256% −23.484%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking standard/optimized/rotate-2000
+Benchmarking standard/optimized/rotate-2000: Warming up for 100.00 ms
+Benchmarking standard/optimized/rotate-2000: Collecting 20 samples in estimated 353.42 ms (840 iterations)
+Benchmarking standard/optimized/rotate-2000: Analyzing
+standard/optimized/rotate-2000
+                        time:   [338.06 µs 341.87 µs 346.93 µs]
+                        change: [−47.118% −45.209% −43.113%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking standard/export-precomputed/disjoint-2000
+Benchmarking standard/export-precomputed/disjoint-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 518.0ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking standard/export-precomputed/disjoint-2000: Collecting 20 samples in estimated 517.97 ms (210 iterations)
+Benchmarking standard/export-precomputed/disjoint-2000: Analyzing
+standard/export-precomputed/disjoint-2000
+                        time:   [2.0824 ms 2.1191 ms 2.1661 ms]
+                        change: [−33.747% −32.064% −28.542%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking standard/plain/disjoint-2000
+Benchmarking standard/plain/disjoint-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 522.2ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking standard/plain/disjoint-2000: Collecting 20 samples in estimated 522.23 ms (210 iterations)
+Benchmarking standard/plain/disjoint-2000: Analyzing
+standard/plain/disjoint-2000
+                        time:   [2.4992 ms 2.5506 ms 2.6205 ms]
+                        change: [−54.580% −53.385% −51.488%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking standard/optimized/disjoint-2000
+Benchmarking standard/optimized/disjoint-2000: Warming up for 100.00 ms
+Benchmarking standard/optimized/disjoint-2000: Collecting 20 samples in estimated 377.52 ms (80 iterations)
+Benchmarking standard/optimized/disjoint-2000: Analyzing
+standard/optimized/disjoint-2000
+                        time:   [4.6743 ms 4.7019 ms 4.7306 ms]
+                        change: [−66.816% −66.577% −66.370%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Benchmarking standard/export-precomputed/keyed-2000
+Benchmarking standard/export-precomputed/keyed-2000: Warming up for 100.00 ms
+Benchmarking standard/export-precomputed/keyed-2000: Collecting 20 samples in estimated 335.00 ms (840 iterations)
+Benchmarking standard/export-precomputed/keyed-2000: Analyzing
+standard/export-precomputed/keyed-2000
+                        time:   [400.23 µs 404.81 µs 409.36 µs]
+                        change: [−2.2089% −0.7639% +0.6022%] (p = 0.31 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking standard/plain/keyed-2000
+Benchmarking standard/plain/keyed-2000: Warming up for 100.00 ms
+Benchmarking standard/plain/keyed-2000: Collecting 20 samples in estimated 333.74 ms (630 iterations)
+Benchmarking standard/plain/keyed-2000: Analyzing
+standard/plain/keyed-2000
+                        time:   [544.04 µs 567.89 µs 589.68 µs]
+                        change: [−58.987% −56.658% −53.237%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking standard/optimized/keyed-2000
+Benchmarking standard/optimized/keyed-2000: Warming up for 100.00 ms
+Benchmarking standard/optimized/keyed-2000: Collecting 20 samples in estimated 429.69 ms (420 iterations)
+Benchmarking standard/optimized/keyed-2000: Analyzing
+standard/optimized/keyed-2000
+                        time:   [993.44 µs 1.0178 ms 1.0556 ms]
+                        change: [−71.558% −70.434% −69.202%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 4 outliers among 20 measurements (20.00%)
+  3 (15.00%) high mild
+  1 (5.00%) high severe
+Benchmarking standard/export-precomputed/halfswap-500
+Benchmarking standard/export-precomputed/halfswap-500: Warming up for 100.00 ms
+Benchmarking standard/export-precomputed/halfswap-500: Collecting 20 samples in estimated 314.91 ms (1680 iterations)
+Benchmarking standard/export-precomputed/halfswap-500: Analyzing
+standard/export-precomputed/halfswap-500
+                        time:   [184.78 µs 185.66 µs 186.45 µs]
+                        change: [−46.404% −46.000% −45.479%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking standard/plain/halfswap-500
+Benchmarking standard/plain/halfswap-500: Warming up for 100.00 ms
+Benchmarking standard/plain/halfswap-500: Collecting 20 samples in estimated 306.92 ms (1260 iterations)
+Benchmarking standard/plain/halfswap-500: Analyzing
+standard/plain/halfswap-500
+                        time:   [243.76 µs 244.61 µs 245.56 µs]
+                        change: [−58.673% −58.291% −57.873%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking standard/optimized/halfswap-500
+Benchmarking standard/optimized/halfswap-500: Warming up for 100.00 ms
+Benchmarking standard/optimized/halfswap-500: Collecting 20 samples in estimated 362.53 ms (1050 iterations)
+Benchmarking standard/optimized/halfswap-500: Analyzing
+standard/optimized/halfswap-500
+                        time:   [345.53 µs 349.58 µs 354.48 µs]
+                        change: [−48.946% −48.107% −47.389%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+
+Benchmarking compare/unordered-multiset-2000
+Benchmarking compare/unordered-multiset-2000: Warming up for 100.00 ms
+Benchmarking compare/unordered-multiset-2000: Collecting 20 samples in estimated 412.91 ms (420 iterations)
+Benchmarking compare/unordered-multiset-2000: Analyzing
+compare/unordered-multiset-2000
+                        time:   [984.28 µs 994.85 µs 1.0030 ms]
+                        change: [+0.3675% +1.7687% +3.6473%] (p = 0.03 < 0.05)
+                        Change within noise threshold.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking compare/absolute-tolerance-2000
+Benchmarking compare/absolute-tolerance-2000: Warming up for 100.00 ms
+Benchmarking compare/absolute-tolerance-2000: Collecting 20 samples in estimated 366.80 ms (420 iterations)
+Benchmarking compare/absolute-tolerance-2000: Analyzing
+compare/absolute-tolerance-2000
+                        time:   [687.61 µs 726.90 µs 787.50 µs]
+                        change: [−10.138% −4.4849% +5.7476%] (p = 0.21 > 0.05)
+                        No change in performance detected.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+
+Benchmarking merge/diff-settings-1000
+Benchmarking merge/diff-settings-1000: Warming up for 100.00 ms
+Benchmarking merge/diff-settings-1000: Collecting 20 samples in estimated 342.84 ms (1680 iterations)
+Benchmarking merge/diff-settings-1000: Analyzing
+merge/diff-settings-1000
+                        time:   [193.66 µs 198.26 µs 204.74 µs]
+                        change: [+5.9870% +11.342% +17.806%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking merge/apply-settings-1000
+Benchmarking merge/apply-settings-1000: Warming up for 100.00 ms
+Benchmarking merge/apply-settings-1000: Collecting 20 samples in estimated 315.95 ms (1890 iterations)
+Benchmarking merge/apply-settings-1000: Analyzing
+merge/apply-settings-1000
+                        time:   [161.26 µs 165.36 µs 170.07 µs]
+                        change: [+2.6842% +4.1473% +5.9856%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+Benchmarking owned/patch-preowned/keyed-2000
+Benchmarking owned/patch-preowned/keyed-2000: Warming up for 100.00 ms
+Benchmarking owned/patch-preowned/keyed-2000: Collecting 20 samples in estimated 341.48 ms (840 iterations)
+Benchmarking owned/patch-preowned/keyed-2000: Analyzing
+owned/patch-preowned/keyed-2000
+                        time:   [26.039 µs 32.767 µs 43.413 µs]
+                        change: [+2.0550% +17.571% +38.292%] (p = 0.04 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking owned/patch-preowned/halfswap-500
+Benchmarking owned/patch-preowned/halfswap-500: Warming up for 100.00 ms
+Benchmarking owned/patch-preowned/halfswap-500: Collecting 20 samples in estimated 315.54 ms (3150 iterations)
+Benchmarking owned/patch-preowned/halfswap-500: Analyzing
+owned/patch-preowned/halfswap-500
+                        time:   [79.997 µs 82.023 µs 84.828 µs]
+                        change: [+1.3996% +3.4788% +6.3346%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+
+Benchmarking risk/text/diff/unicode-first
+Benchmarking risk/text/diff/unicode-first: Warming up for 100.00 ms
+Benchmarking risk/text/diff/unicode-first: Collecting 20 samples in estimated 301.19 ms (37k iterations)
+Benchmarking risk/text/diff/unicode-first: Analyzing
+risk/text/diff/unicode-first
+                        time:   [7.9203 µs 8.0152 µs 8.1432 µs]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking risk/text/patch/unicode-first
+Benchmarking risk/text/patch/unicode-first: Warming up for 100.00 ms
+Benchmarking risk/text/patch/unicode-first: Collecting 20 samples in estimated 324.68 ms (840 iterations)
+Benchmarking risk/text/patch/unicode-first: Analyzing
+risk/text/patch/unicode-first
+                        time:   [381.21 µs 384.59 µs 390.49 µs]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking risk/text/diff/unicode-middle
+Benchmarking risk/text/diff/unicode-middle: Warming up for 100.00 ms
+Benchmarking risk/text/diff/unicode-middle: Collecting 20 samples in estimated 300.99 ms (18k iterations)
+Benchmarking risk/text/diff/unicode-middle: Analyzing
+risk/text/diff/unicode-middle
+                        time:   [16.705 µs 16.820 µs 17.009 µs]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking risk/text/patch/unicode-middle
+Benchmarking risk/text/patch/unicode-middle: Warming up for 100.00 ms
+Benchmarking risk/text/patch/unicode-middle: Collecting 20 samples in estimated 344.88 ms (840 iterations)
+Benchmarking risk/text/patch/unicode-middle: Analyzing
+risk/text/patch/unicode-middle
+                        time:   [385.10 µs 396.55 µs 406.76 µs]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking risk/text/diff/unicode-last
+Benchmarking risk/text/diff/unicode-last: Warming up for 100.00 ms
+Benchmarking risk/text/diff/unicode-last: Collecting 20 samples in estimated 302.35 ms (12k iterations)
+Benchmarking risk/text/diff/unicode-last: Analyzing
+risk/text/diff/unicode-last
+                        time:   [29.923 µs 34.760 µs 40.442 µs]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking risk/text/patch/unicode-last
+Benchmarking risk/text/patch/unicode-last: Warming up for 100.00 ms
+Benchmarking risk/text/patch/unicode-last: Collecting 20 samples in estimated 333.11 ms (840 iterations)
+Benchmarking risk/text/patch/unicode-last: Analyzing
+risk/text/patch/unicode-last
+                        time:   [379.84 µs 383.74 µs 388.05 µs]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking risk/text/diff/unicode-three-edits
+Benchmarking risk/text/diff/unicode-three-edits: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 351.0s, or reduce sample count to 10.
+Benchmarking risk/text/diff/unicode-three-edits: Collecting 20 samples in estimated 351.03 s (20 iterations)
+Benchmarking risk/text/diff/unicode-three-edits: Analyzing
+risk/text/diff/unicode-three-edits
+                        time:   [20.555 s 22.307 s 24.106 s]
+Benchmarking risk/text/patch/unicode-three-edits
+Benchmarking risk/text/patch/unicode-three-edits: Warming up for 100.00 ms
+Benchmarking risk/text/patch/unicode-three-edits: Collecting 20 samples in estimated 371.26 ms (840 iterations)
+Benchmarking risk/text/patch/unicode-three-edits: Analyzing
+risk/text/patch/unicode-three-edits
+                        time:   [449.63 µs 530.59 µs 634.46 µs]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking risk/text/diff/unicode-disjoint
+Benchmarking risk/text/diff/unicode-disjoint: Warming up for 100.00 ms
+Benchmarking risk/text/diff/unicode-disjoint: Collecting 20 samples in estimated 309.62 ms (80 iterations)
+Benchmarking risk/text/diff/unicode-disjoint: Analyzing
+risk/text/diff/unicode-disjoint
+                        time:   [4.0003 ms 4.3697 ms 4.7933 ms]
+Benchmarking risk/text/patch/unicode-disjoint
+Benchmarking risk/text/patch/unicode-disjoint: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 422.5ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/text/patch/unicode-disjoint: Collecting 20 samples in estimated 422.47 ms (210 iterations)
+Benchmarking risk/text/patch/unicode-disjoint: Analyzing
+risk/text/patch/unicode-disjoint
+                        time:   [2.1417 ms 2.2761 ms 2.4110 ms]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+
+Benchmarking risk/array/diff/duplicates-high-2000
+Benchmarking risk/array/diff/duplicates-high-2000: Warming up for 100.00 ms
+Benchmarking risk/array/diff/duplicates-high-2000: Collecting 20 samples in estimated 346.74 ms (100 iterations)
+Benchmarking risk/array/diff/duplicates-high-2000: Analyzing
+risk/array/diff/duplicates-high-2000
+                        time:   [2.3580 ms 2.5125 ms 2.6864 ms]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking risk/array/export-precomputed/duplicates-high-2000
+Benchmarking risk/array/export-precomputed/duplicates-high-2000: Warming up for 100.00 ms
+Benchmarking risk/array/export-precomputed/duplicates-high-2000: Collecting 20 samples in estimated 311.52 ms (2940 iterations)
+Benchmarking risk/array/export-precomputed/duplicates-high-2000: Analyzing
+risk/array/export-precomputed/duplicates-high-2000
+                        time:   [99.692 µs 131.16 µs 185.79 µs]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking risk/array/diff/duplicates-low-2000
+Benchmarking risk/array/diff/duplicates-low-2000: Warming up for 100.00 ms
+Benchmarking risk/array/diff/duplicates-low-2000: Collecting 20 samples in estimated 335.80 ms (420 iterations)
+Benchmarking risk/array/diff/duplicates-low-2000: Analyzing
+risk/array/diff/duplicates-low-2000
+                        time:   [609.47 µs 989.37 µs 1.4605 ms]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking risk/array/export-precomputed/duplicates-low-2000
+Benchmarking risk/array/export-precomputed/duplicates-low-2000: Warming up for 100.00 ms
+Benchmarking risk/array/export-precomputed/duplicates-low-2000: Collecting 20 samples in estimated 366.31 ms (1050 iterations)
+Benchmarking risk/array/export-precomputed/duplicates-low-2000: Analyzing
+risk/array/export-precomputed/duplicates-low-2000
+                        time:   [221.06 µs 348.12 µs 459.93 µs]
+Benchmarking risk/array/diff/ambiguous-ids-2000
+Benchmarking risk/array/diff/ambiguous-ids-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 469.3ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/array/diff/ambiguous-ids-2000: Collecting 20 samples in estimated 469.35 ms (210 iterations)
+Benchmarking risk/array/diff/ambiguous-ids-2000: Analyzing
+risk/array/diff/ambiguous-ids-2000
+                        time:   [2.0070 ms 2.2367 ms 2.4808 ms]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking risk/array/export-precomputed/ambiguous-ids-2000
+Benchmarking risk/array/export-precomputed/ambiguous-ids-2000: Warming up for 100.00 ms
+Benchmarking risk/array/export-precomputed/ambiguous-ids-2000: Collecting 20 samples in estimated 353.00 ms (80 iterations)
+Benchmarking risk/array/export-precomputed/ambiguous-ids-2000: Analyzing
+risk/array/export-precomputed/ambiguous-ids-2000
+                        time:   [2.4478 ms 2.7987 ms 3.2180 ms]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking risk/array/diff/shuffle-2000
+Benchmarking risk/array/diff/shuffle-2000: Warming up for 100.00 ms
+Benchmarking risk/array/diff/shuffle-2000: Collecting 20 samples in estimated 432.95 ms (420 iterations)
+Benchmarking risk/array/diff/shuffle-2000: Analyzing
+risk/array/diff/shuffle-2000
+                        time:   [958.55 µs 1.0062 ms 1.0823 ms]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking risk/array/export-precomputed/shuffle-2000
+Benchmarking risk/array/export-precomputed/shuffle-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 409.3ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/array/export-precomputed/shuffle-2000: Collecting 20 samples in estimated 409.25 ms (210 iterations)
+Benchmarking risk/array/export-precomputed/shuffle-2000: Analyzing
+risk/array/export-precomputed/shuffle-2000
+                        time:   [1.6836 ms 1.7714 ms 1.8754 ms]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking risk/array/diff/reverse-2000
+Benchmarking risk/array/diff/reverse-2000: Warming up for 100.00 ms
+Benchmarking risk/array/diff/reverse-2000: Collecting 20 samples in estimated 485.01 ms (420 iterations)
+Benchmarking risk/array/diff/reverse-2000: Analyzing
+risk/array/diff/reverse-2000
+                        time:   [888.71 µs 915.04 µs 952.99 µs]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking risk/array/export-precomputed/reverse-2000
+Benchmarking risk/array/export-precomputed/reverse-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 337.2ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/array/export-precomputed/reverse-2000: Collecting 20 samples in estimated 337.19 ms (210 iterations)
+Benchmarking risk/array/export-precomputed/reverse-2000: Analyzing
+risk/array/export-precomputed/reverse-2000
+                        time:   [1.5871 ms 1.6938 ms 1.8497 ms]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+Benchmarking risk/filter/diff-whole-subtree-20000
+Benchmarking risk/filter/diff-whole-subtree-20000: Warming up for 100.00 ms
+Benchmarking risk/filter/diff-whole-subtree-20000: Collecting 20 samples in estimated 366.57 ms (630 iterations)
+Benchmarking risk/filter/diff-whole-subtree-20000: Analyzing
+risk/filter/diff-whole-subtree-20000
+                        time:   [539.72 µs 617.62 µs 690.50 µs]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking risk/filter/compare-whole-subtree-20000
+Benchmarking risk/filter/compare-whole-subtree-20000: Warming up for 100.00 ms
+Benchmarking risk/filter/compare-whole-subtree-20000: Collecting 20 samples in estimated 364.68 ms (840 iterations)
+Benchmarking risk/filter/compare-whole-subtree-20000: Analyzing
+risk/filter/compare-whole-subtree-20000
+                        time:   [453.00 µs 469.85 µs 496.02 µs]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+
+Benchmarking risk/decimal/beyond-f64-2000
+Benchmarking risk/decimal/beyond-f64-2000: Warming up for 100.00 ms
+Benchmarking risk/decimal/beyond-f64-2000: Collecting 20 samples in estimated 380.54 ms (420 iterations)
+Benchmarking risk/decimal/beyond-f64-2000: Analyzing
+risk/decimal/beyond-f64-2000
+                        time:   [1.0045 ms 1.1825 ms 1.3973 ms]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking risk/decimal/huge-positive-exponent
+Benchmarking risk/decimal/huge-positive-exponent: Warming up for 100.00 ms
+Benchmarking risk/decimal/huge-positive-exponent: Collecting 20 samples in estimated 300.05 ms (577k iterations)
+Benchmarking risk/decimal/huge-positive-exponent: Analyzing
+risk/decimal/huge-positive-exponent
+                        time:   [477.81 ns 526.23 ns 582.68 ns]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking risk/decimal/huge-negative-exponent
+Benchmarking risk/decimal/huge-negative-exponent: Warming up for 100.00 ms
+Benchmarking risk/decimal/huge-negative-exponent: Collecting 20 samples in estimated 300.00 ms (495k iterations)
+Benchmarking risk/decimal/huge-negative-exponent: Analyzing
+risk/decimal/huge-negative-exponent
+                        time:   [566.36 ns 803.50 ns 1.0952 µs]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+
+Benchmarking risk/standard-apply/ours/replace-2000
+Benchmarking risk/standard-apply/ours/replace-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 588.3ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/standard-apply/ours/replace-2000: Collecting 20 samples in estimated 588.30 ms (210 iterations)
+Benchmarking risk/standard-apply/ours/replace-2000: Analyzing
+risk/standard-apply/ours/replace-2000
+                        time:   [1.3224 ms 1.4840 ms 1.6636 ms]
+Found 4 outliers among 20 measurements (20.00%)
+  2 (10.00%) high mild
+  2 (10.00%) high severe
+Benchmarking risk/standard-apply/typed-json-patch/replace-2000
+Benchmarking risk/standard-apply/typed-json-patch/replace-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 340.8ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/standard-apply/typed-json-patch/replace-2000: Collecting 20 samples in estimated 340.75 ms (210 iterations)
+Benchmarking risk/standard-apply/typed-json-patch/replace-2000: Analyzing
+risk/standard-apply/typed-json-patch/replace-2000
+                        time:   [1.6359 ms 1.9952 ms 2.4349 ms]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking risk/standard-apply/ours/guarded-4000
+Benchmarking risk/standard-apply/ours/guarded-4000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 503.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/standard-apply/ours/guarded-4000: Collecting 20 samples in estimated 503.14 ms (210 iterations)
+Benchmarking risk/standard-apply/ours/guarded-4000: Analyzing
+risk/standard-apply/ours/guarded-4000
+                        time:   [2.2130 ms 2.6491 ms 3.2913 ms]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking risk/standard-apply/typed-json-patch/guarded-4000
+Benchmarking risk/standard-apply/typed-json-patch/guarded-4000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 473.6ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/standard-apply/typed-json-patch/guarded-4000: Collecting 20 samples in estimated 473.63 ms (210 iterations)
+Benchmarking risk/standard-apply/typed-json-patch/guarded-4000: Analyzing
+risk/standard-apply/typed-json-patch/guarded-4000
+                        time:   [2.2569 ms 2.4646 ms 2.7634 ms]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking risk/standard-apply/ours/inverse-2000
+Benchmarking risk/standard-apply/ours/inverse-2000: Warming up for 100.00 ms
+Benchmarking risk/standard-apply/ours/inverse-2000: Collecting 20 samples in estimated 310.21 ms (100 iterations)
+Benchmarking risk/standard-apply/ours/inverse-2000: Analyzing
+risk/standard-apply/ours/inverse-2000
+                        time:   [1.3085 ms 1.6322 ms 2.0561 ms]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+Benchmarking risk/standard-apply/typed-json-patch/inverse-2000
+Benchmarking risk/standard-apply/typed-json-patch/inverse-2000: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 300.0ms. You may wish to increase target time to 590.4ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking risk/standard-apply/typed-json-patch/inverse-2000: Collecting 20 samples in estimated 590.41 ms (210 iterations)
+Benchmarking risk/standard-apply/typed-json-patch/inverse-2000: Analyzing
+risk/standard-apply/typed-json-patch/inverse-2000
+                        time:   [1.5413 ms 2.1033 ms 2.9444 ms]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking risk/standard-apply/invert-2000
+Benchmarking risk/standard-apply/invert-2000: Warming up for 100.00 ms
+Benchmarking risk/standard-apply/invert-2000: Collecting 20 samples in estimated 366.80 ms (100 iterations)
+Benchmarking risk/standard-apply/invert-2000: Analyzing
+risk/standard-apply/invert-2000
+                        time:   [2.9949 ms 3.3267 ms 3.6775 ms]
+

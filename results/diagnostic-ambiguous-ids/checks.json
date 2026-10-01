@@ -1,0 +1,110 @@
+{
+  "cargo fmt --check": {
+    "exit_code": 0,
+    "seconds": 0.14767091698013246,
+    "log": "results/fmt-run.log"
+  },
+  "cargo test --locked": {
+    "exit_code": 0,
+    "seconds": 26.913223707990255,
+    "log": "results/debug-test-run.log",
+    "test_summaries": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.50s",
+      "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+      "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+      "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.10s",
+      "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+      "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.25s",
+      "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s",
+      "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.46s",
+      "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.73s",
+      "test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s",
+      "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s",
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+    ]
+  },
+  "cargo test --release --locked": {
+    "exit_code": 0,
+    "seconds": 46.10652804101119,
+    "log": "results/release-test-run.log",
+    "test_summaries": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s",
+      "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.57s",
+      "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+      "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+      "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.77s",
+      "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s",
+      "test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+      "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+    ]
+  },
+  "cargo clippy --all-targets --locked -- -D warnings": {
+    "exit_code": 0,
+    "seconds": 1.0328361249994487,
+    "log": "results/clippy-run.log"
+  },
+  "cargo +1.85.0 check --lib --locked": {
+    "exit_code": 0,
+    "seconds": 0.7831251660245471,
+    "log": "results/msrv-run.log"
+  },
+  "cargo build --release --example fixture_runner --example standard_bench --locked": {
+    "exit_code": 0,
+    "seconds": 0.10741062503075227,
+    "log": "results/example-build-run.log"
+  },
+  "rustfmt --edition 2024 --check fuzz/fuzz_targets/core.rs": {
+    "exit_code": 0,
+    "seconds": 0.026697374996729195,
+    "log": "results/fuzz-fmt-run.log"
+  },
+  "node tools/interop.mjs": {
+    "exit_code": 0,
+    "seconds": 1.4292250840226188,
+    "log": "results/interop-run.log"
+  },
+  "cargo bench --bench core --locked -- --noplot": {
+    "exit_code": 0,
+    "seconds": 56.0609882909921,
+    "log": "results/criterion-run.log"
+  },
+  "python3 tools/benchmark.py": {
+    "exit_code": 0,
+    "seconds": 35.26565420796396,
+    "log": "results/native-comparison-run.log"
+  },
+  "python3 tools/standard-benchmark.py --task pipeline": {
+    "exit_code": 0,
+    "seconds": 211.88725862500723,
+    "log": "results/standard-pipeline-run.log",
+    "directory": "results/standard-benchmark-pipeline-20260930T210634.482409Z"
+  },
+  "python3 tools/standard-benchmark.py --task export": {
+    "exit_code": 0,
+    "seconds": 22.784534749982413,
+    "log": "results/standard-export-run.log",
+    "directory": "results/standard-benchmark-export-20260930T211006.376020Z"
+  },
+  "python3 tools/standard-benchmark.py --task apply": {
+    "exit_code": 0,
+    "seconds": 10.209705791028682,
+    "log": "results/standard-apply-run.log",
+    "directory": "results/standard-benchmark-apply-20260930T211029.162033Z"
+  },
+  "python3 tools/standard-benchmark.py --task inverse": {
+    "exit_code": 0,
+    "seconds": 3.1498787499731407,
+    "log": "results/standard-inverse-run.log",
+    "directory": "results/standard-benchmark-inverse-20260930T211039.373552Z"
+  }
+}

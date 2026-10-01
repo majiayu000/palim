@@ -1,0 +1,476 @@
+{
+  "recorded_utc": "2026-09-30T21:45:36.446867+00:00",
+  "comparison_baseline": "results/baseline-before-optimization-round-2",
+  "criterion_before_after": {
+    "core/patch/rotate-2000": {
+      "before_ms": 0.053480095233947235,
+      "after_ms": 0.05704889848083624,
+      "speedup": 0.937443082304423
+    },
+    "core/diff/keyed-20000": {
+      "before_ms": 6.849011116666669,
+      "after_ms": 6.246189616666667,
+      "speedup": 1.0965102785851228
+    },
+    "core/reverse/keyed-20000": {
+      "before_ms": 0.0012452771314615055,
+      "after_ms": 0.0012614189598028384,
+      "speedup": 0.9872034360860915
+    },
+    "merge/diff-settings-1000": {
+      "before_ms": 0.18531861763937282,
+      "after_ms": 0.18736473087979094,
+      "speedup": 0.9890795176295433
+    },
+    "core/reverse/rotate-20000": {
+      "before_ms": 0.0005122828413440047,
+      "after_ms": 0.000547893831523503,
+      "speedup": 0.9350038490477682
+    },
+    "core/diff/keyed-2000": {
+      "before_ms": 0.5002974141695703,
+      "after_ms": 0.5132378211382114,
+      "speedup": 0.97478672374545
+    },
+    "core/reverse/rotate-2000": {
+      "before_ms": 0.0005514951192923992,
+      "after_ms": 0.0005275018063583815,
+      "speedup": 1.0454847976723645
+    },
+    "core/patch/keyed-2000": {
+      "before_ms": 0.37405976027874566,
+      "after_ms": 0.5061873529616725,
+      "speedup": 0.7389749231981873
+    },
+    "core/reverse/keyed-2000": {
+      "before_ms": 0.0012725293959483211,
+      "after_ms": 0.0012871967627071307,
+      "speedup": 0.9886051867253283
+    },
+    "standard/plain/keyed-2000": {
+      "before_ms": 1.302086558188153,
+      "after_ms": 0.5111248663182346,
+      "speedup": 2.5474920982957086
+    },
+    "core/reverse/halfswap-500": {
+      "before_ms": 0.119996476467435,
+      "after_ms": 0.1170405967032967,
+      "speedup": 1.0252551665609806
+    },
+    "core/diff/text": {
+      "before_ms": 0.18611108850174216,
+      "after_ms": 0.005090846315937257,
+      "speedup": 36.55798603055609
+    },
+    "core/patch/disjoint-2000": {
+      "before_ms": 1.0028078703832752,
+      "after_ms": 1.065641300174216,
+      "speedup": 0.9410369795346065
+    },
+    "standard/optimized/rotate-2000": {
+      "before_ms": 0.6488021101045297,
+      "after_ms": 0.3294275785365854,
+      "speedup": 1.9694832866959722
+    },
+    "standard/plain/small": {
+      "before_ms": 0.0029967434152247093,
+      "after_ms": 0.0011633020662502088,
+      "speedup": 2.576066442385356
+    },
+    "standard/export-precomputed/small": {
+      "before_ms": 0.0013570124010439614,
+      "after_ms": 0.000896207510646535,
+      "speedup": 1.5141720917569594
+    },
+    "core/diff/identical-2000": {
+      "before_ms": 0.015724860029865607,
+      "after_ms": 0.014349870885317148,
+      "speedup": 1.0958189209880176
+    },
+    "compare/absolute-tolerance-2000": {
+      "before_ms": 0.7661785613240418,
+      "after_ms": 0.6614064448315912,
+      "speedup": 1.1584080670987837
+    },
+    "standard/export-precomputed/keyed-2000": {
+      "before_ms": 0.4069798294425087,
+      "after_ms": 0.3910332518292683,
+      "speedup": 1.0407806178595853
+    },
+    "core/patch/prepend-20000": {
+      "before_ms": 0.533904012659698,
+      "after_ms": 0.5337190523809524,
+      "speedup": 1.0003465498897228
+    },
+    "standard/plain/rotate-2000": {
+      "before_ms": 0.46025306933797905,
+      "after_ms": 0.32240835783972127,
+      "speedup": 1.4275469544954678
+    },
+    "core/diff/reverse-20000": {
+      "before_ms": 9.5201458,
+      "after_ms": 10.932562475,
+      "speedup": 0.8708064391829602
+    },
+    "core/diff/disjoint-2000": {
+      "before_ms": 1.3516234078397213,
+      "after_ms": 1.3748019945993033,
+      "speedup": 0.9831404181470238
+    },
+    "core/patch/reverse-2000": {
+      "before_ms": 0.761910399477352,
+      "after_ms": 0.755481937456446,
+      "speedup": 1.0085090876461578
+    },
+    "core/diff/prepend-2000": {
+      "before_ms": 0.3182731528222996,
+      "after_ms": 0.35410274616724735,
+      "speedup": 0.898815827516839
+    },
+    "core/patch/prepend-2000": {
+      "before_ms": 0.056254594360562654,
+      "after_ms": 0.06592992894889663,
+      "speedup": 0.853248217576065
+    },
+    "core/reverse/reverse-2000": {
+      "before_ms": 1.0146548264808362,
+      "after_ms": 0.9855584397212545,
+      "speedup": 1.0295227412063064
+    },
+    "core/diff/identical-20000": {
+      "before_ms": 0.16269494022454511,
+      "after_ms": 0.1494229512543554,
+      "speedup": 1.0888216225069565
+    },
+    "core/patch/rotate-20000": {
+      "before_ms": 0.5162935583042974,
+      "after_ms": 0.5434257836236934,
+      "speedup": 0.950071884446719
+    },
+    "merge/apply-settings-1000": {
+      "before_ms": 0.1562737706968641,
+      "after_ms": 0.15697430146341462,
+      "speedup": 0.9955372901167916
+    },
+    "standard/optimized/small": {
+      "before_ms": 0.00589932495088972,
+      "after_ms": 0.0025262274263179486,
+      "speedup": 2.335231139299347
+    },
+    "core/diff/disjoint-20000": {
+      "before_ms": 13.934516725,
+      "after_ms": 15.3277562,
+      "speedup": 0.9091034945480149
+    },
+    "core/patch/text": {
+      "before_ms": 0.20628731546167248,
+      "after_ms": 0.20780502215032357,
+      "speedup": 0.9926964869619311
+    },
+    "compare/unordered-multiset-2000": {
+      "before_ms": 0.9829206064459931,
+      "after_ms": 0.9525734364111498,
+      "speedup": 1.0318580897543996
+    },
+    "core/reverse/prepend-2000": {
+      "before_ms": 0.0004943653650008529,
+      "after_ms": 0.0004886969247534049,
+      "speedup": 1.0115990912983712
+    },
+    "standard/plain/disjoint-2000": {
+      "before_ms": 5.574374283333333,
+      "after_ms": 2.4102917299651567,
+      "speedup": 2.312738418354826
+    },
+    "core/reverse/prepend-20000": {
+      "before_ms": 0.00046642139778869105,
+      "after_ms": 0.0005086199480353571,
+      "speedup": 0.9170332378632294
+    },
+    "core/diff/rotate-20000": {
+      "before_ms": 3.2914924900000004,
+      "after_ms": 3.603316659999999,
+      "speedup": 0.9134619020688571
+    },
+    "standard/optimized/keyed-2000": {
+      "before_ms": 3.4754720799999994,
+      "after_ms": 1.6429091965156795,
+      "speedup": 2.1154377170514733
+    },
+    "standard/export-precomputed/rotate-2000": {
+      "before_ms": 0.08683999141217462,
+      "after_ms": 0.0664664793633196,
+      "speedup": 1.3065231112586715
+    },
+    "owned/patch-preowned/keyed-2000": {
+      "before_ms": 0.026474997038327525,
+      "after_ms": 0.02536365078397213,
+      "speedup": 1.0438164940773307
+    },
+    "core/diff/rotate-2000": {
+      "before_ms": 0.3245422643902439,
+      "after_ms": 0.3255021082229965,
+      "speedup": 0.997051190119804
+    },
+    "core/diff/reverse-2000": {
+      "before_ms": 0.9134371036585366,
+      "after_ms": 1.0264386860627177,
+      "speedup": 0.8899090769487263
+    },
+    "core/reverse/disjoint-2000": {
+      "before_ms": 1.9848969749128922,
+      "after_ms": 2.007849425783972,
+      "speedup": 0.9885686393728863
+    },
+    "standard/export-precomputed/disjoint-2000": {
+      "before_ms": 3.1852083400000004,
+      "after_ms": 2.0191070672473868,
+      "speedup": 1.5775331539710467
+    },
+    "core/reverse/reverse-20000": {
+      "before_ms": 10.069896875,
+      "after_ms": 10.709815599999999,
+      "speedup": 0.9402493237138463
+    },
+    "core/reverse/small": {
+      "before_ms": 0.0006641054877254723,
+      "after_ms": 0.0007864252240813041,
+      "speedup": 0.8444610719363373
+    },
+    "core/patch/keyed-20000": {
+      "before_ms": 4.145048975,
+      "after_ms": 5.8479833375000005,
+      "speedup": 0.708799723901402
+    },
+    "core/patch/halfswap-500": {
+      "before_ms": 0.08910609417913506,
+      "after_ms": 0.08825654316458291,
+      "speedup": 1.009625926691553
+    },
+    "standard/optimized/disjoint-2000": {
+      "before_ms": 14.067997925,
+      "after_ms": 4.6556474125,
+      "speedup": 3.0217060439819123
+    },
+    "core/reverse/text": {
+      "before_ms": 0.001007201668374667,
+      "after_ms": 0.001020130611317173,
+      "speedup": 0.9873261886281282
+    },
+    "core/diff/prepend-20000": {
+      "before_ms": 3.3441987400000004,
+      "after_ms": 3.38919,
+      "speedup": 0.986725070001977
+    },
+    "core/patch/disjoint-20000": {
+      "before_ms": 10.0214667,
+      "after_ms": 10.94349165,
+      "speedup": 0.9157467306149952
+    },
+    "core/reverse/disjoint-20000": {
+      "before_ms": 20.42503735,
+      "after_ms": 20.5727354,
+      "speedup": 0.9928206897562101
+    },
+    "core/diff/small": {
+      "before_ms": 0.0009451810792821593,
+      "after_ms": 0.000980212197670324,
+      "speedup": 0.9642616991796028
+    },
+    "core/patch/small": {
+      "before_ms": 0.0006950450388428485,
+      "after_ms": 0.0007030608635957987,
+      "speedup": 0.9885986759212376
+    },
+    "standard/optimized/halfswap-500": {
+      "before_ms": 0.6794886137049942,
+      "after_ms": 0.3400718643902439,
+      "speedup": 1.9980735981300064
+    },
+    "core/diff/halfswap-500": {
+      "before_ms": 0.14397100327526133,
+      "after_ms": 0.14458879059233448,
+      "speedup": 0.9957272806934598
+    },
+    "standard/plain/halfswap-500": {
+      "before_ms": 0.5863600355400697,
+      "after_ms": 0.24019125278745643,
+      "speedup": 2.441221438063507
+    },
+    "standard/export-precomputed/halfswap-500": {
+      "before_ms": 0.34459238209059234,
+      "after_ms": 0.18395779050522648,
+      "speedup": 1.8732143995869641
+    },
+    "core/patch/reverse-20000": {
+      "before_ms": 7.96083435,
+      "after_ms": 8.541385349999999,
+      "speedup": 0.9320308151182994
+    },
+    "owned/patch-preowned/halfswap-500": {
+      "before_ms": 0.07787331430621029,
+      "after_ms": 0.079438693815331,
+      "speedup": 0.9802944958692333
+    }
+  },
+  "standard_pipeline_before_after": {
+    "small-config-edit/json-patch": {
+      "before_ms": 0.010664311767578125,
+      "after_ms": 0.01039418017578125,
+      "speedup": 1.0259887347754746
+    },
+    "small-config-edit/plain": {
+      "before_ms": 0.02021703076171875,
+      "after_ms": 0.015117563720703124,
+      "speedup": 1.337320691033836
+    },
+    "small-config-edit/optimized": {
+      "before_ms": 0.04019486474609375,
+      "after_ms": 0.023772155761718747,
+      "speedup": 1.69083801860415
+    },
+    "rotate-2000/plain": {
+      "before_ms": 0.6221331328125,
+      "after_ms": 0.47467122656250005,
+      "speedup": 1.3106611439625226
+    },
+    "rotate-2000/optimized": {
+      "before_ms": 0.7480690000000001,
+      "after_ms": 0.492056640625,
+      "speedup": 1.5202904264228985
+    },
+    "rotate-2000/json-patch": {
+      "before_ms": 0.49296386718749996,
+      "after_ms": 0.476331703125,
+      "speedup": 1.0349171889113904
+    },
+    "disjoint-2000/optimized": {
+      "before_ms": 14.078427,
+      "after_ms": 4.5399688125,
+      "speedup": 3.1009964124065226
+    },
+    "disjoint-2000/json-patch": {
+      "before_ms": 0.4773714140625,
+      "after_ms": 0.4807662734375,
+      "speedup": 0.9929386490638651
+    },
+    "disjoint-2000/plain": {
+      "before_ms": 5.7197760625,
+      "after_ms": 2.5995820312499998,
+      "speedup": 2.2002675790729582
+    },
+    "keyed-rotate-edit-2000/json-patch": {
+      "before_ms": 3.589921875,
+      "after_ms": 3.519091125,
+      "speedup": 1.0201275691603466
+    },
+    "keyed-rotate-edit-2000/plain": {
+      "before_ms": 4.1754400625,
+      "after_ms": 2.6479283750000002,
+      "speedup": 1.5768704704861964
+    },
+    "keyed-rotate-edit-2000/optimized": {
+      "before_ms": 10.87916675,
+      "after_ms": 4.4856068125,
+      "speedup": 2.4253500595912962
+    },
+    "long-text-ascii/plain": {
+      "before_ms": 1.1729798125,
+      "after_ms": 0.25778385546875004,
+      "speedup": 4.550245438633355
+    },
+    "long-text-ascii/optimized": {
+      "before_ms": 1.4303320468749998,
+      "after_ms": 0.5482001953125,
+      "speedup": 2.609141804591374
+    },
+    "long-text-ascii/json-patch": {
+      "before_ms": 0.254876625,
+      "after_ms": 0.24904606250000003,
+      "speedup": 1.0234115827468664
+    },
+    "halfswap-500/optimized": {
+      "before_ms": 0.7308772734375,
+      "after_ms": 0.36740836718750003,
+      "speedup": 1.989277704893722
+    },
+    "halfswap-500/json-patch": {
+      "before_ms": 0.11975732421875002,
+      "after_ms": 0.118129068359375,
+      "speedup": 1.0137837018609297
+    },
+    "halfswap-500/plain": {
+      "before_ms": 0.6499593125,
+      "after_ms": 0.28973128515625,
+      "speedup": 2.243317673303667
+    }
+  },
+  "unchanged_historical_input_pair_sha256": {
+    "keyed-rotate-edit-2000": "f8cb88e58cfd2fb9d27b37f3d3c72c2b0f7cabfbc4398a143f3c17188430b5e1",
+    "small-config-edit": "78fbf7ea0d9a6f5a9f3889faba880714928c90d6a8092f7c7eb3ccbbe88e6e04",
+    "halfswap-500": "9e753a2c12aa214391c7b62551ce16a59e0937dd12d241268d059ada0ca7d553",
+    "rotate-2000": "29720eb8dc78539562b71cf6d6d3326910db8c4cc87bb1272ee8f2064d1e196c",
+    "long-text-ascii": "3330483c6495cffdeec59685857bdcec648e5c58212f48e1056eb30ab0a83723",
+    "disjoint-2000": "abbcc51baa509e9d43613f4302b557e3f3fc7b7c49a46e5fe0e1c8e3e04301ce"
+  },
+  "native_comparable_pairs": 16,
+  "native_pipeline_wins": 10,
+  "standard_tasks": {
+    "pipeline": {
+      "exit_code": 0,
+      "seconds": 67.39571058301954,
+      "log": "results/standard-pipeline-run.log",
+      "directory": "results/standard-benchmark-pipeline-20260930T214341.446185Z"
+    },
+    "export": {
+      "exit_code": 0,
+      "seconds": 22.2947388329776,
+      "log": "results/standard-export-run.log",
+      "directory": "results/standard-benchmark-export-20260930T214448.844863Z"
+    },
+    "apply": {
+      "exit_code": 0,
+      "seconds": 9.958714083011728,
+      "log": "results/standard-apply-run.log",
+      "directory": "results/standard-benchmark-apply-20260930T214511.142280Z"
+    },
+    "inverse": {
+      "exit_code": 0,
+      "seconds": 3.185771999997087,
+      "log": "results/standard-inverse-run.log",
+      "directory": "results/standard-benchmark-inverse-20260930T214521.102315Z"
+    }
+  },
+  "standard_counts": {
+    "pipeline": {
+      "measured": 144,
+      "verified": 144,
+      "budget_skips": 0
+    },
+    "export": {
+      "measured": 48,
+      "verified": 50,
+      "budget_skips": 0
+    },
+    "apply": {
+      "measured": 18,
+      "verified": 18,
+      "budget_skips": 0
+    },
+    "inverse": {
+      "measured": 6,
+      "verified": 6,
+      "budget_skips": 0
+    }
+  },
+  "new_stress_fixes": {
+    "unicode_three_edits": {
+      "before_ms": 22306.9985459,
+      "after_ms": 1.6239405578397212
+    },
+    "ambiguous_ids_optimized_pipeline": {
+      "before_ms": 1456.1754165000002,
+      "after_ms": 24.37534375
+    }
+  }
+}

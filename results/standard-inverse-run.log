@@ -1,0 +1,7 @@
+batch-replace-2000 plain: verified; ops=2000 bytes=125781
+batch-guarded-4000 plain: verified; ops=2000 bytes=125781
+batch-replace-2000 plain: verified; ops=2000 bytes=125781
+batch-guarded-4000 plain: verified; ops=2000 bytes=125781
+batch-replace-2000 plain: verified; ops=2000 bytes=125781
+batch-guarded-4000 plain: verified; ops=2000 bytes=125781
+{"verified": 6, "measured": 6, "budget_skipped": 0, "unsupported": 0, "dry_run": false, "output": "/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/results/standard-benchmark-inverse-20260930T214521.102315Z"}

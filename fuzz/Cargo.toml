@@ -1,0 +1,24 @@
+[package]
+name = "palim-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+arbitrary = "1.4"
+serde_json = { version = "1.0", features = ["float_roundtrip", "arbitrary_precision"] }
+palim = { path = ".." }
+
+[[bin]]
+name = "core"
+path = "fuzz_targets/core.rs"
+test = false
+doc = false
+bench = false
+
+[workspace]
+members = ["."]

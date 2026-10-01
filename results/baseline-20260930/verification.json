@@ -1,0 +1,55 @@
+{
+  "recorded_at": "2026-09-30T18:03:43.256671+08:00",
+  "checks": {
+    "cargo test --release --locked": {
+      "exit_code": 0,
+      "integration_tests": 15,
+      "doctests": 1,
+      "property_cases": 8192,
+      "saved_document_pairs": 373,
+      "active_rfc_cases": 92
+    },
+    "cargo clippy --all-targets --locked -- -D warnings": {
+      "exit_code": 0
+    },
+    "cargo fmt --check": {
+      "exit_code": 0
+    },
+    "cargo +1.85.0 check --lib --locked": {
+      "exit_code": 0
+    },
+    "node tools/interop.mjs": {
+      "exit_code": 0,
+      "cases": 1073,
+      "required_failures": 0
+    },
+    "cargo bench --bench core --locked -- --noplot": {
+      "exit_code": 0,
+      "measurements": 38,
+      "text_measurements_repeated_after_prefix_optimization": 3
+    },
+    "python3 tools/benchmark.py": {
+      "exit_code": 0,
+      "measured": 36,
+      "budget_skipped": 4
+    },
+    "cargo package --allow-dirty --locked": {
+      "exit_code": 0,
+      "files": 27,
+      "verified_extracted_package": true
+    }
+  },
+  "source_sha256_at_delivery": {
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "fc734c7362a87c0d025fb50da2fe4a5a5592d7a570a9eda8a286eda2b6c72928",
+    "src/export.rs": "efd78b9d97e5e3bec0645a1056ac8c2a9ba8845407b272af11e6fd27499ecd62",
+    "src/lib.rs": "21aa164999617b05c97c620081c34f9b4621db7ecc1c7e2a034b95ab9c976f41",
+    "src/patch.rs": "15c87c4ab9d54b44961fbb8268c1bf908dbc1b7a8d0e3fe8e2017c9a635343fc",
+    "src/text.rs": "315820edc4db2d04d49cdd1853fed2c1fa3c81a4ae8abd26072d7a84b4694d62"
+  },
+  "package_sha256": "759c7652bb663ae98450038e4e7a02436977527e3c07b22de2dd4964a2000b77",
+  "execution_anomalies": [
+    "One JS verification child process exceeded its 60-second timeout. The same complete corpus subsequently finished in a direct Rust replay and in the Node script with zero required failures; cause unconfirmed.",
+    "Final Rust verification had intermittent executable startup delays at near-zero CPU, then all suites completed successfully. No system settings were changed."
+  ]
+}

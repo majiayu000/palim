@@ -1,0 +1,221 @@
+   Compiling jsondiffpatch-rs v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs)
+    Finished `release` profile [optimized] target(s) in 8.58s
+     Running unittests src/lib.rs (target/release/deps/jsondiffpatch_rs-bb40e7fe4d7e1477)
+
+running 1 test
+test numbers::tests::equal_decimal_values_have_equal_hashes ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/application.rs (target/release/deps/application-f608bf8f6a52f603)
+
+running 7 tests
+test standard_depth_limits_validate_the_baseline_and_intermediate_results ... ok
+test standard_resource_error_priority_remains_stable ... ok
+test copy_budget_counts_cumulative_serialized_source_bytes_before_copying ... ok
+test standard_insertions_reject_combined_depth_at_the_failing_operation ... ok
+test standard_path_errors_precede_combined_depth_errors ... ok
+test owned_and_atomic_in_place_application_restore_documents ... ok
+test fuzzy_application_reaches_nested_strings_and_keeps_other_edits_strict ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/array_quality.rs (target/release/deps/array_quality-0c8c4ac9bb61da56)
+
+running 17 tests
+test subtree_filters_allow_atomic_container_to_scalar_replacement ... ok
+test standard_export_does_not_repeat_a_native_move ... ok
+test projected_array_items_are_filtered_once_and_nested_fields_still_filter ... ok
+test custom_array_matching_handles_changed_primitives_before_value_matching ... ok
+test node_filter_projects_original_positions_and_object_additions_and_deletions ... ok
+test custom_array_matching_resolves_ambiguous_pairs_without_remove_add ... ok
+test subtree_filters_keep_original_paths_after_array_compaction ... ok
+test subtree_filters_do_not_turn_excluded_missing_values_into_null ... ok
+test subtree_filters_project_additions_type_changes_and_partial_deletions ... ok
+test unique_identity_moves_preserve_nested_edits_and_baseline_checks ... ok
+test large_dense_repetition_and_duplicate_identities_round_trip ... ok
+test half_rotation_of_500_items_needs_250_moves ... ok
+test small_repeated_sequences_use_the_minimum_stable_subsequence ... ok
+test arbitrary_custom_matching_round_trips ... ok
+test unique_permutations_use_the_minimum_native_and_standard_moves ... ok
+test arbitrary_position_filters_match_the_explicit_projection ... ok
+test mixed_add_remove_reorder_and_nested_changes ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+
+     Running tests/compare.rs (target/release/deps/compare-e7500f6cbaf62f87)
+
+running 17 tests
+test budgets_and_invalid_options_return_errors_instead_of_partial_reports ... ok
+test custom_comparison_has_a_fallback_and_can_override_equality ... ok
+test identities_report_moves_and_nested_changes_without_counting_missing_as_null ... ok
+test numeric_work_budget_precedes_exact_and_unordered_canonicalization ... ok
+test exact_json_report_and_mathematical_numbers ... ok
+test empty_equal_documents_and_report_serialization ... ok
+test filters_include_root_array_and_missing_nodes ... ok
+test arbitrary_precision_number_matching_and_exact_decimal_tolerance ... ok
+test custom_matcher_and_duplicate_identities_are_deterministic ... ok
+test excluded_identity_items_do_not_report_moves_and_budget_counts_matching_edges ... ok
+test nested_unordered_containers_and_keyed_changes ... ok
+test tolerance_uses_absolute_relative_and_exact_large_integer_distance ... ok
+test unordered_matching_finds_maximum_pairs_instead_of_greedy_pairs ... ok
+test unordered_arrays_are_multisets_selected_by_path ... ok
+test structural_fingerprints_reduce_candidates_and_still_check_nested_order ... ok
+test tolerance_pairing_agrees_with_exhaustive_matching ... ok
+test unordered_primitive_permutation_preserves_repeated_counts ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/core.rs (target/release/deps/core-c17279c59d791879)
+
+running 9 tests
+test invalid_array_and_text_patches ... ok
+test filters_and_depth_limits ... ok
+test bad_baseline_is_an_error_and_input_is_unchanged ... ok
+test unicode_long_text_and_multi_hunks ... ok
+test structural_round_trips ... ok
+test identity_moves_and_multiple_instances ... ok
+test standard_patch_atomicity_error_path_and_intermediate_depth ... ok
+test compact_moves_in_both_directions ... ok
+test near_depth_limit_deltas_round_trip_or_return_depth_error ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/export_scaling.rs (target/release/deps/export_scaling-7795f86db36a7ef5)
+
+running 4 tests
+test typed_payloads_text_and_baseline_validation ... ok
+test exhaustive_small_permutations_and_explicit_all_item_moves ... ok
+test duplicate_ids_add_remove_and_nested_edits ... ok
+test large_half_swaps_and_reversals_keep_one_operation_per_move ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.56s
+
+     Running tests/fixtures.rs (target/release/deps/fixtures-c2e6b90c2063ccc2)
+
+running 2 tests
+test rfc_6902_public_success_and_error_cases ... ok
+test saved_373_document_pairs ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/merge.rs (target/release/deps/merge-217ac43e259a400c)
+
+running 8 tests
+test composition_rejects_loss_of_unknown_baseline_fields ... ok
+test composition_preserves_deletion_instructions_and_nested_updates ... ok
+test replacement_and_empty_object_semantics ... ok
+test null_assignment_is_rejected_only_when_unrepresentable ... ok
+test rfc7396_appendix_a_application_and_diff ... ok
+test depth_errors_are_atomic ... ok
+test generated_patch_round_trips_every_representable_target ... ok
+test accepted_compositions_equal_sequential_application ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/numbers.rs (target/release/deps/numbers-5f44365371b3c4bf)
+
+running 10 tests
+test absolute_tolerance_is_exact_at_decimal_boundaries_and_cancellation ... ok
+test arbitrary_precision_values_round_trip_through_native_delta ... ok
+test enormous_exponents_are_compared_without_expanding_the_number ... ok
+test relative_tolerance_handles_huge_small_and_signed_numbers_exactly ... ok
+test huge_exponent_tolerance_is_sparse_and_obeys_existing_work_budget ... ok
+test tolerance_compares_arbitrary_precision_decimal_values ... ok
+test standard_tests_and_reports_compare_exact_decimal_values ... ok
+test unordered_reports_use_the_same_exact_number_equality_as_standard_test ... ok
+test shifting_decimal_places_keeps_mathematical_value ... ok
+test sparse_decimal_tolerance_agrees_with_scaled_integer_arithmetic ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/properties.rs (target/release/deps/properties-8138d85c603dfd13)
+
+running 4 tests
+test arbitrary_unicode_text ... ok
+test untrusted_delta_never_panics ... ok
+test arbitrary_json_round_trip ... ok
+test duplicate_identity_and_mixed_array_edits ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.92s
+
+     Running tests/protocol_properties.rs (target/release/deps/protocol_properties-394957362aa6f499)
+
+running 6 tests
+test accepted_text_coordinates_have_serializable_inverses ... ok
+test fuzzy_replacement_consumes_a_substituted_last_character ... ok
+test array_protocol_mutations_never_escape_validated_type ... ok
+test supplied_array_move_delete_add_and_edit ... ok
+test supplied_unicode_text_and_protocol_mutations ... ok
+test generated_documents_keep_complete_protocol_invariants ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running tests/rfc_extended.rs (target/release/deps/rfc_extended-6f5f7cacb7334045)
+
+running 21 tests
+test guards_array_insertions_and_missing_object_properties ... ok
+test copies_strings_added_or_replaced_by_an_earlier_operation ... ok
+test copies_numbers_added_or_replaced_by_an_earlier_operation ... ok
+test arbitrary_precision_payloads_survive_move_copy_guards_and_inverse ... ok
+test factorizes_cross_property_and_cross_array_moves ... ok
+test copy_candidates_use_mathematical_number_equality ... ok
+test copies_strings_inside_an_earlier_added_or_replaced_payload ... ok
+test copy_sources_must_fit_the_serialized_path_budget ... ok
+test factorizes_copies_using_the_current_document ... ok
+test guards_move_sources_and_copy_sources ... ok
+test inversion_preserves_original_error_and_input ... ok
+test inverts_all_six_operations_with_overwrites_and_append ... ok
+test inverts_root_add_copy_replace_and_test_only_patches ... ok
+test inverts_moves_into_ancestors_and_shifted_array_objects ... ok
+test copy_cost_bounds_allow_shortened_moves_copies_and_array_indices ... ok
+test factorization_handles_interleaved_array_indices_and_duplicates ... ok
+test rationalization_accounts_for_tests_and_escaped_utf8_bytes ... ok
+test rationalizes_nested_parents_by_serialized_size ... ok
+test arbitrary_precision_numbers_survive_all_standard_diff_options_and_wire ... ok
+test optimized_and_guarded_patches_restore_random_documents ... ok
+test inverses_restore_random_standard_operation_sequences ... ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/standard_semantics.rs (target/release/deps/standard_semantics-ce3373623a6bf8a1)
+
+running 6 tests
+test standard_moves_and_copies_use_the_final_destination_container ... ok
+test standard_test_error_keeps_operation_and_path ... ok
+test root_move_to_itself_is_a_noop_and_missing_move_still_fails ... ok
+test standard_test_uses_mathematical_recursive_numeric_equality ... ok
+test included_move_values_authenticate_and_remain_reversible_after_editing ... ok
+test instance_standard_diff_applies_only_the_filtered_projection ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/text_extended.rs (target/release/deps/text_extended-7b449a1615befe54)
+
+running 15 tests
+test fuzzy_displacement_limit_counts_utf16_not_characters ... ok
+test normalized_text_lengths_cannot_overflow_coordinates ... ok
+test fuzzy_text_handles_multiple_unicode_hunks_and_all_or_error ... ok
+test fuzzy_anchor_ties_replace_the_fragment_and_preserve_external_suffixes ... ok
+test fuzzy_text_accepts_bounded_offsets_and_preserves_context_edits ... ok
+test fuzzy_text_handles_long_deletions_without_losing_unicode ... ok
+test historical_js_inverse_coordinate_formats_remain_strict ... ok
+test text_uri_decoding_preserves_javascript_reserved_escapes ... ok
+test common_text_blocks_trim_only_at_utf8_boundaries ... ok
+test sparse_long_unicode_text_keeps_utf16_coordinates_and_context ... ok
+test distant_unicode_edits_keep_compact_hunks_and_roundtrip ... ok
+test utf16_protocol_lengths_match_the_standard_library ... ok
+test large_text_replacements_and_line_boundaries_roundtrip ... ok
+test fuzzy_unicode_offsets_preserve_surrounding_text ... ok
+test line_groups_preserve_empty_lines_unicode_and_terminal_newlines ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+   Doc-tests jsondiffpatch_rs
+
+running 1 test
+test src/../README.md - (line 15) ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+all doctests ran in 2.64s; merged doctests compilation took 0.24s

@@ -1,0 +1,17 @@
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.09s
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `fuzz/target/aarch64-apple-darwin/release/core -artifact_prefix=/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/fuzz/artifacts/core/ -runs=1 -rss_limit_mb=512 /var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/artifacts/oom-da39a3ee5e6b4b0d3255bfef95601890afd80709`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4176280919
+INFO: Loaded 1 modules   (70439 inline 8-bit counters): 70439 [0x100875740, 0x100886a67), 
+INFO: Loaded 1 PC tables (70439 PCs): 70439 [0x100886a68,0x100999cd8), 
+fuzz/target/aarch64-apple-darwin/release/core: Running 1 inputs 1 time(s) each.
+Running: /var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/artifacts/oom-da39a3ee5e6b4b0d3255bfef95601890afd80709
+Executed /var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/artifacts/oom-da39a3ee5e6b4b0d3255bfef95601890afd80709 in 0 ms
+***
+*** NOTE: fuzzing was not performed, you have only
+***       executed the target code on a fixed set of inputs.
+***

@@ -1,0 +1,341 @@
+{
+  "task_date": "2026-10-01",
+  "recorded_at": "2026-09-30T21:48:25.952769+00:00",
+  "checks": {
+    "cargo fmt --check": {
+      "exit_code": 0,
+      "seconds": 0.19379554101033136,
+      "log": "results/fmt-run.log"
+    },
+    "cargo test --locked": {
+      "exit_code": 0,
+      "seconds": 41.506754542002454,
+      "log": "results/debug-test-run.log",
+      "test_summaries": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.62s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+        "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.23s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.55s",
+        "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.17s",
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s",
+        "test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s",
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ],
+      "integration_tests": 126,
+      "unit_tests": 1,
+      "doctests": 1,
+      "fixed_seed_property_cases": 28160,
+      "exhaustive_nonidentity_unique_permutations": 5906,
+      "exhaustive_nonidentity_binary_repeated_permutations": 4032,
+      "saved_document_pairs": 373,
+      "active_rfc_cases": 92
+    },
+    "cargo test --release --locked": {
+      "exit_code": 0,
+      "seconds": 30.865405374963302,
+      "log": "results/release-test-run.log",
+      "test_summaries": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.56s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s",
+        "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.92s",
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s",
+        "test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ],
+      "integration_tests": 126,
+      "unit_tests": 1,
+      "doctests": 1,
+      "fixed_seed_property_cases": 28160,
+      "exhaustive_nonidentity_unique_permutations": 5906,
+      "exhaustive_nonidentity_binary_repeated_permutations": 4032,
+      "saved_document_pairs": 373,
+      "active_rfc_cases": 92
+    },
+    "cargo clippy --all-targets --locked -- -D warnings": {
+      "exit_code": 0,
+      "seconds": 1.1450666249729693,
+      "log": "results/clippy-run.log"
+    },
+    "cargo +1.85.0 check --lib --locked": {
+      "exit_code": 0,
+      "seconds": 0.08736716699786484,
+      "log": "results/msrv-run.log"
+    },
+    "cargo build --release --example fixture_runner --example standard_bench --locked": {
+      "exit_code": 0,
+      "seconds": 0.11060099996393546,
+      "log": "results/example-build-run.log"
+    },
+    "rustfmt --edition 2024 --check fuzz/fuzz_targets/core.rs": {
+      "exit_code": 0,
+      "seconds": 0.02978812501532957,
+      "log": "results/fuzz-fmt-run.log"
+    },
+    "node tools/interop.mjs": {
+      "exit_code": 0,
+      "seconds": 2.4747499160002917,
+      "log": "results/interop-run.log",
+      "cases": 1073,
+      "required_failures": 0,
+      "upstream_js_own_inverse_failures": 507
+    },
+    "cargo bench --bench core --locked -- --noplot": {
+      "exit_code": 0,
+      "seconds": 52.388772542006336,
+      "log": "results/criterion-run.log",
+      "measurements": 94
+    },
+    "python3 tools/benchmark.py": {
+      "exit_code": 0,
+      "seconds": 36.125464875018224,
+      "log": "results/native-comparison-run.log",
+      "measurements": 36,
+      "budget_skips": 4
+    },
+    "python3 tools/standard-benchmark.py --task pipeline": {
+      "exit_code": 0,
+      "seconds": 67.39571058301954,
+      "log": "results/standard-pipeline-run.log",
+      "directory": "results/standard-benchmark-pipeline-20260930T214341.446185Z",
+      "measurements": 144,
+      "verified": 144,
+      "independent_process_repetitions": 3,
+      "raw_samples_per_process": 10
+    },
+    "python3 tools/standard-benchmark.py --task export": {
+      "exit_code": 0,
+      "seconds": 22.2947388329776,
+      "log": "results/standard-export-run.log",
+      "directory": "results/standard-benchmark-export-20260930T214448.844863Z",
+      "measurements": 48,
+      "verified": 50,
+      "independent_process_repetitions": 3,
+      "raw_samples_per_process": 10
+    },
+    "python3 tools/standard-benchmark.py --task apply": {
+      "exit_code": 0,
+      "seconds": 9.958714083011728,
+      "log": "results/standard-apply-run.log",
+      "directory": "results/standard-benchmark-apply-20260930T214511.142280Z",
+      "measurements": 18,
+      "verified": 18,
+      "independent_process_repetitions": 3,
+      "raw_samples_per_process": 10
+    },
+    "python3 tools/standard-benchmark.py --task inverse": {
+      "exit_code": 0,
+      "seconds": 3.185771999997087,
+      "log": "results/standard-inverse-run.log",
+      "directory": "results/standard-benchmark-inverse-20260930T214521.102315Z",
+      "measurements": 6,
+      "verified": 6,
+      "independent_process_repetitions": 3,
+      "raw_samples_per_process": 10
+    },
+    "cargo package --allow-dirty --locked": {
+      "exit_code": 0,
+      "seconds": 2.5769430000218563,
+      "log": "results/package-run.log",
+      "verified_extracted_package": true,
+      "published": false,
+      "files": 40,
+      "uncompressed_file_bytes": 523049,
+      "source_and_documentation_match": true,
+      "compressed_bytes": 137194
+    }
+  },
+  "functional_check_environment": {
+    "started_utc": "2026-09-30T21:37:19.838587+00:00",
+    "source_sha256_before": {
+      "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+      "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+      "src/diff.rs": "2a818050187755d3d535c269149cc58db13ed401616bbd1a4b81ff93585f5b87",
+      "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+      "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+      "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+      "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+      "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "src/rfc.rs": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+      "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+    },
+    "finished_utc": "2026-09-30T21:38:36.257934+00:00",
+    "source_sha256_after": {
+      "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+      "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+      "src/diff.rs": "2a818050187755d3d535c269149cc58db13ed401616bbd1a4b81ff93585f5b87",
+      "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+      "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+      "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+      "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+      "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "src/rfc.rs": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+      "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+    }
+  },
+  "source_sha256_at_delivery": {
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "2a818050187755d3d535c269149cc58db13ed401616bbd1a4b81ff93585f5b87",
+    "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+    "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+    "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+  },
+  "cargo_lock_sha256": "ff6fd19977b2bdf762ab559db9b5659f5118b42c7ca8b52d096e886f049d4bcb",
+  "cargo_manifest_sha256": "9076cf79c9faa3803b0bb0e5afca9608368f3eae828b2f03d4b0f6d155f31dba",
+  "readme_sha256": "19f2d7a048c2c9cfb32a9e4da13f9d78471e8704a15a01f8fbe6022afaccbfe5",
+  "documentation_sha256": {
+    "README.md": "19f2d7a048c2c9cfb32a9e4da13f9d78471e8704a15a01f8fbe6022afaccbfe5",
+    "DESIGN.md": "79164f73b3541102f2181814393d4b80573ab78b21029bcc4be5ffd40d8eb04e",
+    "COMPARISON.md": "2e6b0960d6d3e75a48f3bc4ddf1187a5db82d08a31219ff0b055f93a4f23ab71",
+    "BENCHMARK.md": "e088ee3beb0e44135ca0d6e8085a5d1fbb4c54a7a62210d80ed67089be098ede"
+  },
+  "benchmark_source_sha256": {
+    "benches/core.rs": "6141573e5d6a9898fff22379c144ca99559607ee510cf637f3d6d7352de1fbf5",
+    "examples/fixture_runner.rs": "580822161c0773e3067f81aaebdd243cc4a6c35ca7cf51df3829129f01181338",
+    "examples/standard_bench.rs": "37b1c1f1aaf57eb88467ded5c601e64d7fa65db12261a63e5e3f4a1c80f639be",
+    "tools/benchmark.py": "509f555b3914f78e696c78c7144fdc5b70df1e1e00bc9bf3997ff7066740ffc8",
+    "tools/bench-js.mjs": "87b24784c4f68de885613869973219944bc162b02cfef5a4901a8fd6a0017d18",
+    "tools/standard-benchmark.py": "e456cc5b86d9dcf639743ec88951b6ffd13dd79a49eba9bf57ca943e9560d6b3"
+  },
+  "test_source_sha256": {
+    "tests/application.rs": "7ea147d1d996a4f94fa7f6462d77e1d3d9974db4a5fb2b20ffe8eeea7d907a2f",
+    "tests/array_quality.rs": "788630969c35fb7336a33162c9d9b988de13fb56c1edd8a5eae8787742cee092",
+    "tests/compare.rs": "f8a0921c33c8bbe446fd85dfa9f9dbcdf8d729a58675df0d09546f0a51d86766",
+    "tests/core.rs": "ec075d9977b67a6150399015232ac3ce211dfbb9fef57f36c802977a30324b29",
+    "tests/export_scaling.rs": "47fa60ae4ea1496c34d596d4dc42a7eff9dc20eeaa6d812aaf8c522ec362eb45",
+    "tests/fixtures.rs": "7aeb37d687cb4591c0ce323ea86595279b211998d03a500df7b7f398142cfab0",
+    "tests/merge.rs": "079a9e9d04a91f58aa8712aa3b8a326f3cde687e9c7a0865e6044503f741be1a",
+    "tests/numbers.rs": "599d70df9de4ec4f984ec8b0a117640338e830d15f2e0bd693bf926e280ede74",
+    "tests/properties.rs": "507acccb1a5a4e0c5d258a8d13bb07f59728ac1ae7124f61bd2b726c62a65f1d",
+    "tests/protocol_properties.rs": "450a8664c21089c91637c5544f8bf2e02e62784d61b6f62c35654865a6a22059",
+    "tests/rfc_extended.rs": "aa8b2f33c65b5ffb834ffe46e4a5e55f6873b414395b4e16d932043ef53c87cc",
+    "tests/standard_semantics.rs": "120b0be768c64e1dbfa42e7568743c00c0aecddbda6b0ee942ee8c8c4936fc86",
+    "tests/text_extended.rs": "0102d075f280d2c59d0c2d6e9111dbd2aeec54d808edfe19e25bbe63d641fc17"
+  },
+  "fuzz": {
+    "command": [
+      "cargo",
+      "+nightly",
+      "fuzz",
+      "run",
+      "core",
+      "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-delivery-fuzz-bwrjd9rc/corpus",
+      "--",
+      "-max_total_time=115",
+      "-max_len=2048",
+      "-rss_limit_mb=1024",
+      "-seed=20261001",
+      "-artifact_prefix=/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-delivery-fuzz-bwrjd9rc/artifacts/"
+    ],
+    "exit_code": 0,
+    "seconds": 133.20425074995728,
+    "recorded_utc": "2026-09-30T21:41:22.884648+00:00",
+    "directory": "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-delivery-fuzz-bwrjd9rc",
+    "log": "results/fuzz/run.log",
+    "done": [
+      [
+        "427750",
+        "8560",
+        "40186",
+        "624"
+      ]
+    ],
+    "source_sha256": {
+      "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+      "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+      "src/diff.rs": "2a818050187755d3d535c269149cc58db13ed401616bbd1a4b81ff93585f5b87",
+      "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+      "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+      "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+      "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+      "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "src/rfc.rs": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+      "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+    },
+    "source_unchanged": true,
+    "fuzz_sha256": {
+      "fuzz/Cargo.toml": "bfb7323c7726977eebb44a9cc35be8ae686ebe2e7fe76044d89297225f80c8c4",
+      "fuzz/Cargo.lock": "3a5de9c25d85c245f27041d50980c0fbfdc85cb72d616298594a2da04d8508ba",
+      "fuzz/fuzz_targets/core.rs": "a2ab7f328af4bd5ab4ce257e852f1ac33b9b243f41b4c5eb1a4f33fb400bc7dc"
+    },
+    "seed_files": 13,
+    "seed": 20261001,
+    "max_len": 2048,
+    "rss_limit_mb": 1024,
+    "artifacts": [],
+    "rustc": "rustc 1.95.0-nightly (7057231bd 2026-02-11)\nbinary: rustc\ncommit-hash: 7057231bd78d6c7893f905ea1832365d4c5efe17\ncommit-date: 2026-02-11\nhost: aarch64-apple-darwin\nrelease: 1.95.0-nightly\nLLVM version: 22.1.0",
+    "cargo_fuzz": "cargo-fuzz 0.13.2",
+    "coverage_note": "libFuzzer cov/ft are instrumented block/features counts, not source line coverage"
+  },
+  "target_checks": {
+    "summary": "results/target-checks/summary.json",
+    "compile_only": true,
+    "targets": [
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu",
+      "x86_64-pc-windows-msvc",
+      "wasm32-unknown-unknown"
+    ]
+  },
+  "ci": {
+    "file": ".github/workflows/ci.yml",
+    "sha256": "5b10064c28680f0972ce46a8950259d67dc25c8cb64043e8980c23ef30e4ae4e",
+    "github_run_completed": false,
+    "included_in_crate_archive": false
+  },
+  "package_sha256": "1079abd4baefbe8f349a30aa2c70a6b004bf851cff6d160ae81f19d35e9e5649",
+  "historical_baseline": "results/baseline-20260930/verification.json",
+  "optimization_baseline": "results/baseline-before-optimization-round-2/verification.json",
+  "optimization_summary": "results/optimization-summary.json",
+  "independent_review": {
+    "array_depth_cases": 200000,
+    "number_reference_cases": 13208,
+    "number_budget_cases": 6,
+    "long_text_cases": 100,
+    "evidence_directory": "results/review",
+    "note": "Separate pinned source/artifact scopes; not added as independent coverage percentage"
+  },
+  "improvements": [
+    "Fenwick sequential RFC move positions",
+    "reuse known target and typed export",
+    "local per-operation depth checks preserving error priority",
+    "counting writer and lazy optimizer state",
+    "bounded repeated-token exact LCS",
+    "recursive node filtering with original target array paths",
+    "exact arbitrary-precision decimal tolerances and work budgets",
+    "safe UTF-8 scans and UTF-16 popcount",
+    "bounded line-first text generation",
+    "copy-search cost pruning",
+    "structured ASan fuzz and three-OS CI"
+  ],
+  "limits": [
+    "minimum single-item moves only for unique permutations and bounded exact repeated-token LCS",
+    "coarse text replacements above token bound; fuzzy and arrays not globally bounded by it",
+    "heuristic byte optimization; no global optimum",
+    "guarded rationalize repeatedly simulates candidates; ambiguous-ID local profile remains about 4.2 seconds",
+    "ordinary JS Number does not preserve arbitrary precision",
+    "single-host runtime evidence; target checks do not prove cross-OS runtime or linking",
+    "no verified downstream adoption and no global performance ranking",
+    "allocation exploration after snapshot precedes final changes; baseline source identity unavailable"
+  ]
+}

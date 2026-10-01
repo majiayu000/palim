@@ -1,0 +1,59 @@
+{
+  "collected_at_utc": "2026-09-30T19:44:51.842938+00:00",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)",
+  "scope": "temporary development tool, no production edits; exploration while other agents may run",
+  "sources_at_completion": {
+    "Cargo.toml": {
+      "sha256": "f8035dcef81ac7748b1448d6f8616c21ad75eb2c8edad12ed4e36779afd5ae0e",
+      "modified_after_results": false
+    },
+    "Cargo.lock": {
+      "sha256": "ff6fd19977b2bdf762ab559db9b5659f5118b42c7ca8b52d096e886f049d4bcb",
+      "modified_after_results": false
+    },
+    "src/compare.rs": {
+      "sha256": "d321c934959b3aeccf740451415a47443a087db5bf4bcbb0b52032efb8b67ad5",
+      "modified_after_results": true
+    },
+    "src/delta.rs": {
+      "sha256": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+      "modified_after_results": false
+    },
+    "src/diff.rs": {
+      "sha256": "a017e543b824e24d0810e6c94a57cfe8e6187dc36a62a90baf28f86511b50a8f",
+      "modified_after_results": true
+    },
+    "src/export.rs": {
+      "sha256": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+      "modified_after_results": true
+    },
+    "src/lib.rs": {
+      "sha256": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+      "modified_after_results": true
+    },
+    "src/merge.rs": {
+      "sha256": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+      "modified_after_results": false
+    },
+    "src/numbers.rs": {
+      "sha256": "ca9186e8bcd85ac3cea002e0c3cfdebbd27e95f940e052ef158e8de5d1741f29",
+      "modified_after_results": true
+    },
+    "src/patch.rs": {
+      "sha256": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "modified_after_results": false
+    },
+    "src/rfc.rs": {
+      "sha256": "13ff6bcc6c52cc0e2e51793d298ea208e897f5c54a8f68275b63123adb8236a3",
+      "modified_after_results": true
+    },
+    "src/text.rs": {
+      "sha256": "b013ac1ebb14f11116ced5f55350a226dd1fb5807f6e1b4debd0b30de4e3b952",
+      "modified_after_results": true
+    }
+  },
+  "harness_sha256": "42f1fb3108d65d20fd957c50825d6277e3f1ad5fd2bacf3063dd9d9b6e3a532d",
+  "lock_sha256": "fc590afaef947c7889b45c71c133a5170ed778cc3faa23bfec4d5ddd6b1b2791",
+  "results_sha256": "7c6fa9d2a62a72cc04450be4cd6a8d826bbd94d8ad5b4ca09b8fdc82446b5aea"
+}

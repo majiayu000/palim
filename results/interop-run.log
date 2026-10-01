@@ -1,0 +1,13 @@
+{
+  "cases": 1073,
+  "counts": {
+    "rust_delta_js_forward": 1073,
+    "rust_inverse_js_backward": 1073,
+    "rust_rfc_js_forward": 1073,
+    "js_native_forward": 1073,
+    "js_delta_rust_roundtrip": 1073,
+    "js_native_backward": 566
+  },
+  "upstream_inverse_failures": 507,
+  "failures": []
+}

@@ -1,0 +1,6 @@
+plain: median=2.652ms min=2.554ms bytes=100688 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 0]
+factorize: median=1430.600ms min=1417.555ms bytes=100688 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 0]
+rationalize: median=22.100ms min=21.591ms bytes=44296 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 0]
+optimized: median=1432.720ms min=1432.522ms bytes=44296 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 0]
+guarded: median=12.432ms min=11.929ms bytes=1125867 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 2042]
+optimized-guarded: median=5583.458ms min=5507.372ms bytes=88590 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 1]

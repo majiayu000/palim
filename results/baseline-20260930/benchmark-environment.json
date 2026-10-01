@@ -1,0 +1,31 @@
+{
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6",
+  "node": "v24.14.0",
+  "cpu": "Apple M2 Max",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "date": "2026-09-30",
+  "fixture_sha256": {
+    "small-config-edit": "480d669e64a1bd13ca03506139eab7f5fcaeb48d8228657b50b5146f6fc2cd96",
+    "identical-2000": "66eefcc051665c81ded3542d8e1f930e5556625079e89111aa01db67f73c55d5",
+    "prepend-2000": "1b73b58814bd3122602a9f402b8128399d4accf44dfe905a3f136f07b2d0d1fd",
+    "middle-insert-2000": "30d8b8e48370841473c5edfccede9dd59b72579cf6eeef70ecb1af56b5716344",
+    "rotate-2000": "89e48417ac87e5700b47d2ba82f82f5653f1ac188bcc7a940a3c56106ea0fd49",
+    "reverse-2000": "cc99c04906b587622ae02ad228383f5d5f0d5bf62c5c13cc95955aee57f8d5f4",
+    "disjoint-2000": "fecb2f802eccd7419656206f8986585d862be04216f7745404ecf7eaf281550e",
+    "sparse-edit-2000": "3c50e1e4a5bb7619fb1c42933ef91b2170d70bc07d8c6443924b25ae78a7c193",
+    "identical-20000": "63f04d951dedcf8c68dc85a8d976b18885131802dab2e85d9e12d6bd1dcf4343",
+    "prepend-20000": "9b0e7337f05ae345098a13375abdb450b93946693cc5d54ce07e64a65e02813b",
+    "middle-insert-20000": "d9b2183336efc1413cd4fb472c38f453b57c53a3b28f836e082c8fd5cba4b210",
+    "rotate-20000": "866bb2740e2a2408a2a4d009050b84787acec8f8ae61200cbf81ba99bed35e02",
+    "reverse-20000": "84be6b9112e89609325a297e4e136ddca5f79545f72cb7a70428e1955d3619a2",
+    "disjoint-20000": "474f13e3a1dbf5d9ab11666fdc14b70a19852ce084438641e280e447af338cf0",
+    "sparse-edit-20000": "e323f330bc13d2308f93b3a88cee2a4a1ec91d69becffc90f7d9f0dbb4b47223",
+    "keyed-rotate-edit-100": "fab6a857b85b1fafa4de3718d247f5540cc3005efe48d47d86915e6a070fabfe",
+    "keyed-rotate-edit-2000": "7b6bc76697f82c46d3171ce784790ace02fc5f31b28a40007cf97cfd9e78b6be",
+    "crates-metadata-rotate-edit-100": "fd25459066e4d07fc6c0b843dd4a6b49739ee9aee0150c29bbc85a7a7f698591",
+    "long-text-ascii": "0c712639fcc503aa4dc517ea0cd65f0242685f6d08af6206e43cdb4caeea6acd",
+    "long-text-unicode": "02146ccb2826b6106866c71f678ac62d5257edd8265d970d4cf00607ef173814"
+  },
+  "crates_snapshot_source": "https://crates.io/api/v1/crates?page=1&per_page=100 (snapshot 2026-09-30)",
+  "crates_snapshot_sha256": "c15c73f149e637b21fb0d0fbcbc073a6e50f01eb5ea23487ed000791835e2fe0"
+}

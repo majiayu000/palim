@@ -1,0 +1,41 @@
+{
+  "command": [
+    "cargo",
+    "+nightly",
+    "fuzz",
+    "run",
+    "core",
+    "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/corpus",
+    "--",
+    "-max_total_time=115",
+    "-max_len=2048",
+    "-rss_limit_mb=512",
+    "-seed=20261001",
+    "-artifact_prefix=/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/artifacts/"
+  ],
+  "exit_code": 1,
+  "seconds": 87.33505374996457,
+  "recorded_utc": "2026-09-30T20:13:58.778230+00:00",
+  "directory": "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h",
+  "log": "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/run.log",
+  "source_sha256": {
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "2a818050187755d3d535c269149cc58db13ed401616bbd1a4b81ff93585f5b87",
+    "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+    "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "11308127edf44e19c4ea50055feefef988fc5f35031dadfb6900bb28a2496946",
+    "src/text.rs": "497ff76069a24ec2aa9c56c6338c4cf1ed9e7d2ceebfeaae9a33fe01514b3079"
+  },
+  "fuzz_sha256": {
+    "fuzz/Cargo.toml": "bfb7323c7726977eebb44a9cc35be8ae686ebe2e7fe76044d89297225f80c8c4",
+    "fuzz/Cargo.lock": "3a5de9c25d85c245f27041d50980c0fbfdc85cb72d616298594a2da04d8508ba",
+    "fuzz/fuzz_targets/core.rs": "a2ab7f328af4bd5ab4ce257e852f1ac33b9b243f41b4c5eb1a4f33fb400bc7dc"
+  },
+  "artifacts": [
+    "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/jsondiffpatch-fuzz-round2-n06mqy_h/artifacts/oom-da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  ]
+}

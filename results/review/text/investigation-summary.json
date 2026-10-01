@@ -1,0 +1,118 @@
+{
+  "target": "risk/text/diff/unicode-three-edits",
+  "baseline_stages_ms": {
+    "scan": 0.000542,
+    "window_vec": 0.325375,
+    "interner": 1.079125,
+    "hunk_iteration": 0.414958,
+    "compute_histogram": 17561.423458,
+    "compute_myers": 21288.902084,
+    "compute_myers_minimal": 18962.399333
+  },
+  "baseline_stages_origin": "one invocation per algorithm; values transcribed from tool output before report.json overwritten by scratch fixed-dependency run",
+  "scratch_one_line_upstream_fix": {
+    "algorithms": [
+      {
+        "added": 15,
+        "algorithm": "Myers",
+        "compute_ms": 22.052291,
+        "first_hunks": "[Hunk { before: 0..9, after: 0..5 }, Hunk { before: 95000..95009, after: 94996..95001 }, Hunk { before: 189962..189971, after: 189954..189959 }]",
+        "hunk_iter_ms": 0.408875,
+        "hunks": 3,
+        "removed": 27
+      },
+      {
+        "added": 15,
+        "algorithm": "MyersMinimal",
+        "compute_ms": 22.322208,
+        "first_hunks": "[Hunk { before: 0..9, after: 0..5 }, Hunk { before: 95000..95009, after: 94996..95001 }, Hunk { before: 189962..189971, after: 189954..189959 }]",
+        "hunk_iter_ms": 0.396625,
+        "hunks": 3,
+        "removed": 27
+      },
+      {
+        "added": 15,
+        "algorithm": "Histogram",
+        "compute_ms": 22.677792,
+        "first_hunks": "[Hunk { before: 0..9, after: 0..5 }, Hunk { before: 95000..95009, after: 94996..95001 }, Hunk { before: 189962..189971, after: 189954..189959 }]",
+        "hunk_iter_ms": 0.408209,
+        "hunks": 3,
+        "removed": 27
+      }
+    ],
+    "interner_ms": 1.0453750000000002,
+    "new_chars": 189963,
+    "old_chars": 189975,
+    "scan_ms": 0.000292,
+    "window_vec_ms": 0.316834
+  },
+  "scratch_bounded_segmentation": {
+    "chars_ms": 0.007708,
+    "group": 3,
+    "hunks": "[Hunk { before: 0..9, after: 0..5 }, Hunk { before: 95000..95009, after: 94996..95001 }, Hunk { before: 189962..189971, after: 189954..189959 }]",
+    "lines_ms": 0.022041,
+    "new_chars": 189988,
+    "old_chars": 190000,
+    "tokens_ms": 1.0000829999999998
+  },
+  "optimized_full_diff": {
+    "fixture": "unicode-three-edits-5000-lines",
+    "hunks": 3,
+    "median_diff_ms": 1.61106125,
+    "patch_bytes": 289,
+    "strict_forward": true,
+    "strict_inverse": true,
+    "whole_diff_ms_samples": [
+      1.5927379099999999,
+      1.6067945799999999,
+      1.6108841600000001,
+      1.61106125,
+      1.61517834,
+      1.62168167,
+      1.65279458
+    ],
+    "zero_error_fuzzy": true
+  },
+  "javascript_interop": {
+    "source": "jsondiffpatch@0.7.6/with-text-diffs",
+    "rust_delta_js_forward": true,
+    "rust_inverse_js_backward": true
+  },
+  "baseline_semantic_test_seconds": 18.73,
+  "finished_checks": {
+    "command": "cargo test --locked --test text_extended --test core --test properties --test protocol_properties",
+    "tests": {
+      "text_extended": 15,
+      "core": 9,
+      "properties": 4,
+      "protocol_properties": 6
+    },
+    "exit_code": 0
+  },
+  "source_sha256": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9",
+  "tests_sha256": "0102d075f280d2c59d0c2d6e9111dbd2aeec54d808edfe19e25bbe63d641fc17",
+  "sources": [
+    "https://github.com/pascalkuthe/imara-diff/commit/f02e46a737c43c0d9c65a42e5e08046bd10fd739",
+    "https://github.com/pascalkuthe/imara-diff/blob/master/src/myers/preprocess.rs",
+    "https://crates.io/api/v1/crates/imara-diff",
+    "https://github.com/dmsnell/diff-match-patch/blob/main/javascript/index.js"
+  ],
+  "dependency_status": {
+    "latest_crates_version": "0.2.0",
+    "released_at": "2025-06-14T18:29:26.570299Z",
+    "upstream_bugfix_date": "2026-06-21T16:10:29Z",
+    "repo_dependency_changed": false
+  },
+  "decision": "adapt DMP line-first diff, bound grouped line tokens to at most4096 and character refinement to4096 tokens; retain coarse exact replacements above cap",
+  "rejected": [
+    "switch Histogram to Myers/MyersMinimal: shared quadratic preprocess unchanged",
+    "git pin upstream: fixed but unpublished dependency complicates crates.io packaging and still22ms",
+    "vendor dependency: larger scope",
+    "copy full DMP algorithm: unnecessary"
+  ],
+  "limitations": [
+    "no minimum edit script guarantee; huge single-line or large changed line groups can produce coarser replacements",
+    "fuzzy alignment remains unchanged; max tokens bounds apply only to diff generation",
+    "local timings are diagnostic not formal cross-engine benchmark"
+  ]
+}

@@ -1,0 +1,9 @@
+/target/
+/tools/node_modules/
+/results/fixtures/
+/results/*-deltas.json
+/results/interop-inputs.json
+/results/js-deltas-rust-check.json
+/results/review/text/input.json
+/results/review/text/output.json
+__pycache__/

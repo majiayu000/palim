@@ -1,0 +1,126 @@
+{
+  "recorded_utc": "2026-09-30T19:58:48.590307+00:00",
+  "cwd": "/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs",
+  "probes": [
+    {
+      "source_path": "/tmp/jsondiffpatch-cpp-review.rs",
+      "sha256": "68d4f194e8efdf7b5a9bb030935b344d7f20dbe2224dec1c1bad1ba72de7bed0",
+      "seed": 2026100103,
+      "cases": 100000,
+      "compile_argv": [
+        "rustc",
+        "--edition=2024",
+        "-O",
+        "/tmp/jsondiffpatch-cpp-review.rs",
+        "-o",
+        "/tmp/jsondiffpatch-cpp-review",
+        "-L",
+        "dependency=/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/target/release/deps",
+        "--extern",
+        "jsondiffpatch_rs=/tmp/jsondiffpatch-review-provenance/libjsondiffpatch_rs-fcdb12dc4eb3a28e.rlib",
+        "--extern",
+        "serde_json=/tmp/jsondiffpatch-review-provenance/libserde_json-1ef6920f9a1ab538.rlib",
+        "--extern",
+        "json_patch=/tmp/jsondiffpatch-review-provenance/libjson_patch-9395441008c9baa7.rlib"
+      ],
+      "run_argv": [
+        "/tmp/jsondiffpatch-cpp-review"
+      ],
+      "start_utc": "2026-09-30T19:59:19.972480+00:00",
+      "compile_exit_code": 0,
+      "compile_stdout": "",
+      "compile_stderr": "",
+      "exit_code": 0,
+      "stdout": "100000 imported mixed-array deltas: native, inverse, external RFC apply and move bound passed; seed=2026100103\n",
+      "stderr": "",
+      "compile_plus_run_wall_seconds": 21.99351212498732,
+      "end_utc": "2026-09-30T19:59:41.966472+00:00"
+    },
+    {
+      "source_path": "/tmp/jsondiffpatch-depth-review.rs",
+      "sha256": "561653776eb0ae4e7dd1ecd9e4c4065c9d14543a5c9f1e149b801e10e4e525e9",
+      "seed": 2026100104,
+      "cases": 100000,
+      "compile_argv": [
+        "rustc",
+        "--edition=2024",
+        "-O",
+        "/tmp/jsondiffpatch-depth-review.rs",
+        "-o",
+        "/tmp/jsondiffpatch-depth-review",
+        "-L",
+        "dependency=/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/target/release/deps",
+        "--extern",
+        "jsondiffpatch_rs=/tmp/jsondiffpatch-review-provenance/libjsondiffpatch_rs-fcdb12dc4eb3a28e.rlib",
+        "--extern",
+        "serde_json=/tmp/jsondiffpatch-review-provenance/libserde_json-1ef6920f9a1ab538.rlib",
+        "--extern",
+        "json_patch=/tmp/jsondiffpatch-review-provenance/libjson_patch-9395441008c9baa7.rlib"
+      ],
+      "run_argv": [
+        "/tmp/jsondiffpatch-depth-review"
+      ],
+      "start_utc": "2026-09-30T19:59:41.966785+00:00",
+      "compile_exit_code": 0,
+      "compile_stdout": "",
+      "compile_stderr": "",
+      "exit_code": 0,
+      "stdout": "100000 standard sequences: local depth outcome, complete result and exact error path/message agree with full-scan reference; seed=2026100104\n",
+      "stderr": "",
+      "compile_plus_run_wall_seconds": 2.474915875005536,
+      "end_utc": "2026-09-30T19:59:44.441740+00:00"
+    }
+  ],
+  "artifacts": {
+    "jsondiffpatch_rs": {
+      "source_path": "/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/target/release/deps/libjsondiffpatch_rs-fcdb12dc4eb3a28e.rlib",
+      "pinned_path": "/tmp/jsondiffpatch-review-provenance/libjsondiffpatch_rs-fcdb12dc4eb3a28e.rlib",
+      "sha256": "41a5dd4a2ac02c504d143934236b10272d4b996b650879c9b330239939636de1",
+      "original_mtime_epoch": 1790798263.897546,
+      "original_mtime_utc": "2026-09-30T19:57:43.897546+00:00",
+      "size_bytes": 1518576
+    },
+    "serde_json": {
+      "source_path": "/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/target/release/deps/libserde_json-1ef6920f9a1ab538.rlib",
+      "pinned_path": "/tmp/jsondiffpatch-review-provenance/libserde_json-1ef6920f9a1ab538.rlib",
+      "sha256": "5a6d053cb9d7d4a7c486a946ef25bff5b2da836a1142d631ecc7f3ad45bd9025",
+      "original_mtime_epoch": 1790789071.216384,
+      "original_mtime_utc": "2026-09-30T17:24:31.216384+00:00",
+      "size_bytes": 2452200
+    },
+    "json_patch": {
+      "source_path": "/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/target/release/deps/libjson_patch-9395441008c9baa7.rlib",
+      "pinned_path": "/tmp/jsondiffpatch-review-provenance/libjson_patch-9395441008c9baa7.rlib",
+      "sha256": "2e860c26235d4b80ba51eb509802b7e1ca0941590d7f1ce78703155839cae012",
+      "original_mtime_epoch": 1790789071.576043,
+      "original_mtime_utc": "2026-09-30T17:24:31.576043+00:00",
+      "size_bytes": 478904
+    }
+  },
+  "sources": {
+    "src/export.rs": {
+      "sha256": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+      "mtime_utc": "2026-09-30T19:44:31.827060+00:00"
+    },
+    "src/lib.rs": {
+      "sha256": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+      "mtime_utc": "2026-09-30T19:40:25.809270+00:00"
+    },
+    "src/patch.rs": {
+      "sha256": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "mtime_utc": "2026-09-30T17:23:18.060189+00:00"
+    },
+    "src/delta.rs": {
+      "sha256": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+      "mtime_utc": "2026-09-30T09:42:25.883533+00:00"
+    }
+  },
+  "summary": {
+    "independent_cases": 200000,
+    "failed": 0,
+    "production_files_changed": false,
+    "new_cargo_build": false,
+    "probe_scope": "100k imported mixed array deltas + 100k full-scan standard semantic references",
+    "note": "Same probes repeated against pinned rlib for artifact provenance; no scope or case expansion."
+  }
+}

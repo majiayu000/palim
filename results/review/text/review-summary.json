@@ -1,0 +1,9 @@
+{
+  "source_sha256": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9",
+  "seed": 20261001,
+  "rust_forward_inverse_wire_cases": 100,
+  "js_0_7_6_forward_rust_inverse_cases": 100,
+  "noncrossing_target_hunks": 449,
+  "failures": 0,
+  "origin": "independent agent stdout summary; raw inputs/outputs and harness archived"
+}

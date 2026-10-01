@@ -1,0 +1,9 @@
+warning: manifest has no documentation, homepage or repository
+  |
+  = note: see https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for more info
+   Packaging jsondiffpatch-rs v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs)
+    Updating crates.io index
+    Packaged 40 files, 510.8KiB (134.0KiB compressed)
+   Verifying jsondiffpatch-rs v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs)
+   Compiling jsondiffpatch-rs v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/jsondiffpatch-rs/target/package/jsondiffpatch-rs-0.1.0)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.54s
