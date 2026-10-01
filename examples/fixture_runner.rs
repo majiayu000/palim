@@ -1,5 +1,8 @@
 //! Development harness: JSON inputs on stdin/file, machine-readable checks and timings.
-use palim::{Delta, DiffOptions, DiffPatcher, apply_json_patch, patch, reverse};
+use palim::{
+    Delta, DiffOptions, DiffPatcher, TextPatchOptions, apply_json_patch, patch, patch_fuzzy,
+    reverse,
+};
 use serde_json::{Value, json};
 use std::{error::Error, fs, hint::black_box, sync::Arc, time::Instant};
 type Result<T> = std::result::Result<T, Box<dyn Error>>;
@@ -35,11 +38,42 @@ fn run(dp: &DiffPatcher, input: &Value, mode: &str) -> Result<Value> {
     let bytes = serde_json::to_vec(&delta)?.len();
     let mut output =
         json!({"name":input["name"],"ok":true,"patch_bytes":bytes,"delta":delta,"inverse":inverse});
-    if mode == "apply" && !input["inverse"].is_null() {
-        let upstream = Delta::from_value(input["inverse"].clone()).and_then(|d| patch(b, &d));
+    if mode == "apply" {
+        let decoded = if input["inverse"].is_null() {
+            Ok(None)
+        } else {
+            Delta::from_value(input["inverse"].clone()).map(Some)
+        };
+        output["upstream_inverse_valid"] = json!(decoded.is_ok());
+        let upstream = decoded
+            .as_ref()
+            .map_err(Clone::clone)
+            .and_then(|d| d.as_ref().map_or_else(|| Ok(b.clone()), |d| patch(b, d)));
         output["upstream_inverse_ok"] = json!(upstream.as_ref().is_ok_and(|v| v == a));
         if let Err(e) = upstream {
             output["upstream_inverse_error"] = json!(e.to_string());
+        }
+        for (name, max_error_ratio) in [("zero_error_fuzzy", 0.0), ("fuzzy", 0.5)] {
+            let fuzzy = decoded.as_ref().map_err(Clone::clone).and_then(|d| {
+                d.as_ref().map_or_else(
+                    || Ok(b.clone()),
+                    |d| {
+                        patch_fuzzy(
+                            b,
+                            d,
+                            &TextPatchOptions {
+                                max_error_ratio,
+                                ..Default::default()
+                            },
+                        )
+                    },
+                )
+            });
+            output[format!("upstream_inverse_{name}_ok")] =
+                json!(fuzzy.as_ref().is_ok_and(|v| v == a));
+            if let Err(e) = fuzzy {
+                output[format!("upstream_inverse_{name}_error")] = json!(e.to_string());
+            }
         }
     }
     if mode == "generate" || mode == "apply" {

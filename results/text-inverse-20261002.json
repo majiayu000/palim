@@ -1,0 +1,156 @@
+{
+  "task_date": "2026-10-02",
+  "verified_at_utc": "2026-10-01T17:33:47.583197+00:00",
+  "head": "38eaa8dd05feaafa942e4c5ce2ad8996b133c33c",
+  "publication": "Changes verified locally; no new version published by this task.",
+  "scope": [
+    "Fix valid external JS inverse fuzzy matches for repeated emoji and overlapping NUL/CRLF context.",
+    "Retain original patch inputs and strict protocol errors.",
+    "Preserve and verify all existing workspace changes, including concurrent diff/guards changes."
+  ],
+  "regressions": [
+    {
+      "name": "text-22",
+      "before": "Default fuzzy returned the wrong original with an extra emoji.",
+      "after": "Original restored by default fuzzy."
+    },
+    {
+      "name": "text-99",
+      "before": "Default fuzzy returned text patch exceeds max_error_ratio.",
+      "after": "Original restored by default fuzzy."
+    }
+  ],
+  "original_regression_inputs_unchanged": true,
+  "matching_contract": {
+    "exact_context": "Prefer nearest full exact fragment within UTF-16 displacement bound, including overlapping occurrences.",
+    "nonzero_error_long_hunks": "Without a full exact match, retain at most four UTF-16 units of unchanged context per side, preserving Unicode scalar boundaries. Error ratio applies to retained fragment.",
+    "zero_error": "Complete context retained; max_error_ratio unchanged.",
+    "malformed": "Header/operation length mismatch still returns Error.",
+    "limitation": "Heuristic fuzzy matching is not a complete DMP matching clone or guarantee for all external inverse patches."
+  },
+  "checks": [
+    {
+      "command": "cargo fmt --check",
+      "exit_code": 0
+    },
+    {
+      "command": "cargo test --locked",
+      "exit_code": 0,
+      "passed_tests": 134
+    },
+    {
+      "command": "cargo test --release --locked",
+      "exit_code": 0,
+      "passed_tests": 134
+    },
+    {
+      "command": "cargo clippy --all-targets --locked -- -D warnings",
+      "exit_code": 0
+    },
+    {
+      "command": "cargo +1.85.0 check --lib --locked",
+      "exit_code": 0
+    },
+    {
+      "command": "cargo doc --no-deps --locked",
+      "exit_code": 0
+    },
+    {
+      "command": "cargo package --allow-dirty --locked",
+      "exit_code": 0
+    }
+  ],
+  "interop": {
+    "commands": [
+      "cargo build --release --locked --example fixture_runner",
+      "node tools/interop.mjs"
+    ],
+    "exit_codes": [
+      0,
+      0
+    ],
+    "cases": 1073,
+    "required_counts": {
+      "rust_delta_js_forward": 1073,
+      "rust_inverse_js_backward": 1073,
+      "rust_rfc_js_forward": 1073,
+      "js_native_forward": 1073,
+      "js_delta_rust_roundtrip": 1073
+    },
+    "upstream_inverse_compatibility": {
+      "js_self_successes": 566,
+      "malformed": [
+        {
+          "name": "random-13",
+          "error": "<root>: text patch header length does not match operations"
+        },
+        {
+          "name": "random-93",
+          "error": "<root>: text patch header length does not match operations"
+        },
+        {
+          "name": "random-216",
+          "error": "<root>: text patch header length does not match operations"
+        },
+        {
+          "name": "random-285",
+          "error": "<root>: text patch header length does not match operations"
+        }
+      ],
+      "strict_successes": 471,
+      "zero_error_fuzzy_successes": 525,
+      "default_fuzzy_successes": 562,
+      "valid_fuzzy_failures": []
+    },
+    "upstream_self_inverse_failures": 507
+  },
+  "fuzz": {
+    "command": "cargo +nightly fuzz run core -- -max_total_time=60 -max_len=2048 -rss_limit_mb=1024 -seed=20261002",
+    "exit_code": 0,
+    "executions": 247682,
+    "elapsed_seconds": 61,
+    "failure_samples": 0,
+    "log_final_line": "Done 247682 runs in 61 second(s)",
+    "sanitizer": "AddressSanitizer"
+  },
+  "source_hashes_stable_through_checks": true,
+  "source_sha256": {
+    "Cargo.lock": "ffc743482531c6cbf43417d182299864fe88dbc763e242a53fd30274dba74199",
+    "Cargo.toml": "eda218f8921b161751ef1d0c1d733fc6e0be648e3c0a0cb617b0aa4384fec39f",
+    "README.md": "bd8e94583a6d278ddb435b0983cb1813e89f9e004b9154e9d1bdeb702a8552f0",
+    "examples/fixture_runner.rs": "90154c6740dc2c2343408102f9bb39288b277f9f70604d7d8001376f397fbcfe",
+    "examples/standard_bench.rs": "911a5ad4dd63f547fb318912a0fdce89c99413369d0fe43eccea73b7e5bee39b",
+    "fuzz/Cargo.lock": "d39ba600775f5066b7df12d9a0ea51480908e774326055fb53532a3546168769",
+    "fuzz/fuzz_targets/core.rs": "a921a159205414186da0e2fb478e77d4429039b39d8850d48526f003b4a090e2",
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "21f765cc6a608b18e4a3f68dd651f3f4c92b0f445041950a1c09806c6219c4b6",
+    "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+    "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "ff7bee5ba5cef382ccd1cab2269107a888848be8e9b07f357e41ed0f8c3419d1",
+    "src/text.rs": "0c189e4808e6ffeccdc9f1b83635164d1d24ad03e068b44acbec8a7b17983131",
+    "tests/application.rs": "72d0f14e3759ac3180bb8e6cee2dacf0f3866a03323026e75be97ae46a960b9a",
+    "tests/array_quality.rs": "3853574ce706523396be201a46db37b37fdc3fdcc7894f564f4668a9c0ca6f83",
+    "tests/compare.rs": "5217e9251ba6b1d3c8dae27e721eaa16e0315626e72e2826cb7c03ef7e3ab644",
+    "tests/core.rs": "da415254b2277bb909d9fc0da528356a3eec03df8bd2efaa537589d7c61018fe",
+    "tests/export_scaling.rs": "482cf43a7e27e77ffd901a938c1b9f062f57e75d08403f62eb4c3610e32084dc",
+    "tests/fixtures/js-text-inverse.json": "f2ea5b407691025a79c4097e8a157122aceb19d9eba7dc9ad6e498b8c544f812",
+    "tests/fixtures.rs": "77643c6d9fe4d89583eee01b47a399d2045493e00a3e35a3ec3378b72da58f7f",
+    "tests/merge.rs": "9ea4e9245d2f5c1d14a0dbd32a451f08b1b01ffbd75847a346231df4a6cc57a1",
+    "tests/numbers.rs": "1ced874742da34b8cff880ff5dd9a771564e813b6b2c357c9b1f9a859d14ad61",
+    "tests/properties.rs": "136eee76b0e3d9fe3199cfc336aa25b65f0368eca5be496f412a7fdb9e68e71c",
+    "tests/protocol_properties.rs": "4004ff2a7e23a992da08defc4956b483e6c9fbda2d10a19199aec80437d52d2c",
+    "tests/rfc_extended.rs": "16ee325238b3661deeb4bcc7f078709834c6b2d6aeea4afa2c572af6c41cbdc1",
+    "tests/standard_semantics.rs": "f3ac7d856c19ea15145118c9a4514a75e3bc7fa288d2807cec63cd63d8baf5bb",
+    "tests/text_extended.rs": "7a85b084912b1b60c5b08c7e262223e4604b4f6650d28e244e71c14723a08f4c"
+  },
+  "artifacts_sha256": {
+    "results/interop-summary.json": "02694d9f0e088d3189b1fe6e085236a52da64838921b024b65a8b101cfbcbf11",
+    "tools/interop.mjs": "48f9329b983f18372b1a713e625a8c2e6d5f53918717d7af242ccf893121f3f3",
+    "target/release/examples/fixture_runner": "24fc198147be0c4ab58b1b2d92ebdfe6d05d2b89defb135d65ec5750c71229d1"
+  },
+  "fuzz_lock_note": "Fuzz reordered package/dependency entries only; equal dependency graph verified and original ordering restored."
+}

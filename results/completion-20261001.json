@@ -1,0 +1,1084 @@
+{
+  "recorded_at": "2026-10-01T15:03:01.337622+00:00",
+  "released_version": "0.1.0",
+  "released_commit": "38eaa8dd05feaafa942e4c5ce2ad8996b133c33c",
+  "released_ci": "https://github.com/majiayu000/palim/actions/runs/36841181994",
+  "worktree_changes_published": false,
+  "scope": {
+    "real_project_integration": "Deferred by the user; complete the library first.",
+    "parallel_changes": "Preserved and jointly verified at the user request.",
+    "production_text_matching_changed": false
+  },
+  "checks": {
+    "cargo test --locked": {
+      "exit_code": 0,
+      "seconds": 36.59665504191071,
+      "stdout": "   Compiling palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.37s\n     Running unittests src/lib.rs (target/debug/deps/palim-266f0ba97944c1ce)\n\nrunning 3 tests\ntest rfc::guard_cost_tests::guard_costs_match_serialized_guards_for_empty_root_and_two_guard_operations ... ok\ntest numbers::tests::equal_decimal_values_have_equal_hashes ... ok\ntest rfc::guard_cost_tests::guard_cost_prefixes_replay_dependent_copy_and_array_suffixes ... ok\n\ntest result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/application.rs (target/debug/deps/application-cc0d45839130f9a0)\n\nrunning 7 tests\ntest standard_depth_limits_validate_the_baseline_and_intermediate_results ... ok\ntest standard_resource_error_priority_remains_stable ... ok\ntest copy_budget_counts_cumulative_serialized_source_bytes_before_copying ... ok\ntest standard_insertions_reject_combined_depth_at_the_failing_operation ... ok\ntest standard_path_errors_precede_combined_depth_errors ... ok\ntest owned_and_atomic_in_place_application_restore_documents ... ok\ntest fuzzy_application_reaches_nested_strings_and_keeps_other_edits_strict ... ok\n\ntest result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/array_quality.rs (target/debug/deps/array_quality-c94a26d30d7dda6a)\n\nrunning 17 tests\ntest standard_export_does_not_repeat_a_native_move ... ok\ntest projected_array_items_are_filtered_once_and_nested_fields_still_filter ... ok\ntest custom_array_matching_handles_changed_primitives_before_value_matching ... ok\ntest node_filter_projects_original_positions_and_object_additions_and_deletions ... ok\ntest subtree_filters_allow_atomic_container_to_scalar_replacement ... ok\ntest custom_array_matching_resolves_ambiguous_pairs_without_remove_add ... ok\ntest subtree_filters_keep_original_paths_after_array_compaction ... ok\ntest subtree_filters_project_additions_type_changes_and_partial_deletions ... ok\ntest unique_identity_moves_preserve_nested_edits_and_baseline_checks ... ok\ntest subtree_filters_do_not_turn_excluded_missing_values_into_null ... ok\ntest half_rotation_of_500_items_needs_250_moves ... ok\ntest large_dense_repetition_and_duplicate_identities_round_trip ... ok\ntest small_repeated_sequences_use_the_minimum_stable_subsequence ... ok\ntest unique_permutations_use_the_minimum_native_and_standard_moves ... ok\ntest arbitrary_custom_matching_round_trips ... ok\ntest arbitrary_position_filters_match_the_explicit_projection ... ok\ntest mixed_add_remove_reorder_and_nested_changes ... ok\n\ntest result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.51s\n\n     Running tests/compare.rs (target/debug/deps/compare-a9359b02e7176d94)\n\nrunning 17 tests\ntest custom_comparison_has_a_fallback_and_can_override_equality ... ok\ntest custom_matcher_and_duplicate_identities_are_deterministic ... ok\ntest budgets_and_invalid_options_return_errors_instead_of_partial_reports ... ok\ntest exact_json_report_and_mathematical_numbers ... ok\ntest nested_unordered_containers_and_keyed_changes ... ok\ntest identities_report_moves_and_nested_changes_without_counting_missing_as_null ... ok\ntest empty_equal_documents_and_report_serialization ... ok\ntest arbitrary_precision_number_matching_and_exact_decimal_tolerance ... ok\ntest excluded_identity_items_do_not_report_moves_and_budget_counts_matching_edges ... ok\ntest filters_include_root_array_and_missing_nodes ... ok\ntest tolerance_uses_absolute_relative_and_exact_large_integer_distance ... ok\ntest unordered_arrays_are_multisets_selected_by_path ... ok\ntest unordered_matching_finds_maximum_pairs_instead_of_greedy_pairs ... ok\ntest numeric_work_budget_precedes_exact_and_unordered_canonicalization ... ok\ntest structural_fingerprints_reduce_candidates_and_still_check_nested_order ... ok\ntest tolerance_pairing_agrees_with_exhaustive_matching ... ok\ntest unordered_primitive_permutation_preserves_repeated_counts ... ok\n\ntest result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s\n\n     Running tests/core.rs (target/debug/deps/core-9f8a75844d14f97d)\n\nrunning 9 tests\ntest filters_and_depth_limits ... ok\ntest invalid_array_and_text_patches ... ok\ntest bad_baseline_is_an_error_and_input_is_unchanged ... ok\ntest structural_round_trips ... ok\ntest identity_moves_and_multiple_instances ... ok\ntest standard_patch_atomicity_error_path_and_intermediate_depth ... ok\ntest compact_moves_in_both_directions ... ok\ntest unicode_long_text_and_multi_hunks ... ok\ntest near_depth_limit_deltas_round_trip_or_return_depth_error ... ok\n\ntest result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n     Running tests/export_scaling.rs (target/debug/deps/export_scaling-50e0497938f08248)\n\nrunning 4 tests\ntest typed_payloads_text_and_baseline_validation ... ok\ntest exhaustive_small_permutations_and_explicit_all_item_moves ... ok\ntest duplicate_ids_add_remove_and_nested_edits ... ok\ntest large_half_swaps_and_reversals_keep_one_operation_per_move ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.68s\n\n     Running tests/fixtures.rs (target/debug/deps/fixtures-de16993bd4c16d28)\n\nrunning 2 tests\ntest rfc_6902_public_success_and_error_cases ... ok\ntest saved_373_document_pairs ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n     Running tests/merge.rs (target/debug/deps/merge-17853f824c744cac)\n\nrunning 8 tests\ntest composition_rejects_loss_of_unknown_baseline_fields ... ok\ntest replacement_and_empty_object_semantics ... ok\ntest null_assignment_is_rejected_only_when_unrepresentable ... ok\ntest rfc7396_appendix_a_application_and_diff ... ok\ntest composition_preserves_deletion_instructions_and_nested_updates ... ok\ntest depth_errors_are_atomic ... ok\ntest generated_patch_round_trips_every_representable_target ... ok\ntest accepted_compositions_equal_sequential_application ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.28s\n\n     Running tests/numbers.rs (target/debug/deps/numbers-525b552deab00d56)\n\nrunning 10 tests\ntest unordered_reports_use_the_same_exact_number_equality_as_standard_test ... ok\ntest tolerance_compares_arbitrary_precision_decimal_values ... ok\ntest standard_tests_and_reports_compare_exact_decimal_values ... ok\ntest relative_tolerance_handles_huge_small_and_signed_numbers_exactly ... ok\ntest absolute_tolerance_is_exact_at_decimal_boundaries_and_cancellation ... ok\ntest huge_exponent_tolerance_is_sparse_and_obeys_existing_work_budget ... ok\ntest enormous_exponents_are_compared_without_expanding_the_number ... ok\ntest arbitrary_precision_values_round_trip_through_native_delta ... ok\ntest shifting_decimal_places_keeps_mathematical_value ... ok\ntest sparse_decimal_tolerance_agrees_with_scaled_integer_arithmetic ... ok\n\ntest result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s\n\n     Running tests/properties.rs (target/debug/deps/properties-29dd04337320110e)\n\nrunning 4 tests\ntest arbitrary_unicode_text ... ok\ntest untrusted_delta_never_panics ... ok\ntest arbitrary_json_round_trip ... ok\ntest duplicate_identity_and_mixed_array_edits ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.35s\n\n     Running tests/protocol_properties.rs (target/debug/deps/protocol_properties-198b0dacbed74486)\n\nrunning 6 tests\ntest accepted_text_coordinates_have_serializable_inverses ... ok\ntest fuzzy_replacement_consumes_a_substituted_last_character ... ok\ntest array_protocol_mutations_never_escape_validated_type ... ok\ntest supplied_array_move_delete_add_and_edit ... ok\ntest supplied_unicode_text_and_protocol_mutations ... ok\ntest generated_documents_keep_complete_protocol_invariants ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.75s\n\n     Running tests/rfc_extended.rs (target/debug/deps/rfc_extended-7a972d3ae3058371)\n\nrunning 23 tests\ntest factorizes_cross_property_and_cross_array_moves ... ok\ntest copies_numbers_added_or_replaced_by_an_earlier_operation ... ok\ntest copy_sources_must_fit_the_serialized_path_budget ... ok\ntest copies_strings_added_or_replaced_by_an_earlier_operation ... ok\ntest factorizes_copies_using_the_current_document ... ok\ntest copy_cost_bounds_allow_shortened_moves_copies_and_array_indices ... ok\ntest copy_candidates_use_mathematical_number_equality ... ok\ntest factorization_handles_interleaved_array_indices_and_duplicates ... ok\ntest arbitrary_precision_payloads_survive_move_copy_guards_and_inverse ... ok\ntest inverts_root_add_copy_replace_and_test_only_patches ... ok\ntest guards_array_insertions_and_missing_object_properties ... ok\ntest copies_strings_inside_an_earlier_added_or_replaced_payload ... ok\ntest guards_move_sources_and_copy_sources ... ok\ntest inversion_preserves_original_error_and_input ... ok\ntest inverts_all_six_operations_with_overwrites_and_append ... ok\ntest inverts_moves_into_ancestors_and_shifted_array_objects ... ok\ntest rationalization_accounts_for_tests_and_escaped_utf8_bytes ... ok\ntest rationalizes_nested_parents_by_serialized_size ... ok\ntest arbitrary_precision_numbers_survive_all_standard_diff_options_and_wire ... ok\ntest guarded_rationalization_keeps_move_copy_prefixes_and_nested_replacements ... ok\ntest guarded_repeated_id_reordering_authenticates_the_replaced_container ... ok\ntest inverses_restore_random_standard_operation_sequences ... ok\ntest optimized_and_guarded_patches_restore_random_documents ... ok\n\ntest result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s\n\n     Running tests/standard_semantics.rs (target/debug/deps/standard_semantics-4cc52c76e79c847c)\n\nrunning 6 tests\ntest standard_test_error_keeps_operation_and_path ... ok\ntest root_move_to_itself_is_a_noop_and_missing_move_still_fails ... ok\ntest standard_moves_and_copies_use_the_final_destination_container ... ok\ntest included_move_values_authenticate_and_remain_reversible_after_editing ... ok\ntest standard_test_uses_mathematical_recursive_numeric_equality ... ok\ntest instance_standard_diff_applies_only_the_filtered_projection ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/text_extended.rs (target/debug/deps/text_extended-84f12fd3db354464)\n\nrunning 15 tests\ntest fuzzy_anchor_ties_replace_the_fragment_and_preserve_external_suffixes ... ok\ntest historical_js_inverse_coordinate_formats_remain_strict ... ok\ntest normalized_text_lengths_cannot_overflow_coordinates ... ok\ntest common_text_blocks_trim_only_at_utf8_boundaries ... ok\ntest fuzzy_displacement_limit_counts_utf16_not_characters ... ok\ntest fuzzy_text_handles_multiple_unicode_hunks_and_all_or_error ... ok\ntest fuzzy_text_accepts_bounded_offsets_and_preserves_context_edits ... ok\ntest text_uri_decoding_preserves_javascript_reserved_escapes ... ok\ntest fuzzy_text_handles_long_deletions_without_losing_unicode ... ok\ntest sparse_long_unicode_text_keeps_utf16_coordinates_and_context ... ok\ntest distant_unicode_edits_keep_compact_hunks_and_roundtrip ... ok\ntest large_text_replacements_and_line_boundaries_roundtrip ... ok\ntest utf16_protocol_lengths_match_the_standard_library ... ok\ntest line_groups_preserve_empty_lines_unicode_and_terminal_newlines ... ok\ntest fuzzy_unicode_offsets_preserve_surrounding_text ... ok\n\ntest result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.41s\n\n   Doc-tests palim\n\nrunning 1 test\ntest src/../README.md - (line 38) ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\nall doctests ran in 1.07s; merged doctests compilation took 0.48s\n",
+      "total_passed": 132,
+      "summaries": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.51s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+        "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.68s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.28s",
+        "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.35s",
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.75s",
+        "test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s",
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.41s",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    "cargo test --release --locked": {
+      "exit_code": 0,
+      "seconds": 28.559339458006434,
+      "stdout": "   Compiling palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `release` profile [optimized] target(s) in 13.93s\n     Running unittests src/lib.rs (target/release/deps/palim-5eb931a48cd33e1b)\n\nrunning 3 tests\ntest numbers::tests::equal_decimal_values_have_equal_hashes ... ok\ntest rfc::guard_cost_tests::guard_costs_match_serialized_guards_for_empty_root_and_two_guard_operations ... ok\ntest rfc::guard_cost_tests::guard_cost_prefixes_replay_dependent_copy_and_array_suffixes ... ok\n\ntest result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/application.rs (target/release/deps/application-c2c0257579c0304e)\n\nrunning 7 tests\ntest standard_depth_limits_validate_the_baseline_and_intermediate_results ... ok\ntest copy_budget_counts_cumulative_serialized_source_bytes_before_copying ... ok\ntest standard_resource_error_priority_remains_stable ... ok\ntest owned_and_atomic_in_place_application_restore_documents ... ok\ntest standard_insertions_reject_combined_depth_at_the_failing_operation ... ok\ntest standard_path_errors_precede_combined_depth_errors ... ok\ntest fuzzy_application_reaches_nested_strings_and_keeps_other_edits_strict ... ok\n\ntest result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/array_quality.rs (target/release/deps/array_quality-4143decaa8550243)\n\nrunning 17 tests\ntest subtree_filters_allow_atomic_container_to_scalar_replacement ... ok\ntest projected_array_items_are_filtered_once_and_nested_fields_still_filter ... ok\ntest standard_export_does_not_repeat_a_native_move ... ok\ntest custom_array_matching_resolves_ambiguous_pairs_without_remove_add ... ok\ntest node_filter_projects_original_positions_and_object_additions_and_deletions ... ok\ntest custom_array_matching_handles_changed_primitives_before_value_matching ... ok\ntest subtree_filters_do_not_turn_excluded_missing_values_into_null ... ok\ntest large_dense_repetition_and_duplicate_identities_round_trip ... ok\ntest subtree_filters_keep_original_paths_after_array_compaction ... ok\ntest subtree_filters_project_additions_type_changes_and_partial_deletions ... ok\ntest unique_identity_moves_preserve_nested_edits_and_baseline_checks ... ok\ntest half_rotation_of_500_items_needs_250_moves ... ok\ntest small_repeated_sequences_use_the_minimum_stable_subsequence ... ok\ntest arbitrary_custom_matching_round_trips ... ok\ntest unique_permutations_use_the_minimum_native_and_standard_moves ... ok\ntest arbitrary_position_filters_match_the_explicit_projection ... ok\ntest mixed_add_remove_reorder_and_nested_changes ... ok\n\ntest result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s\n\n     Running tests/compare.rs (target/release/deps/compare-a807cfc76abb2ab4)\n\nrunning 17 tests\ntest filters_include_root_array_and_missing_nodes ... ok\ntest excluded_identity_items_do_not_report_moves_and_budget_counts_matching_edges ... ok\ntest empty_equal_documents_and_report_serialization ... ok\ntest arbitrary_precision_number_matching_and_exact_decimal_tolerance ... ok\ntest custom_matcher_and_duplicate_identities_are_deterministic ... ok\ntest nested_unordered_containers_and_keyed_changes ... ok\ntest custom_comparison_has_a_fallback_and_can_override_equality ... ok\ntest budgets_and_invalid_options_return_errors_instead_of_partial_reports ... ok\ntest exact_json_report_and_mathematical_numbers ... ok\ntest numeric_work_budget_precedes_exact_and_unordered_canonicalization ... ok\ntest identities_report_moves_and_nested_changes_without_counting_missing_as_null ... ok\ntest unordered_arrays_are_multisets_selected_by_path ... ok\ntest unordered_matching_finds_maximum_pairs_instead_of_greedy_pairs ... ok\ntest tolerance_uses_absolute_relative_and_exact_large_integer_distance ... ok\ntest structural_fingerprints_reduce_candidates_and_still_check_nested_order ... ok\ntest tolerance_pairing_agrees_with_exhaustive_matching ... ok\ntest unordered_primitive_permutation_preserves_repeated_counts ... ok\n\ntest result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n     Running tests/core.rs (target/release/deps/core-857fb8bb04cdb2d5)\n\nrunning 9 tests\ntest invalid_array_and_text_patches ... ok\ntest bad_baseline_is_an_error_and_input_is_unchanged ... ok\ntest structural_round_trips ... ok\ntest unicode_long_text_and_multi_hunks ... ok\ntest compact_moves_in_both_directions ... ok\ntest identity_moves_and_multiple_instances ... ok\ntest near_depth_limit_deltas_round_trip_or_return_depth_error ... ok\ntest filters_and_depth_limits ... ok\ntest standard_patch_atomicity_error_path_and_intermediate_depth ... ok\n\ntest result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n     Running tests/export_scaling.rs (target/release/deps/export_scaling-e2efc22ed9d38b17)\n\nrunning 4 tests\ntest typed_payloads_text_and_baseline_validation ... ok\ntest exhaustive_small_permutations_and_explicit_all_item_moves ... ok\ntest duplicate_ids_add_remove_and_nested_edits ... ok\ntest large_half_swaps_and_reversals_keep_one_operation_per_move ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.67s\n\n     Running tests/fixtures.rs (target/release/deps/fixtures-e5d483448d284684)\n\nrunning 2 tests\ntest rfc_6902_public_success_and_error_cases ... ok\ntest saved_373_document_pairs ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n     Running tests/merge.rs (target/release/deps/merge-7bb288fcc96f0011)\n\nrunning 8 tests\ntest replacement_and_empty_object_semantics ... ok\ntest composition_rejects_loss_of_unknown_baseline_fields ... ok\ntest composition_preserves_deletion_instructions_and_nested_updates ... ok\ntest null_assignment_is_rejected_only_when_unrepresentable ... ok\ntest rfc7396_appendix_a_application_and_diff ... ok\ntest depth_errors_are_atomic ... ok\ntest generated_patch_round_trips_every_representable_target ... ok\ntest accepted_compositions_equal_sequential_application ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s\n\n     Running tests/numbers.rs (target/release/deps/numbers-4b123298f5f7efde)\n\nrunning 10 tests\ntest tolerance_compares_arbitrary_precision_decimal_values ... ok\ntest arbitrary_precision_values_round_trip_through_native_delta ... ok\ntest absolute_tolerance_is_exact_at_decimal_boundaries_and_cancellation ... ok\ntest relative_tolerance_handles_huge_small_and_signed_numbers_exactly ... ok\ntest standard_tests_and_reports_compare_exact_decimal_values ... ok\ntest unordered_reports_use_the_same_exact_number_equality_as_standard_test ... ok\ntest enormous_exponents_are_compared_without_expanding_the_number ... ok\ntest huge_exponent_tolerance_is_sparse_and_obeys_existing_work_budget ... ok\ntest shifting_decimal_places_keeps_mathematical_value ... ok\ntest sparse_decimal_tolerance_agrees_with_scaled_integer_arithmetic ... ok\n\ntest result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n     Running tests/properties.rs (target/release/deps/properties-b414444c2bb81168)\n\nrunning 4 tests\ntest arbitrary_unicode_text ... ok\ntest untrusted_delta_never_panics ... ok\ntest arbitrary_json_round_trip ... ok\ntest duplicate_identity_and_mixed_array_edits ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.98s\n\n     Running tests/protocol_properties.rs (target/release/deps/protocol_properties-c5038619af9930e8)\n\nrunning 6 tests\ntest accepted_text_coordinates_have_serializable_inverses ... ok\ntest fuzzy_replacement_consumes_a_substituted_last_character ... ok\ntest array_protocol_mutations_never_escape_validated_type ... ok\ntest supplied_array_move_delete_add_and_edit ... ok\ntest supplied_unicode_text_and_protocol_mutations ... ok\ntest generated_documents_keep_complete_protocol_invariants ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s\n\n     Running tests/rfc_extended.rs (target/release/deps/rfc_extended-805885ccd93852c1)\n\nrunning 23 tests\ntest copies_strings_added_or_replaced_by_an_earlier_operation ... ok\ntest factorizes_copies_using_the_current_document ... ok\ntest copies_numbers_added_or_replaced_by_an_earlier_operation ... ok\ntest copies_strings_inside_an_earlier_added_or_replaced_payload ... ok\ntest factorization_handles_interleaved_array_indices_and_duplicates ... ok\ntest copy_cost_bounds_allow_shortened_moves_copies_and_array_indices ... ok\ntest copy_sources_must_fit_the_serialized_path_budget ... ok\ntest copy_candidates_use_mathematical_number_equality ... ok\ntest factorizes_cross_property_and_cross_array_moves ... ok\ntest arbitrary_precision_payloads_survive_move_copy_guards_and_inverse ... ok\ntest guarded_rationalization_keeps_move_copy_prefixes_and_nested_replacements ... ok\ntest guards_move_sources_and_copy_sources ... ok\ntest guards_array_insertions_and_missing_object_properties ... ok\ntest inverts_moves_into_ancestors_and_shifted_array_objects ... ok\ntest inverts_root_add_copy_replace_and_test_only_patches ... ok\ntest rationalizes_nested_parents_by_serialized_size ... ok\ntest inversion_preserves_original_error_and_input ... ok\ntest rationalization_accounts_for_tests_and_escaped_utf8_bytes ... ok\ntest arbitrary_precision_numbers_survive_all_standard_diff_options_and_wire ... ok\ntest inverts_all_six_operations_with_overwrites_and_append ... ok\ntest guarded_repeated_id_reordering_authenticates_the_replaced_container ... ok\ntest optimized_and_guarded_patches_restore_random_documents ... ok\ntest inverses_restore_random_standard_operation_sequences ... ok\n\ntest result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s\n\n     Running tests/standard_semantics.rs (target/release/deps/standard_semantics-94b045068dda815b)\n\nrunning 6 tests\ntest root_move_to_itself_is_a_noop_and_missing_move_still_fails ... ok\ntest standard_test_error_keeps_operation_and_path ... ok\ntest standard_moves_and_copies_use_the_final_destination_container ... ok\ntest standard_test_uses_mathematical_recursive_numeric_equality ... ok\ntest included_move_values_authenticate_and_remain_reversible_after_editing ... ok\ntest instance_standard_diff_applies_only_the_filtered_projection ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/text_extended.rs (target/release/deps/text_extended-c5c3348483a541dc)\n\nrunning 15 tests\ntest fuzzy_displacement_limit_counts_utf16_not_characters ... ok\ntest fuzzy_anchor_ties_replace_the_fragment_and_preserve_external_suffixes ... ok\ntest fuzzy_text_handles_multiple_unicode_hunks_and_all_or_error ... ok\ntest historical_js_inverse_coordinate_formats_remain_strict ... ok\ntest normalized_text_lengths_cannot_overflow_coordinates ... ok\ntest fuzzy_text_accepts_bounded_offsets_and_preserves_context_edits ... ok\ntest fuzzy_text_handles_long_deletions_without_losing_unicode ... ok\ntest common_text_blocks_trim_only_at_utf8_boundaries ... ok\ntest text_uri_decoding_preserves_javascript_reserved_escapes ... ok\ntest sparse_long_unicode_text_keeps_utf16_coordinates_and_context ... ok\ntest distant_unicode_edits_keep_compact_hunks_and_roundtrip ... ok\ntest large_text_replacements_and_line_boundaries_roundtrip ... ok\ntest utf16_protocol_lengths_match_the_standard_library ... ok\ntest fuzzy_unicode_offsets_preserve_surrounding_text ... ok\ntest line_groups_preserve_empty_lines_unicode_and_terminal_newlines ... ok\n\ntest result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n   Doc-tests palim\n\nrunning 1 test\ntest src/../README.md - (line 38) ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\nall doctests ran in 0.85s; merged doctests compilation took 0.30s\n",
+      "total_passed": 132,
+      "summaries": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.67s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s",
+        "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.98s",
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s",
+        "test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    "cargo clippy --all-targets --locked -- -D warnings": {
+      "exit_code": 0,
+      "seconds": 1.4678911659866571,
+      "stdout": "    Checking palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.41s\n"
+    },
+    "cargo fmt --check": {
+      "exit_code": 0,
+      "seconds": 0.1449083749903366,
+      "stdout": ""
+    },
+    "cargo +1.85.0 check --lib --locked": {
+      "exit_code": 0,
+      "seconds": 1.1116016251035035,
+      "stdout": "    Checking palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.06s\n"
+    },
+    "cargo test --locked --doc": {
+      "exit_code": 0,
+      "seconds": 2.268260583980009,
+      "stdout": "   Compiling palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.78s\n   Doc-tests palim\n\nrunning 1 test\ntest src/../README.md - (line 38) ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\nall doctests ran in 1.37s; merged doctests compilation took 0.30s\n"
+    },
+    "cargo package --allow-dirty --locked": {
+      "exit_code": 0,
+      "seconds": 2.2592374169034883,
+      "stdout": "   Packaging palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Updating crates.io index\n    Packaged 43 files, 533.2KiB (140.0KiB compressed)\n   Verifying palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n   Compiling palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim/target/package/palim-0.1.0)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.23s\n"
+    }
+  },
+  "corrected_failures": {
+    "cargo clippy --all-targets --locked -- -D warnings": {
+      "exit_code": 101,
+      "seconds": 0.7553497919579968,
+      "stdout": "    Checking palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\nerror: doc list item without indentation\n  --> src/../README.md:80:1\n   |\n80 | old-value tests and baseline-dependent inversion of all six operations.\n   | ^\n   |\n   = help: if this is supposed to be its own paragraph, add a blank line\n   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#doc_lazy_continuation\n   = note: `-D clippy::doc-lazy-continuation` implied by `-D warnings`\n   = help: to override `-D warnings` add `#[allow(clippy::doc_lazy_continuation)]`\nhelp: indent this line\n   |\n80 |   old-value tests and baseline-dependent inversion of all six operations.\n   | ++\n\nerror: could not compile `palim` (lib) due to 1 previous error\nwarning: build failed, waiting for other jobs to finish...\nerror: could not compile `palim` (lib test) due to 1 previous error\n"
+    }
+  },
+  "source_sha256_before": {
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "21f765cc6a608b18e4a3f68dd651f3f4c92b0f445041950a1c09806c6219c4b6",
+    "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+    "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "ff7bee5ba5cef382ccd1cab2269107a888848be8e9b07f357e41ed0f8c3419d1",
+    "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+  },
+  "source_sha256_after": {
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+    "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+    "src/diff.rs": "21f765cc6a608b18e4a3f68dd651f3f4c92b0f445041950a1c09806c6219c4b6",
+    "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+    "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "ff7bee5ba5cef382ccd1cab2269107a888848be8e9b07f357e41ed0f8c3419d1",
+    "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+  },
+  "source_unchanged_through_checks": true,
+  "fuzz": {
+    "command": "cargo +nightly fuzz run core -- -max_total_time=60 -max_len=2048 -rss_limit_mb=1024 -seed=20261001",
+    "exit_code": 0,
+    "seconds": 85.0930577920517,
+    "source_sha256_before": {
+      "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+      "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+      "src/diff.rs": "21f765cc6a608b18e4a3f68dd651f3f4c92b0f445041950a1c09806c6219c4b6",
+      "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+      "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+      "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+      "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+      "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "src/rfc.rs": "ff7bee5ba5cef382ccd1cab2269107a888848be8e9b07f357e41ed0f8c3419d1",
+      "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+    },
+    "source_sha256_after": {
+      "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+      "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+      "src/diff.rs": "21f765cc6a608b18e4a3f68dd651f3f4c92b0f445041950a1c09806c6219c4b6",
+      "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+      "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+      "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+      "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+      "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "src/rfc.rs": "ff7bee5ba5cef382ccd1cab2269107a888848be8e9b07f357e41ed0f8c3419d1",
+      "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+    },
+    "source_unchanged": true,
+    "summary": [
+      "Done 303130 runs in 61 second(s)"
+    ],
+    "log_tail": "#303130\tDONE   cov: 8338 ft: 31482 corp: 3097/65Kb lim: 135 exec/s: 4969 rss: 607Mb\nDone 303130 runs in 61 second(s)"
+  },
+  "guarded_pipeline": {
+    "directory": "results/standard-benchmark-pipeline-20261001T144404.173244Z",
+    "verified": 48,
+    "measured": 48,
+    "ambiguous_ids_process_medians_ms": [
+      11.464156374999998,
+      11.407140625,
+      11.48515625
+    ]
+  },
+  "guarded_compression_comparison": [
+    {
+      "name": "small-config-edit",
+      "before": {
+        "patch_bytes": 101,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 101,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "rotate-2000",
+      "before": {
+        "patch_bytes": 34130,
+        "operations": 3,
+        "operation_counts": {
+          "move": 1,
+          "test": 2
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 34130,
+        "operations": 3,
+        "operation_counts": {
+          "move": 1,
+          "test": 2
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "disjoint-2000",
+      "before": {
+        "patch_bytes": 68072,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 68072,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "keyed-rotate-edit-2000",
+      "before": {
+        "patch_bytes": 133995,
+        "operations": 5,
+        "operation_counts": {
+          "move": 1,
+          "replace": 1,
+          "test": 3
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 133995,
+        "operations": 5,
+        "operation_counts": {
+          "move": 1,
+          "replace": 1,
+          "test": 3
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "long-text-ascii",
+      "before": {
+        "patch_bytes": 360079,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 360079,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "halfswap-500",
+      "before": {
+        "patch_bytes": 17072,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 17072,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "unicode-first",
+      "before": {
+        "patch_bytes": 460081,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 460081,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "unicode-middle",
+      "before": {
+        "patch_bytes": 460081,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 460081,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "unicode-last",
+      "before": {
+        "patch_bytes": 460081,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 460081,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "unicode-three-edits",
+      "before": {
+        "patch_bytes": 460095,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 460095,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "unicode-disjoint",
+      "before": {
+        "patch_bytes": 480074,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 480074,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "shuffle-2000",
+      "before": {
+        "patch_bytes": 17852,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 17852,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "reverse-2000",
+      "before": {
+        "patch_bytes": 17852,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 17852,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "duplicates-high-2000",
+      "before": {
+        "patch_bytes": 8132,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 8132,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "duplicates-low-2000",
+      "before": {
+        "patch_bytes": 15654,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 15654,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    },
+    {
+      "name": "ambiguous-ids-2000",
+      "before": {
+        "patch_bytes": 88590,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      },
+      "after": {
+        "patch_bytes": 88590,
+        "operations": 2,
+        "operation_counts": {
+          "replace": 1,
+          "test": 1
+        },
+        "ok": true
+      }
+    }
+  ],
+  "diagnostic": {
+    "boundary": "preparsed Values -> diff_json_patch; one warmup plus three timings; forward and inverse verified",
+    "before_stdout": "    Updating crates.io index\n     Locking 24 packages to latest Rust 1.97.0 compatible versions\n   Compiling proc-macro2 v1.0.107\n   Compiling unicode-ident v1.0.26\n   Compiling quote v1.0.47\n   Compiling serde_core v1.0.229\n   Compiling autocfg v1.5.1\n   Compiling zmij v1.0.23\n   Compiling memchr v2.8.3\n   Compiling serde_json v1.0.151\n   Compiling serde v1.0.229\n   Compiling thiserror v2.0.21\n   Compiling itoa v1.0.18\n   Compiling foldhash v0.1.5\n   Compiling percent-encoding v2.3.2\n   Compiling hashbrown v0.15.5\n   Compiling num-traits v0.2.19\n   Compiling imara-diff v0.2.0\n   Compiling syn v3.0.6\n   Compiling serde_derive v1.0.229\n   Compiling thiserror-impl v2.0.21\n   Compiling num-integer v0.1.47\n   Compiling num-bigint v0.4.8\n   Compiling jsonptr v0.7.1\n   Compiling json-patch v4.2.0\n   Compiling palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n   Compiling palim-completion-probe v0.0.0 (/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-completion-4u1jfzqz)\n    Finished `release` profile [optimized] target(s) in 11.02s\n     Running `/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-completion-4u1jfzqz/target/release/palim-completion-probe /var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-completion-4u1jfzqz/input.json`\nplain: median=2.661ms min=2.615ms bytes=100688 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 0]\nfactorize: median=3.892ms min=3.872ms bytes=100688 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 0]\nrationalize: median=22.336ms min=22.107ms bytes=44296 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 0]\noptimized: median=23.571ms min=23.497ms bytes=44296 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 0]\nguarded: median=12.716ms min=12.545ms bytes=1125867 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 2042]\noptimized-guarded: median=4257.794ms min=4222.659ms bytes=88590 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 1]\n",
+    "after_stdout": "   Compiling palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n   Compiling palim-completion-probe v0.0.0 (/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-completion-4u1jfzqz)\n    Finished `release` profile [optimized] target(s) in 2.77s\n     Running `/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-completion-4u1jfzqz/target/release/palim-completion-probe /var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-completion-4u1jfzqz/input.json`\nplain: median=2.675ms min=2.657ms bytes=100688 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 0]\nfactorize: median=4.260ms min=3.964ms bytes=100688 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 0]\nrationalize: median=22.379ms min=22.344ms bytes=44296 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 0]\noptimized: median=23.883ms min=23.802ms bytes=44296 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 0]\nguarded: median=12.614ms min=12.368ms bytes=1125867 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 2042]\noptimized-guarded: median=10.736ms min=10.545ms bytes=88590 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 1]\n",
+    "harness_source": "use palim::{DiffOptions, DiffPatcher, JsonPatchOptions, PatchOperation, apply_json_patch, invert_json_patch};\nuse serde_json::Value;\nuse std::{fs, hint::black_box, sync::Arc, time::Instant};\n\nfn main() {\n    let file=std::env::args().nth(1).unwrap();\n    let input: Value=serde_json::from_slice(&fs::read(file).unwrap()).unwrap();\n    let left=&input[\"left\"]; let right=&input[\"right\"];\n    let engine=DiffPatcher::new(DiffOptions {object_hash:Some(Arc::new(|v,_|v.get(\"id\").map(Value::to_string))), ..Default::default()});\n    for (name, factorize, rationalize, tests) in [\n        (\"plain\", false, false, false), (\"factorize\", true, false, false),\n        (\"rationalize\", false, true, false), (\"optimized\", true, true, false),\n        (\"guarded\", false, false, true), (\"optimized-guarded\", true, true, true)\n    ] {\n        let options=JsonPatchOptions{factorize,rationalize,tests};\n        let mut samples=Vec::new();\n        let mut counts=[0usize;6]; let mut size=0;\n        for iteration in 0..4 {\n            let start=Instant::now();\n            let patch=engine.diff_json_patch(black_box(left),black_box(right),black_box(&options)).unwrap();\n            let elapsed=start.elapsed().as_secs_f64()*1000.;\n            if iteration>0 {samples.push(elapsed);}\n            if iteration==0 {\n                assert_eq!(apply_json_patch(left,&patch).unwrap(), *right);\n                let inverse=invert_json_patch(left,&patch).unwrap();\n                assert_eq!(apply_json_patch(right,&inverse).unwrap(), *left);\n                for op in &patch.0 {counts[match op {PatchOperation::Add(_)=>0,PatchOperation::Remove(_)=>1,PatchOperation::Replace(_)=>2,PatchOperation::Move(_)=>3,PatchOperation::Copy(_)=>4,PatchOperation::Test(_)=>5}]+=1;}\n                size=serde_json::to_vec(&patch).unwrap().len();\n            }\n            black_box(patch);\n        }\n        samples.sort_by(f64::total_cmp);\n        println!(\"{name}: median={:.3}ms min={:.3}ms bytes={size} add/remove/replace/move/copy/test={counts:?}\",samples[samples.len()/2],samples[0]);\n    }\n}\n",
+    "probe_cargo_lock_sha256": "9e9ccf925bef474017bd220ba6fec2dcef65bfec23352090859b5b74fba3408c",
+    "limitation": "Source hashes were not captured at the first diagnostic invocations; formal pipeline source and binary hashes are recorded separately."
+  },
+  "interop": {
+    "cases": 1073,
+    "counts": {
+      "rust_delta_js_forward": 1073,
+      "rust_inverse_js_backward": 1073,
+      "rust_rfc_js_forward": 1073,
+      "js_native_forward": 1073,
+      "js_delta_rust_roundtrip": 1073,
+      "js_native_backward": 566
+    },
+    "upstream_inverse_compatibility": {
+      "js_self_successes": 566,
+      "malformed": [
+        {
+          "name": "random-13",
+          "error": "<root>: text patch header length does not match operations"
+        },
+        {
+          "name": "random-93",
+          "error": "<root>: text patch header length does not match operations"
+        },
+        {
+          "name": "random-216",
+          "error": "<root>: text patch header length does not match operations"
+        },
+        {
+          "name": "random-285",
+          "error": "<root>: text patch header length does not match operations"
+        }
+      ],
+      "strict_successes": 471,
+      "zero_error_fuzzy_successes": 525,
+      "default_fuzzy_successes": 560,
+      "valid_fuzzy_failures": [
+        {
+          "name": "text-22",
+          "error": "output differs from baseline"
+        },
+        {
+          "name": "text-99",
+          "error": "<root>: text patch exceeds max_error_ratio"
+        }
+      ]
+    },
+    "upstream_inverse_failures": [
+      "keyed-mixed-0",
+      "keyed-mixed-1",
+      "keyed-mixed-2",
+      "keyed-mixed-3",
+      "keyed-mixed-4",
+      "keyed-mixed-6",
+      "keyed-mixed-7",
+      "keyed-mixed-8",
+      "keyed-mixed-10",
+      "keyed-mixed-11",
+      "keyed-mixed-12",
+      "keyed-mixed-13",
+      "keyed-mixed-14",
+      "keyed-mixed-15",
+      "keyed-mixed-17",
+      "keyed-mixed-18",
+      "keyed-mixed-19",
+      "keyed-mixed-20",
+      "keyed-mixed-21",
+      "keyed-mixed-23",
+      "keyed-mixed-24",
+      "keyed-mixed-25",
+      "keyed-mixed-27",
+      "keyed-mixed-29",
+      "keyed-mixed-31",
+      "keyed-mixed-32",
+      "keyed-mixed-33",
+      "keyed-mixed-35",
+      "keyed-mixed-36",
+      "keyed-mixed-37",
+      "keyed-mixed-38",
+      "keyed-mixed-39",
+      "keyed-mixed-40",
+      "keyed-mixed-41",
+      "keyed-mixed-42",
+      "keyed-mixed-43",
+      "keyed-mixed-44",
+      "keyed-mixed-46",
+      "keyed-mixed-47",
+      "keyed-mixed-48",
+      "keyed-mixed-49",
+      "keyed-mixed-50",
+      "keyed-mixed-51",
+      "keyed-mixed-52",
+      "keyed-mixed-53",
+      "keyed-mixed-54",
+      "keyed-mixed-55",
+      "keyed-mixed-56",
+      "keyed-mixed-57",
+      "keyed-mixed-58",
+      "keyed-mixed-59",
+      "keyed-mixed-60",
+      "keyed-mixed-61",
+      "keyed-mixed-62",
+      "keyed-mixed-63",
+      "keyed-mixed-65",
+      "keyed-mixed-66",
+      "keyed-mixed-67",
+      "keyed-mixed-68",
+      "keyed-mixed-69",
+      "keyed-mixed-70",
+      "keyed-mixed-71",
+      "keyed-mixed-72",
+      "keyed-mixed-73",
+      "keyed-mixed-74",
+      "keyed-mixed-75",
+      "keyed-mixed-77",
+      "keyed-mixed-78",
+      "keyed-mixed-79",
+      "keyed-mixed-80",
+      "keyed-mixed-81",
+      "keyed-mixed-82",
+      "keyed-mixed-83",
+      "keyed-mixed-84",
+      "keyed-mixed-86",
+      "keyed-mixed-87",
+      "keyed-mixed-88",
+      "keyed-mixed-89",
+      "keyed-mixed-90",
+      "keyed-mixed-91",
+      "keyed-mixed-92",
+      "keyed-mixed-93",
+      "keyed-mixed-94",
+      "keyed-mixed-96",
+      "keyed-mixed-99",
+      "keyed-mixed-102",
+      "keyed-mixed-103",
+      "keyed-mixed-104",
+      "keyed-mixed-105",
+      "keyed-mixed-106",
+      "keyed-mixed-107",
+      "keyed-mixed-108",
+      "keyed-mixed-109",
+      "keyed-mixed-110",
+      "keyed-mixed-111",
+      "keyed-mixed-112",
+      "keyed-mixed-113",
+      "keyed-mixed-114",
+      "keyed-mixed-115",
+      "keyed-mixed-116",
+      "keyed-mixed-117",
+      "keyed-mixed-118",
+      "keyed-mixed-120",
+      "keyed-mixed-122",
+      "keyed-mixed-123",
+      "keyed-mixed-124",
+      "keyed-mixed-125",
+      "keyed-mixed-126",
+      "keyed-mixed-127",
+      "keyed-mixed-128",
+      "keyed-mixed-129",
+      "keyed-mixed-130",
+      "keyed-mixed-131",
+      "keyed-mixed-133",
+      "keyed-mixed-134",
+      "keyed-mixed-135",
+      "keyed-mixed-136",
+      "keyed-mixed-137",
+      "keyed-mixed-139",
+      "keyed-mixed-140",
+      "keyed-mixed-141",
+      "keyed-mixed-142",
+      "keyed-mixed-143",
+      "keyed-mixed-144",
+      "keyed-mixed-145",
+      "keyed-mixed-146",
+      "keyed-mixed-147",
+      "keyed-mixed-148",
+      "keyed-mixed-149",
+      "keyed-mixed-150",
+      "keyed-mixed-153",
+      "keyed-mixed-154",
+      "keyed-mixed-155",
+      "keyed-mixed-156",
+      "keyed-mixed-157",
+      "keyed-mixed-158",
+      "keyed-mixed-159",
+      "keyed-mixed-160",
+      "keyed-mixed-161",
+      "keyed-mixed-162",
+      "keyed-mixed-163",
+      "keyed-mixed-164",
+      "keyed-mixed-168",
+      "keyed-mixed-169",
+      "keyed-mixed-170",
+      "keyed-mixed-171",
+      "keyed-mixed-172",
+      "keyed-mixed-173",
+      "keyed-mixed-174",
+      "keyed-mixed-175",
+      "keyed-mixed-176",
+      "keyed-mixed-177",
+      "keyed-mixed-178",
+      "keyed-mixed-179",
+      "keyed-mixed-180",
+      "keyed-mixed-181",
+      "keyed-mixed-182",
+      "keyed-mixed-183",
+      "keyed-mixed-184",
+      "keyed-mixed-186",
+      "keyed-mixed-187",
+      "keyed-mixed-188",
+      "keyed-mixed-189",
+      "keyed-mixed-190",
+      "keyed-mixed-191",
+      "keyed-mixed-192",
+      "keyed-mixed-193",
+      "keyed-mixed-194",
+      "keyed-mixed-196",
+      "keyed-mixed-197",
+      "keyed-mixed-199",
+      "keyed-mixed-200",
+      "keyed-mixed-201",
+      "keyed-mixed-202",
+      "keyed-mixed-203",
+      "keyed-mixed-204",
+      "keyed-mixed-205",
+      "keyed-mixed-206",
+      "keyed-mixed-207",
+      "keyed-mixed-208",
+      "keyed-mixed-209",
+      "keyed-mixed-211",
+      "keyed-mixed-212",
+      "keyed-mixed-213",
+      "keyed-mixed-214",
+      "keyed-mixed-215",
+      "keyed-mixed-216",
+      "keyed-mixed-218",
+      "keyed-mixed-220",
+      "keyed-mixed-221",
+      "keyed-mixed-223",
+      "keyed-mixed-224",
+      "keyed-mixed-226",
+      "keyed-mixed-227",
+      "keyed-mixed-228",
+      "keyed-mixed-229",
+      "keyed-mixed-230",
+      "keyed-mixed-231",
+      "keyed-mixed-233",
+      "keyed-mixed-234",
+      "keyed-mixed-235",
+      "keyed-mixed-238",
+      "keyed-mixed-239",
+      "keyed-mixed-240",
+      "keyed-mixed-241",
+      "keyed-mixed-242",
+      "keyed-mixed-243",
+      "keyed-mixed-244",
+      "keyed-mixed-245",
+      "keyed-mixed-246",
+      "keyed-mixed-248",
+      "keyed-mixed-249",
+      "keyed-mixed-250",
+      "keyed-mixed-252",
+      "keyed-mixed-253",
+      "keyed-mixed-254",
+      "keyed-mixed-255",
+      "keyed-mixed-256",
+      "keyed-mixed-258",
+      "keyed-mixed-260",
+      "keyed-mixed-261",
+      "keyed-mixed-262",
+      "keyed-mixed-263",
+      "keyed-mixed-264",
+      "keyed-mixed-265",
+      "keyed-mixed-266",
+      "keyed-mixed-268",
+      "keyed-mixed-270",
+      "keyed-mixed-272",
+      "keyed-mixed-273",
+      "keyed-mixed-274",
+      "keyed-mixed-276",
+      "keyed-mixed-277",
+      "keyed-mixed-279",
+      "keyed-mixed-280",
+      "keyed-mixed-281",
+      "keyed-mixed-282",
+      "keyed-mixed-283",
+      "keyed-mixed-284",
+      "keyed-mixed-285",
+      "keyed-mixed-286",
+      "keyed-mixed-287",
+      "keyed-mixed-288",
+      "keyed-mixed-289",
+      "keyed-mixed-290",
+      "keyed-mixed-291",
+      "keyed-mixed-293",
+      "keyed-mixed-294",
+      "keyed-mixed-295",
+      "keyed-mixed-296",
+      "keyed-mixed-297",
+      "keyed-mixed-298",
+      "keyed-mixed-299",
+      "keyed-mixed-302",
+      "keyed-mixed-303",
+      "keyed-mixed-304",
+      "keyed-mixed-306",
+      "keyed-mixed-308",
+      "keyed-mixed-309",
+      "keyed-mixed-310",
+      "keyed-mixed-311",
+      "keyed-mixed-312",
+      "keyed-mixed-313",
+      "keyed-mixed-314",
+      "keyed-mixed-315",
+      "keyed-mixed-316",
+      "keyed-mixed-317",
+      "keyed-mixed-318",
+      "keyed-mixed-319",
+      "keyed-mixed-320",
+      "keyed-mixed-323",
+      "keyed-mixed-324",
+      "keyed-mixed-325",
+      "keyed-mixed-326",
+      "keyed-mixed-327",
+      "keyed-mixed-328",
+      "keyed-mixed-330",
+      "keyed-mixed-331",
+      "keyed-mixed-332",
+      "keyed-mixed-333",
+      "keyed-mixed-334",
+      "keyed-mixed-335",
+      "keyed-mixed-337",
+      "keyed-mixed-338",
+      "keyed-mixed-339",
+      "keyed-mixed-342",
+      "keyed-mixed-344",
+      "keyed-mixed-345",
+      "keyed-mixed-348",
+      "keyed-mixed-349",
+      "keyed-mixed-350",
+      "keyed-mixed-351",
+      "keyed-mixed-352",
+      "keyed-mixed-353",
+      "keyed-mixed-354",
+      "keyed-mixed-355",
+      "keyed-mixed-356",
+      "keyed-mixed-357",
+      "keyed-mixed-358",
+      "keyed-mixed-359",
+      "keyed-mixed-360",
+      "keyed-mixed-361",
+      "keyed-mixed-362",
+      "keyed-mixed-364",
+      "keyed-mixed-366",
+      "keyed-mixed-368",
+      "keyed-mixed-369",
+      "keyed-mixed-370",
+      "keyed-mixed-371",
+      "keyed-mixed-372",
+      "keyed-mixed-373",
+      "keyed-mixed-374",
+      "keyed-mixed-375",
+      "keyed-mixed-376",
+      "keyed-mixed-378",
+      "keyed-mixed-379",
+      "keyed-mixed-380",
+      "keyed-mixed-381",
+      "keyed-mixed-382",
+      "keyed-mixed-383",
+      "keyed-mixed-384",
+      "keyed-mixed-385",
+      "keyed-mixed-386",
+      "keyed-mixed-387",
+      "keyed-mixed-388",
+      "keyed-mixed-389",
+      "keyed-mixed-390",
+      "keyed-mixed-391",
+      "keyed-mixed-392",
+      "keyed-mixed-393",
+      "keyed-mixed-394",
+      "keyed-mixed-395",
+      "keyed-mixed-397",
+      "keyed-mixed-398",
+      "keyed-mixed-399",
+      "keyed-mixed-400",
+      "keyed-mixed-401",
+      "keyed-mixed-403",
+      "keyed-mixed-404",
+      "keyed-mixed-406",
+      "keyed-mixed-407",
+      "keyed-mixed-408",
+      "keyed-mixed-410",
+      "keyed-mixed-411",
+      "keyed-mixed-412",
+      "keyed-mixed-413",
+      "keyed-mixed-414",
+      "keyed-mixed-415",
+      "keyed-mixed-416",
+      "keyed-mixed-417",
+      "keyed-mixed-418",
+      "keyed-mixed-419",
+      "keyed-mixed-421",
+      "keyed-mixed-422",
+      "keyed-mixed-423",
+      "keyed-mixed-424",
+      "keyed-mixed-425",
+      "keyed-mixed-426",
+      "keyed-mixed-427",
+      "keyed-mixed-428",
+      "keyed-mixed-429",
+      "keyed-mixed-430",
+      "keyed-mixed-431",
+      "keyed-mixed-432",
+      "keyed-mixed-433",
+      "keyed-mixed-434",
+      "keyed-mixed-435",
+      "keyed-mixed-436",
+      "keyed-mixed-438",
+      "keyed-mixed-440",
+      "keyed-mixed-441",
+      "keyed-mixed-444",
+      "keyed-mixed-445",
+      "keyed-mixed-446",
+      "keyed-mixed-448",
+      "keyed-mixed-449",
+      "keyed-mixed-450",
+      "keyed-mixed-451",
+      "keyed-mixed-454",
+      "keyed-mixed-455",
+      "keyed-mixed-457",
+      "keyed-mixed-458",
+      "keyed-mixed-459",
+      "keyed-mixed-460",
+      "keyed-mixed-461",
+      "keyed-mixed-462",
+      "keyed-mixed-463",
+      "keyed-mixed-465",
+      "keyed-mixed-466",
+      "keyed-mixed-467",
+      "keyed-mixed-468",
+      "keyed-mixed-469",
+      "keyed-mixed-470",
+      "keyed-mixed-471",
+      "keyed-mixed-472",
+      "keyed-mixed-473",
+      "keyed-mixed-475",
+      "keyed-mixed-476",
+      "keyed-mixed-477",
+      "keyed-mixed-478",
+      "keyed-mixed-480",
+      "keyed-mixed-482",
+      "keyed-mixed-483",
+      "keyed-mixed-484",
+      "keyed-mixed-487",
+      "keyed-mixed-488",
+      "keyed-mixed-489",
+      "keyed-mixed-490",
+      "keyed-mixed-491",
+      "keyed-mixed-492",
+      "keyed-mixed-493",
+      "keyed-mixed-494",
+      "keyed-mixed-495",
+      "keyed-mixed-497",
+      "keyed-mixed-498",
+      "keyed-mixed-499",
+      "keyed-mixed-500",
+      "keyed-mixed-501",
+      "keyed-mixed-502",
+      "keyed-mixed-503",
+      "keyed-mixed-504",
+      "keyed-mixed-505",
+      "keyed-mixed-506",
+      "keyed-mixed-508",
+      "keyed-mixed-509",
+      "keyed-mixed-510",
+      "keyed-mixed-511",
+      "keyed-mixed-512",
+      "keyed-mixed-513",
+      "keyed-mixed-514",
+      "keyed-mixed-515",
+      "keyed-mixed-516",
+      "keyed-mixed-518",
+      "keyed-mixed-520",
+      "keyed-mixed-521",
+      "keyed-mixed-522",
+      "keyed-mixed-523",
+      "keyed-mixed-524",
+      "keyed-mixed-525",
+      "keyed-mixed-526",
+      "keyed-mixed-527",
+      "keyed-mixed-528",
+      "keyed-mixed-529",
+      "keyed-mixed-530",
+      "keyed-mixed-531",
+      "keyed-mixed-532",
+      "keyed-mixed-533",
+      "keyed-mixed-536",
+      "keyed-mixed-537",
+      "keyed-mixed-539",
+      "keyed-mixed-540",
+      "keyed-mixed-541",
+      "keyed-mixed-542",
+      "keyed-mixed-543",
+      "keyed-mixed-544",
+      "keyed-mixed-545",
+      "keyed-mixed-548",
+      "keyed-mixed-549",
+      "keyed-mixed-550",
+      "keyed-mixed-552",
+      "keyed-mixed-553",
+      "keyed-mixed-554",
+      "keyed-mixed-555",
+      "keyed-mixed-558",
+      "keyed-mixed-559",
+      "keyed-mixed-560",
+      "keyed-mixed-562",
+      "keyed-mixed-564",
+      "keyed-mixed-566",
+      "keyed-mixed-567",
+      "keyed-mixed-568",
+      "keyed-mixed-569",
+      "keyed-mixed-570",
+      "keyed-mixed-571",
+      "keyed-mixed-572",
+      "keyed-mixed-573",
+      "keyed-mixed-574",
+      "keyed-mixed-575",
+      "keyed-mixed-576",
+      "keyed-mixed-577",
+      "keyed-mixed-578",
+      "keyed-mixed-579",
+      "keyed-mixed-580",
+      "keyed-mixed-581",
+      "keyed-mixed-582",
+      "keyed-mixed-583",
+      "keyed-mixed-584",
+      "keyed-mixed-585",
+      "keyed-mixed-586",
+      "keyed-mixed-587",
+      "keyed-mixed-588",
+      "keyed-mixed-590",
+      "keyed-mixed-591",
+      "keyed-mixed-592",
+      "keyed-mixed-593",
+      "keyed-mixed-594",
+      "keyed-mixed-595",
+      "keyed-mixed-596",
+      "keyed-mixed-597",
+      "keyed-mixed-598",
+      "keyed-mixed-599",
+      "text-23",
+      "text-38",
+      "text-69",
+      "text-74",
+      "text-77",
+      "text-88"
+    ],
+    "failures": []
+  },
+  "task_files": [
+    "src/rfc.rs",
+    "tests/rfc_extended.rs",
+    "examples/fixture_runner.rs",
+    "examples/standard_bench.rs",
+    "tools/interop.mjs",
+    "tools/standard-benchmark.py",
+    "README.md",
+    "BENCHMARK.md",
+    "COMPARISON.md",
+    "results/interop-summary.json",
+    "results/completion-20261001.json",
+    "results/standard-benchmark-pipeline-20261001T144404.173244Z"
+  ],
+  "parallel_changes_observed": [
+    "src/diff.rs",
+    "src/rfc.rs guard cost prefixes and unit tests",
+    "tests/rfc_extended.rs prefix regressions",
+    "results/optimization-round-3"
+  ]
+}

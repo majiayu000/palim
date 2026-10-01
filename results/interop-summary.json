@@ -8,6 +8,31 @@
     "js_delta_rust_roundtrip": 1073,
     "js_native_backward": 566
   },
+  "upstream_inverse_compatibility": {
+    "js_self_successes": 566,
+    "malformed": [
+      {
+        "name": "random-13",
+        "error": "<root>: text patch header length does not match operations"
+      },
+      {
+        "name": "random-93",
+        "error": "<root>: text patch header length does not match operations"
+      },
+      {
+        "name": "random-216",
+        "error": "<root>: text patch header length does not match operations"
+      },
+      {
+        "name": "random-285",
+        "error": "<root>: text patch header length does not match operations"
+      }
+    ],
+    "strict_successes": 471,
+    "zero_error_fuzzy_successes": 525,
+    "default_fuzzy_successes": 562,
+    "valid_fuzzy_failures": []
+  },
   "upstream_inverse_failures": [
     "keyed-mixed-0",
     "keyed-mixed-1",

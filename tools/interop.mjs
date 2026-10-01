@@ -70,7 +70,16 @@ for (const r of results) {
 }
 fs.writeFileSync(path('results/interop.json'),JSON.stringify(results,null,2));
 const fields=['rust_delta_js_forward','rust_inverse_js_backward','rust_rfc_js_forward','js_native_forward','js_delta_rust_roundtrip'];
+const inverseCases=results.filter(r=>r.js_native_backward).map(r=>byName.get(r.name));
 const summary={cases:cases.length, counts:Object.fromEntries([...fields,'js_native_backward'].map(f=>[f,results.filter(r=>r[f]===true).length])),
+  upstream_inverse_compatibility: {
+    js_self_successes: inverseCases.length,
+    malformed: inverseCases.filter(r=>!r.upstream_inverse_valid).map(r=>({name:r.name,error:r.upstream_inverse_error})),
+    strict_successes: inverseCases.filter(r=>r.upstream_inverse_ok).length,
+    zero_error_fuzzy_successes: inverseCases.filter(r=>r.upstream_inverse_zero_error_fuzzy_ok).length,
+    default_fuzzy_successes: inverseCases.filter(r=>r.upstream_inverse_fuzzy_ok).length,
+    valid_fuzzy_failures: inverseCases.filter(r=>r.upstream_inverse_valid&&!r.upstream_inverse_fuzzy_ok).map(r=>({name:r.name,error:r.upstream_inverse_fuzzy_error??'output differs from baseline'})),
+  },
   upstream_inverse_failures:results.filter(r=>r.js_native_backward!==true).map(r=>r.name),
   failures:results.filter(r=>fields.some(f=>r[f]!==true))};
 fs.writeFileSync(path('results/interop-summary.json'),JSON.stringify(summary,null,2));

@@ -616,10 +616,102 @@ fn alignment(old: &[char], actual: &[char], path: &str) -> Result<(Vec<usize>, u
     Ok((map, errors))
 }
 
+// Prefer the complete context when it still exists. The two bounded searches
+// include overlapping occurrences on either side of the expected position.
+fn exact_fuzzy_match(
+    source: &[char],
+    coords: &[usize],
+    old: &[char],
+    expected: i128,
+    distance: usize,
+) -> Option<(usize, usize)> {
+    if old.is_empty() {
+        return None;
+    }
+    if let Ok(expected) = usize::try_from(expected) {
+        if let Ok(at) = coords.binary_search(&expected) {
+            if source.get(at..at.saturating_add(old.len())) == Some(old) {
+                return Some((at, at + old.len()));
+            }
+        }
+    }
+    let low = expected.saturating_sub(distance as i128).max(0);
+    let high = expected.saturating_add(distance as i128);
+    let first = coords.partition_point(|p| (*p as i128) < low);
+    let last = coords
+        .partition_point(|p| (*p as i128) <= high)
+        .checked_sub(1)?;
+    if first > last || first > source.len() {
+        return None;
+    }
+    let middle = coords
+        .partition_point(|p| (*p as i128) < expected)
+        .clamp(first, last);
+    let wanted: String = old.iter().collect();
+    let left: String = source[first..middle.saturating_add(old.len()).min(source.len())]
+        .iter()
+        .collect();
+    let right: String = source[middle..last.saturating_add(old.len()).min(source.len())]
+        .iter()
+        .collect();
+    let left = left
+        .rfind(&wanted)
+        .map(|at| first + left[..at].chars().count());
+    let right = right
+        .find(&wanted)
+        .map(|at| middle + right[..at].chars().count());
+    [left, right]
+        .into_iter()
+        .flatten()
+        .filter(|at| *at >= first && *at <= last)
+        .min_by_key(|at| ((coords[*at] as i128 - expected).unsigned_abs(), *at))
+        .map(|at| (at, at + old.len()))
+}
+
+// Match edited text with a small Unicode-safe context. Overlapping hunks can
+// retain context from an earlier state that no longer occurs in the baseline.
+fn trim_fuzzy_context(patch: &mut TextPatch) {
+    if let Some((' ', text)) = patch.ops.first_mut() {
+        let mut units = 0;
+        let at = text
+            .char_indices()
+            .rev()
+            .take_while(|(_, c)| {
+                units += c.len_utf16();
+                units <= 4
+            })
+            .last()
+            .map_or(text.len(), |(at, _)| at);
+        let removed = len(&text[..at]);
+        *text = text[at..].to_owned();
+        patch.start_old += removed;
+        patch.start_new += removed;
+        patch.len_old -= removed;
+        patch.len_new -= removed;
+    }
+    if let Some((' ', text)) = patch.ops.last_mut() {
+        let mut units = 0;
+        let at = text
+            .char_indices()
+            .take_while(|(_, c)| {
+                units += c.len_utf16();
+                units <= 4
+            })
+            .last()
+            .map_or(0, |(at, c)| at + c.len_utf8());
+        let removed = len(&text[at..]);
+        text.truncate(at);
+        patch.len_old -= removed;
+        patch.len_new -= removed;
+    }
+}
+
 /// Bounded fuzzy application, intentionally distinct from DMP's match scoring.
 /// Protocol coordinates and displacement bounds use UTF-16; edits and matching
-/// operate on Unicode scalars. Long hunks use short head/tail anchors, then an
-/// entire-fragment error check. A failed hunk discards the private result.
+/// operate on Unicode scalars. Complete exact context takes priority. For long
+/// hunks without an exact match, nonzero-error matching retains at most four
+/// UTF-16 units of surrounding context per side, then checks the retained
+/// fragment's error ratio. A failed hunk discards the private result.
 pub(crate) fn apply_fuzzy(
     source: &str,
     text: &str,
@@ -629,20 +721,33 @@ pub(crate) fn apply_fuzzy(
     let patches = parse(text, path)?;
     let mut result: Vec<char> = source.chars().collect();
     let mut offset = 0i128;
-    for patch in patches {
+    for mut patch in patches {
         let mut coords = Vec::with_capacity(result.len() + 1);
         coords.push(0usize);
         for c in &result {
             coords.push(coords.last().copied().unwrap_or(0) + c.len_utf16());
         }
-        let old: Vec<char> = patch
+        let mut old: Vec<char> = patch
             .ops
             .iter()
             .filter(|(op, _)| *op != '+')
             .flat_map(|(_, s)| s.chars())
             .collect();
-        let expected = patch.start_new as i128 + offset;
-        let (start, end) = if old.is_empty() {
+        let mut expected = patch.start_new as i128 + offset;
+        let exact = exact_fuzzy_match(&result, &coords, &old, expected, options.max_distance);
+        if exact.is_none() && patch.len_old > 32 && options.max_error_ratio > 0.0 {
+            trim_fuzzy_context(&mut patch);
+            old = patch
+                .ops
+                .iter()
+                .filter(|(op, _)| *op != '+')
+                .flat_map(|(_, s)| s.chars())
+                .collect();
+            expected = patch.start_new as i128 + offset;
+        }
+        let (start, end) = if let Some(found) = exact {
+            found
+        } else if old.is_empty() {
             let at = usize::try_from(expected)
                 .ok()
                 .and_then(|p| coords.binary_search(&p).ok())

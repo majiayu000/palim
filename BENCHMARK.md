@@ -2,6 +2,76 @@
 
 本库已更名为 **Palim**（包名 `palim`）。以下历史测量与验证记录保留当时的名称 `jsondiffpatch-rs`，未因更名重新计时。
 
+## 2026-10-02 文本逆补丁修复
+
+保留 JS 原始逆补丁，修复默认 fuzzy 在重复 emoji 与 NUL/CRLF 重叠上下文中的
+两个合法失败案例。优先搜索位移界限内的完整精确上下文；没有完整匹配时，
+非零误差的长 hunk 只保留两侧各至多 4 个 UTF-16 单位的未修改上下文。
+未提高误差阈值，零误差模式保留完整上下文，默认严格应用与格式校验保持原合同。
+
+1,073 组必需互通路径全部通过。在 JS 自逆成功的 566 个案例中，
+**562 个格式合法的逆补丁全部由默认 fuzzy 还原**；另外 4 个头部长度错误
+继续返回 Error。严格应用仍为 471 个，零误差 fuzzy 仍为 525 个。
+这是当前冻结语料的结果，不代表任意 DMP 模糊行为完全兼容。
+[原始回归补丁](tests/fixtures/js-text-inverse.json)、
+[互通统计](results/interop-summary.json)、
+[本次验证记录](results/text-inverse-20261002.json)。本轮改动尚未发布。
+
+## 2026-10-01 发布后补全
+
+Palim **0.1.0 已发布**，发布包对应提交
+`38eaa8dd05feaafa942e4c5ce2ad8996b133c33c`。
+[该提交的远端 CI](https://github.com/majiayu000/palim/actions/runs/36841181994)
+已实际完成 Linux、Windows、macOS 的 debug/release、fmt、Clippy，另有
+Rust 1.85 库检查、JS 互通和 60 秒 fuzz；全部通过。
+下方旧快照中的“尚未发布”“CI 尚未运行”是发布前状态。
+本节的工作区改动与该已发布版本分开记录，不把旧 CI 当成新改动的验收。
+
+### 重复 ID、补丁优化和 guards
+
+同一 2000 项重复 ID 文档的定向探针，`factorize+rationalize+tests`
+生成时间中位数 **4257.794 ms → 10.736 ms**，完整补丁仍为
+**88,590 B，1 test + 1 replace**。前后均验证正向、标准逆向；这是
+一轮预热后三轮定向测量，不是跨平台或业务加权排名。
+
+带 guards 的移动补丁先尝试较大的父节点，避免已可整体替换的区域反复
+重放完整补丁计算容器测试；其它补丁继续优先尝试更深的父节点。
+这是启发式次序调整，可更早选择较粗的替换，不承诺任意输入都得到最小字节。
+
+另对 16 个冻结 pipeline 负载逐一对照旧实现，补丁体积无增加，独立应用验证通过。
+当前工作区的正式 pipeline 含 parse→diff→serialize，16 个输入各运行
+3 个独立进程，共 **48 个测量与正确性验收**。
+重复 ID 负载的进程中位数分别为 11.464、11.407、11.485 ms。
+正式 pipeline 与上述预解析探针的边界不同，不能直接拼成前后倍率。
+[正式原始样本和环境](results/standard-benchmark-pipeline-20261001T144404.173244Z/comparison.json)
+保留了源码、runner、binary、fixture 与 Cargo.lock 哈希。
+
+复现该组合：
+
+```sh
+cargo build --release --example standard_bench --locked
+python3 tools/standard-benchmark.py --task pipeline --engine optimized-guarded
+```
+
+### JavaScript 自逆补丁的准确边界
+
+1,073 组必需的正向、Rust 自逆及标准导出路径全部通过。
+另把 JS 自己能还原的 **566** 个案例单独统计，避免把它们混入必需路径的结果。
+严格应用还原 **471** 个；零误差、允许位移的显式 fuzzy 还原 **525** 个；
+该轮默认 fuzzy 还原 **560** 个。剩余 4 个逆补丁的头部长度与操作不一致，
+继续返回 Error；另有两个合法的重复文本案例，`text-22` 默认 fuzzy 结果
+与原文不同，`text-99` 超出误差界限。这两个合法案例已于 10 月 2 日修复，
+见上方记录。其它 507 个 JS 自逆失败另列。
+[机器可读统计](results/interop-summary.json) 已更新为最新结果。
+
+需要可靠 undo 时，导入 JS **正向 delta**，保存 Rust `reverse` 的结果，
+或调用 `unpatch`。这条路径已在全部 1,073 组上验证。
+直接应用外部 JS inverse 的 fuzzy 行为是独立的近似匹配合同，未宣称逐行为 DMP 兼容；
+协议错误不能通过放宽模糊误差阈值绕过。
+
+本次最终本地检查与范围记录见 [completion-20261001.json](results/completion-20261001.json)。
+
+## 发布前验证快照
 
 任务日期：2026-10-01。UTC 时间戳按机器实际值保留。Apple M2 Max、96 GiB，Rust 1.97.0、Node 24.14.0；正式测量串行执行，先验证输出，再计时。
 

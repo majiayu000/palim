@@ -541,13 +541,20 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         }
     }
     let mut parents: Vec<_> = parents.into_iter().collect();
+    let broad_first = tests
+        && patch
+            .0
+            .iter()
+            .any(|op| matches!(op, PatchOperation::Move(_)));
     parents.sort_by(|a, b| {
-        b.matches('/')
-            .count()
-            .cmp(&a.matches('/').count())
-            .then_with(|| a.cmp(b))
+        let depth = a.matches('/').count().cmp(&b.matches('/').count());
+        // Guarded array moves can snapshot the whole container for every
+        // candidate. Try broad replacements first so an accepted parent removes
+        // its descendants before they trigger those repeated simulations.
+        // Other patches retain the finer-first compression heuristic.
+        (if broad_first { depth } else { depth.reverse() }).then_with(|| a.cmp(b))
     });
-    let mut current_size = guarded_bytes(left, &patch, tests)?;
+    let (mut current_size, mut guard_costs) = guarded_bytes(left, &patch, tests, &[])?;
     for ancestor in parents {
         let (Some(old), Some(new)) = (left.pointer(&ancestor), right.pointer(&ancestor)) else {
             continue;
@@ -627,41 +634,71 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         );
         // The exact serialized size includes UTF-8, escaping, paths, commas and,
         // when requested, the tests this candidate would need.
-        if let Ok(candidate_size) =
-            candidate_size.map_or_else(|| guarded_bytes(left, &candidate, true), Ok)
-        {
+        if let Ok((candidate_size, candidate_costs)) = candidate_size.map_or_else(
+            || guarded_bytes(left, &candidate, true, &guard_costs[..=first]),
+            |size| Ok((size, Vec::new())),
+        ) {
             if candidate_size < current_size
                 && apply_json_patch(left, &candidate).is_ok_and(|value| json_equal(&value, right))
             {
                 patch = candidate;
                 current_size = candidate_size;
+                guard_costs = candidate_costs;
             }
         }
     }
     Ok(patch)
 }
 
-fn guarded_bytes(left: &Value, patch: &Patch, tests: bool) -> Result<usize, Error> {
+#[derive(Clone, Copy)]
+struct GuardCost {
+    bytes: usize,
+    operations: usize,
+}
+
+fn guarded_bytes(
+    left: &Value,
+    patch: &Patch,
+    tests: bool,
+    prefix: &[GuardCost],
+) -> Result<(usize, Vec<GuardCost>), Error> {
     if !tests {
-        return bytes(patch);
+        return Ok((bytes(patch)?, Vec::new()));
     }
     let mut shadow = left.clone();
-    let mut size = 2; // Array brackets.
-    let mut count = 0;
-    for (index, op) in patch.0.iter().enumerate() {
+    let first = prefix.len().saturating_sub(1);
+    // Only the operations before the candidate's first change are identical.
+    // Execute them on the same shadow, reusing their exact serialization cost.
+    // Recompute every later guard: copy sources and array indices may depend on
+    // the replacement even when their operations lie outside its subtree.
+    for (index, op) in patch.0[..first].iter().enumerate() {
+        crate::apply_json_patch_step(&mut shadow, op, index)?;
+    }
+    let mut costs = Vec::with_capacity(patch.0.len() + 1);
+    if prefix.is_empty() {
+        costs.push(GuardCost {
+            bytes: 2, // Array brackets.
+            operations: 0,
+        });
+    } else {
+        costs.extend_from_slice(prefix);
+    }
+    let mut total = costs[first];
+    for (index, op) in patch.0.iter().enumerate().skip(first) {
         for (path, value) in guard_values(&shadow, op)?.into_iter().flatten() {
-            size += bytes(&ValueOperation {
+            total.bytes += bytes(&ValueOperation {
                 op: "test",
                 path,
                 value,
-            })? + usize::from(count > 0);
-            count += 1;
+            })? + usize::from(total.operations > 0);
+            total.operations += 1;
         }
-        size += bytes(op)? + usize::from(count > 0);
-        count += 1;
+        total.bytes += bytes(op)? + usize::from(total.operations > 0);
+        total.operations += 1;
         crate::apply_json_patch_step(&mut shadow, op, index)?;
+        costs.push(total);
     }
-    Ok(size)
+    Ok((total.bytes, costs))
 }
 
 fn test_source<'a>(shadow: &'a Value, path: &str) -> Result<&'a Value, Error> {
@@ -862,4 +899,111 @@ fn undo_move(
     let mut result = undo_add(before, destination, Some(source))?;
     result.extend(old_operation(before, "add", source)?);
     Ok(result)
+}
+
+#[cfg(test)]
+mod guard_cost_tests {
+    use super::*;
+
+    fn patch(value: Value) -> Patch {
+        serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn guard_costs_match_serialized_guards_for_empty_root_and_two_guard_operations() {
+        let cases = [
+            (Value::Null, Patch::default()),
+            (
+                json!(0),
+                patch(json!([{"op":"replace","path":"","value":true}])),
+            ),
+            (
+                json!(["first", "second"]),
+                patch(json!([
+                    {"op":"copy","from":"/0","path":"/1"}
+                ])),
+            ),
+        ];
+        for (left, patch) in cases {
+            let actual = guard(&left, &patch).unwrap();
+            let expected = bytes(&actual).unwrap();
+            let (size, costs) = guarded_bytes(&left, &patch, true, &[]).unwrap();
+            assert_eq!(size, expected);
+            assert_eq!(costs.len(), patch.0.len() + 1);
+            assert_eq!(costs[0].bytes, 2);
+            assert_eq!(costs[0].operations, 0);
+            assert_eq!(costs.last().unwrap().operations, actual.0.len());
+            for end in 0..=patch.0.len() {
+                assert_eq!(
+                    guarded_bytes(&left, &patch, true, &costs[..=end])
+                        .unwrap()
+                        .0,
+                    expected
+                );
+            }
+            let (size, costs) = guarded_bytes(&left, &patch, false, &[]).unwrap();
+            assert_eq!(size, bytes(&patch).unwrap());
+            assert!(costs.is_empty());
+        }
+    }
+
+    #[test]
+    fn guard_cost_prefixes_replay_dependent_copy_and_array_suffixes() {
+        let left = json!({"a":[1,2,3],"source":{"x":0,"y":"old"},"dest":[]});
+        let body = "new 中文🦀 \" body".repeat(20);
+        let original = patch(json!([
+            {"op":"move","from":"/a/2","path":"/a/0"},
+            {"op":"copy","from":"/a/0","path":"/dest/0"},
+            {"op":"replace","path":"/source/x","value":1},
+            {"op":"copy","from":"/source/y","path":"/dest/1"},
+            {"op":"replace","path":"/source/y","value":body},
+            {"op":"remove","path":"/a/1"},
+            {"op":"move","from":"/a/1","path":"/dest/2"}
+        ]));
+        let (_, costs) = guarded_bytes(&left, &original, true, &[]).unwrap();
+        let candidate = patch(json!([
+            {"op":"move","from":"/a/2","path":"/a/0"},
+            {"op":"copy","from":"/a/0","path":"/dest/0"},
+            {"op":"replace","path":"/source","value":{"x":1,"y":body}},
+            {"op":"copy","from":"/source/y","path":"/dest/1"},
+            {"op":"remove","path":"/a/1"},
+            {"op":"move","from":"/a/1","path":"/dest/2"}
+        ]));
+        let actual = guard(&left, &candidate).unwrap();
+        let (size, candidate_costs) = guarded_bytes(&left, &candidate, true, &costs[..=2]).unwrap();
+        assert_eq!(size, bytes(&actual).unwrap());
+        assert_eq!(candidate_costs.last().unwrap().operations, actual.0.len());
+        assert!(
+            actual
+                .0
+                .iter()
+                .any(|op| matches!(op, PatchOperation::Test(op)
+            if op.path.as_str() == "/source/y" && op.value == json!(body)))
+        );
+        // The copy now reads the replacement's new y, not the original y.
+        // Correct pricing does not replace the complete candidate validation.
+        assert_ne!(
+            apply_json_patch(&left, &original).unwrap(),
+            apply_json_patch(&left, &candidate).unwrap()
+        );
+
+        // After dropping an earlier operation, the next candidate's first
+        // changed index uses the new patch's costs, not the original indices.
+        let next = patch(json!([
+            {"op":"move","from":"/a/2","path":"/a/0"},
+            {"op":"copy","from":"/a/0","path":"/dest/0"},
+            {"op":"replace","path":"/source","value":{"x":1,"y":body}},
+            {"op":"copy","from":"/source/y","path":"/dest/1"},
+            {"op":"replace","path":"/a","value":[3]},
+            {"op":"add","path":"/dest/2","value":2}
+        ]));
+        let actual = guard(&left, &next).unwrap();
+        let (size, costs) = guarded_bytes(&left, &next, true, &candidate_costs[..=4]).unwrap();
+        assert_eq!(size, bytes(&actual).unwrap());
+        assert_eq!(costs.last().unwrap().operations, actual.0.len());
+        assert_eq!(
+            apply_json_patch(&left, &next).unwrap(),
+            apply_json_patch(&left, &candidate).unwrap()
+        );
+    }
 }

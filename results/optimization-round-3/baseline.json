@@ -1,0 +1,6 @@
+{
+  "baseline_commit": "38eaa8dd05feaafa942e4c5ce2ad8996b133c33c",
+  "baseline_checkout": "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-opt-baseline-6sn3h274/source",
+  "baseline_harness": "/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-opt-baseline-6sn3h274/harness",
+  "fixture": "/Users/apple/Desktop/code/AI/tool/secrets/palim/results/standard-benchmark-pipeline-20260930T214341.446185Z/fixtures/ambiguous-ids-2000.json"
+}

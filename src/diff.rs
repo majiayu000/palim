@@ -51,6 +51,14 @@ fn node_unfiltered(
                 }
                 match b.get(key) {
                     Some(new) => {
+                        // Equal primitive fields need no path allocation. A node
+                        // filter still receives unchanged nodes in its usual order.
+                        if options.node_filter.is_none()
+                            && matches!(old, Value::Number(_) | Value::Bool(_) | Value::Null)
+                            && old == new
+                        {
+                            continue;
+                        }
                         if let Some(child) = node(old, new, options, &pointer(path, key))? {
                             delta.insert(key.clone(), child);
                         }

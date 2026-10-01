@@ -22,6 +22,14 @@ fn generate(engine: &str, dp: &DiffPatcher, left: &Value, right: &Value) -> Resu
             },
         )?),
         "optimized" => Ok(dp.diff_json_patch(left, right, &JsonPatchOptions::default())?),
+        "optimized-guarded" => Ok(dp.diff_json_patch(
+            left,
+            right,
+            &JsonPatchOptions {
+                tests: true,
+                ..Default::default()
+            },
+        )?),
         "guarded" => Ok(dp.diff_json_patch(
             left,
             right,

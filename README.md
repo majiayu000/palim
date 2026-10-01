@@ -159,6 +159,10 @@ and preserves the target. Rationalization considers replacing parent subtrees,
 including the root, using actual UTF-8 patch bytes. This is a verified heuristic,
 not a globally optimal compressor. Enable `tests` to guard old values; absent keys
 and array insertions use parent snapshots because RFC 6902 has no absence test.
+With guards and moves, rationalization tries broader parents first to avoid
+repeated container snapshots; other patches try deeper parents first. An accepted
+parent replacement can discard more detailed edits. Neither order promises the
+smallest possible patch.
 
 `invert_json_patch` consumes the original operations and their baseline values,
 not a re-diff. Inverting an overwrite or ancestor move may require multiple
@@ -199,6 +203,20 @@ every source. JSON null inside arrays and root null are supported normally.
 
 ### Wire format
 
+For JavaScript interoperability, import the **forward** jsondiffpatch delta as
+`Delta` and use Rust's `reverse` or `unpatch` for undo. The verification suite
+checks this path in both languages. JavaScript's own inverse may retain rolling
+hunk coordinates or contain an invalid text header; it is not interchangeable
+with Rust's inverse in every case.
+
+When an external inverse needs text relocation, explicitly use `patch_fuzzy`.
+`TextPatchOptions { max_error_ratio: 0.0, ..Default::default() }` allows bounded
+displacement while requiring exact text fragments. Default fuzzy options also
+allow context edits, but approximate matching can fail or select a different
+repeated fragment. Malformed headers remain errors in both APIs. See the
+[compatibility results](https://github.com/majiayu000/palim/blob/main/BENCHMARK.md)
+for the measured boundary.
+
 | Change | JSON |
 |---|---|
 | Added | `[new]` |
@@ -225,9 +243,13 @@ destinations, incompatible types, missing/existing properties and mismatched old
 replacement/deletion values return `Error`. Default text application requires exact
 content at its expected position. Approximate application is explicit via the
 fuzzy APIs; non-text old-value checks remain strict. Fuzzy displacement uses UTF-16
-units, while its error ratio uses Unicode scalar edit counts. Long hunks use bounded
-anchors and heuristic alignment, which can reject a valid approximate match; this
-is not a byte-for-byte clone of DMP's fuzzy matcher. Any failed hunk returns an error.
+units, while its error ratio uses Unicode scalar edit counts. Complete exact
+context takes priority within the displacement bound. With a nonzero error ratio,
+hunks longer than 32 UTF-16 units without a complete exact match retain at most
+four UTF-16 units of unchanged context per side; the error ratio applies to this
+retained fragment. Zero-error matching retains complete context. Bounded anchors
+and heuristic alignment can still reject a valid approximate match; this is not
+a byte-for-byte clone of DMP's fuzzy matcher. Any failed hunk returns an error.
 Unchanged properties and placeholder-only moved values do not authenticate the
 entire source document. Included moved values are checked, except the wire format's
 empty-string placeholder. Callers must supply the correct baseline.

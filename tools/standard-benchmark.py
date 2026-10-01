@@ -21,7 +21,7 @@ from pathlib import Path
 from benchmark import inputs
 
 ROOT = Path(__file__).resolve().parents[1]
-ENGINES = ("json-patch", "plain", "optimized", "guarded")
+ENGINES = ("json-patch", "plain", "optimized", "guarded", "optimized-guarded")
 TASK_ENGINES = {
     "pipeline": ("json-patch", "plain", "optimized"),
     "export": ("plain",),
@@ -191,6 +191,7 @@ def main():
             "plain": "DiffPatcher::diff_json_patch; ID matching; factorize/rationalize/tests=false",
             "optimized": "same DiffPatcher; factorize/rationalize=true; tests=false",
             "guarded": "same DiffPatcher; factorize/rationalize=false; tests=true; guard cost is explicit",
+            "optimized-guarded": "same DiffPatcher; factorize/rationalize/tests=true",
         },
         "budget": "20k reorder fixtures are correctness-only; any 180s process overrun is skipped, not failed",
     }
@@ -213,7 +214,7 @@ def main():
                 if (fixture.stem, engine) in over_budget:
                     continue
                 supported = (engine in TASK_ENGINES[args.task] or
-                             (args.task == "pipeline" and engine == "guarded"))
+                             (args.task == "pipeline" and engine in ("guarded", "optimized-guarded")))
                 if not supported:
                     record = {"name": fixture.stem, "engine": engine, "task": args.task,
                               "status": "skipped-unsupported-task", "measured": False,

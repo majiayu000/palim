@@ -1,0 +1,35 @@
+Updating crates.io index
+     Locking 24 packages to latest Rust 1.97.0 compatible versions
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.26
+   Compiling serde_core v1.0.229
+   Compiling autocfg v1.5.1
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.151
+   Compiling memchr v2.8.3
+   Compiling serde v1.0.229
+   Compiling itoa v1.0.18
+   Compiling thiserror v2.0.21
+   Compiling foldhash v0.1.5
+   Compiling hashbrown v0.15.5
+   Compiling percent-encoding v2.3.2
+   Compiling num-traits v0.2.19
+   Compiling imara-diff v0.2.0
+   Compiling syn v3.0.6
+   Compiling serde_derive v1.0.229
+   Compiling thiserror-impl v2.0.21
+   Compiling num-integer v0.1.47
+   Compiling num-bigint v0.4.8
+   Compiling jsonptr v0.7.1
+   Compiling json-patch v4.2.0
+   Compiling palim v0.1.0 (/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-opt-baseline-6sn3h274/source)
+   Compiling palim-rfc-stage-bench v0.0.0 (/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-opt-baseline-6sn3h274/harness)
+    Finished `release` profile [optimized] target(s) in 9.18s
+     Running `/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-opt-baseline-6sn3h274/harness/target/release/palim-rfc-stage-bench /Users/apple/Desktop/code/AI/tool/secrets/palim/results/standard-benchmark-pipeline-20260930T214341.446185Z/fixtures/ambiguous-ids-2000.json`
+plain: median=2.755ms min=2.709ms bytes=100688 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 0]
+factorize: median=3.905ms min=3.894ms bytes=100688 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 0]
+rationalize: median=22.894ms min=22.372ms bytes=44296 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 0]
+optimized: median=23.895ms min=23.886ms bytes=44296 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 0]
+guarded: median=12.269ms min=12.120ms bytes=1125867 add/remove/replace/move/copy/test=[0, 0, 2000, 21, 0, 2042]
+optimized-guarded: median=4330.941ms min=4258.343ms bytes=88590 add/remove/replace/move/copy/test=[0, 0, 1, 0, 0, 1]

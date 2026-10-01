@@ -2,6 +2,46 @@ use palim::{Delta, DiffOptions, DiffPatcher, patch, unpatch};
 use serde_json::json;
 
 #[test]
+fn imported_js_inverses_restore_repeated_unicode_and_overlapping_context() {
+    use palim::{TextPatchOptions, patch_fuzzy};
+    let cases: Vec<serde_json::Value> =
+        serde_json::from_str(include_str!("fixtures/js-text-inverse.json")).unwrap();
+    let failures: Vec<_> = cases
+        .iter()
+        .filter_map(|case| {
+            let inverse = Delta::from_value(case["inverse"].clone()).unwrap();
+            let actual = patch_fuzzy(&case["right"], &inverse, &TextPatchOptions::default());
+            (!actual.as_ref().is_ok_and(|v| v == &case["left"]))
+                .then(|| format!("{}: {actual:?}", case["name"]))
+        })
+        .collect();
+    assert!(failures.is_empty(), "{}", failures.join("\n"));
+}
+
+#[test]
+fn fuzzy_matching_preserves_complete_context_and_overlapping_exact_occurrences() {
+    use palim::{TextPatchOptions, apply_text_patch};
+    let prefix = "ABCDEFGHIJ".repeat(4);
+    let suffix = "klmnopqrst".repeat(4);
+    let original = format!("{prefix}old{suffix}");
+    let decoy = format!("{}GHIJoldklmn{}", "x".repeat(36), "z".repeat(36));
+    let source = format!("{decoy} / {original}");
+    let text = format!("@@ -1,83 +1,83 @@\n {prefix}\n-old\n+NEW\n {suffix}\n");
+    assert_eq!(
+        apply_text_patch(&source, &text, &TextPatchOptions::default()).unwrap(),
+        format!("{decoy} / {prefix}NEW{suffix}")
+    );
+
+    // Exact occurrences can overlap. The closest full match starts at 1,
+    // rather than at 0 as a non-overlapping match iterator would report.
+    let text = "@@ -3,4 +3,4 @@\n-aaaa\n+WXYZ\n";
+    assert_eq!(
+        apply_text_patch("aaaaab", text, &TextPatchOptions::default()).unwrap(),
+        "aWXYZb"
+    );
+}
+
+#[test]
 fn normalized_text_lengths_cannot_overflow_coordinates() {
     for header in [
         format!("@@ -{},0 +0,0 @@\n-a\n+b\n", usize::MAX),

@@ -1,9 +1,10 @@
 use palim::{
-    CompareOptions, JsonPatchOptions, Patch, PatchOperation, apply_json_patch, compare,
-    diff_json_patch, invert_json_patch,
+    CompareOptions, DiffOptions, DiffPatcher, JsonPatchOptions, Patch, PatchOperation,
+    apply_json_patch, compare, diff_json_patch, invert_json_patch,
 };
 use proptest::prelude::*;
 use serde_json::{Value, json};
+use std::sync::Arc;
 
 fn options(factorize: bool, rationalize: bool, tests: bool) -> JsonPatchOptions {
     JsonPatchOptions {
@@ -340,6 +341,131 @@ fn rationalization_accounts_for_tests_and_escaped_utf8_bytes() {
         );
         assert_roundtrip(&before, &after, &patch);
     }
+}
+
+#[test]
+fn guarded_rationalization_keeps_move_copy_prefixes_and_nested_replacements() {
+    let engine = DiffPatcher::new(DiffOptions {
+        object_hash: Some(Arc::new(|value, _| value.get("id").map(Value::to_string))),
+        ..Default::default()
+    });
+    let old = json!({"a/b":0,"b~c":0,"中文🦀":0,"quote\"":0,"fifth":0,"sixth":0});
+    let new = json!({"a/b":1,"b~c":2,"中文🦀":3,"quote\"":4,"fifth":5,"sixth":6});
+    let payload = "copy payload 🦀 ".repeat(60);
+    let moved_payload = "move material 🦀 ".repeat(80);
+    let before = json!({
+        "a\"copy":"old", "a~/move":[
+            {"id":0,"body":moved_payload},{"id":1,"body":moved_payload},{"id":2,"body":moved_payload}],
+        "section/🦀~":{"one":old,"two":old}, "source":payload,
+        "untouched":"large unchanged payload ".repeat(1000)
+    });
+    let after = json!({
+        "a\"copy":payload, "a~/move":[
+            {"id":2,"body":moved_payload},{"id":0,"body":moved_payload},{"id":1,"body":moved_payload}],
+        "section/🦀~":{"one":new,"two":new}, "source":payload,
+        "untouched":before["untouched"]
+    });
+    let original = engine
+        .diff_json_patch(&before, &after, &options(true, false, true))
+        .unwrap();
+    let optimized = engine
+        .diff_json_patch(&before, &after, &options(true, true, true))
+        .unwrap();
+    let section = "/section~1🦀~0";
+    let prefix = original
+        .0
+        .iter()
+        .position(|op| match op {
+            PatchOperation::Test(op) => op.path.as_str().starts_with(section),
+            _ => false,
+        })
+        .unwrap();
+    assert_eq!(&optimized.0[..prefix], &original.0[..prefix]);
+    assert!(
+        original.0[..prefix]
+            .iter()
+            .any(|op| matches!(op, PatchOperation::Move(_)))
+    );
+    assert!(
+        original.0[..prefix]
+            .iter()
+            .any(|op| matches!(op, PatchOperation::Copy(_)))
+    );
+    for (index, op) in original.0[..prefix].iter().enumerate() {
+        if matches!(op, PatchOperation::Move(_) | PatchOperation::Copy(_)) {
+            assert!(matches!(original.0[index - 2], PatchOperation::Test(_)));
+            assert!(matches!(original.0[index - 1], PatchOperation::Test(_)));
+        }
+    }
+    assert!(
+        optimized
+            .0
+            .iter()
+            .any(|op| matches!(op, PatchOperation::Replace(op)
+        if op.path.as_str() == section))
+    );
+    assert!(
+        serde_json::to_vec(&optimized).unwrap().len()
+            < serde_json::to_vec(&original).unwrap().len()
+    );
+    assert_roundtrip(&before, &after, &optimized);
+    let mut independent = before.clone();
+    json_patch::patch(&mut independent, &optimized).unwrap();
+    assert_eq!(independent, after);
+    let mut bad_source = before.clone();
+    bad_source["source"] = json!("wrong");
+    assert!(apply_json_patch(&bad_source, &optimized).is_err());
+    let mut bad_order = before.clone();
+    bad_order["a~/move"][0]["id"] = json!(99);
+    assert!(apply_json_patch(&bad_order, &optimized).is_err());
+}
+
+#[test]
+fn guarded_repeated_id_reordering_authenticates_the_replaced_container() {
+    use palim::{DiffOptions, DiffPatcher};
+    use std::sync::Arc;
+
+    let items: Vec<_> = (0..256).map(|i| json!({"id": i % 8, "value": i})).collect();
+    let mut reordered = items.clone();
+    reordered.rotate_left(127);
+    reordered[128]["value"] = json!(-1);
+    // A large unchanged sibling makes a whole-document replacement wasteful.
+    let before = json!({"items": items, "keep": "unchanged ".repeat(10_000)});
+    let after = json!({"items": reordered, "keep": before["keep"]});
+    let engine = DiffPatcher::new(DiffOptions {
+        object_hash: Some(Arc::new(|v, _| v.get("id").map(Value::to_string))),
+        ..Default::default()
+    });
+    let raw = engine
+        .diff_json_patch(&before, &after, &options(false, false, true))
+        .unwrap();
+    let patch = engine
+        .diff_json_patch(&before, &after, &options(true, true, true))
+        .unwrap();
+    assert_roundtrip(&before, &after, &patch);
+    let mut independent = before.clone();
+    json_patch::patch(&mut independent, &patch).unwrap();
+    assert_eq!(independent, after);
+    assert!(serde_json::to_vec(&patch).unwrap().len() < serde_json::to_vec(&raw).unwrap().len());
+    assert!(
+        patch
+            .0
+            .iter()
+            .any(|op| matches!(op, PatchOperation::Test(op)
+        if op.path.as_str() == "/items" && op.value == before["items"]))
+    );
+    assert!(
+        !patch
+            .0
+            .iter()
+            .any(|op| matches!(op, PatchOperation::Replace(op)
+        if op.path.as_str().is_empty()))
+    );
+    let mut wrong = before.clone();
+    wrong["items"][0]["value"] = json!(-99);
+    let original = wrong.clone();
+    assert!(palim::apply_json_patch_in_place(&mut wrong, &patch).is_err());
+    assert_eq!(wrong, original);
 }
 
 #[test]
