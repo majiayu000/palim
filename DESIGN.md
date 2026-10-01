@@ -23,7 +23,7 @@
 
 ## API 与合同
 
-包名 `palim`，库名 `palim`；尚未发布。
+包名 `palim`，库名 `palim`。发行记录见 [GitHub Releases](https://github.com/majiayu000/palim/releases)，API 文档见 [docs.rs](https://docs.rs/palim)。
 完整 API 与字段说明见 [README](README.md)。选项归实例或调用所有，没有全局状态。
 
 `Delta` 是完整可逆变更。`reverse` 只读原 delta，不重新 diff；生成时复制必要旧值。

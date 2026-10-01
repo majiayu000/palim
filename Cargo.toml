@@ -3,10 +3,14 @@ name = "palim"
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.85"
-description = "Reversible JSON structural diffs with array moves and interoperable deltas"
+description = "Reversible JSON diff and patch for Rust, with array moves, text deltas, JSON Patch and Merge Patch"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/majiayu000/palim"
+homepage = "https://github.com/majiayu000/palim"
+documentation = "https://docs.rs/palim"
+keywords = ["json", "diff", "patch", "jsondiffpatch", "merge-patch"]
+categories = ["algorithms", "data-structures", "encoding"]
 exclude = ["results", "tools", "node_modules", "fuzz"]
 
 [dependencies]

@@ -1,14 +1,37 @@
-# Palim
+# Palim: JSON diff and patch for Rust
 
-A Rust library for **reversible JSON structural diffs**, array identity matching
-and moves, standard patches, Merge Patch and configurable comparison reports.
+[![crates.io](https://img.shields.io/crates/v/palim.svg)](https://crates.io/crates/palim)
+[![API documentation](https://docs.rs/palim/badge.svg)](https://docs.rs/palim)
+[![CI](https://github.com/majiayu000/palim/actions/workflows/ci.yml/badge.svg)](https://github.com/majiayu000/palim/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/majiayu000/palim/blob/main/LICENSE)
+
+Palim is a Rust library for **reversible JSON structural diffs**, array identity
+matching and moves, Unicode text deltas, RFC 6902 JSON Patch, RFC 7396 JSON Merge
+Patch and configurable comparison reports. Use it to compare JSON documents,
+store changes and restore previous values.
 It reads and writes the JSON delta format used by
 [jsondiffpatch](https://github.com/benjamine/jsondiffpatch), and exports RFC 6902
 JSON Patch operations. This is an independently implemented JSON core, using
 LIS for unique array identities, `imara-diff` for other sequence matching and
 `json-patch` for standard patch application.
 
-The package is implemented locally and has not been published. Minimum Rust: **1.85**.
+Minimum Rust: **1.85**. See the [API documentation](https://docs.rs/palim),
+[benchmarks](https://github.com/majiayu000/palim/blob/main/BENCHMARK.md) and
+[release history](https://github.com/majiayu000/palim/releases).
+
+## Installation
+
+```sh
+cargo add palim serde_json
+```
+
+Or add these dependencies to `Cargo.toml`:
+
+```toml
+[dependencies]
+palim = "0.1"
+serde_json = "1.0"
+```
 
 ## Example
 
@@ -39,14 +62,6 @@ let standard = delta.to_json_patch(&before)?;
 assert_eq!(apply_json_patch(&before, &standard)?, after);
 # Ok(())
 # }
-```
-
-For local use, add a path dependency pointing at this directory, plus `serde_json`.
-
-```toml
-[dependencies]
-palim = { path = "../palim" }
-serde_json = "1.0"
 ```
 
 ## Features
@@ -260,8 +275,8 @@ preserve those numbers. Strings must be valid Unicode.
 Identity/filter callbacks are caller code; panic or allocation failure is not caught.
 
 JS Date/undefined/functions, browser HTML/CSS/animations, a product CLI and language
-bindings are outside this JSON library. See [DESIGN.md](DESIGN.md) for the design
-and [BENCHMARK.md](BENCHMARK.md) for measured results and limitations.
+bindings are outside this JSON library. See [DESIGN.md](https://github.com/majiayu000/palim/blob/main/DESIGN.md) for the design
+and [BENCHMARK.md](https://github.com/majiayu000/palim/blob/main/BENCHMARK.md) for measured results and limitations.
 
 ## Verification and benchmarks
 
@@ -310,4 +325,5 @@ and Unicode text. Upstream JS reverse failures are reported separately, while Ru
 own inverse must restore every source.
 
 MIT for this implementation. Dependencies retain their respective licenses.
-Upstream-derived test fixtures are Apache-2.0; see `tests/fixtures/NOTICE.md`.
+Upstream-derived test fixtures are Apache-2.0; see
+[tests/fixtures/NOTICE.md](https://github.com/majiayu000/palim/blob/main/tests/fixtures/NOTICE.md).
