@@ -142,3 +142,41 @@ cargo package --allow-dirty --locked
 完整生成器、种子与首次 512 MiB fuzz 限额导致的 OOM 诊断也保留在 results/fuzz：当时空输入可成功重放，活跃堆约 42 MiB，RSS 包含 libFuzzer 特征和 ASan quarantine；最终只增加测试运行器 RSS 限额，未减少断言或关闭 sanitizer。
 
 单机冻结输入，无真实业务加权、跨生态统一运行环境或已核查下游采用。RSS 是整个进程峰值，含运行时、验证、预热、解析。大重复数组仍使用 Imara Histogram fallback，精确 LCS 有候选上限；未保证全部路径线性、最小字节、任意 JS inverse / DMP fuzzy 完全兼容或全球最快。历史首轮数据另见 [baseline-20260930](results/baseline-20260930/verification.json)。
+
+## 小对象与普通 RFC 数组路径（2026-10-01 UTC）
+
+本节比较已发布的 0.1.0（`38eaa8d`）与性能分支。边界仍为 parse 两份相同 bytes → typed RFC diff → serialize Patch。每个版本、引擎、输入运行 3 个独立进程，每进程保留 10 个原始批次；交错版本顺序，输出在计时前通过独立 json-patch 应用。共 66 个正确且完成的进程测量，不与历史测量累加为覆盖率。
+
+| 输入 / 模式 | 0.1.0 ms | 性能分支 ms | 0.1.0 / 分支 | 补丁条数，之前 → 之后 |
+|---|---:|---:|---:|---:|
+| small-config-edit / plain | 0.016195 | 0.011235 | 1.44× | 1 → 1 |
+| small-config-edit / optimized | 0.025551 | 0.020380 | 1.25× | 1 → 1 |
+| disjoint-2000 / plain | 2.627504 | 0.512221 | 5.13× | 4,000 → 2,000 |
+| disjoint-2000 / optimized | 4.540760 | 4.472508 | 1.02× | 1 → 1 |
+| rotate-2000 / plain | 0.512542 | 0.480542 | 1.07× | 1 → 1 |
+| reverse-2000 / plain | 2.195029 | 2.033635 | 1.08× | 1,999 → 1,999 |
+| duplicates-high-2000 / plain | 2.633945 | 2.624807 | 1.00× | 42 → 42 |
+| prepend-2000 / plain | 0.547572 | 0.544575 | 1.01× | 1 → 1 |
+| unchanged-2000 / plain | 0.232994 | 0.231296 | 1.01× | 0 → 0 |
+
+全异 plain 补丁从 165,781 B 缩至 112,891 B。相同轮次 typed json-patch：小配置 0.011153 ms，全异数组 0.473536 ms；小配置接近，全异数组本库仍约慢 8%。optimized 全异数组依旧以生成成本换取 34,038 B 的单次父替换；本轮没有消除该模式的开销。
+
+改动范围：
+
+- 深度检查仅把容器放入工作队列，保持既有容器深度和错误合同。
+- 无 node filter 时，未变化的 number/bool/null 属性跳过 JSON Pointer 分配；property filter 仍先调用。
+- plain 全异数组按位置 Replace 重叠项、倒序 Remove 多余尾项、顺序 Add 新尾项。根级标量数组在无过滤器、自定义匹配时直接生成 RFC 操作，省去可逆 delta 临时构造。
+- factorize 或 tests 开启时保留原数组生成路径，以保留后续 Copy 机会和数组容器 guards。公共 native diff 的 delta 格式保持；公开 Delta 导出仍先严格验证 baseline。
+
+分支独立完成 134 项测试、Clippy、fmt 与 Rust 1.85 库检查。另在临时目录组合主工作区的 guards 修改，138 项测试及 Clippy 通过；这份组合验证不表示主工作区已经合并或发布。
+
+[全部进程与原始批次](results/diff-performance-direct-20261001/summary.json)、[环境及源/二进制/输入哈希](results/diff-performance-direct-20261001/environment.json)、[实际检查输出及组合快照](results/diff-performance-direct-20261001/verification.json)。单机短时测量仍有波动；小幅变化不能证明普遍性能提升，表中 RFC 数据不代表 native Rust/JS 性能排名。
+
+复现时为两个 worktree 使用各自的 target 目录，避免相同包名的编译缓存混用。分别构建 0.1.0 和候选分支的 `standard_bench` 后运行：
+
+```sh
+python3 results/diff-performance-direct-20261001/run.py \
+  /path/to/candidate /path/to/published-worktree \
+  /path/to/published-worktree/target/release/examples/standard_bench \
+  /path/to/new-results-directory
+```

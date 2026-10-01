@@ -1,0 +1,85 @@
+{
+  "recorded_at": "2026-10-01T15:33:57.582679+00:00",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "cpu": "Apple M2 Max",
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6",
+  "baseline_commit": "38eaa8dd05feaafa942e4c5ce2ad8996b133c33c",
+  "candidate_base_commit": "38eaa8dd05feaafa942e4c5ce2ad8996b133c33c",
+  "candidate_diff": "diff --git a/src/delta.rs b/src/delta.rs\nindex b3ad785..9fb6040 100644\n--- a/src/delta.rs\n+++ b/src/delta.rs\n@@ -14,13 +14,23 @@ pub(crate) fn check_depth(value: &Value, limit: usize) -> Result<(), Error> {\n                 if depth >= limit {\n                     return Err(Error::new(\"\", \"JSON nesting exceeds max_depth\"));\n                 }\n-                pending.extend(values.iter().map(|v| (v, depth + 1)));\n+                pending.extend(\n+                    values\n+                        .iter()\n+                        .filter(|v| v.is_array() || v.is_object())\n+                        .map(|v| (v, depth + 1)),\n+                );\n             }\n             Value::Object(values) => {\n                 if depth >= limit {\n                     return Err(Error::new(\"\", \"JSON nesting exceeds max_depth\"));\n                 }\n-                pending.extend(values.values().map(|v| (v, depth + 1)));\n+                pending.extend(\n+                    values\n+                        .values()\n+                        .filter(|v| v.is_array() || v.is_object())\n+                        .map(|v| (v, depth + 1)),\n+                );\n             }\n             _ => {}\n         }\ndiff --git a/src/diff.rs b/src/diff.rs\nindex d7f621f..960a8ec 100644\n--- a/src/diff.rs\n+++ b/src/diff.rs\n@@ -51,6 +51,14 @@ fn node_unfiltered(\n                 }\n                 match b.get(key) {\n                     Some(new) => {\n+                        // Equal primitive fields need no path allocation. A node\n+                        // filter still receives unchanged nodes in its usual order.\n+                        if options.node_filter.is_none()\n+                            && matches!(old, Value::Number(_) | Value::Bool(_) | Value::Null)\n+                            && old == new\n+                        {\n+                            continue;\n+                        }\n                         if let Some(child) = node(old, new, options, &pointer(path, key))? {\n                             delta.insert(key.clone(), child);\n                         }\n@@ -430,13 +438,7 @@ fn array(\n     array_diff(a, b, options, path, None)\n }\n \n-fn array_diff(\n-    a: &[Value],\n-    b: &[Value],\n-    options: &DiffOptions,\n-    path: &str,\n-    original_positions: Option<&[Option<usize>]>,\n-) -> Result<Option<Value>, Error> {\n+pub(crate) fn check_array_capacity(a: &[Value], b: &[Value], path: &str) -> Result<(), Error> {\n     if a.len().max(b.len()) >= i32::MAX as usize\n         || a.len()\n             .checked_add(b.len())\n@@ -447,6 +449,17 @@ fn array_diff(\n             \"array exceeds sequence algorithm index capacity\",\n         ));\n     }\n+    Ok(())\n+}\n+\n+fn array_diff(\n+    a: &[Value],\n+    b: &[Value],\n+    options: &DiffOptions,\n+    path: &str,\n+    original_positions: Option<&[Option<usize>]>,\n+) -> Result<Option<Value>, Error> {\n+    check_array_capacity(a, b, path)?;\n     let mut interner = Interner::new(a.len() + b.len());\n     let before = a\n         .iter()\ndiff --git a/src/export.rs b/src/export.rs\nindex 8eb7e1b..21c2ac1 100644\n--- a/src/export.rs\n+++ b/src/export.rs\n@@ -4,17 +4,92 @@ use json_patch::{\n     jsonptr::{PointerBuf, Token},\n };\n use serde_json::{Value, json};\n+use std::collections::HashSet;\n+\n+// Plain standard generation need not construct reversible tuples when no\n+// primitive item can survive. Containers and caller-defined pairing stay on\n+// the native matching path. Check the first target before allocating a set so\n+// that common reorders usually return immediately.\n+pub(crate) fn disjoint_array_patch(left: &Value, right: &Value) -> Result<Option<Patch>, Error> {\n+    let (Some(source), Some(target)) = (left.as_array(), right.as_array()) else {\n+        return Ok(None);\n+    };\n+    if let Some(first) = target.first() {\n+        if first.is_array() || first.is_object() || source.contains(first) {\n+            return Ok(None);\n+        }\n+    }\n+    if let Some(first) = source.first() {\n+        if first.is_array() || first.is_object() || target.contains(first) {\n+            return Ok(None);\n+        }\n+    }\n+    if source\n+        .iter()\n+        .chain(target)\n+        .any(|value| value.is_array() || value.is_object())\n+    {\n+        return Ok(None);\n+    }\n+    crate::diff::check_array_capacity(source, target, \"\")?;\n+    let originals: HashSet<_> = source.iter().collect();\n+    if target.iter().any(|value| originals.contains(value)) {\n+        return Ok(None);\n+    }\n+    let mut output = Vec::new();\n+    replace_disjoint(source, target, &PointerBuf::new(), &mut output);\n+    Ok(Some(Patch(output)))\n+}\n+\n+fn replace_disjoint(\n+    source: &[Value],\n+    target: &[Value],\n+    path: &PointerBuf,\n+    out: &mut Vec<PatchOperation>,\n+) {\n+    let overlap = source.len().min(target.len());\n+    out.reserve(source.len().max(target.len()));\n+    for (index, value) in target.iter().take(overlap).enumerate() {\n+        out.push(PatchOperation::Replace(ReplaceOperation {\n+            path: child(path, index),\n+            value: value.clone(),\n+        }));\n+    }\n+    for index in (overlap..source.len()).rev() {\n+        out.push(PatchOperation::Remove(RemoveOperation {\n+            path: child(path, index),\n+        }));\n+    }\n+    for (index, value) in target.iter().enumerate().skip(overlap) {\n+        out.push(PatchOperation::Add(AddOperation {\n+            path: child(path, index),\n+            value: value.clone(),\n+        }));\n+    }\n+}\n \n pub(crate) fn export(left: &Value, change: &Delta) -> Result<Patch, Error> {\n     let right = patch::apply(left, &change.0, true)?;\n-    export_known(left, &right, change)\n+    export_known(left, &right, change, true)\n }\n \n // The diff pipeline already knows the target (or its filtered projection).\n // Public Delta::to_json_patch still validates its baseline through export above.\n-pub(crate) fn export_known(left: &Value, right: &Value, change: &Delta) -> Result<Patch, Error> {\n+pub(crate) fn export_known(\n+    left: &Value,\n+    right: &Value,\n+    change: &Delta,\n+    replace_disjoint_arrays: bool,\n+) -> Result<Patch, Error> {\n     let mut output = Vec::new();\n-    walk(left, right, &change.0, &PointerBuf::new(), &mut output)?;\n+    walk(\n+        left,\n+        right,\n+        &change.0,\n+        &PointerBuf::new(),\n+        &mut output,\n+        replace_disjoint_arrays,\n+    )?;\n     Ok(Patch(output))\n }\n \n@@ -67,6 +142,7 @@ fn walk(\n     change: &Value,\n     path: &PointerBuf,\n     out: &mut Vec<PatchOperation>,\n+    replace_disjoint_arrays: bool,\n ) -> Result<(), Error> {\n     match change {\n         Value::Array(a) => match a.len() {\n@@ -100,6 +176,18 @@ fn walk(\n                 .as_array()\n                 .ok_or_else(|| Error::new(path.as_str(), \"array target is missing\"))?;\n             let parts = delta::parts(map, path.as_str())?;\n+            // Without survivors, positional replacements need half as many\n+            // operations. Factorization retains remove/add so that later adds\n+            // can become copies; guarded generation retains its container tests.\n+            if replace_disjoint_arrays\n+                && parts.moves.is_empty()\n+                && parts.changes.is_empty()\n+                && parts.removals.len() == source.len()\n+                && parts.additions.len() == target.len()\n+            {\n+                replace_disjoint(source, target, path, out);\n+                return Ok(());\n+            }\n             let mut moved = vec![false; source.len()];\n             let mut removed = vec![false; source.len()];\n             for &old in parts.removals.keys() {\n@@ -196,7 +284,14 @@ fn walk(\n             for (&new, change) in &parts.changes {\n                 let old = old_at_target[new]\n                     .ok_or_else(|| Error::new(path.as_str(), \"cannot modify an added item\"))?;\n-                walk(&source[old], &target[new], change, &child(path, new), out)?;\n+                walk(\n+                    &source[old],\n+                    &target[new],\n+                    change,\n+                    &child(path, new),\n+                    out,\n+                    replace_disjoint_arrays,\n+                )?;\n             }\n         }\n         Value::Object(map) => {\n@@ -207,6 +302,7 @@ fn walk(\n                     change,\n                     &child(path, key.as_str()),\n                     out,\n+                    replace_disjoint_arrays,\n                 )?;\n             }\n         }\ndiff --git a/src/lib.rs b/src/lib.rs\nindex bf3e5c7..8c1f135 100644\n--- a/src/lib.rs\n+++ b/src/lib.rs\n@@ -193,6 +193,10 @@ impl DiffPatcher {\n     }\n     /// Compare JSON values; None means no differences after property filtering.\n     pub fn diff(&self, left: &Value, right: &Value) -> Result<Option<Delta>, Error> {\n+        self.check_inputs(left, right)?;\n+        self.diff_validated(left, right)\n+    }\n+    fn check_inputs(&self, left: &Value, right: &Value) -> Result<(), Error> {\n         if self.options.object_hash.is_some() && self.options.array_item_matcher.is_some() {\n             return Err(Error::new(\n                 \"\",\n@@ -204,6 +208,9 @@ impl DiffPatcher {\n         }\n         delta::check_depth(left, self.options.max_depth)?;\n         delta::check_depth(right, self.options.max_depth)?;\n+        Ok(())\n+    }\n+    fn diff_validated(&self, left: &Value, right: &Value) -> Result<Option<Delta>, Error> {\n         let result = diff::node(left, right, &self.options, \"\")?;\n         if let Some(value) = &result {\n             delta::check_depth(value, delta::MAX_DELTA_DEPTH)?;\n@@ -229,16 +236,33 @@ impl DiffPatcher {\n         right: &Value,\n         options: &JsonPatchOptions,\n     ) -> Result<Patch, Error> {\n-        let change = self.diff(left, right)?;\n+        self.check_inputs(left, right)?;\n+        if !options.factorize\n+            && !options.tests\n+            && self.options.node_filter.is_none()\n+            && self.options.property_filter.is_none()\n+            && self.options.array_item_matcher.is_none()\n+        {\n+            if let Some(standard) = export::disjoint_array_patch(left, right)? {\n+                return rfc::optimize(left, right, standard, options);\n+            }\n+        }\n+        let change = self.diff_validated(left, right)?;\n         let Some(change) = change else {\n             return Ok(Patch::default());\n         };\n         if self.options.property_filter.is_some() || self.options.node_filter.is_some() {\n             let projected = patch(left, &change)?;\n-            let standard = export::export_known(left, &projected, &change)?;\n+            let standard = export::export_known(\n+                left,\n+                &projected,\n+                &change,\n+                !options.factorize && !options.tests,\n+            )?;\n             rfc::optimize(left, &projected, standard, options)\n         } else {\n-            let standard = export::export_known(left, right, &change)?;\n+            let standard =\n+                export::export_known(left, right, &change, !options.factorize && !options.tests)?;\n             rfc::optimize(left, right, standard, options)\n         }\n     }\n",
+  "cargo_lock_sha256": "7afc7e075b2b6e19a1d32ebfd7bf77e4281620623fe9335226288e3226a61bb7",
+  "source_sha256": {
+    "baseline": {
+      "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+      "src/delta.rs": "de1a36b3859f71f8619b47a3f6187c4ed9d534d5f7bf52ee312c9fca3d112c01",
+      "src/diff.rs": "2a818050187755d3d535c269149cc58db13ed401616bbd1a4b81ff93585f5b87",
+      "src/export.rs": "d2357ae8879698a0ccc7e481bc9497b0e86776a30cc2d135c134fd3032bc7fe2",
+      "src/lib.rs": "0a138cfc3c7de77d19d017235530bd71d46672493ba4791d946d6999083ac0a6",
+      "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+      "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+      "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "src/rfc.rs": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+      "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+    },
+    "candidate": {
+      "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+      "src/delta.rs": "50a33c7f2abdbb4ccb1b070febc5e8c176ab1c955b24c7cb620172cbab85795a",
+      "src/diff.rs": "5f29c9da73b6028f8f6776ff60e268663d9b9f90457e80d3108eb45eab40280e",
+      "src/export.rs": "0b941c5c0102e92d4f8d7dd5deb03a143af2c4310c9c801e54bc5ad60ed0651e",
+      "src/lib.rs": "b560dfe66a8df1fdb4c1942919bb68f83f6bfcd0ad85f07aa713597311fb4e36",
+      "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+      "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+      "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+      "src/rfc.rs": "ce537e3a7313a41b3b48e764ec76fbdf1f14cf8065c9f1fc1bf91d9a6492a57c",
+      "src/text.rs": "7d8113697284cebbf17f029b9728d555885c70051a5f8db1ca80e6a5e9af35d9"
+    }
+  },
+  "binary_sha256": {
+    "published-0.1.0": "fdef065105725cedcdc483b44eaedd49ada0b1817bf2cccb6659a6a7d1283fca",
+    "candidate": "0f5f3bedf215c4b5e3f2063932723f3d9c381506b72f87232a5ab1e4c4c8a1b1"
+  },
+  "fixture_sha256": {
+    "small-config-edit": "0468579325dcbe07a430ff8c22b6e31c204cf00fe514b842cc0dc446c328d453",
+    "disjoint-2000": "06491afb454e6f2f9b3e030b55cebb4d24289d35f488a8a831832c58bc305324",
+    "rotate-2000": "6d9a75a69fb65b645439b7b3bc9ec4a55d0a6f742b37fb9be858ba2874773142",
+    "reverse-2000": "d840a69905b305cfdea262985382dbb5bc9aef7394015b6fdf1b88d80b478bff",
+    "duplicates-high-2000": "0a971115553bc7640e67e46f59f42acbfda69e001a9a8071785866d2e1eb1a29",
+    "prepend-2000": "dd756bf6b32b5a35b6e776e7e8dde650e5f9f993277d758d1a3cf3a2e52b3341",
+    "unchanged-2000": "ac91e4a70abb58055551e3587f31f6b705d2a1922a11e83b52b9781187952513"
+  },
+  "additional_fixture_definitions": {
+    "prepend-2000": "left=list(range(2000)); right=[-1]+left",
+    "unchanged-2000": "left=list(range(2000)); right=left"
+  },
+  "runner_sha256": "3909d55ebbe46085cf84378bd67149ae17f33c8769a3ddaa9919fe20fabe5253",
+  "sampling_script_sha256": "86924ed8699364af09f58575e8b2d745e8bb064948d785061e3f290dec7aa66e",
+  "method": "identical bytes; parse both documents -> typed standard diff -> serialize Patch; independent application verifies serialized output before timing",
+  "sampling": "3 independent processes per engine and version; interleave version pairs and rotate engine order; each process performs 20 warmups, 25ms calibration capped at 16384 iterations, and 10 raw samples",
+  "case_engines": {
+    "small-config-edit": [
+      "plain",
+      "optimized",
+      "json-patch"
+    ],
+    "disjoint-2000": [
+      "plain",
+      "optimized",
+      "json-patch"
+    ],
+    "rotate-2000": [
+      "plain"
+    ],
+    "reverse-2000": [
+      "plain"
+    ],
+    "duplicates-high-2000": [
+      "plain"
+    ],
+    "prepend-2000": [
+      "plain"
+    ],
+    "unchanged-2000": [
+      "plain"
+    ]
+  },
+  "note": "json-patch is the typed Rust positional competitor. Plain enables ID matching but disables factorization, rationalization and tests; optimized enables factorization+rationalization. Array-edit replacements are disabled for factorization and tests."
+}

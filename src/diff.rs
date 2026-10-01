@@ -51,6 +51,14 @@ fn node_unfiltered(
                 }
                 match b.get(key) {
                     Some(new) => {
+                        // Equal primitive fields need no path allocation. A node
+                        // filter still receives unchanged nodes in its usual order.
+                        if options.node_filter.is_none()
+                            && matches!(old, Value::Number(_) | Value::Bool(_) | Value::Null)
+                            && old == new
+                        {
+                            continue;
+                        }
                         if let Some(child) = node(old, new, options, &pointer(path, key))? {
                             delta.insert(key.clone(), child);
                         }
@@ -430,13 +438,7 @@ fn array(
     array_diff(a, b, options, path, None)
 }
 
-fn array_diff(
-    a: &[Value],
-    b: &[Value],
-    options: &DiffOptions,
-    path: &str,
-    original_positions: Option<&[Option<usize>]>,
-) -> Result<Option<Value>, Error> {
+pub(crate) fn check_array_capacity(a: &[Value], b: &[Value], path: &str) -> Result<(), Error> {
     if a.len().max(b.len()) >= i32::MAX as usize
         || a.len()
             .checked_add(b.len())
@@ -447,6 +449,17 @@ fn array_diff(
             "array exceeds sequence algorithm index capacity",
         ));
     }
+    Ok(())
+}
+
+fn array_diff(
+    a: &[Value],
+    b: &[Value],
+    options: &DiffOptions,
+    path: &str,
+    original_positions: Option<&[Option<usize>]>,
+) -> Result<Option<Value>, Error> {
+    check_array_capacity(a, b, path)?;
     let mut interner = Interner::new(a.len() + b.len());
     let before = a
         .iter()
