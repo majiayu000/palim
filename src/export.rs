@@ -6,11 +6,15 @@ use json_patch::{
 use serde_json::{Value, json};
 use std::collections::HashSet;
 
-// Plain standard generation need not construct reversible tuples when no
+// Standard generation need not construct reversible tuples when no
 // primitive item can survive. Containers and caller-defined pairing stay on
 // the native matching path. Check the first target before allocating a set so
 // that common reorders usually return immediately.
-pub(crate) fn disjoint_array_patch(left: &Value, right: &Value) -> Result<Option<Patch>, Error> {
+pub(crate) fn disjoint_array_patch(
+    left: &Value,
+    right: &Value,
+    positional: bool,
+) -> Result<Option<Patch>, Error> {
     let (Some(source), Some(target)) = (left.as_array(), right.as_array()) else {
         return Ok(None);
     };
@@ -37,7 +41,22 @@ pub(crate) fn disjoint_array_patch(left: &Value, right: &Value) -> Result<Option
         return Ok(None);
     }
     let mut output = Vec::new();
-    replace_disjoint(source, target, &PointerBuf::new(), &mut output);
+    if positional {
+        replace_disjoint(source, target, &PointerBuf::new(), &mut output);
+    } else {
+        output.reserve(source.len() + target.len());
+        for index in (0..source.len()).rev() {
+            output.push(PatchOperation::Remove(RemoveOperation {
+                path: child(&PointerBuf::new(), index),
+            }));
+        }
+        for (index, value) in target.iter().enumerate() {
+            output.push(PatchOperation::Add(AddOperation {
+                path: child(&PointerBuf::new(), index),
+                value: value.clone(),
+            }));
+        }
+    }
     Ok(Some(Patch(output)))
 }
 

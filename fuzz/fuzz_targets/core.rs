@@ -1,12 +1,12 @@
 #![no_main]
 
 use arbitrary::Unstructured;
+use libfuzzer_sys::fuzz_target;
 use palim::{
     CompareOptions, Delta, DiffOptions, DiffPatcher, JsonPatchOptions, Patch, PatchOperation,
     TextPatchOptions, apply_json_patch, apply_text_patch, compare, diff_json_patch,
-    invert_json_patch, patch, reverse, unpatch,
+    invert_json_patch, invert_json_patch_guarded, patch, reverse, test_json_patch, unpatch,
 };
-use libfuzzer_sys::fuzz_target;
 use serde_json::{Map, Value, json};
 use std::{fmt::Write, sync::Arc};
 
@@ -303,9 +303,23 @@ fn standard(input: &mut Unstructured<'_>) {
         operations.push(operation);
     }
     let operations = Patch(operations);
+    let tests = Patch(
+        operations
+            .0
+            .iter()
+            .filter(|operation| matches!(operation, PatchOperation::Test(_)))
+            .cloned()
+            .collect(),
+    );
+    assert_eq!(
+        test_json_patch(&before, &tests),
+        apply_json_patch(&before, &tests).map(|_| ())
+    );
     if let Ok(after) = apply_json_patch(&before, &operations) {
         let inverse = invert_json_patch(&before, &operations).unwrap();
         assert_eq!(apply_json_patch(&after, &inverse).unwrap(), before);
+        let guarded = invert_json_patch_guarded(&before, &operations).unwrap();
+        assert_eq!(apply_json_patch(&after, &guarded).unwrap(), before);
     }
     let after = document(input, 3);
     let flags = byte(input);
@@ -330,6 +344,14 @@ fn standard(input: &mut Unstructured<'_>) {
     );
     assert_eq!(
         apply_json_patch(&target, &invert_json_patch(&before, &operations).unwrap()).unwrap(),
+        before
+    );
+    assert_eq!(
+        apply_json_patch(
+            &target,
+            &invert_json_patch_guarded(&before, &operations).unwrap()
+        )
+        .unwrap(),
         before
     );
 }
@@ -377,9 +399,7 @@ fn regressions(input: &mut Unstructured<'_>) {
             complete_delta(
                 &before,
                 &Value::Null,
-                &palim::diff(&before, &Value::Null)
-                    .unwrap()
-                    .unwrap(),
+                &palim::diff(&before, &Value::Null).unwrap().unwrap(),
             );
         }
         3 => {

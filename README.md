@@ -102,8 +102,10 @@ assert_eq!(apply_json_patch(&before, &standard)?, after);
 | `apply_json_patch(&left, &patch)` | Atomic `Result<Value, Error>` |
 | `apply_json_patch_owned(left, &patch)` / `apply_json_patch_in_place(&mut left, &patch)` | Consuming / atomic standard application |
 | `apply_json_patch_with_options(&left, &patch, &limits)` | Standard application with depth and copy budgets |
+| `test_json_patch(&left, &tests)` | Read-only standard Test operations, without cloning the document |
 | `diff_json_patch(&left, &right, &options)` / `engine.diff_json_patch(..)` | Optimized `Result<Patch, Error>` |
 | `invert_json_patch(&left, &patch)` | Inverse standard operations, using the baseline |
+| `invert_json_patch_guarded(&left, &patch)` | Inverse operations with tests of the values and containers being undone |
 | `merge_patch(&left, &patch)` / `merge_patch_in_place(..)` | RFC 7396 application |
 | `diff_merge_patch(&left, &right)` / `compose_merge_patches(&first, &second)` | Patch generation / composition; errors for unrepresentable cases |
 | `compare(&left, &right, &options)` | `Result<CompareReport, Error>`; a report, not a patch |
@@ -170,6 +172,17 @@ operations. `JsonPatchApplyOptions::max_copy_bytes` counts cumulative serialized
 source bytes before each copy; moves do not count. Consuming APIs avoid the initial
 document clone. Atomic in-place APIs compute privately and commit after success;
 they are not zero-copy mutation APIs.
+
+`test_json_patch` accepts only Test operations and checks them in order against
+a borrowed document. It retains the standard depth limit and mathematical number
+equality. It avoids a document clone, but still validates source depth and visits
+the tested values. Mutating operations are rejected at their position.
+
+Use `invert_json_patch_guarded` when a saved inverse might be applied to a changed
+target. Its tests verify the values and containers involved in undoing each
+operation, rather than authenticating the entire document. Restoring an absent key
+or inserting into an array requires a parent snapshot; that snapshot can also
+reject changes to unrelated siblings and can make the inverse larger.
 
 ### Comparison reports and Merge Patch
 

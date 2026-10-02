@@ -15,7 +15,7 @@ pub use compare::{
     UnorderedArrays, compare,
 };
 mod rfc;
-pub use rfc::{JsonPatchOptions, diff_json_patch, invert_json_patch};
+pub use rfc::{JsonPatchOptions, diff_json_patch, invert_json_patch, invert_json_patch_guarded};
 
 /// A patch or diff failure, with a JSON Pointer identifying the affected value.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -237,17 +237,24 @@ impl DiffPatcher {
         options: &JsonPatchOptions,
     ) -> Result<Patch, Error> {
         self.check_inputs(left, right)?;
-        if !options.factorize
-            && !options.tests
+        if !options.tests
             && self.options.node_filter.is_none()
             && self.options.property_filter.is_none()
             && self.options.array_item_matcher.is_none()
         {
-            if let Some(standard) = export::disjoint_array_patch(left, right)? {
+            if let Some(standard) = export::disjoint_array_patch(left, right, !options.factorize)? {
                 return rfc::optimize(left, right, standard, options);
             }
         }
-        let change = self.diff_validated(left, right)?;
+        // Standard patches replace text values as a whole. Constructing a
+        // text delta here would perform matching only to discard its result.
+        let change = if self.options.text_diff_min_length.is_some() {
+            let mut options = self.options.clone();
+            options.text_diff_min_length = None;
+            Self::new(options).diff_validated(left, right)?
+        } else {
+            self.diff_validated(left, right)?
+        };
         let Some(change) = change else {
             return Ok(Patch::default());
         };
@@ -330,6 +337,24 @@ impl Default for JsonPatchApplyOptions {
 /// Apply all six RFC 6902 operations without changing the source.
 pub fn apply_json_patch(left: &Value, patch: &Patch) -> Result<Value, Error> {
     apply_json_patch_with_options(left, patch, &JsonPatchApplyOptions::default())
+}
+/// Check a sequence of RFC 6902 test operations without cloning the document.
+/// Other operations are rejected in sequence. Source and expected values retain
+/// the standard 128-container depth limit and mathematical number equality.
+pub fn test_json_patch(left: &Value, patch: &Patch) -> Result<(), Error> {
+    let options = JsonPatchApplyOptions::default();
+    check_standard_source(left, &options)?;
+    for (index, op) in patch.0.iter().enumerate() {
+        let PatchOperation::Test(test) = op else {
+            return Err(standard_error(
+                index,
+                operation_path(op),
+                "only test operations are allowed",
+            ));
+        };
+        test_standard(left, test, index, options.max_depth)?;
+    }
+    Ok(())
 }
 /// Apply with copy and nesting limits; failures return no partial document.
 pub fn apply_json_patch_with_options(
@@ -437,24 +462,17 @@ fn step_with_depth(
     index: usize,
     max_depth: usize,
 ) -> Result<(), Error> {
+    if let PatchOperation::Test(test) = op {
+        return test_standard(result, test, index, max_depth);
+    }
     let path = operation_path(op);
     let payload_height = match op {
         PatchOperation::Add(op) => Some(standard_subtree_height(&op.value, max_depth)),
         PatchOperation::Replace(op) => Some(standard_subtree_height(&op.value, max_depth)),
-        PatchOperation::Test(op) => Some(standard_subtree_height(&op.value, max_depth)),
         _ => None,
     }
     .transpose()
     .map_err(|e| standard_error(index, path, e.message))?;
-    if let PatchOperation::Test(test) = op {
-        let current = result
-            .pointer(path)
-            .ok_or_else(|| standard_error(index, path, "path is invalid"))?;
-        if !json_equal(current, &test.value) {
-            return Err(standard_error(index, path, "value did not match"));
-        }
-        return Ok(());
-    }
     if matches!(op, PatchOperation::Move(m) if m.from.as_str().is_empty() && m.path.as_str().is_empty())
     {
         return Ok(());
@@ -492,6 +510,24 @@ fn step_with_depth(
     Ok(())
 }
 
+fn test_standard(
+    source: &Value,
+    test: &json_patch::TestOperation,
+    index: usize,
+    max_depth: usize,
+) -> Result<(), Error> {
+    let path = test.path.as_str();
+    standard_subtree_height(&test.value, max_depth)
+        .map_err(|error| standard_error(index, path, error.message))?;
+    let current = source
+        .pointer(path)
+        .ok_or_else(|| standard_error(index, path, "path is invalid"))?;
+    if !json_equal(current, &test.value) {
+        return Err(standard_error(index, path, "value did not match"));
+    }
+    Ok(())
+}
+
 fn moved_subtree_height(
     result: &Value,
     from: &str,
@@ -525,8 +561,18 @@ fn standard_subtree_height(value: &Value, limit: usize) -> Result<usize, Error> 
         }
         height = height.max(depth + 1);
         match value {
-            Value::Array(values) => pending.extend(values.iter().map(|v| (v, depth + 1))),
-            Value::Object(values) => pending.extend(values.values().map(|v| (v, depth + 1))),
+            Value::Array(values) => pending.extend(
+                values
+                    .iter()
+                    .filter(|value| value.is_array() || value.is_object())
+                    .map(|value| (value, depth + 1)),
+            ),
+            Value::Object(values) => pending.extend(
+                values
+                    .values()
+                    .filter(|value| value.is_array() || value.is_object())
+                    .map(|value| (value, depth + 1)),
+            ),
             _ => {}
         }
     }

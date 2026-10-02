@@ -1,7 +1,8 @@
 use criterion::{BatchSize, BenchmarkId, Criterion, criterion_group, criterion_main};
 use palim::{
     CompareOptions, DiffOptions, DiffPatcher, JsonPatchOptions, PatchOperation, apply_json_patch,
-    compare, diff_merge_patch, invert_json_patch, merge_patch, patch, patch_owned, reverse,
+    compare, diff_merge_patch, invert_json_patch, invert_json_patch_guarded, merge_patch, patch,
+    patch_owned, reverse, test_json_patch,
 };
 use serde_json::{Value, json};
 use std::{hint::black_box, sync::Arc, time::Duration};
@@ -420,7 +421,58 @@ fn risk_cases(c: &mut Criterion) {
     application.bench_function("invert-2000", |bencher| {
         bencher.iter(|| invert_json_patch(black_box(&a), black_box(&change)).unwrap());
     });
+    let guarded_inverse = invert_json_patch_guarded(&a, &change).unwrap();
+    assert_eq!(apply_json_patch(&b, &guarded_inverse).unwrap(), a);
+    application.bench_function("invert-guarded-2000", |bencher| {
+        bencher.iter(|| invert_json_patch_guarded(black_box(&a), black_box(&change)).unwrap());
+    });
     application.finish();
 }
-criterion_group! { name = benches; config = Criterion::default().sample_size(20).warm_up_time(Duration::from_millis(100)).measurement_time(Duration::from_millis(300)).nresamples(5000); targets=benchmarks, extended_apis, risk_cases }
+
+fn read_only_tests(c: &mut Criterion) {
+    let baseline =
+        json!({"keep": "unchanged payload".repeat(65_536), "items": (0..1000).collect::<Vec<_>>()});
+    let mut group = c.benchmark_group("standard/test-only");
+    for count in [1, 1000] {
+        let tests: json_patch::Patch = serde_json::from_value(json!(
+            (0..count)
+                .map(|i| json!({"op":"test", "path":format!("/items/{i}"), "value":i}))
+                .collect::<Vec<_>>()
+        ))
+        .unwrap();
+        test_json_patch(&baseline, &tests).unwrap();
+        group.bench_function(BenchmarkId::new("borrowed-read-only", count), |bencher| {
+            bencher.iter(|| test_json_patch(black_box(&baseline), black_box(&tests)).unwrap());
+        });
+        group.bench_function(
+            BenchmarkId::new("borrowed-clone-return", count),
+            |bencher| {
+                bencher.iter(|| apply_json_patch(black_box(&baseline), black_box(&tests)).unwrap());
+            },
+        );
+        group.bench_function(
+            BenchmarkId::new("json-patch-borrowed-clone", count),
+            |bencher| {
+                bencher.iter(|| {
+                    let mut document = black_box(&baseline).clone();
+                    json_patch::patch(&mut document, black_box(&tests)).unwrap();
+                    document
+                });
+            },
+        );
+        // An already mutable document needs no clone in json-patch. This has a
+        // different ownership boundary and omits Palim's source-depth check.
+        let mut mutable = baseline.clone();
+        group.bench_function(
+            BenchmarkId::new("json-patch-already-mutable", count),
+            |bencher| {
+                bencher.iter(|| {
+                    json_patch::patch(black_box(&mut mutable), black_box(&tests)).unwrap()
+                });
+            },
+        );
+    }
+    group.finish();
+}
+criterion_group! { name = benches; config = Criterion::default().sample_size(20).warm_up_time(Duration::from_millis(100)).measurement_time(Duration::from_millis(300)).nresamples(5000); targets=benchmarks, extended_apis, risk_cases, read_only_tests }
 criterion_main!(benches);

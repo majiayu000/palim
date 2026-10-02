@@ -1,7 +1,7 @@
 use crate::{Error, Patch, PatchOperation, apply_json_patch, delta, json_equal, pointer};
 use serde::Serialize;
 use serde_json::{Value, json};
-use std::collections::{BTreeSet, HashMap};
+use std::collections::{BTreeSet, HashMap, HashSet};
 use std::io::{self, Write};
 
 /// Options for producing RFC 6902 patches.
@@ -47,7 +47,7 @@ pub(crate) fn optimize(
         patch = rationalize(left, right, patch, options.tests)?;
     }
     if options.tests {
-        patch = guard(left, &patch)?;
+        patch = guard(left.clone(), &patch)?;
     }
     Ok(patch)
 }
@@ -607,6 +607,29 @@ fn find_copy(
     Ok(())
 }
 
+// Index destinations once while the original patch is unchanged. A rejected
+// candidate does not affect these lists or their original operation order.
+fn selection_index(patch: &Patch) -> (HashMap<String, Vec<usize>>, HashSet<String>, Vec<usize>) {
+    let mut selected: HashMap<String, Vec<usize>> = HashMap::new();
+    let mut destinations = HashSet::new();
+    let mut moves = Vec::new();
+    for (index, operation) in patch.0.iter().enumerate() {
+        destinations.insert(path(operation).to_owned());
+        let mut cursor = path(operation);
+        loop {
+            selected.entry(cursor.to_owned()).or_default().push(index);
+            let Some(ancestor) = parent(cursor) else {
+                break;
+            };
+            cursor = ancestor;
+        }
+        if matches!(operation, PatchOperation::Move(_)) {
+            moves.push(index);
+        }
+    }
+    (selected, destinations, moves)
+}
+
 fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Result<Patch, Error> {
     let mut parents = BTreeSet::new();
     for op in &patch.0 {
@@ -634,30 +657,81 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         (if broad_first { depth } else { depth.reverse() }).then_with(|| a.cmp(b))
     });
     let (mut current_size, mut guard_costs) = guarded_bytes(left, &patch, tests, &[])?;
+    let mut selections = None;
+    // After an accepted replacement, use the original scan rather than
+    // rebuilding an index for every independently compressible parent.
+    let mut index_unchanged = true;
     for ancestor in parents {
         let (Some(old), Some(new)) = (left.pointer(&ancestor), right.pointer(&ancestor)) else {
             continue;
         };
-        let mut selected = Vec::new();
-        let mut boundary_crossed = false;
-        for (index, op) in patch.0.iter().enumerate() {
-            let destination_inside = contains(&ancestor, path(op));
-            // Replacing only a child cannot replace an operation on its parent.
-            if contains(path(op), &ancestor) && !destination_inside {
-                boundary_crossed = true;
-                break;
-            }
-            if let Some(source) = from(op) {
-                let source_inside = contains(&ancestor, source);
-                if matches!(op, PatchOperation::Move(_)) && source_inside != destination_inside {
-                    boundary_crossed = true;
+        let (selected, boundary_crossed) = if ancestor.is_empty() {
+            ((0..patch.0.len()).collect::<Vec<_>>(), false)
+        } else if patch.0.len() == 1 {
+            let operation = &patch.0[0];
+            let destination_inside = contains(&ancestor, path(operation));
+            let crossed = (contains(path(operation), &ancestor) && !destination_inside)
+                || matches!(operation, PatchOperation::Move(_))
+                    && from(operation)
+                        .is_some_and(|source| contains(&ancestor, source) != destination_inside);
+            (
+                if destination_inside {
+                    vec![0]
+                } else {
+                    Vec::new()
+                },
+                crossed,
+            )
+        } else if !index_unchanged {
+            let mut selected = Vec::new();
+            let mut crossed = false;
+            for (index, operation) in patch.0.iter().enumerate() {
+                let inside = contains(&ancestor, path(operation));
+                if contains(path(operation), &ancestor) && !inside {
+                    crossed = true;
                     break;
                 }
+                if matches!(operation, PatchOperation::Move(_))
+                    && from(operation).is_some_and(|source| contains(&ancestor, source) != inside)
+                {
+                    crossed = true;
+                    break;
+                }
+                if inside {
+                    selected.push(index);
+                }
             }
-            if destination_inside {
-                selected.push(index);
+            (selected, crossed)
+        } else {
+            let (selected_by_parent, destinations, moves) =
+                selections.get_or_insert_with(|| selection_index(&patch));
+            let selected = selected_by_parent
+                .get(&ancestor)
+                .cloned()
+                .unwrap_or_default();
+            let mut crossed = false;
+            let mut cursor = ancestor.as_str();
+            while let Some(above) = parent(cursor) {
+                if destinations.contains(above) {
+                    crossed = true;
+                    break;
+                }
+                cursor = above;
             }
-        }
+            if !crossed {
+                for &index in moves.iter() {
+                    if let PatchOperation::Move(operation) = &patch.0[index] {
+                        if contains(&ancestor, operation.from.as_str())
+                            != contains(&ancestor, operation.path.as_str())
+                        {
+                            crossed = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            (selected, crossed)
+        };
         if boundary_crossed || selected.is_empty() {
             continue;
         }
@@ -732,6 +806,8 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
                 && apply_json_patch(left, &candidate).is_ok_and(|value| json_equal(&value, right))
             {
                 patch = candidate;
+                selections = None;
+                index_unchanged = false;
                 current_size = candidate_size;
                 guard_costs = candidate_costs;
             }
@@ -843,8 +919,7 @@ fn guard_values<'a, 'b>(
     })
 }
 
-fn guard(left: &Value, patch: &Patch) -> Result<Patch, Error> {
-    let mut shadow = left.clone();
+fn guard(mut shadow: Value, patch: &Patch) -> Result<Patch, Error> {
     let mut output = Vec::new();
     for (index, op) in patch.0.iter().enumerate() {
         for (path, value) in guard_values(&shadow, op)?.into_iter().flatten() {
@@ -860,6 +935,18 @@ fn guard(left: &Value, patch: &Patch) -> Result<Patch, Error> {
 /// Tests make no changes and therefore produce no inverse operation. A move may
 /// need remove/add/replace operations to restore a destination it overwrote.
 pub fn invert_json_patch(left: &Value, patch: &Patch) -> Result<Patch, Error> {
+    invert_with_target(left, patch).map(|(inverse, _)| inverse)
+}
+
+/// Generate an inverse with tests for the values and containers it will touch.
+/// Guards are computed from the successfully patched baseline. They do not
+/// authenticate unrelated document fields, and container tests can be large.
+pub fn invert_json_patch_guarded(left: &Value, patch: &Patch) -> Result<Patch, Error> {
+    let (inverse, right) = invert_with_target(left, patch)?;
+    guard(right, &inverse)
+}
+
+fn invert_with_target(left: &Value, patch: &Patch) -> Result<(Patch, Value), Error> {
     delta::check_depth(left, 128)?;
     let mut shadow = left.clone();
     let mut groups = Vec::new();
@@ -877,7 +964,7 @@ pub fn invert_json_patch(left: &Value, patch: &Patch) -> Result<Patch, Error> {
         crate::apply_json_patch_step(&mut shadow, op, index)?;
         groups.push(inverse?);
     }
-    Ok(Patch(groups.into_iter().rev().flatten().collect()))
+    Ok((Patch(groups.into_iter().rev().flatten().collect()), shadow))
 }
 
 fn old_operation(before: &Value, op: &str, path: &str) -> Result<Vec<PatchOperation>, Error> {
@@ -1079,7 +1166,7 @@ mod guard_cost_tests {
             ),
         ];
         for (left, patch) in cases {
-            let actual = guard(&left, &patch).unwrap();
+            let actual = guard(left.clone(), &patch).unwrap();
             let expected = bytes(&actual).unwrap();
             let (size, costs) = guarded_bytes(&left, &patch, true, &[]).unwrap();
             assert_eq!(size, expected);
@@ -1123,7 +1210,7 @@ mod guard_cost_tests {
             {"op":"remove","path":"/a/1"},
             {"op":"move","from":"/a/1","path":"/dest/2"}
         ]));
-        let actual = guard(&left, &candidate).unwrap();
+        let actual = guard(left.clone(), &candidate).unwrap();
         let (size, candidate_costs) = guarded_bytes(&left, &candidate, true, &costs[..=2]).unwrap();
         assert_eq!(size, bytes(&actual).unwrap());
         assert_eq!(candidate_costs.last().unwrap().operations, actual.0.len());
@@ -1151,7 +1238,7 @@ mod guard_cost_tests {
             {"op":"replace","path":"/a","value":[3]},
             {"op":"add","path":"/dest/2","value":2}
         ]));
-        let actual = guard(&left, &next).unwrap();
+        let actual = guard(left.clone(), &next).unwrap();
         let (size, costs) = guarded_bytes(&left, &next, true, &candidate_costs[..=4]).unwrap();
         assert_eq!(size, bytes(&actual).unwrap());
         assert_eq!(costs.last().unwrap().operations, actual.0.len());

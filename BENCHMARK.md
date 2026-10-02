@@ -304,3 +304,18 @@ python3 tools/performance-fixes.py \
 ```
 
 本轮完成代码修复和本地验证，没有重新发布crate。以上收益不代表包含解析和序列化的完整业务流程，也不代表所有输入都最快。
+
+## 核心能力与最新竞品重测（2026-10-03）
+
+本轮继续消除默认 RFC 全异数组的临时 native delta、重复身份的父节点扫描和随后丢弃的文本匹配，并减少文本坐标临时空间。新增只读 `test_json_patch` 与 `invert_json_patch_guarded`，公开各自的所有权边界和 guard 成本。上文“factorize 开启时保留原 native 数组生成”是历史实现；现在全异 primitive 根数组可直接生成原 Remove/Add 序列，继续保留 Copy 与优化机会。
+
+| 已解析默认 RFC | be76218 ms | 优化原型 ms | 提速 |
+|---|---:|---:|---:|
+| 全异 2,000 项 | 4.340 | 2.366 | 1.83× |
+| 重复身份 2,000 项 | 23.847 | 7.908 | 3.02× |
+
+最终集成树另重跑 108 个独立竞品进程：Unicode RFC plain 为 Palim 0.443 ms、json-patch 0.434 ms，均 230,060 B；全异 optimized 为 Palim 2.508 ms、Go optimized 14.313 ms，均 34,038 B。native Unicode 三处编辑仍为 Palim 1.540 ms、JS 1.095 ms，均 311 B；小对象完整流程也仍慢于 JS。这些是具体输入与合同的测量，不是普遍领先证明。
+
+两种有反例的优化已否决：每次接受压缩后重建索引导致 400 父节点负载慢约 46%；matcher exact-first 会增加部分补丁的 Move/Replace 数。最终控制负载与未测资源指标也完整保留。
+
+[完整报告、边界与下一步验收](results/core-leadership-20261003/REPORT.md)、[原始测量](results/core-leadership-20261003/measurements.json)、[实际检查](results/core-leadership-20261003/checks.json)、[冻结复现证据](results/core-leadership-20261003/evidence.zip)。本轮 debug/release 各157项、2,984项RFC逐字节等价、1,073项互通、61秒380,223次fuzz、MSRV和打包消费者均完成；未重新发布 crate。

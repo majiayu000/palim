@@ -74,6 +74,22 @@ fn repeated_disjoint_payloads_still_factorize_and_guard_container_drift() {
                 .iter()
                 .any(|op| matches!(op, PatchOperation::Copy(_)))
         );
+        // Frozen from be76218: later repeated additions copy the first newly
+        // inserted value, rather than an unavailable value from the baseline.
+        let mutations: Vec<_> = patch
+            .0
+            .iter()
+            .filter(|operation| !matches!(operation, PatchOperation::Test(_)))
+            .collect();
+        assert_eq!(
+            serde_json::to_value(mutations).unwrap(),
+            json!([
+                {"op": "remove", "path": "/1"},
+                {"op": "remove", "path": "/0"},
+                {"op": "add", "path": "/0", "value": right[0]},
+                {"op": "copy", "from": "/0", "path": "/1"},
+            ])
+        );
         roundtrip(&left, &right, &patch);
     }
     let guarded = dp.diff_json_patch(&left, &right, &plain(true)).unwrap();
@@ -352,6 +368,139 @@ fn single_root_copy_remains_profitable_and_guards_the_baseline() {
         roundtrip(&left, &right, &patch);
         if tests {
             assert!(apply_json_patch(&json!({"payload":"drift","keep":0}), &patch).is_err());
+        }
+    }
+}
+
+#[test]
+fn default_disjoint_shortcut_preserves_configured_identity_callbacks() {
+    let calls = Arc::new(Mutex::new(Vec::new()));
+    let recorded = calls.clone();
+    let dp = DiffPatcher::new(DiffOptions {
+        object_hash: Some(Arc::new(move |value, index| {
+            recorded.lock().unwrap().push((value.clone(), index));
+            value.get("id").map(Value::to_string)
+        })),
+        ..Default::default()
+    });
+    for (left, right, expected_calls) in [
+        (json!([]), json!([true, 12, "new"]), 0),
+        (json!([false, 11, "old"]), json!([]), 0),
+        (json!([false, 11, "old"]), json!([true, 12, "new"]), 0),
+        (json!([{"id": 1}]), json!([{"id": 2}]), 2),
+        (json!([0, {"id": 1}]), json!([10, {"id": 2}]), 2),
+    ] {
+        calls.lock().unwrap().clear();
+        let delta = dp.diff(&left, &right).unwrap().unwrap();
+        let native_calls = calls.lock().unwrap().clone();
+        assert_eq!(native_calls.len(), expected_calls);
+        assert_eq!(dp.patch(&left, &delta).unwrap(), right);
+        calls.lock().unwrap().clear();
+        let patch = dp
+            .diff_json_patch(&left, &right, &JsonPatchOptions::default())
+            .unwrap();
+        assert_eq!(*calls.lock().unwrap(), native_calls);
+        roundtrip(&left, &right, &patch);
+    }
+}
+
+#[test]
+fn rationalization_keeps_multiple_escaped_parent_replacements() {
+    let left = json!({
+        "a/b~": {"a_long_property_name": 1, "b_long_property_name": 2},
+        "b~c": {"a_long_property_name": 3, "b_long_property_name": 4},
+        "b~c/child": {"a_long_property_name": 5, "b_long_property_name": 6},
+        "keep": "unchanged 🦀 ".repeat(1000),
+    });
+    let right = json!({
+        "a/b~": {"a_long_property_name": 10, "b_long_property_name": 20},
+        "b~c": {"a_long_property_name": 30, "b_long_property_name": 40},
+        "b~c/child": {"a_long_property_name": 50, "b_long_property_name": 60},
+        "keep": "unchanged 🦀 ".repeat(1000),
+    });
+    // Frozen be76218 output. Accepting the first replacement shortens the
+    // operation list; both later parents must still be compressed correctly.
+    // The slash in the third key is literal, not a descendant of the second.
+    let expected = json!([
+        {"op": "replace", "path": "/a~1b~0", "value": right["a/b~"]},
+        {"op": "replace", "path": "/b~0c", "value": right["b~c"]},
+        {"op": "replace", "path": "/b~0c~1child", "value": right["b~c/child"]},
+    ]);
+    for tests in [false, true] {
+        let patch = DiffPatcher::default()
+            .diff_json_patch(
+                &left,
+                &right,
+                &JsonPatchOptions {
+                    tests,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let mutations: Vec<_> = patch
+            .0
+            .iter()
+            .filter(|operation| !matches!(operation, PatchOperation::Test(_)))
+            .collect();
+        assert_eq!(serde_json::to_value(mutations).unwrap(), expected);
+        assert_eq!(patch.0.len(), if tests { 6 } else { 3 });
+        roundtrip(&left, &right, &patch);
+        if tests {
+            let mut drifted = left.clone();
+            drifted["b~c/child"]["a_long_property_name"] = json!(99);
+            assert!(apply_json_patch(&drifted, &patch).is_err());
+        }
+    }
+}
+
+#[test]
+fn rationalization_keeps_escaped_move_boundaries_after_other_parent_replacements() {
+    let payload = "move payload 🦀 ".repeat(50);
+    let left = json!({
+        "a/b~": {"a_long_property_name": 1, "b_long_property_name": 2, "leaving": payload},
+        "b~c": {"a_long_property_name": 3, "b_long_property_name": 4},
+        "c~d": {"a_long_property_name": 5, "b_long_property_name": 6},
+        "destination": {},
+        "keep": "unchanged 🦀 ".repeat(1000),
+    });
+    let right = json!({
+        "a/b~": {"a_long_property_name": 10, "b_long_property_name": 20},
+        "b~c": {"a_long_property_name": 30, "b_long_property_name": 40},
+        "c~d": {"a_long_property_name": 50, "b_long_property_name": 60},
+        "destination": {"leaving": payload},
+        "keep": "unchanged 🦀 ".repeat(1000),
+    });
+    // Frozen be76218 output: replacing the move's source parent would delete
+    // its source before the move, while the two independent parents compress.
+    let expected = json!([
+        {"op": "replace", "path": "/a~1b~0/a_long_property_name", "value": 10},
+        {"op": "replace", "path": "/a~1b~0/b_long_property_name", "value": 20},
+        {"op": "replace", "path": "/b~0c", "value": right["b~c"]},
+        {"op": "replace", "path": "/c~0d", "value": right["c~d"]},
+        {"op": "move", "from": "/a~1b~0/leaving", "path": "/destination/leaving"},
+    ]);
+    for tests in [false, true] {
+        let patch = DiffPatcher::default()
+            .diff_json_patch(
+                &left,
+                &right,
+                &JsonPatchOptions {
+                    tests,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let mutations: Vec<_> = patch
+            .0
+            .iter()
+            .filter(|operation| !matches!(operation, PatchOperation::Test(_)))
+            .collect();
+        assert_eq!(serde_json::to_value(mutations).unwrap(), expected);
+        roundtrip(&left, &right, &patch);
+        if tests {
+            let mut drifted = left.clone();
+            drifted["a/b~"]["leaving"] = json!("changed source");
+            assert!(apply_json_patch(&drifted, &patch).is_err());
         }
     }
 }

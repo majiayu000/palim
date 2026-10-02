@@ -392,14 +392,11 @@ pub(crate) fn diff(old: &str, new: &str, path: &str) -> Result<String, Error> {
         .collect();
     let mut result = Vec::new();
     let mut i = 0;
-    // Only the small changed window needs prefix sums. Its document offset is
-    // measured once; ASCII prefixes require no UTF-16 decoding.
+    // Measure the unchanged document prefix once; then count target coordinates
+    // only as far as each header needs. ASCII prefixes require no UTF-16 decoding.
     let prefix = &old[..window_start];
-    let offset = len(prefix);
-    let mut coords = vec![offset];
-    for c in &b {
-        coords.push(coords.last().copied().unwrap_or(0) + c.len_utf16());
-    }
+    let mut offset = len(prefix);
+    let mut coordinate_cursor = 0;
     while i < hunks.len() {
         let first = &hunks[i];
         let start_a = (first.before.start as usize).saturating_sub(4);
@@ -441,10 +438,17 @@ pub(crate) fn diff(old: &str, new: &str, path: &str) -> Result<String, Error> {
             .filter(|(op, _)| *op != '-')
             .map(|(_, s)| len(s))
             .sum();
+        // Hunks are ordered in target coordinates. Count only the next header's
+        // UTF-16 prefix instead of materializing a coordinate for every character.
+        offset += b[coordinate_cursor..start_b]
+            .iter()
+            .map(|c| c.len_utf16())
+            .sum::<usize>();
+        coordinate_cursor = start_b;
         // Earlier patches have already been applied: both headers use the target prefix.
         result.push(TextPatch {
-            start_old: coords[start_b],
-            start_new: coords[start_b],
+            start_old: offset,
+            start_new: offset,
             len_old,
             len_new,
             ops,
