@@ -1,0 +1,827 @@
+{
+  "queried_at": "2026-10-03 Asia/Shanghai",
+  "palim_commit": "6101f6ee9fdf03ce12fe5d698f005b3a3f6654f5",
+  "scanned": {
+    "benjamine/jsondiffpatch": 275,
+    "wI2L/jsondiff": 28,
+    "idubrov/json-patch": 24,
+    "seperman/deepdiff": 28,
+    "weichch/system-text-json-jsondiffpatch": 31
+  },
+  "scan_scope": "first three repositories: all issue-list pages excluding PRs; last two: latest 100 issue/PR entries excluding PRs. 42 selected bodies and comments read. Not all issue conversations reviewed.",
+  "issues": [
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 438,
+      "title": "Text Patch Failed on reversed patch",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/438",
+      "created_at": "2026-06-16T11:20:17Z",
+      "updated_at": "2026-06-16T11:20:17Z",
+      "comments": []
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 434,
+      "title": "Bug Report With Fix: Didn't support JSON Patch add to array end using path segment '/-'",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/434",
+      "created_at": "2025-10-08T00:54:04Z",
+      "updated_at": "2025-10-08T01:01:00Z",
+      "comments": []
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 424,
+      "title": "array in string diff: why not modified instead of delete + insert",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/424",
+      "created_at": "2025-06-25T04:50:41Z",
+      "updated_at": "2025-12-24T11:07:15Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/424#issuecomment-3689495173",
+          "created_at": "2025-12-24T11:07:15Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 423,
+      "title": "Array diff get wrong result",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/423",
+      "created_at": "2025-06-11T06:45:38Z",
+      "updated_at": "2025-06-11T06:45:38Z",
+      "comments": []
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 420,
+      "title": "Diff of identical objects with nested arrays causes invalid diff when there should be none",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/420",
+      "created_at": "2025-04-01T21:51:44Z",
+      "updated_at": "2025-04-01T22:02:13Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/420#issuecomment-2770785225",
+          "created_at": "2025-04-01T22:02:02Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 381,
+      "title": "Convert from RFC 6902 to  jsondiffpatch",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/381",
+      "created_at": "2025-02-19T12:05:51Z",
+      "updated_at": "2025-07-10T03:47:33Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/381#issuecomment-2669815879",
+          "created_at": "2025-02-19T21:37:08Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/381#issuecomment-2746653606",
+          "created_at": "2025-03-24T01:30:43Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/381#issuecomment-3051778038",
+          "created_at": "2025-07-09T08:59:35Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/381#issuecomment-3055269028",
+          "created_at": "2025-07-10T03:46:00Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 380,
+      "title": "JSONPatch Formatter Results Are Invalid With Multiple Moves",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/380",
+      "created_at": "2025-02-06T18:47:34Z",
+      "updated_at": "2025-03-28T00:32:13Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/380#issuecomment-2658693767",
+          "created_at": "2025-02-14T09:14:27Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/380#issuecomment-2759885439",
+          "created_at": "2025-03-28T00:32:11Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 377,
+      "title": "Patches modify previous patches with nested objects",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/377",
+      "created_at": "2024-11-18T18:35:14Z",
+      "updated_at": "2024-11-18T18:35:14Z",
+      "comments": []
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 371,
+      "title": "Json Patch (RFC 6902) formatter should escape the property name",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/371",
+      "created_at": "2024-07-30T09:50:21Z",
+      "updated_at": "2025-03-24T00:35:52Z",
+      "comments": []
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 365,
+      "title": "[Perf] Experiencing slow diffs on large arrays",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/365",
+      "created_at": "2024-04-01T14:12:25Z",
+      "updated_at": "2024-04-15T17:45:49Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/365#issuecomment-2030383838",
+          "created_at": "2024-04-01T19:12:10Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/365#issuecomment-2030410630",
+          "created_at": "2024-04-01T19:27:29Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/365#issuecomment-2031117668",
+          "created_at": "2024-04-02T05:36:31Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 353,
+      "title": "Tracking changes in arrays based on object hashes instead of indexes",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/353",
+      "created_at": "2023-12-13T18:18:14Z",
+      "updated_at": "2023-12-13T18:18:14Z",
+      "comments": []
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 331,
+      "title": "[Bug] Unpatch doesn't work as expected.",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/331",
+      "created_at": "2023-07-03T09:30:37Z",
+      "updated_at": "2026-01-30T00:12:57Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/331#issuecomment-3821062912",
+          "created_at": "2026-01-30T00:12:57Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 295,
+      "title": "array unpatch get wrong result",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/295",
+      "created_at": "2020-08-06T10:00:27Z",
+      "updated_at": "2024-09-14T05:20:01Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/295#issuecomment-2340347216",
+          "created_at": "2024-09-10T11:00:55Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/295#issuecomment-2340885400",
+          "created_at": "2024-09-10T13:55:25Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/295#issuecomment-2343310753",
+          "created_at": "2024-09-11T10:55:28Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/295#issuecomment-2350845657",
+          "created_at": "2024-09-14T05:20:00Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 275,
+      "title": "Wrong unpatch result in swap scenario",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/275",
+      "created_at": "2019-11-15T01:13:34Z",
+      "updated_at": "2024-03-20T13:48:32Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/275#issuecomment-554164300",
+          "created_at": "2019-11-15T01:15:44Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/275#issuecomment-1004262160",
+          "created_at": "2022-01-03T18:05:30Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/275#issuecomment-1004267191",
+          "created_at": "2022-01-03T18:14:14Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/275#issuecomment-1004271167",
+          "created_at": "2022-01-03T18:21:20Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/275#issuecomment-2009611385",
+          "created_at": "2024-03-20T13:48:30Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 254,
+      "title": "Patching an array using the objectHash",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/254",
+      "created_at": "2018-10-18T05:26:09Z",
+      "updated_at": "2020-07-27T00:46:25Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/254#issuecomment-431247915",
+          "created_at": "2018-10-19T05:20:41Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/254#issuecomment-431249155",
+          "created_at": "2018-10-19T05:29:18Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/254#issuecomment-546682018",
+          "created_at": "2019-10-27T10:38:26Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/254#issuecomment-664064748",
+          "created_at": "2020-07-27T00:46:24Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 156,
+      "title": "Maximum call stack size is exceeded if very large array is provided for diff",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/156",
+      "created_at": "2016-07-18T19:04:39Z",
+      "updated_at": "2019-10-08T17:42:19Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/156#issuecomment-233427798",
+          "created_at": "2016-07-18T19:10:21Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/156#issuecomment-279212309",
+          "created_at": "2017-02-12T11:32:53Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/156#issuecomment-279231439",
+          "created_at": "2017-02-12T16:54:21Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/156#issuecomment-539624426",
+          "created_at": "2019-10-08T17:42:19Z"
+        }
+      ]
+    },
+    {
+      "repository": "benjamine/jsondiffpatch",
+      "number": 79,
+      "title": "Diff ignoring array order changes ",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/benjamine/jsondiffpatch/issues/79",
+      "created_at": "2015-03-24T17:43:02Z",
+      "updated_at": "2018-09-11T10:16:36Z",
+      "comments": [
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/79#issuecomment-85632653",
+          "created_at": "2015-03-24T18:28:16Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/79#issuecomment-250405811",
+          "created_at": "2016-09-29T08:40:08Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/79#issuecomment-250468970",
+          "created_at": "2016-09-29T13:41:15Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/79#issuecomment-250641081",
+          "created_at": "2016-09-30T02:06:36Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/79#issuecomment-250728576",
+          "created_at": "2016-09-30T12:08:20Z"
+        },
+        {
+          "url": "https://github.com/benjamine/jsondiffpatch/issues/79#issuecomment-420222422",
+          "created_at": "2018-09-11T10:16:15Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 45,
+      "title": "Factorize() causes dropped operations in Patch",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/45",
+      "created_at": "2026-03-07T06:58:00Z",
+      "updated_at": "2026-04-01T15:20:06Z",
+      "comments": []
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 41,
+      "title": "[Feature Request] Custom equality comparison",
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/wI2L/jsondiff/issues/41",
+      "created_at": "2025-10-03T06:33:06Z",
+      "updated_at": "2025-10-10T23:09:08Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/41#issuecomment-3364445461",
+          "created_at": "2025-10-03T06:35:57Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/41#issuecomment-3364906144",
+          "created_at": "2025-10-03T09:13:58Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/41#issuecomment-3366858011",
+          "created_at": "2025-10-03T18:54:46Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/41#issuecomment-3367055915",
+          "created_at": "2025-10-03T20:05:19Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/41#issuecomment-3367104409",
+          "created_at": "2025-10-03T20:21:22Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/41#issuecomment-3369307213",
+          "created_at": "2025-10-05T20:27:50Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/41#issuecomment-3369348861",
+          "created_at": "2025-10-05T21:39:36Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/41#issuecomment-3370260800",
+          "created_at": "2025-10-06T07:23:39Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 38,
+      "title": "Leaf Node Level JSON Patches",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/38",
+      "created_at": "2025-05-13T00:52:12Z",
+      "updated_at": "2025-05-13T20:28:24Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/38#issuecomment-2875755732",
+          "created_at": "2025-05-13T09:35:42Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/38#issuecomment-2877096491",
+          "created_at": "2025-05-13T15:55:51Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/38#issuecomment-2877159368",
+          "created_at": "2025-05-13T16:14:59Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/38#issuecomment-2877443285",
+          "created_at": "2025-05-13T17:43:24Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/38#issuecomment-2877864264",
+          "created_at": "2025-05-13T20:28:22Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 35,
+      "title": "Apply() method not public",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/35",
+      "created_at": "2025-03-24T07:05:30Z",
+      "updated_at": "2025-03-24T07:34:13Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/35#issuecomment-2747148994",
+          "created_at": "2025-03-24T07:34:12Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 34,
+      "title": "No Available Functionality for Inverting a Patch",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/34",
+      "created_at": "2025-03-24T06:18:04Z",
+      "updated_at": "2025-04-17T21:30:13Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/34#issuecomment-2747145036",
+          "created_at": "2025-03-24T07:33:10Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/34#issuecomment-2747223925",
+          "created_at": "2025-03-24T08:02:45Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/34#issuecomment-2747234832",
+          "created_at": "2025-03-24T08:07:30Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/34#issuecomment-2769224121",
+          "created_at": "2025-04-01T12:38:48Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/34#issuecomment-2781725013",
+          "created_at": "2025-04-06T23:27:59Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 32,
+      "title": "Results can randomly be incorrect",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/32",
+      "created_at": "2025-02-10T19:22:51Z",
+      "updated_at": "2025-03-07T15:18:46Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/32#issuecomment-2652151818",
+          "created_at": "2025-02-11T21:54:18Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/32#issuecomment-2682682247",
+          "created_at": "2025-02-25T17:04:43Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 31,
+      "title": "Unexpected behaviour when combining Equivalent and LCS options",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/31",
+      "created_at": "2025-01-13T22:35:43Z",
+      "updated_at": "2025-04-17T21:30:13Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/31#issuecomment-2588468890",
+          "created_at": "2025-01-13T23:48:13Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/31#issuecomment-2590199136",
+          "created_at": "2025-01-14T15:14:52Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 28,
+      "title": "Support to revert / apply diff patches",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/28",
+      "created_at": "2024-09-19T10:55:19Z",
+      "updated_at": "2024-09-19T14:08:52Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/28#issuecomment-2360883098",
+          "created_at": "2024-09-19T12:42:03Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/28#issuecomment-2361083861",
+          "created_at": "2024-09-19T14:05:09Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 17,
+      "title": "Misleading diff when removing/adding an element in an array",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/17",
+      "created_at": "2023-11-02T13:43:26Z",
+      "updated_at": "2023-11-06T16:57:08Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/17#issuecomment-1790794003",
+          "created_at": "2023-11-02T14:00:27Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/17#issuecomment-1790837807",
+          "created_at": "2023-11-02T14:25:26Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/17#issuecomment-1790956184",
+          "created_at": "2023-11-02T15:27:01Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/17#issuecomment-1793282630",
+          "created_at": "2023-11-04T01:12:27Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/17#issuecomment-1793607383",
+          "created_at": "2023-11-05T01:57:44Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/17#issuecomment-1795363253",
+          "created_at": "2023-11-06T16:31:58Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/17#issuecomment-1795490270",
+          "created_at": "2023-11-06T16:57:08Z"
+        }
+      ]
+    },
+    {
+      "repository": "wI2L/jsondiff",
+      "number": 15,
+      "title": "Unexpected behavior when using `Ignores()` with nested values",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/wI2L/jsondiff/issues/15",
+      "created_at": "2023-10-03T11:21:56Z",
+      "updated_at": "2023-10-03T23:27:24Z",
+      "comments": [
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/15#issuecomment-1744790766",
+          "created_at": "2023-10-03T11:41:45Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/15#issuecomment-1744843058",
+          "created_at": "2023-10-03T12:14:35Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/15#issuecomment-1745549455",
+          "created_at": "2023-10-03T18:58:44Z"
+        },
+        {
+          "url": "https://github.com/wI2L/jsondiff/issues/15#issuecomment-1745880467",
+          "created_at": "2023-10-03T23:27:24Z"
+        }
+      ]
+    },
+    {
+      "repository": "idubrov/json-patch",
+      "number": 52,
+      "title": "Allow Test patch on non-mut data",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/idubrov/json-patch/issues/52",
+      "created_at": "2025-05-30T07:36:45Z",
+      "updated_at": "2025-05-30T07:36:45Z",
+      "comments": []
+    },
+    {
+      "repository": "idubrov/json-patch",
+      "number": 44,
+      "title": "Generating patches from value diffing, and applying patches to values to update them",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/idubrov/json-patch/issues/44",
+      "created_at": "2024-10-09T19:34:08Z",
+      "updated_at": "2024-10-09T19:34:08Z",
+      "comments": []
+    },
+    {
+      "repository": "idubrov/json-patch",
+      "number": 43,
+      "title": "Query Expressions for JSON rfc9535",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/idubrov/json-patch/issues/43",
+      "created_at": "2024-09-16T07:15:11Z",
+      "updated_at": "2024-09-16T07:15:11Z",
+      "comments": []
+    },
+    {
+      "repository": "idubrov/json-patch",
+      "number": 42,
+      "title": "add wildcard for replace array object",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/idubrov/json-patch/issues/42",
+      "created_at": "2024-09-02T12:21:28Z",
+      "updated_at": "2024-09-06T12:50:08Z",
+      "comments": [
+        {
+          "url": "https://github.com/idubrov/json-patch/issues/42#issuecomment-2333981760",
+          "created_at": "2024-09-06T12:50:08Z"
+        }
+      ]
+    },
+    {
+      "repository": "idubrov/json-patch",
+      "number": 37,
+      "title": "Diff generates invalid patch if an object becomes an array",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/idubrov/json-patch/issues/37",
+      "created_at": "2024-05-05T19:15:23Z",
+      "updated_at": "2024-05-06T07:01:21Z",
+      "comments": [
+        {
+          "url": "https://github.com/idubrov/json-patch/issues/37#issuecomment-2094940010",
+          "created_at": "2024-05-05T20:35:47Z"
+        },
+        {
+          "url": "https://github.com/idubrov/json-patch/issues/37#issuecomment-2095108454",
+          "created_at": "2024-05-06T02:51:54Z"
+        },
+        {
+          "url": "https://github.com/idubrov/json-patch/issues/37#issuecomment-2095316763",
+          "created_at": "2024-05-06T07:01:20Z"
+        }
+      ]
+    },
+    {
+      "repository": "idubrov/json-patch",
+      "number": 20,
+      "title": "Memory usage tests?",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/idubrov/json-patch/issues/20",
+      "created_at": "2022-12-09T17:10:13Z",
+      "updated_at": "2022-12-11T00:35:43Z",
+      "comments": []
+    },
+    {
+      "repository": "idubrov/json-patch",
+      "number": 7,
+      "title": "Revert Patch",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/idubrov/json-patch/issues/7",
+      "created_at": "2019-04-11T12:53:32Z",
+      "updated_at": "2019-08-24T23:59:36Z",
+      "comments": [
+        {
+          "url": "https://github.com/idubrov/json-patch/issues/7#issuecomment-524589166",
+          "created_at": "2019-08-24T23:59:36Z"
+        }
+      ]
+    },
+    {
+      "repository": "idubrov/json-patch",
+      "number": 3,
+      "title": "Avoid cloning values from patch operations",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/idubrov/json-patch/issues/3",
+      "created_at": "2018-02-01T18:46:05Z",
+      "updated_at": "2022-12-11T00:35:38Z",
+      "comments": []
+    },
+    {
+      "repository": "weichch/system-text-json-jsondiffpatch",
+      "number": 52,
+      "title": "Ignore extra properties",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/weichch/system-text-json-jsondiffpatch/issues/52",
+      "created_at": "2025-06-25T14:42:23Z",
+      "updated_at": "2025-06-25T14:42:23Z",
+      "comments": []
+    },
+    {
+      "repository": "weichch/system-text-json-jsondiffpatch",
+      "number": 48,
+      "title": "PropertyFilter ignored if a diffed object is null",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/weichch/system-text-json-jsondiffpatch/issues/48",
+      "created_at": "2024-06-18T08:10:58Z",
+      "updated_at": "2024-06-18T08:10:58Z",
+      "comments": []
+    },
+    {
+      "repository": "weichch/system-text-json-jsondiffpatch",
+      "number": 39,
+      "title": "Semantic DeepEqual is strict on array order",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/weichch/system-text-json-jsondiffpatch/issues/39",
+      "created_at": "2023-09-18T15:14:14Z",
+      "updated_at": "2023-09-19T05:05:54Z",
+      "comments": [
+        {
+          "url": "https://github.com/weichch/system-text-json-jsondiffpatch/issues/39#issuecomment-1724836381",
+          "created_at": "2023-09-19T05:04:57Z"
+        }
+      ]
+    },
+    {
+      "repository": "seperman/deepdiff",
+      "number": 633,
+      "title": "Custom operator applied to excluded path (diff correctly excludes comparison result)",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/qlustered/deepdiff/issues/633",
+      "created_at": "2026-09-30T16:04:25Z",
+      "updated_at": "2026-09-30T16:04:25Z",
+      "comments": []
+    },
+    {
+      "repository": "seperman/deepdiff",
+      "number": 575,
+      "title": "Diff of list and empty list is incorrect",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/qlustered/deepdiff/issues/575",
+      "created_at": "2025-12-09T13:49:48Z",
+      "updated_at": "2026-03-07T12:08:48Z",
+      "comments": [
+        {
+          "url": "https://github.com/qlustered/deepdiff/issues/575#issuecomment-3749395537",
+          "created_at": "2026-01-14T12:42:23Z"
+        },
+        {
+          "url": "https://github.com/qlustered/deepdiff/issues/575#issuecomment-4016342585",
+          "created_at": "2026-03-07T12:08:48Z"
+        }
+      ]
+    },
+    {
+      "repository": "seperman/deepdiff",
+      "number": 562,
+      "title": "Are there plans to support providing functions to compare only the fields that exist in both objects?",
+      "state": "open",
+      "state_reason": null,
+      "url": "https://github.com/qlustered/deepdiff/issues/562",
+      "created_at": "2025-08-12T08:48:50Z",
+      "updated_at": "2026-01-07T15:58:45Z",
+      "comments": [
+        {
+          "url": "https://github.com/qlustered/deepdiff/issues/562#issuecomment-3719547618",
+          "created_at": "2026-01-07T15:53:41Z"
+        }
+      ]
+    },
+    {
+      "repository": "seperman/deepdiff",
+      "number": 540,
+      "title": "Nested items that move with `iterable_compare_func` are not properly tracked or replayed",
+      "state": "closed",
+      "state_reason": "completed",
+      "url": "https://github.com/qlustered/deepdiff/issues/540",
+      "created_at": "2025-04-18T00:20:35Z",
+      "updated_at": "2025-05-09T18:52:33Z",
+      "comments": [
+        {
+          "url": "https://github.com/qlustered/deepdiff/issues/540#issuecomment-2867612624",
+          "created_at": "2025-05-09T18:52:32Z"
+        }
+      ]
+    }
+  ]
+}

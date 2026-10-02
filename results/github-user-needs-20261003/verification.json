@@ -1,0 +1,3757 @@
+{
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "palim_commit": "6101f6ee9fdf03ce12fe5d698f005b3a3f6654f5",
+  "source_sha256": {
+    "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+    "src/delta.rs": "50a33c7f2abdbb4ccb1b070febc5e8c176ab1c955b24c7cb620172cbab85795a",
+    "src/diff.rs": "edfaee3812c70d81d7d712c033ae82e1be4916c3152a3bbf5ceb5806470fa2f0",
+    "src/export.rs": "0b941c5c0102e92d4f8d7dd5deb03a143af2c4310c9c801e54bc5ad60ed0651e",
+    "src/lib.rs": "b560dfe66a8df1fdb4c1942919bb68f83f6bfcd0ad85f07aa713597311fb4e36",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "005e16bf9e069dbc04bac062bea8043d7132cb6ee994507a087da948919bc432",
+    "src/text.rs": "0c189e4808e6ffeccdc9f1b83635164d1d24ad03e068b44acbec8a7b17983131"
+  },
+  "manifest_sha256": "fc1014a97d0c388eeebee33b649368c9cbdce047fb1df4aeed69f6cbc8f19ec6",
+  "fixture_sha256": "25d3b601ea0a6cabac4cb52b87b4a8e55a76152352870f53679a730a1674ca2f",
+  "runner_sha256": "f8856166c5d68788f720b4c8ce5c0daf106dd087d145f985dde3641ef6104f30",
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6\n",
+  "node": "v24.14.0",
+  "note": "Loaded input diagnostic timings, large-array scenario: three independent processes/engine, alternating order, three timed samples/process; no end-to-end or general ranking claim. Upstream version is frozen, and default JS lacks a custom matcher equivalent.",
+  "build": {
+    "exit_code": 0,
+    "stderr": "   Compiling proc-macro2 v1.0.107\n   Compiling unicode-ident v1.0.26\n   Compiling quote v1.0.47\n   Compiling serde_core v1.0.229\n   Compiling zmij v1.0.23\n   Compiling autocfg v1.5.1\n   Compiling memchr v2.8.3\n   Compiling serde v1.0.229\n   Compiling serde_json v1.0.151\n   Compiling thiserror v2.0.21\n   Compiling itoa v1.0.18\n   Compiling foldhash v0.1.5\n   Compiling hashbrown v0.15.5\n   Compiling percent-encoding v2.3.2\n   Compiling bstr v1.13.1\n   Compiling num-traits v0.2.19\n   Compiling gix-imara-diff v0.2.5\n   Compiling syn v3.0.6\n   Compiling serde_derive v1.0.229\n   Compiling thiserror-impl v2.0.21\n   Compiling num-integer v0.1.47\n   Compiling num-bigint v0.4.8\n   Compiling jsonptr v0.7.1\n   Compiling json-patch v4.2.0\n   Compiling palim v0.1.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim-issue-research)\n   Compiling palim-github-issue-probe v0.0.0 (/private/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-issue-probe-oijlbpid)\n    Finished `release` profile [optimized] target(s) in 8.86s\n",
+    "lock_sha256": "ab9520240837c131acee636b05d38c6308d2d24f4e54cf15affb9c51f66e2a03"
+  },
+  "binary_sha256": "40d541b53ad741518add9768621c948a991a670fd5474acfa36e6d17f09cff15",
+  "palim": [
+    {
+      "actual": {
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus eu tellus sit amet tortor gravida placerat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      },
+      "delta": {
+        "text": [
+          "@@ -1,180 +1,59 @@\n-Sed d\n+L\n o\n- \n+r\n e\n+m \n i\n-u\n+p\n s\n-mod tempor incidid\n u\n-nt ut labore et\n+m\n  dolo\n-re magna aliqua. Excepteu\n r si\n-n\n t \n-occ\n a\n+m\n e\n-cat cupidatat non proiden\n t, \n-sunt in \n c\n+onsectet\n u\n-l\n+r adi\n p\n-a qu\n i\n- offi\n+s\n ci\n-a deseru\n n\n-t mollit anim id\n+g\n  e\n-st \n l\n-aborum\n+it\n . Do\n@@ -125,77 +125,220 @@\n em. \n-D\n+Lorem ipsum dolor sit amet, c\n on\n+s\n ec\n+tetur adipiscing elit. Duis aute irure dolor in reprehenderit in\n  v\n+oluptate velit esse cillum dolore eu fugiat nulla p\n ari\n+atur. Phasell\n us\n-, orci\n  e\n+u tellus sit amet tortor \n g\n-et \n r\n+av\n i\n-sus\n+da\n  \n-s\n+pla\n ce\n-le\n r\n-isque, lec\n+a\n t\n-us sem tristique lorem\n . Ut\n@@ -443,777 +443,7 @@\n sequ\n-at. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.%0A%0ADonec varius, orci eget risus scelerisque, lectus sem tristique lorem. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.%0A%0ACurabitur pretium tincidunt lacus, nulla gravida orci a odio. Phasellus eu tellus sit amet tortor gravida placerat. Phasellus eu tellus sit amet tortor gravida placer\n at.\n",
+          0,
+          2
+        ]
+      },
+      "first_diff_ms": 0.428791,
+      "incoming": {
+        "forward": true,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#438",
+      "name": "js438-text-reverse",
+      "native_bytes": 1593,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "/text",
+          "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus eu tellus sit amet tortor gravida placerat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        }
+      ]
+    },
+    {
+      "actual": [
+        {
+          "id": "CC",
+          "relation": {
+            "B": "22"
+          }
+        }
+      ],
+      "delta": {
+        "0": {
+          "relation": {
+            "A": [
+              "11",
+              0,
+              0
+            ]
+          }
+        },
+        "_0": [
+          {
+            "id": "AA"
+          },
+          0,
+          0
+        ],
+        "_1": [
+          {
+            "id": "BB"
+          },
+          0,
+          0
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.02125,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#423",
+      "name": "js423-remove-edit",
+      "native_bytes": 90,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 3,
+      "plain_patch": [
+        {
+          "op": "remove",
+          "path": "/1"
+        },
+        {
+          "op": "remove",
+          "path": "/0"
+        },
+        {
+          "op": "remove",
+          "path": "/0/relation/A"
+        }
+      ]
+    },
+    {
+      "actual": [
+        "a1",
+        "b"
+      ],
+      "delta": {
+        "0": [
+          "a1"
+        ],
+        "_0": [
+          "a",
+          0,
+          0
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.005417,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#424",
+      "name": "js424-string-edit-default",
+      "native_bytes": 36,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 2,
+      "plain_patch": [
+        {
+          "op": "remove",
+          "path": "/0"
+        },
+        {
+          "op": "add",
+          "path": "/0",
+          "value": "a1"
+        }
+      ]
+    },
+    {
+      "actual": [
+        "a1",
+        "b"
+      ],
+      "delta": {
+        "0": [
+          "a",
+          "a1"
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.0047079999999999995,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#424",
+      "name": "js424-string-edit-matcher",
+      "native_bytes": 25,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "/0",
+          "value": "a1"
+        }
+      ]
+    },
+    {
+      "actual": {
+        "A": [
+          [
+            "B"
+          ],
+          1,
+          "C",
+          2,
+          "C"
+        ]
+      },
+      "delta": null,
+      "first_diff_ms": 0.0011250000000000001,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#420",
+      "name": "js420-identical-nested-array",
+      "native_bytes": 4,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 0,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 0,
+      "plain_patch": []
+    },
+    {
+      "actual": [
+        "fifth",
+        "fourth",
+        "third",
+        "second",
+        "first"
+      ],
+      "delta": {
+        "_1": [
+          "",
+          3,
+          3
+        ],
+        "_2": [
+          "",
+          2,
+          3
+        ],
+        "_3": [
+          "",
+          1,
+          3
+        ],
+        "_4": [
+          "",
+          0,
+          3
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.008083,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#380",
+      "name": "js380-multiple-moves",
+      "native_bytes": 66,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 4,
+      "plain_patch": [
+        {
+          "from": "/1",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/2",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/3",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/4",
+          "op": "move",
+          "path": "/0"
+        }
+      ]
+    },
+    {
+      "actual": {
+        "tree/item": 2,
+        "~key": 1
+      },
+      "delta": {
+        "tree/item": [
+          1,
+          2
+        ],
+        "~key": [
+          0,
+          1
+        ]
+      },
+      "first_diff_ms": 0.003958,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#371",
+      "name": "js371-pointer-escaping",
+      "native_bytes": 32,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 2,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "/tree~1item",
+          "value": 2
+        },
+        {
+          "op": "replace",
+          "path": "/~0key",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "actual": [
+        {
+          "capital": "Buenos Aires",
+          "independence": "1816-07-09T07:52:58.000Z",
+          "name": "Argentina",
+          "unasur": true
+        },
+        {
+          "capital": "La Pbz",
+          "independence": "1825-08-06T07:52:58.000Z",
+          "name": "Bolivia",
+          "unasur": false
+        },
+        {
+          "capital": "Brasilia",
+          "independence": "1822-09-07T07:52:58.000Z",
+          "name": "Brazil",
+          "unasur": true
+        },
+        {
+          "capital": "Sabc",
+          "independence": "1818-02-12T07:52:58.010Z",
+          "name": "Chile",
+          "unasur": true
+        }
+      ],
+      "delta": {
+        "1": {
+          "capital": [
+            "La Paz",
+            "La Pbz"
+          ],
+          "unasur": [
+            true,
+            false
+          ]
+        },
+        "3": {
+          "capital": [
+            "Santiago",
+            "Sabc"
+          ],
+          "independence": [
+            "1818-02-12T07:52:58.000Z",
+            "1818-02-12T07:52:58.010Z"
+          ]
+        },
+        "_2": [
+          "",
+          2,
+          3
+        ],
+        "_3": [
+          "",
+          1,
+          3
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.0155,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#275",
+      "name": "js275-swap-edit-undo",
+      "native_bytes": 203,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 6,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 6,
+      "plain_patch": [
+        {
+          "from": "/2",
+          "op": "move",
+          "path": "/1"
+        },
+        {
+          "from": "/3",
+          "op": "move",
+          "path": "/1"
+        },
+        {
+          "op": "replace",
+          "path": "/1/capital",
+          "value": "La Pbz"
+        },
+        {
+          "op": "replace",
+          "path": "/1/unasur",
+          "value": false
+        },
+        {
+          "op": "replace",
+          "path": "/3/capital",
+          "value": "Sabc"
+        },
+        {
+          "op": "replace",
+          "path": "/3/independence",
+          "value": "1818-02-12T07:52:58.010Z"
+        }
+      ]
+    },
+    {
+      "actual": [
+        {
+          "id": 7,
+          "style": {
+            "zIndex": 1
+          }
+        },
+        {
+          "id": 8,
+          "style": {
+            "zIndex": 2
+          }
+        },
+        {
+          "id": 9,
+          "style": {
+            "zIndex": 3
+          }
+        },
+        {
+          "id": 1,
+          "style": {
+            "zIndex": 4
+          }
+        },
+        {
+          "id": 2,
+          "style": {
+            "zIndex": 5
+          }
+        },
+        {
+          "id": 3,
+          "style": {
+            "zIndex": 6
+          }
+        },
+        {
+          "id": 4,
+          "style": {
+            "zIndex": 7
+          }
+        },
+        {
+          "id": 5,
+          "style": {
+            "zIndex": 8
+          }
+        },
+        {
+          "id": 6,
+          "style": {
+            "zIndex": 9
+          }
+        }
+      ],
+      "delta": {
+        "0": {
+          "style": {
+            "zIndex": [
+              7,
+              1
+            ]
+          }
+        },
+        "1": {
+          "style": {
+            "zIndex": [
+              8,
+              2
+            ]
+          }
+        },
+        "2": {
+          "style": {
+            "zIndex": [
+              9,
+              3
+            ]
+          }
+        },
+        "3": {
+          "style": {
+            "zIndex": [
+              1,
+              4
+            ]
+          }
+        },
+        "4": {
+          "style": {
+            "zIndex": [
+              2,
+              5
+            ]
+          }
+        },
+        "5": {
+          "style": {
+            "zIndex": [
+              3,
+              6
+            ]
+          }
+        },
+        "6": {
+          "style": {
+            "zIndex": [
+              4,
+              7
+            ]
+          }
+        },
+        "7": {
+          "style": {
+            "zIndex": [
+              5,
+              8
+            ]
+          }
+        },
+        "8": {
+          "style": {
+            "zIndex": [
+              6,
+              9
+            ]
+          }
+        },
+        "_6": [
+          "",
+          0,
+          3
+        ],
+        "_7": [
+          "",
+          1,
+          3
+        ],
+        "_8": [
+          "",
+          2,
+          3
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.035166,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#295",
+      "name": "js295-move-and-style-undo",
+      "native_bytes": 331,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 12,
+      "plain_patch": [
+        {
+          "from": "/8",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/8",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/8",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "op": "replace",
+          "path": "/0/style/zIndex",
+          "value": 1
+        },
+        {
+          "op": "replace",
+          "path": "/1/style/zIndex",
+          "value": 2
+        },
+        {
+          "op": "replace",
+          "path": "/2/style/zIndex",
+          "value": 3
+        },
+        {
+          "op": "replace",
+          "path": "/3/style/zIndex",
+          "value": 4
+        },
+        {
+          "op": "replace",
+          "path": "/4/style/zIndex",
+          "value": 5
+        },
+        {
+          "op": "replace",
+          "path": "/5/style/zIndex",
+          "value": 6
+        },
+        {
+          "op": "replace",
+          "path": "/6/style/zIndex",
+          "value": 7
+        },
+        {
+          "op": "replace",
+          "path": "/7/style/zIndex",
+          "value": 8
+        },
+        {
+          "op": "replace",
+          "path": "/8/style/zIndex",
+          "value": 9
+        }
+      ]
+    },
+    {
+      "actual": [
+        {
+          "id": 3,
+          "val": 3
+        },
+        {
+          "id": 2,
+          "val": 2
+        },
+        {
+          "id": 1,
+          "nested": [
+            {
+              "id": 2,
+              "val": 3
+            }
+          ],
+          "val": 3
+        }
+      ],
+      "delta": {
+        "2": {
+          "nested": [
+            [
+              {
+                "id": 2,
+                "val": 3
+              }
+            ]
+          ]
+        },
+        "_0": [
+          {
+            "id": 1,
+            "nested": [
+              {
+                "id": 1,
+                "val": 1
+              },
+              {
+                "id": 2,
+                "val": 2
+              }
+            ],
+            "val": 1
+          },
+          0,
+          0
+        ],
+        "_3": [
+          "",
+          0,
+          3
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.014584,
+      "incoming": null,
+      "issue": "seperman/deepdiff#540",
+      "name": "deep540-nested-duplicate-identity",
+      "native_bytes": 133,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 3,
+      "plain_patch": [
+        {
+          "op": "remove",
+          "path": "/0"
+        },
+        {
+          "from": "/2",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "op": "add",
+          "path": "/2/nested",
+          "value": [
+            {
+              "id": 2,
+              "val": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "actual": {
+        "key": {
+          "bb": {
+            "$numberInt": "1"
+          }
+        },
+        "name": "b1"
+      },
+      "delta": {
+        "key": {
+          "b": [
+            {
+              "$numberInt": "1"
+            },
+            0,
+            0
+          ],
+          "bb": [
+            {
+              "$numberInt": "1"
+            }
+          ]
+        }
+      },
+      "first_diff_ms": 0.0043749999999999995,
+      "incoming": null,
+      "issue": "wI2L/jsondiff#45",
+      "name": "go45-factorize",
+      "native_bytes": 64,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 2,
+      "plain_patch": [
+        {
+          "op": "remove",
+          "path": "/key/b"
+        },
+        {
+          "op": "add",
+          "path": "/key/bb",
+          "value": {
+            "$numberInt": "1"
+          }
+        }
+      ]
+    },
+    {
+      "actual": {
+        "nested": {
+          "include": true
+        }
+      },
+      "delta": {
+        "nested": [
+          {
+            "include": true
+          }
+        ]
+      },
+      "first_diff_ms": 0.003917,
+      "incoming": null,
+      "issue": "wI2L/jsondiff#15",
+      "name": "go15-nested-exclusion",
+      "native_bytes": 29,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "add",
+          "path": "/nested",
+          "value": {
+            "include": true
+          }
+        }
+      ]
+    },
+    {
+      "actual": {
+        "CompareMe": 2,
+        "IgnoreMe": 2
+      },
+      "delta": [
+        null,
+        {
+          "CompareMe": 2,
+          "IgnoreMe": 2
+        }
+      ],
+      "first_diff_ms": 0.001291,
+      "incoming": null,
+      "issue": "weichch/system-text-json-jsondiffpatch#48",
+      "name": "net48-null-to-object-property-filter",
+      "native_bytes": 35,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "",
+          "value": {
+            "CompareMe": 2,
+            "IgnoreMe": 2
+          }
+        }
+      ]
+    },
+    {
+      "actual": {
+        "CompareMe": 2
+      },
+      "delta": [
+        null,
+        {
+          "CompareMe": 2
+        }
+      ],
+      "first_diff_ms": 0.002209,
+      "incoming": null,
+      "issue": "weichch/system-text-json-jsondiffpatch#48",
+      "name": "net48-null-to-object-node-filter",
+      "native_bytes": 22,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "",
+          "value": {
+            "CompareMe": 2
+          }
+        }
+      ]
+    },
+    {
+      "actual": null,
+      "delta": [
+        {
+          "CompareMe": 1,
+          "IgnoreMe": 1
+        },
+        null
+      ],
+      "first_diff_ms": 0.001375,
+      "incoming": null,
+      "issue": "weichch/system-text-json-jsondiffpatch#48",
+      "name": "net48-object-to-null-node-filter",
+      "native_bytes": 35,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "",
+          "value": null
+        }
+      ]
+    },
+    {
+      "delta1_unchanged": true,
+      "delta2_unchanged": true,
+      "forward": true,
+      "issue": "benjamine/jsondiffpatch#377",
+      "name": "js377-patch-isolation",
+      "source_unchanged": true,
+      "undo": true
+    },
+    {
+      "actual": {
+        "array": [
+          1,
+          2,
+          3
+        ]
+      },
+      "forward": true,
+      "inverse": [
+        {
+          "op": "remove",
+          "path": "/array/2"
+        }
+      ],
+      "issue": "benjamine/jsondiffpatch#434",
+      "name": "js434-append",
+      "non_mut_input": true,
+      "standard_to_native_roundtrip": true,
+      "undo": true
+    },
+    {
+      "actual": {
+        "keep": 0,
+        "old": [
+          1
+        ]
+      },
+      "forward": true,
+      "inverse": [
+        {
+          "op": "add",
+          "path": "/old/1",
+          "value": 2
+        }
+      ],
+      "issue": "idubrov/json-patch#7",
+      "name": "rust7-invert-standard",
+      "non_mut_input": true,
+      "standard_to_native_roundtrip": true,
+      "undo": true
+    },
+    {
+      "actual": {
+        "style": [
+          {
+            "ref": "hello"
+          }
+        ]
+      },
+      "delta": {
+        "style": [
+          {
+            "ref": "name"
+          },
+          [
+            {
+              "ref": "hello"
+            }
+          ]
+        ]
+      },
+      "first_diff_ms": 0.0025,
+      "incoming": null,
+      "issue": "idubrov/json-patch#37",
+      "name": "rust37-object-to-array",
+      "native_bytes": 44,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "/style",
+          "value": [
+            {
+              "ref": "hello"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "actual": {
+        "preferences": {
+          "option": {
+            "active": true,
+            "parameters": {
+              "alert_type": "everyone",
+              "duration_value": 30
+            }
+          }
+        }
+      },
+      "delta": {
+        "preferences": [
+          {
+            "option": {
+              "active": true,
+              "parameters": {
+                "alert_type": "everyone",
+                "duration_value": 30
+              }
+            }
+          }
+        ]
+      },
+      "first_diff_ms": 0.002792,
+      "incoming": null,
+      "issue": "wI2L/jsondiff#38",
+      "name": "go38-leaf-patch-granularity",
+      "native_bytes": 103,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "add",
+          "path": "/preferences",
+          "value": {
+            "option": {
+              "active": true,
+              "parameters": {
+                "alert_type": "everyone",
+                "duration_value": 30
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "guarded_reordered_undo": {
+        "accepted": true,
+        "value": [
+          {
+            "code": "2"
+          },
+          {
+            "code": "3"
+          }
+        ]
+      },
+      "issue": "benjamine/jsondiffpatch#254",
+      "name": "js254-reordered-baseline",
+      "original_baseline_undo": true,
+      "reordered_undo": {
+        "accepted": false,
+        "error": "/0: array operation old value does not match"
+      }
+    },
+    {
+      "callback_paths": [],
+      "issue": "seperman/deepdiff#562",
+      "name": "deep562-common-fields",
+      "report": {
+        "differences": [],
+        "moves": [],
+        "similarity": 1.0,
+        "visited": 7
+      }
+    },
+    {
+      "callback_paths": [],
+      "issue": "weichch/system-text-json-jsondiffpatch#52",
+      "name": "net52-contain-subtree",
+      "report": {
+        "differences": [],
+        "moves": [],
+        "similarity": 1.0,
+        "visited": 5
+      }
+    },
+    {
+      "callback_paths": [],
+      "issue": "weichch/system-text-json-jsondiffpatch#39",
+      "name": "net39-unordered",
+      "report": {
+        "differences": [],
+        "moves": [],
+        "similarity": 1.0,
+        "visited": 55
+      }
+    },
+    {
+      "callback_paths": [],
+      "issue": "weichch/system-text-json-jsondiffpatch#39",
+      "name": "net39-unordered-count-change",
+      "report": {
+        "differences": [
+          {
+            "left": 2,
+            "path": "/2"
+          }
+        ],
+        "moves": [],
+        "similarity": 0.6666666666666666,
+        "visited": 14
+      }
+    },
+    {
+      "callback_paths": [
+        "",
+        "/a",
+        "/a/v"
+      ],
+      "issue": "seperman/deepdiff#633",
+      "name": "deep633-filter-before-callback",
+      "report": {
+        "differences": [],
+        "moves": [],
+        "similarity": 1.0,
+        "visited": 4
+      }
+    },
+    {
+      "actual": {
+        "x": 1
+      },
+      "forward": true,
+      "inverse": [],
+      "issue": "idubrov/json-patch#52",
+      "name": "rust52-test-immutable",
+      "non_mut_input": true,
+      "standard_to_native_roundtrip": true,
+      "undo": true
+    },
+    {
+      "error": "/?/name: operation '/0' failed at path '/?/name': path is invalid",
+      "issue": "idubrov/json-patch#42",
+      "name": "rust42-wildcard",
+      "rejected": true
+    },
+    {
+      "delta": {
+        "21936": [
+          "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+        ],
+        "21937": [
+          "de625f97-5e89-4726-9e02-d1306343bc04"
+        ],
+        "21938": [
+          "690859f5-23a6-4707-9410-81d97b5a9478"
+        ],
+        "21939": [
+          "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+        ],
+        "21940": [
+          "00e7772d-d772-4eea-bee8-e4589d54c393"
+        ],
+        "21941": [
+          "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+        ],
+        "21942": [
+          "f526f20d-51d9-490f-9b11-071f7b30601a"
+        ],
+        "21943": [
+          "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+        ],
+        "21944": [
+          "171ed67f-74ab-4182-92d2-4162af16b54c"
+        ],
+        "21945": [
+          "08480d68-50b9-4de0-914a-aabbcd57089a"
+        ],
+        "21946": [
+          "50c5553f-c4bd-48da-830c-5fda180cebc5"
+        ],
+        "21947": [
+          "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+        ],
+        "21948": [
+          "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+        ],
+        "21949": [
+          "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+        ],
+        "21950": [
+          "cb536672-15d0-4c62-bd70-299d4f619b33"
+        ],
+        "21951": [
+          "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+        ],
+        "21952": [
+          "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+        ],
+        "21953": [
+          "f24b53d1-ece9-4c95-84cd-0f868379e813"
+        ],
+        "21954": [
+          "9a3c797e-876e-4113-805c-d47d00967eeb"
+        ],
+        "21955": [
+          "55cff641-9dda-43cc-8300-d9b64ad813b3"
+        ],
+        "21956": [
+          "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+        ],
+        "21957": [
+          "643e5ef4-7072-452d-8d71-5a61272cde06"
+        ],
+        "21958": [
+          "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+        ],
+        "21959": [
+          "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+        ],
+        "21960": [
+          "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+        ],
+        "21961": [
+          "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+        ],
+        "21962": [
+          "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+        ],
+        "21963": [
+          "a0fa175b-d70f-45ac-a540-22a250446beb"
+        ],
+        "21964": [
+          "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+        ],
+        "21965": [
+          "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+        ],
+        "21966": [
+          "4d814145-4912-4d0b-ba51-47fa8d529183"
+        ],
+        "21967": [
+          "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+        ],
+        "21968": [
+          "442cb774-045c-4bb8-ad0d-c152b301319b"
+        ],
+        "21969": [
+          "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 5.827625,
+      "incoming": null,
+      "issue": "benjamine/jsondiffpatch#365",
+      "loaded_diff_samples_ms": [
+        3.8169589999999998,
+        3.8413340000000002,
+        3.923459
+      ],
+      "name": "js365-large-string-array",
+      "native_bytes": 1676,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 34,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 34,
+      "plain_patch": [
+        {
+          "op": "add",
+          "path": "/21936",
+          "value": "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+        },
+        {
+          "op": "add",
+          "path": "/21937",
+          "value": "de625f97-5e89-4726-9e02-d1306343bc04"
+        },
+        {
+          "op": "add",
+          "path": "/21938",
+          "value": "690859f5-23a6-4707-9410-81d97b5a9478"
+        },
+        {
+          "op": "add",
+          "path": "/21939",
+          "value": "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+        },
+        {
+          "op": "add",
+          "path": "/21940",
+          "value": "00e7772d-d772-4eea-bee8-e4589d54c393"
+        },
+        {
+          "op": "add",
+          "path": "/21941",
+          "value": "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+        },
+        {
+          "op": "add",
+          "path": "/21942",
+          "value": "f526f20d-51d9-490f-9b11-071f7b30601a"
+        },
+        {
+          "op": "add",
+          "path": "/21943",
+          "value": "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+        },
+        {
+          "op": "add",
+          "path": "/21944",
+          "value": "171ed67f-74ab-4182-92d2-4162af16b54c"
+        },
+        {
+          "op": "add",
+          "path": "/21945",
+          "value": "08480d68-50b9-4de0-914a-aabbcd57089a"
+        },
+        {
+          "op": "add",
+          "path": "/21946",
+          "value": "50c5553f-c4bd-48da-830c-5fda180cebc5"
+        },
+        {
+          "op": "add",
+          "path": "/21947",
+          "value": "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+        },
+        {
+          "op": "add",
+          "path": "/21948",
+          "value": "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+        },
+        {
+          "op": "add",
+          "path": "/21949",
+          "value": "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+        },
+        {
+          "op": "add",
+          "path": "/21950",
+          "value": "cb536672-15d0-4c62-bd70-299d4f619b33"
+        },
+        {
+          "op": "add",
+          "path": "/21951",
+          "value": "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+        },
+        {
+          "op": "add",
+          "path": "/21952",
+          "value": "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+        },
+        {
+          "op": "add",
+          "path": "/21953",
+          "value": "f24b53d1-ece9-4c95-84cd-0f868379e813"
+        },
+        {
+          "op": "add",
+          "path": "/21954",
+          "value": "9a3c797e-876e-4113-805c-d47d00967eeb"
+        },
+        {
+          "op": "add",
+          "path": "/21955",
+          "value": "55cff641-9dda-43cc-8300-d9b64ad813b3"
+        },
+        {
+          "op": "add",
+          "path": "/21956",
+          "value": "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+        },
+        {
+          "op": "add",
+          "path": "/21957",
+          "value": "643e5ef4-7072-452d-8d71-5a61272cde06"
+        },
+        {
+          "op": "add",
+          "path": "/21958",
+          "value": "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+        },
+        {
+          "op": "add",
+          "path": "/21959",
+          "value": "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+        },
+        {
+          "op": "add",
+          "path": "/21960",
+          "value": "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+        },
+        {
+          "op": "add",
+          "path": "/21961",
+          "value": "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+        },
+        {
+          "op": "add",
+          "path": "/21962",
+          "value": "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+        },
+        {
+          "op": "add",
+          "path": "/21963",
+          "value": "a0fa175b-d70f-45ac-a540-22a250446beb"
+        },
+        {
+          "op": "add",
+          "path": "/21964",
+          "value": "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+        },
+        {
+          "op": "add",
+          "path": "/21965",
+          "value": "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+        },
+        {
+          "op": "add",
+          "path": "/21966",
+          "value": "4d814145-4912-4d0b-ba51-47fa8d529183"
+        },
+        {
+          "op": "add",
+          "path": "/21967",
+          "value": "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+        },
+        {
+          "op": "add",
+          "path": "/21968",
+          "value": "442cb774-045c-4bb8-ad0d-c152b301319b"
+        },
+        {
+          "op": "add",
+          "path": "/21969",
+          "value": "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+        }
+      ]
+    }
+  ],
+  "javascript": [
+    {
+      "name": "js438-text-reverse",
+      "first_diff_ms": 26.511499999999998,
+      "has_delta": true,
+      "native_forward": true,
+      "undo_error": "text patch failed",
+      "rfc_error": "JSONPatch (RFC 6902) doesn't support text diffs, disable textDiff option"
+    },
+    {
+      "name": "js423-remove-edit",
+      "first_diff_ms": 0.27258400000000904,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 3
+    },
+    {
+      "name": "js424-string-edit-default",
+      "first_diff_ms": 0.12616700000000947,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 2
+    },
+    {
+      "name": "js424-string-edit-matcher",
+      "first_diff_ms": 0.013417000000004009,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 2
+    },
+    {
+      "name": "js420-identical-nested-array",
+      "first_diff_ms": 0.04704199999999048,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 2
+    },
+    {
+      "name": "js380-multiple-moves",
+      "first_diff_ms": 0.06179199999999696,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 4
+    },
+    {
+      "name": "js371-pointer-escaping",
+      "first_diff_ms": 0.022125000000002615,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 2
+    },
+    {
+      "name": "js275-swap-edit-undo",
+      "first_diff_ms": 0.07049999999999557,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": false,
+      "rfc_forward": true,
+      "rfc_operations": 6
+    },
+    {
+      "name": "js295-move-and-style-undo",
+      "first_diff_ms": 0.09295900000000756,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": false,
+      "rfc_forward": true,
+      "rfc_operations": 12
+    },
+    {
+      "name": "deep540-nested-duplicate-identity",
+      "first_diff_ms": 0.027915999999990504,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 3
+    },
+    {
+      "name": "go45-factorize",
+      "first_diff_ms": 0.012041000000010627,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 2
+    },
+    {
+      "name": "go15-nested-exclusion",
+      "first_diff_ms": 0.005250000000003752,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 1
+    },
+    {
+      "name": "net48-null-to-object-property-filter",
+      "first_diff_ms": 0.006750000000010914,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 1
+    },
+    {
+      "name": "net48-null-to-object-node-filter",
+      "first_diff_ms": 0.0010410000000007358,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 1
+    },
+    {
+      "name": "net48-object-to-null-node-filter",
+      "first_diff_ms": 0.0011660000000119908,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 1
+    },
+    {
+      "name": "js377-patch-isolation",
+      "forward": true,
+      "delta1_unchanged": false
+    },
+    {
+      "name": "rust37-object-to-array",
+      "first_diff_ms": 0.005625000000009095,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 1
+    },
+    {
+      "name": "go38-leaf-patch-granularity",
+      "first_diff_ms": 0.0029580000000066775,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 1
+    },
+    {
+      "name": "js365-large-string-array",
+      "first_diff_ms": 2007.393209,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 34,
+      "loaded_diff_samples_ms": [
+        1966.6520839999998,
+        1979.6573750000002,
+        1848.3954169999997
+      ]
+    },
+    {
+      "name": "js365-large-string-array-js-workaround",
+      "option": "matchByPosition:false",
+      "first_diff_ms": 4.4099999999998545,
+      "has_delta": true,
+      "native_forward": true,
+      "native_undo": true,
+      "rfc_forward": true,
+      "rfc_operations": 34,
+      "loaded_diff_samples_ms": [
+        4.132416000000376,
+        3.401249999999891,
+        2.7992080000003625
+      ]
+    }
+  ],
+  "js_packages": {
+    "jsondiffpatch": "0.7.6",
+    "fast-json-patch": "3.1.1"
+  },
+  "palim_import_js_delta": [
+    {
+      "actual": {
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus eu tellus sit amet tortor gravida placerat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      },
+      "delta": {
+        "text": [
+          "@@ -1,180 +1,59 @@\n-Sed d\n+L\n o\n- \n+r\n e\n+m \n i\n-u\n+p\n s\n-mod tempor incidid\n u\n-nt ut labore et\n+m\n  dolo\n-re magna aliqua. Excepteu\n r si\n-n\n t \n-occ\n a\n+m\n e\n-cat cupidatat non proiden\n t, \n-sunt in \n c\n+onsectet\n u\n-l\n+r adi\n p\n-a qu\n i\n- offi\n+s\n ci\n-a deseru\n n\n-t mollit anim id\n+g\n  e\n-st \n l\n-aborum\n+it\n . Do\n@@ -125,77 +125,220 @@\n em. \n-D\n+Lorem ipsum dolor sit amet, c\n on\n+s\n ec\n+tetur adipiscing elit. Duis aute irure dolor in reprehenderit in\n  v\n+oluptate velit esse cillum dolore eu fugiat nulla p\n ari\n+atur. Phasell\n us\n-, orci\n  e\n+u tellus sit amet tortor \n g\n-et \n r\n+av\n i\n-sus\n+da\n  \n-s\n+pla\n ce\n-le\n r\n-isque, lec\n+a\n t\n-us sem tristique lorem\n . Ut\n@@ -443,777 +443,7 @@\n sequ\n-at. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.%0A%0ADonec varius, orci eget risus scelerisque, lectus sem tristique lorem. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.%0A%0ACurabitur pretium tincidunt lacus, nulla gravida orci a odio. Phasellus eu tellus sit amet tortor gravida placerat. Phasellus eu tellus sit amet tortor gravida placer\n at.\n",
+          0,
+          2
+        ]
+      },
+      "first_diff_ms": 0.08483399999999999,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": false,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#438",
+      "name": "js438-text-reverse",
+      "native_bytes": 1593,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "/text",
+          "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus eu tellus sit amet tortor gravida placerat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        }
+      ]
+    },
+    {
+      "actual": [
+        {
+          "id": "CC",
+          "relation": {
+            "B": "22"
+          }
+        }
+      ],
+      "delta": {
+        "0": {
+          "relation": {
+            "A": [
+              "11",
+              0,
+              0
+            ]
+          }
+        },
+        "_0": [
+          {
+            "id": "AA"
+          },
+          0,
+          0
+        ],
+        "_1": [
+          {
+            "id": "BB"
+          },
+          0,
+          0
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.01175,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#423",
+      "name": "js423-remove-edit",
+      "native_bytes": 90,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 3,
+      "plain_patch": [
+        {
+          "op": "remove",
+          "path": "/1"
+        },
+        {
+          "op": "remove",
+          "path": "/0"
+        },
+        {
+          "op": "remove",
+          "path": "/0/relation/A"
+        }
+      ]
+    },
+    {
+      "actual": [
+        "a1",
+        "b"
+      ],
+      "delta": {
+        "0": [
+          "a1"
+        ],
+        "_0": [
+          "a",
+          0,
+          0
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.0029579999999999997,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#424",
+      "name": "js424-string-edit-default",
+      "native_bytes": 36,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 2,
+      "plain_patch": [
+        {
+          "op": "remove",
+          "path": "/0"
+        },
+        {
+          "op": "add",
+          "path": "/0",
+          "value": "a1"
+        }
+      ]
+    },
+    {
+      "actual": [
+        "a1",
+        "b"
+      ],
+      "delta": {
+        "0": [
+          "a",
+          "a1"
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.002458,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#424",
+      "name": "js424-string-edit-matcher",
+      "native_bytes": 25,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "/0",
+          "value": "a1"
+        }
+      ]
+    },
+    {
+      "actual": {
+        "A": [
+          [
+            "B"
+          ],
+          1,
+          "C",
+          2,
+          "C"
+        ]
+      },
+      "delta": null,
+      "first_diff_ms": 0.000375,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#420",
+      "name": "js420-identical-nested-array",
+      "native_bytes": 4,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 0,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 0,
+      "plain_patch": []
+    },
+    {
+      "actual": [
+        "fifth",
+        "fourth",
+        "third",
+        "second",
+        "first"
+      ],
+      "delta": {
+        "_1": [
+          "",
+          3,
+          3
+        ],
+        "_2": [
+          "",
+          2,
+          3
+        ],
+        "_3": [
+          "",
+          1,
+          3
+        ],
+        "_4": [
+          "",
+          0,
+          3
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.004125,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#380",
+      "name": "js380-multiple-moves",
+      "native_bytes": 66,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 4,
+      "plain_patch": [
+        {
+          "from": "/1",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/2",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/3",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/4",
+          "op": "move",
+          "path": "/0"
+        }
+      ]
+    },
+    {
+      "actual": {
+        "tree/item": 2,
+        "~key": 1
+      },
+      "delta": {
+        "tree/item": [
+          1,
+          2
+        ],
+        "~key": [
+          0,
+          1
+        ]
+      },
+      "first_diff_ms": 0.002042,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#371",
+      "name": "js371-pointer-escaping",
+      "native_bytes": 32,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 2,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "/tree~1item",
+          "value": 2
+        },
+        {
+          "op": "replace",
+          "path": "/~0key",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "actual": [
+        {
+          "capital": "Buenos Aires",
+          "independence": "1816-07-09T07:52:58.000Z",
+          "name": "Argentina",
+          "unasur": true
+        },
+        {
+          "capital": "La Pbz",
+          "independence": "1825-08-06T07:52:58.000Z",
+          "name": "Bolivia",
+          "unasur": false
+        },
+        {
+          "capital": "Brasilia",
+          "independence": "1822-09-07T07:52:58.000Z",
+          "name": "Brazil",
+          "unasur": true
+        },
+        {
+          "capital": "Sabc",
+          "independence": "1818-02-12T07:52:58.010Z",
+          "name": "Chile",
+          "unasur": true
+        }
+      ],
+      "delta": {
+        "1": {
+          "capital": [
+            "La Paz",
+            "La Pbz"
+          ],
+          "unasur": [
+            true,
+            false
+          ]
+        },
+        "3": {
+          "capital": [
+            "Santiago",
+            "Sabc"
+          ],
+          "independence": [
+            "1818-02-12T07:52:58.000Z",
+            "1818-02-12T07:52:58.010Z"
+          ]
+        },
+        "_2": [
+          "",
+          2,
+          3
+        ],
+        "_3": [
+          "",
+          1,
+          3
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.007625,
+      "incoming": {
+        "forward": true,
+        "js_inverse_error": "/2/capital: replacement old value does not match",
+        "js_inverse_exact": false,
+        "js_inverse_fuzzy": false,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#275",
+      "name": "js275-swap-edit-undo",
+      "native_bytes": 203,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 6,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 6,
+      "plain_patch": [
+        {
+          "from": "/2",
+          "op": "move",
+          "path": "/1"
+        },
+        {
+          "from": "/3",
+          "op": "move",
+          "path": "/1"
+        },
+        {
+          "op": "replace",
+          "path": "/1/capital",
+          "value": "La Pbz"
+        },
+        {
+          "op": "replace",
+          "path": "/1/unasur",
+          "value": false
+        },
+        {
+          "op": "replace",
+          "path": "/3/capital",
+          "value": "Sabc"
+        },
+        {
+          "op": "replace",
+          "path": "/3/independence",
+          "value": "1818-02-12T07:52:58.010Z"
+        }
+      ]
+    },
+    {
+      "actual": [
+        {
+          "id": 7,
+          "style": {
+            "zIndex": 1
+          }
+        },
+        {
+          "id": 8,
+          "style": {
+            "zIndex": 2
+          }
+        },
+        {
+          "id": 9,
+          "style": {
+            "zIndex": 3
+          }
+        },
+        {
+          "id": 1,
+          "style": {
+            "zIndex": 4
+          }
+        },
+        {
+          "id": 2,
+          "style": {
+            "zIndex": 5
+          }
+        },
+        {
+          "id": 3,
+          "style": {
+            "zIndex": 6
+          }
+        },
+        {
+          "id": 4,
+          "style": {
+            "zIndex": 7
+          }
+        },
+        {
+          "id": 5,
+          "style": {
+            "zIndex": 8
+          }
+        },
+        {
+          "id": 6,
+          "style": {
+            "zIndex": 9
+          }
+        }
+      ],
+      "delta": {
+        "0": {
+          "style": {
+            "zIndex": [
+              7,
+              1
+            ]
+          }
+        },
+        "1": {
+          "style": {
+            "zIndex": [
+              8,
+              2
+            ]
+          }
+        },
+        "2": {
+          "style": {
+            "zIndex": [
+              9,
+              3
+            ]
+          }
+        },
+        "3": {
+          "style": {
+            "zIndex": [
+              1,
+              4
+            ]
+          }
+        },
+        "4": {
+          "style": {
+            "zIndex": [
+              2,
+              5
+            ]
+          }
+        },
+        "5": {
+          "style": {
+            "zIndex": [
+              3,
+              6
+            ]
+          }
+        },
+        "6": {
+          "style": {
+            "zIndex": [
+              4,
+              7
+            ]
+          }
+        },
+        "7": {
+          "style": {
+            "zIndex": [
+              5,
+              8
+            ]
+          }
+        },
+        "8": {
+          "style": {
+            "zIndex": [
+              6,
+              9
+            ]
+          }
+        },
+        "_6": [
+          "",
+          0,
+          3
+        ],
+        "_7": [
+          "",
+          1,
+          3
+        ],
+        "_8": [
+          "",
+          2,
+          3
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.016249999999999997,
+      "incoming": {
+        "forward": true,
+        "js_inverse_error": "/1/style/zIndex: replacement old value does not match",
+        "js_inverse_exact": false,
+        "js_inverse_fuzzy": false,
+        "undo": true
+      },
+      "issue": "benjamine/jsondiffpatch#295",
+      "name": "js295-move-and-style-undo",
+      "native_bytes": 331,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 12,
+      "plain_patch": [
+        {
+          "from": "/8",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/8",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "from": "/8",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "op": "replace",
+          "path": "/0/style/zIndex",
+          "value": 1
+        },
+        {
+          "op": "replace",
+          "path": "/1/style/zIndex",
+          "value": 2
+        },
+        {
+          "op": "replace",
+          "path": "/2/style/zIndex",
+          "value": 3
+        },
+        {
+          "op": "replace",
+          "path": "/3/style/zIndex",
+          "value": 4
+        },
+        {
+          "op": "replace",
+          "path": "/4/style/zIndex",
+          "value": 5
+        },
+        {
+          "op": "replace",
+          "path": "/5/style/zIndex",
+          "value": 6
+        },
+        {
+          "op": "replace",
+          "path": "/6/style/zIndex",
+          "value": 7
+        },
+        {
+          "op": "replace",
+          "path": "/7/style/zIndex",
+          "value": 8
+        },
+        {
+          "op": "replace",
+          "path": "/8/style/zIndex",
+          "value": 9
+        }
+      ]
+    },
+    {
+      "actual": [
+        {
+          "id": 3,
+          "val": 3
+        },
+        {
+          "id": 2,
+          "val": 2
+        },
+        {
+          "id": 1,
+          "nested": [
+            {
+              "id": 2,
+              "val": 3
+            }
+          ],
+          "val": 3
+        }
+      ],
+      "delta": {
+        "2": {
+          "nested": [
+            [
+              {
+                "id": 2,
+                "val": 3
+              }
+            ]
+          ]
+        },
+        "_0": [
+          {
+            "id": 1,
+            "nested": [
+              {
+                "id": 1,
+                "val": 1
+              },
+              {
+                "id": 2,
+                "val": 2
+              }
+            ],
+            "val": 1
+          },
+          0,
+          0
+        ],
+        "_3": [
+          "",
+          0,
+          3
+        ],
+        "_t": "a"
+      },
+      "first_diff_ms": 0.00625,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "seperman/deepdiff#540",
+      "name": "deep540-nested-duplicate-identity",
+      "native_bytes": 133,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 3,
+      "plain_patch": [
+        {
+          "op": "remove",
+          "path": "/0"
+        },
+        {
+          "from": "/2",
+          "op": "move",
+          "path": "/0"
+        },
+        {
+          "op": "add",
+          "path": "/2/nested",
+          "value": [
+            {
+              "id": 2,
+              "val": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "actual": {
+        "key": {
+          "bb": {
+            "$numberInt": "1"
+          }
+        },
+        "name": "b1"
+      },
+      "delta": {
+        "key": {
+          "b": [
+            {
+              "$numberInt": "1"
+            },
+            0,
+            0
+          ],
+          "bb": [
+            {
+              "$numberInt": "1"
+            }
+          ]
+        }
+      },
+      "first_diff_ms": 0.002209,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "wI2L/jsondiff#45",
+      "name": "go45-factorize",
+      "native_bytes": 64,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 2,
+      "plain_patch": [
+        {
+          "op": "remove",
+          "path": "/key/b"
+        },
+        {
+          "op": "add",
+          "path": "/key/bb",
+          "value": {
+            "$numberInt": "1"
+          }
+        }
+      ]
+    },
+    {
+      "actual": {
+        "nested": {
+          "include": true
+        }
+      },
+      "delta": {
+        "nested": [
+          {
+            "include": true
+          }
+        ]
+      },
+      "first_diff_ms": 0.001542,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "wI2L/jsondiff#15",
+      "name": "go15-nested-exclusion",
+      "native_bytes": 29,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "add",
+          "path": "/nested",
+          "value": {
+            "include": true
+          }
+        }
+      ]
+    },
+    {
+      "actual": {
+        "CompareMe": 2,
+        "IgnoreMe": 2
+      },
+      "delta": [
+        null,
+        {
+          "CompareMe": 2,
+          "IgnoreMe": 2
+        }
+      ],
+      "first_diff_ms": 0.000625,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "weichch/system-text-json-jsondiffpatch#48",
+      "name": "net48-null-to-object-property-filter",
+      "native_bytes": 35,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "",
+          "value": {
+            "CompareMe": 2,
+            "IgnoreMe": 2
+          }
+        }
+      ]
+    },
+    {
+      "actual": {
+        "CompareMe": 2
+      },
+      "delta": [
+        null,
+        {
+          "CompareMe": 2
+        }
+      ],
+      "first_diff_ms": 0.001084,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "weichch/system-text-json-jsondiffpatch#48",
+      "name": "net48-null-to-object-node-filter",
+      "native_bytes": 22,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "",
+          "value": {
+            "CompareMe": 2
+          }
+        }
+      ]
+    },
+    {
+      "actual": null,
+      "delta": [
+        {
+          "CompareMe": 1,
+          "IgnoreMe": 1
+        },
+        null
+      ],
+      "first_diff_ms": 0.000541,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "weichch/system-text-json-jsondiffpatch#48",
+      "name": "net48-object-to-null-node-filter",
+      "native_bytes": 35,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "",
+          "value": null
+        }
+      ]
+    },
+    {
+      "actual": {
+        "style": [
+          {
+            "ref": "hello"
+          }
+        ]
+      },
+      "delta": {
+        "style": [
+          {
+            "ref": "name"
+          },
+          [
+            {
+              "ref": "hello"
+            }
+          ]
+        ]
+      },
+      "first_diff_ms": 0.001167,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "idubrov/json-patch#37",
+      "name": "rust37-object-to-array",
+      "native_bytes": 44,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "replace",
+          "path": "/style",
+          "value": [
+            {
+              "ref": "hello"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "actual": {
+        "preferences": {
+          "option": {
+            "active": true,
+            "parameters": {
+              "alert_type": "everyone",
+              "duration_value": 30
+            }
+          }
+        }
+      },
+      "delta": {
+        "preferences": [
+          {
+            "option": {
+              "active": true,
+              "parameters": {
+                "alert_type": "everyone",
+                "duration_value": 30
+              }
+            }
+          }
+        ]
+      },
+      "first_diff_ms": 0.000917,
+      "incoming": {
+        "forward": true,
+        "js_inverse_exact": true,
+        "js_inverse_fuzzy": true,
+        "undo": true
+      },
+      "issue": "wI2L/jsondiff#38",
+      "name": "go38-leaf-patch-granularity",
+      "native_bytes": 103,
+      "native_forward": true,
+      "native_undo": true,
+      "optimized_forward": true,
+      "optimized_operations": 1,
+      "plain_forward": true,
+      "plain_inverse_independent": true,
+      "plain_operations": 1,
+      "plain_patch": [
+        {
+          "op": "add",
+          "path": "/preferences",
+          "value": {
+            "option": {
+              "active": true,
+              "parameters": {
+                "alert_type": "everyone",
+                "duration_value": 30
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "js_large": {
+    "exit_code": 0,
+    "stderr": "",
+    "memory_limit_mib": 1024,
+    "timeout_seconds": 30
+  },
+  "large_processes": [
+    {
+      "process": 1,
+      "palim": [
+        {
+          "delta": {
+            "21936": [
+              "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+            ],
+            "21937": [
+              "de625f97-5e89-4726-9e02-d1306343bc04"
+            ],
+            "21938": [
+              "690859f5-23a6-4707-9410-81d97b5a9478"
+            ],
+            "21939": [
+              "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+            ],
+            "21940": [
+              "00e7772d-d772-4eea-bee8-e4589d54c393"
+            ],
+            "21941": [
+              "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+            ],
+            "21942": [
+              "f526f20d-51d9-490f-9b11-071f7b30601a"
+            ],
+            "21943": [
+              "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+            ],
+            "21944": [
+              "171ed67f-74ab-4182-92d2-4162af16b54c"
+            ],
+            "21945": [
+              "08480d68-50b9-4de0-914a-aabbcd57089a"
+            ],
+            "21946": [
+              "50c5553f-c4bd-48da-830c-5fda180cebc5"
+            ],
+            "21947": [
+              "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+            ],
+            "21948": [
+              "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+            ],
+            "21949": [
+              "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+            ],
+            "21950": [
+              "cb536672-15d0-4c62-bd70-299d4f619b33"
+            ],
+            "21951": [
+              "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+            ],
+            "21952": [
+              "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+            ],
+            "21953": [
+              "f24b53d1-ece9-4c95-84cd-0f868379e813"
+            ],
+            "21954": [
+              "9a3c797e-876e-4113-805c-d47d00967eeb"
+            ],
+            "21955": [
+              "55cff641-9dda-43cc-8300-d9b64ad813b3"
+            ],
+            "21956": [
+              "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+            ],
+            "21957": [
+              "643e5ef4-7072-452d-8d71-5a61272cde06"
+            ],
+            "21958": [
+              "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+            ],
+            "21959": [
+              "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+            ],
+            "21960": [
+              "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+            ],
+            "21961": [
+              "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+            ],
+            "21962": [
+              "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+            ],
+            "21963": [
+              "a0fa175b-d70f-45ac-a540-22a250446beb"
+            ],
+            "21964": [
+              "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+            ],
+            "21965": [
+              "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+            ],
+            "21966": [
+              "4d814145-4912-4d0b-ba51-47fa8d529183"
+            ],
+            "21967": [
+              "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+            ],
+            "21968": [
+              "442cb774-045c-4bb8-ad0d-c152b301319b"
+            ],
+            "21969": [
+              "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+            ],
+            "_t": "a"
+          },
+          "first_diff_ms": 5.827625,
+          "incoming": null,
+          "issue": "benjamine/jsondiffpatch#365",
+          "loaded_diff_samples_ms": [
+            3.8169589999999998,
+            3.8413340000000002,
+            3.923459
+          ],
+          "name": "js365-large-string-array",
+          "native_bytes": 1676,
+          "native_forward": true,
+          "native_undo": true,
+          "optimized_forward": true,
+          "optimized_operations": 34,
+          "plain_forward": true,
+          "plain_inverse_independent": true,
+          "plain_operations": 34,
+          "plain_patch": [
+            {
+              "op": "add",
+              "path": "/21936",
+              "value": "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+            },
+            {
+              "op": "add",
+              "path": "/21937",
+              "value": "de625f97-5e89-4726-9e02-d1306343bc04"
+            },
+            {
+              "op": "add",
+              "path": "/21938",
+              "value": "690859f5-23a6-4707-9410-81d97b5a9478"
+            },
+            {
+              "op": "add",
+              "path": "/21939",
+              "value": "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+            },
+            {
+              "op": "add",
+              "path": "/21940",
+              "value": "00e7772d-d772-4eea-bee8-e4589d54c393"
+            },
+            {
+              "op": "add",
+              "path": "/21941",
+              "value": "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+            },
+            {
+              "op": "add",
+              "path": "/21942",
+              "value": "f526f20d-51d9-490f-9b11-071f7b30601a"
+            },
+            {
+              "op": "add",
+              "path": "/21943",
+              "value": "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+            },
+            {
+              "op": "add",
+              "path": "/21944",
+              "value": "171ed67f-74ab-4182-92d2-4162af16b54c"
+            },
+            {
+              "op": "add",
+              "path": "/21945",
+              "value": "08480d68-50b9-4de0-914a-aabbcd57089a"
+            },
+            {
+              "op": "add",
+              "path": "/21946",
+              "value": "50c5553f-c4bd-48da-830c-5fda180cebc5"
+            },
+            {
+              "op": "add",
+              "path": "/21947",
+              "value": "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+            },
+            {
+              "op": "add",
+              "path": "/21948",
+              "value": "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+            },
+            {
+              "op": "add",
+              "path": "/21949",
+              "value": "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+            },
+            {
+              "op": "add",
+              "path": "/21950",
+              "value": "cb536672-15d0-4c62-bd70-299d4f619b33"
+            },
+            {
+              "op": "add",
+              "path": "/21951",
+              "value": "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+            },
+            {
+              "op": "add",
+              "path": "/21952",
+              "value": "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+            },
+            {
+              "op": "add",
+              "path": "/21953",
+              "value": "f24b53d1-ece9-4c95-84cd-0f868379e813"
+            },
+            {
+              "op": "add",
+              "path": "/21954",
+              "value": "9a3c797e-876e-4113-805c-d47d00967eeb"
+            },
+            {
+              "op": "add",
+              "path": "/21955",
+              "value": "55cff641-9dda-43cc-8300-d9b64ad813b3"
+            },
+            {
+              "op": "add",
+              "path": "/21956",
+              "value": "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+            },
+            {
+              "op": "add",
+              "path": "/21957",
+              "value": "643e5ef4-7072-452d-8d71-5a61272cde06"
+            },
+            {
+              "op": "add",
+              "path": "/21958",
+              "value": "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+            },
+            {
+              "op": "add",
+              "path": "/21959",
+              "value": "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+            },
+            {
+              "op": "add",
+              "path": "/21960",
+              "value": "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+            },
+            {
+              "op": "add",
+              "path": "/21961",
+              "value": "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+            },
+            {
+              "op": "add",
+              "path": "/21962",
+              "value": "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+            },
+            {
+              "op": "add",
+              "path": "/21963",
+              "value": "a0fa175b-d70f-45ac-a540-22a250446beb"
+            },
+            {
+              "op": "add",
+              "path": "/21964",
+              "value": "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+            },
+            {
+              "op": "add",
+              "path": "/21965",
+              "value": "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+            },
+            {
+              "op": "add",
+              "path": "/21966",
+              "value": "4d814145-4912-4d0b-ba51-47fa8d529183"
+            },
+            {
+              "op": "add",
+              "path": "/21967",
+              "value": "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+            },
+            {
+              "op": "add",
+              "path": "/21968",
+              "value": "442cb774-045c-4bb8-ad0d-c152b301319b"
+            },
+            {
+              "op": "add",
+              "path": "/21969",
+              "value": "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+            }
+          ]
+        }
+      ],
+      "javascript": [
+        {
+          "name": "js365-large-string-array",
+          "first_diff_ms": 2007.393209,
+          "has_delta": true,
+          "native_forward": true,
+          "native_undo": true,
+          "rfc_forward": true,
+          "rfc_operations": 34,
+          "loaded_diff_samples_ms": [
+            1966.6520839999998,
+            1979.6573750000002,
+            1848.3954169999997
+          ]
+        },
+        {
+          "name": "js365-large-string-array-js-workaround",
+          "option": "matchByPosition:false",
+          "first_diff_ms": 4.4099999999998545,
+          "has_delta": true,
+          "native_forward": true,
+          "native_undo": true,
+          "rfc_forward": true,
+          "rfc_operations": 34,
+          "loaded_diff_samples_ms": [
+            4.132416000000376,
+            3.401249999999891,
+            2.7992080000003625
+          ]
+        }
+      ]
+    },
+    {
+      "process": 2,
+      "javascript": [
+        {
+          "name": "js365-large-string-array",
+          "first_diff_ms": 1850.3263339999999,
+          "has_delta": true,
+          "native_forward": true,
+          "native_undo": true,
+          "rfc_forward": true,
+          "rfc_operations": 34,
+          "loaded_diff_samples_ms": [
+            1848.4403750000001,
+            1842.8850840000005,
+            1837.8347089999997
+          ]
+        },
+        {
+          "name": "js365-large-string-array-js-workaround",
+          "option": "matchByPosition:false",
+          "first_diff_ms": 3.638500000000022,
+          "has_delta": true,
+          "native_forward": true,
+          "native_undo": true,
+          "rfc_forward": true,
+          "rfc_operations": 34,
+          "loaded_diff_samples_ms": [
+            4.039166999999907,
+            3.2801659999995536,
+            2.613499999999476
+          ]
+        }
+      ],
+      "palim": [
+        {
+          "delta": {
+            "21936": [
+              "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+            ],
+            "21937": [
+              "de625f97-5e89-4726-9e02-d1306343bc04"
+            ],
+            "21938": [
+              "690859f5-23a6-4707-9410-81d97b5a9478"
+            ],
+            "21939": [
+              "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+            ],
+            "21940": [
+              "00e7772d-d772-4eea-bee8-e4589d54c393"
+            ],
+            "21941": [
+              "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+            ],
+            "21942": [
+              "f526f20d-51d9-490f-9b11-071f7b30601a"
+            ],
+            "21943": [
+              "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+            ],
+            "21944": [
+              "171ed67f-74ab-4182-92d2-4162af16b54c"
+            ],
+            "21945": [
+              "08480d68-50b9-4de0-914a-aabbcd57089a"
+            ],
+            "21946": [
+              "50c5553f-c4bd-48da-830c-5fda180cebc5"
+            ],
+            "21947": [
+              "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+            ],
+            "21948": [
+              "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+            ],
+            "21949": [
+              "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+            ],
+            "21950": [
+              "cb536672-15d0-4c62-bd70-299d4f619b33"
+            ],
+            "21951": [
+              "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+            ],
+            "21952": [
+              "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+            ],
+            "21953": [
+              "f24b53d1-ece9-4c95-84cd-0f868379e813"
+            ],
+            "21954": [
+              "9a3c797e-876e-4113-805c-d47d00967eeb"
+            ],
+            "21955": [
+              "55cff641-9dda-43cc-8300-d9b64ad813b3"
+            ],
+            "21956": [
+              "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+            ],
+            "21957": [
+              "643e5ef4-7072-452d-8d71-5a61272cde06"
+            ],
+            "21958": [
+              "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+            ],
+            "21959": [
+              "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+            ],
+            "21960": [
+              "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+            ],
+            "21961": [
+              "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+            ],
+            "21962": [
+              "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+            ],
+            "21963": [
+              "a0fa175b-d70f-45ac-a540-22a250446beb"
+            ],
+            "21964": [
+              "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+            ],
+            "21965": [
+              "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+            ],
+            "21966": [
+              "4d814145-4912-4d0b-ba51-47fa8d529183"
+            ],
+            "21967": [
+              "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+            ],
+            "21968": [
+              "442cb774-045c-4bb8-ad0d-c152b301319b"
+            ],
+            "21969": [
+              "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+            ],
+            "_t": "a"
+          },
+          "first_diff_ms": 4.498792,
+          "incoming": null,
+          "issue": "benjamine/jsondiffpatch#365",
+          "loaded_diff_samples_ms": [
+            4.291375,
+            3.9483749999999995,
+            3.691
+          ],
+          "name": "js365-large-string-array",
+          "native_bytes": 1676,
+          "native_forward": true,
+          "native_undo": true,
+          "optimized_forward": true,
+          "optimized_operations": 34,
+          "plain_forward": true,
+          "plain_inverse_independent": true,
+          "plain_operations": 34,
+          "plain_patch": [
+            {
+              "op": "add",
+              "path": "/21936",
+              "value": "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+            },
+            {
+              "op": "add",
+              "path": "/21937",
+              "value": "de625f97-5e89-4726-9e02-d1306343bc04"
+            },
+            {
+              "op": "add",
+              "path": "/21938",
+              "value": "690859f5-23a6-4707-9410-81d97b5a9478"
+            },
+            {
+              "op": "add",
+              "path": "/21939",
+              "value": "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+            },
+            {
+              "op": "add",
+              "path": "/21940",
+              "value": "00e7772d-d772-4eea-bee8-e4589d54c393"
+            },
+            {
+              "op": "add",
+              "path": "/21941",
+              "value": "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+            },
+            {
+              "op": "add",
+              "path": "/21942",
+              "value": "f526f20d-51d9-490f-9b11-071f7b30601a"
+            },
+            {
+              "op": "add",
+              "path": "/21943",
+              "value": "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+            },
+            {
+              "op": "add",
+              "path": "/21944",
+              "value": "171ed67f-74ab-4182-92d2-4162af16b54c"
+            },
+            {
+              "op": "add",
+              "path": "/21945",
+              "value": "08480d68-50b9-4de0-914a-aabbcd57089a"
+            },
+            {
+              "op": "add",
+              "path": "/21946",
+              "value": "50c5553f-c4bd-48da-830c-5fda180cebc5"
+            },
+            {
+              "op": "add",
+              "path": "/21947",
+              "value": "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+            },
+            {
+              "op": "add",
+              "path": "/21948",
+              "value": "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+            },
+            {
+              "op": "add",
+              "path": "/21949",
+              "value": "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+            },
+            {
+              "op": "add",
+              "path": "/21950",
+              "value": "cb536672-15d0-4c62-bd70-299d4f619b33"
+            },
+            {
+              "op": "add",
+              "path": "/21951",
+              "value": "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+            },
+            {
+              "op": "add",
+              "path": "/21952",
+              "value": "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+            },
+            {
+              "op": "add",
+              "path": "/21953",
+              "value": "f24b53d1-ece9-4c95-84cd-0f868379e813"
+            },
+            {
+              "op": "add",
+              "path": "/21954",
+              "value": "9a3c797e-876e-4113-805c-d47d00967eeb"
+            },
+            {
+              "op": "add",
+              "path": "/21955",
+              "value": "55cff641-9dda-43cc-8300-d9b64ad813b3"
+            },
+            {
+              "op": "add",
+              "path": "/21956",
+              "value": "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+            },
+            {
+              "op": "add",
+              "path": "/21957",
+              "value": "643e5ef4-7072-452d-8d71-5a61272cde06"
+            },
+            {
+              "op": "add",
+              "path": "/21958",
+              "value": "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+            },
+            {
+              "op": "add",
+              "path": "/21959",
+              "value": "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+            },
+            {
+              "op": "add",
+              "path": "/21960",
+              "value": "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+            },
+            {
+              "op": "add",
+              "path": "/21961",
+              "value": "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+            },
+            {
+              "op": "add",
+              "path": "/21962",
+              "value": "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+            },
+            {
+              "op": "add",
+              "path": "/21963",
+              "value": "a0fa175b-d70f-45ac-a540-22a250446beb"
+            },
+            {
+              "op": "add",
+              "path": "/21964",
+              "value": "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+            },
+            {
+              "op": "add",
+              "path": "/21965",
+              "value": "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+            },
+            {
+              "op": "add",
+              "path": "/21966",
+              "value": "4d814145-4912-4d0b-ba51-47fa8d529183"
+            },
+            {
+              "op": "add",
+              "path": "/21967",
+              "value": "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+            },
+            {
+              "op": "add",
+              "path": "/21968",
+              "value": "442cb774-045c-4bb8-ad0d-c152b301319b"
+            },
+            {
+              "op": "add",
+              "path": "/21969",
+              "value": "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "process": 3,
+      "palim": [
+        {
+          "delta": {
+            "21936": [
+              "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+            ],
+            "21937": [
+              "de625f97-5e89-4726-9e02-d1306343bc04"
+            ],
+            "21938": [
+              "690859f5-23a6-4707-9410-81d97b5a9478"
+            ],
+            "21939": [
+              "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+            ],
+            "21940": [
+              "00e7772d-d772-4eea-bee8-e4589d54c393"
+            ],
+            "21941": [
+              "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+            ],
+            "21942": [
+              "f526f20d-51d9-490f-9b11-071f7b30601a"
+            ],
+            "21943": [
+              "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+            ],
+            "21944": [
+              "171ed67f-74ab-4182-92d2-4162af16b54c"
+            ],
+            "21945": [
+              "08480d68-50b9-4de0-914a-aabbcd57089a"
+            ],
+            "21946": [
+              "50c5553f-c4bd-48da-830c-5fda180cebc5"
+            ],
+            "21947": [
+              "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+            ],
+            "21948": [
+              "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+            ],
+            "21949": [
+              "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+            ],
+            "21950": [
+              "cb536672-15d0-4c62-bd70-299d4f619b33"
+            ],
+            "21951": [
+              "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+            ],
+            "21952": [
+              "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+            ],
+            "21953": [
+              "f24b53d1-ece9-4c95-84cd-0f868379e813"
+            ],
+            "21954": [
+              "9a3c797e-876e-4113-805c-d47d00967eeb"
+            ],
+            "21955": [
+              "55cff641-9dda-43cc-8300-d9b64ad813b3"
+            ],
+            "21956": [
+              "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+            ],
+            "21957": [
+              "643e5ef4-7072-452d-8d71-5a61272cde06"
+            ],
+            "21958": [
+              "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+            ],
+            "21959": [
+              "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+            ],
+            "21960": [
+              "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+            ],
+            "21961": [
+              "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+            ],
+            "21962": [
+              "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+            ],
+            "21963": [
+              "a0fa175b-d70f-45ac-a540-22a250446beb"
+            ],
+            "21964": [
+              "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+            ],
+            "21965": [
+              "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+            ],
+            "21966": [
+              "4d814145-4912-4d0b-ba51-47fa8d529183"
+            ],
+            "21967": [
+              "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+            ],
+            "21968": [
+              "442cb774-045c-4bb8-ad0d-c152b301319b"
+            ],
+            "21969": [
+              "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+            ],
+            "_t": "a"
+          },
+          "first_diff_ms": 4.475625,
+          "incoming": null,
+          "issue": "benjamine/jsondiffpatch#365",
+          "loaded_diff_samples_ms": [
+            3.886459,
+            3.757167,
+            3.7771250000000003
+          ],
+          "name": "js365-large-string-array",
+          "native_bytes": 1676,
+          "native_forward": true,
+          "native_undo": true,
+          "optimized_forward": true,
+          "optimized_operations": 34,
+          "plain_forward": true,
+          "plain_inverse_independent": true,
+          "plain_operations": 34,
+          "plain_patch": [
+            {
+              "op": "add",
+              "path": "/21936",
+              "value": "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+            },
+            {
+              "op": "add",
+              "path": "/21937",
+              "value": "de625f97-5e89-4726-9e02-d1306343bc04"
+            },
+            {
+              "op": "add",
+              "path": "/21938",
+              "value": "690859f5-23a6-4707-9410-81d97b5a9478"
+            },
+            {
+              "op": "add",
+              "path": "/21939",
+              "value": "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+            },
+            {
+              "op": "add",
+              "path": "/21940",
+              "value": "00e7772d-d772-4eea-bee8-e4589d54c393"
+            },
+            {
+              "op": "add",
+              "path": "/21941",
+              "value": "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+            },
+            {
+              "op": "add",
+              "path": "/21942",
+              "value": "f526f20d-51d9-490f-9b11-071f7b30601a"
+            },
+            {
+              "op": "add",
+              "path": "/21943",
+              "value": "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+            },
+            {
+              "op": "add",
+              "path": "/21944",
+              "value": "171ed67f-74ab-4182-92d2-4162af16b54c"
+            },
+            {
+              "op": "add",
+              "path": "/21945",
+              "value": "08480d68-50b9-4de0-914a-aabbcd57089a"
+            },
+            {
+              "op": "add",
+              "path": "/21946",
+              "value": "50c5553f-c4bd-48da-830c-5fda180cebc5"
+            },
+            {
+              "op": "add",
+              "path": "/21947",
+              "value": "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+            },
+            {
+              "op": "add",
+              "path": "/21948",
+              "value": "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+            },
+            {
+              "op": "add",
+              "path": "/21949",
+              "value": "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+            },
+            {
+              "op": "add",
+              "path": "/21950",
+              "value": "cb536672-15d0-4c62-bd70-299d4f619b33"
+            },
+            {
+              "op": "add",
+              "path": "/21951",
+              "value": "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+            },
+            {
+              "op": "add",
+              "path": "/21952",
+              "value": "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+            },
+            {
+              "op": "add",
+              "path": "/21953",
+              "value": "f24b53d1-ece9-4c95-84cd-0f868379e813"
+            },
+            {
+              "op": "add",
+              "path": "/21954",
+              "value": "9a3c797e-876e-4113-805c-d47d00967eeb"
+            },
+            {
+              "op": "add",
+              "path": "/21955",
+              "value": "55cff641-9dda-43cc-8300-d9b64ad813b3"
+            },
+            {
+              "op": "add",
+              "path": "/21956",
+              "value": "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+            },
+            {
+              "op": "add",
+              "path": "/21957",
+              "value": "643e5ef4-7072-452d-8d71-5a61272cde06"
+            },
+            {
+              "op": "add",
+              "path": "/21958",
+              "value": "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+            },
+            {
+              "op": "add",
+              "path": "/21959",
+              "value": "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+            },
+            {
+              "op": "add",
+              "path": "/21960",
+              "value": "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+            },
+            {
+              "op": "add",
+              "path": "/21961",
+              "value": "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+            },
+            {
+              "op": "add",
+              "path": "/21962",
+              "value": "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+            },
+            {
+              "op": "add",
+              "path": "/21963",
+              "value": "a0fa175b-d70f-45ac-a540-22a250446beb"
+            },
+            {
+              "op": "add",
+              "path": "/21964",
+              "value": "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+            },
+            {
+              "op": "add",
+              "path": "/21965",
+              "value": "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+            },
+            {
+              "op": "add",
+              "path": "/21966",
+              "value": "4d814145-4912-4d0b-ba51-47fa8d529183"
+            },
+            {
+              "op": "add",
+              "path": "/21967",
+              "value": "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+            },
+            {
+              "op": "add",
+              "path": "/21968",
+              "value": "442cb774-045c-4bb8-ad0d-c152b301319b"
+            },
+            {
+              "op": "add",
+              "path": "/21969",
+              "value": "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+            }
+          ]
+        }
+      ],
+      "javascript": [
+        {
+          "name": "js365-large-string-array",
+          "first_diff_ms": 1825.558125,
+          "has_delta": true,
+          "native_forward": true,
+          "native_undo": true,
+          "rfc_forward": true,
+          "rfc_operations": 34,
+          "loaded_diff_samples_ms": [
+            1832.150834,
+            1847.3617499999996,
+            1844.9019580000004
+          ]
+        },
+        {
+          "name": "js365-large-string-array-js-workaround",
+          "option": "matchByPosition:false",
+          "first_diff_ms": 4.081749999999374,
+          "has_delta": true,
+          "native_forward": true,
+          "native_undo": true,
+          "rfc_forward": true,
+          "rfc_operations": 34,
+          "loaded_diff_samples_ms": [
+            4.335707999999613,
+            3.4978330000003552,
+            2.881166000000121
+          ]
+        }
+      ]
+    }
+  ]
+}
