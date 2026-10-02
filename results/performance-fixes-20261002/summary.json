@@ -1,0 +1,1744 @@
+{
+  "comparison": [
+    {
+      "case": "small-config-edit",
+      "mode": "optimized",
+      "baseline": {
+        "median_ms": 0.011609904296875001,
+        "process_medians_ms": [
+          0.011609904296875001,
+          0.0117532138671875,
+          0.011575439453125
+        ],
+        "bytes": 53,
+        "operations": 1
+      },
+      "fixed": {
+        "median_ms": 0.004015085937499999,
+        "process_medians_ms": [
+          0.004035349609375,
+          0.003997080322265624,
+          0.004015085937499999
+        ],
+        "bytes": 53,
+        "operations": 1
+      },
+      "identical_output": true,
+      "speedup": 2.891570561028621
+    },
+    {
+      "case": "disjoint-2000",
+      "mode": "optimized",
+      "baseline": {
+        "median_ms": 4.33722925,
+        "process_medians_ms": [
+          4.33380225,
+          4.37859375,
+          4.33722925
+        ],
+        "bytes": 34038,
+        "operations": 1
+      },
+      "fixed": {
+        "median_ms": 4.36183325,
+        "process_medians_ms": [
+          4.371124999999999,
+          4.36183325,
+          4.3504895
+        ],
+        "bytes": 34038,
+        "operations": 1
+      },
+      "identical_output": true,
+      "speedup": 0.9943592525000813
+    },
+    {
+      "case": "rotate-2000",
+      "mode": "plain",
+      "baseline": {
+        "median_ms": 0.32565103125,
+        "process_medians_ms": [
+          0.33375781250000003,
+          0.32565103125,
+          0.3249895625
+        ],
+        "bytes": 42,
+        "operations": 1
+      },
+      "fixed": {
+        "median_ms": 0.332035125,
+        "process_medians_ms": [
+          0.333528625,
+          0.33019140625,
+          0.332035125
+        ],
+        "bytes": 42,
+        "operations": 1
+      },
+      "identical_output": true,
+      "speedup": 0.980772836157018
+    },
+    {
+      "case": "ambiguous-ids-2000",
+      "mode": "optimized",
+      "baseline": {
+        "median_ms": 23.7305415,
+        "process_medians_ms": [
+          23.597812499999996,
+          23.867207999999998,
+          23.7305415
+        ],
+        "bytes": 44296,
+        "operations": 1
+      },
+      "fixed": {
+        "median_ms": 24.2452085,
+        "process_medians_ms": [
+          24.1951875,
+          24.2452085,
+          24.764271
+        ],
+        "bytes": 44296,
+        "operations": 1
+      },
+      "identical_output": true,
+      "speedup": 0.9787724242503422
+    },
+    {
+      "case": "periodic-20000",
+      "mode": "native",
+      "baseline": {
+        "median_ms": 187.68258350000002,
+        "process_medians_ms": [
+          186.8202915,
+          188.2352295,
+          187.68258350000002
+        ],
+        "bytes": 28,
+        "operations": null
+      },
+      "fixed": {
+        "median_ms": 5.2199785,
+        "process_medians_ms": [
+          5.173771,
+          5.2199785,
+          5.2205625
+        ],
+        "bytes": 28,
+        "operations": null
+      },
+      "identical_output": true,
+      "speedup": 35.95466600101898
+    },
+    {
+      "case": "periodic-40000",
+      "mode": "native",
+      "baseline": {
+        "median_ms": 751.9490205,
+        "process_medians_ms": [
+          746.553292,
+          751.9490205,
+          761.2265625
+        ],
+        "bytes": 28,
+        "operations": null
+      },
+      "fixed": {
+        "median_ms": 10.3102295,
+        "process_medians_ms": [
+          10.305603999999999,
+          10.3102295,
+          10.5948955
+        ],
+        "bytes": 28,
+        "operations": null
+      },
+      "identical_output": true,
+      "speedup": 72.93232614269158
+    },
+    {
+      "case": "large-unchanged-sibling",
+      "mode": "optimized",
+      "baseline": {
+        "median_ms": 0.1518649140625,
+        "process_medians_ms": [
+          0.1513095703125,
+          0.1518649140625,
+          0.1702285
+        ],
+        "bytes": 46,
+        "operations": 1
+      },
+      "fixed": {
+        "median_ms": 0.00779876708984375,
+        "process_medians_ms": [
+          0.0078351845703125,
+          0.00778597021484375,
+          0.00779876708984375
+        ],
+        "bytes": 46,
+        "operations": 1
+      },
+      "identical_output": true,
+      "speedup": 19.472938775190762
+    },
+    {
+      "case": "root-long-text",
+      "mode": "optimized",
+      "baseline": {
+        "median_ms": 0.5338736562499999,
+        "process_medians_ms": [
+          0.53584634375,
+          0.5337890625000001,
+          0.5338736562499999
+        ],
+        "bytes": 294952,
+        "operations": 1
+      },
+      "fixed": {
+        "median_ms": 0.17174609375,
+        "process_medians_ms": [
+          0.17137434375,
+          0.17174609375,
+          0.1726263125
+        ],
+        "bytes": 294952,
+        "operations": 1
+      },
+      "identical_output": true,
+      "speedup": 3.1085053790342756
+    },
+    {
+      "case": "custom-empty-8000",
+      "mode": "custom-native",
+      "baseline": {
+        "median_ms": 24.847209,
+        "process_medians_ms": [
+          24.847209,
+          24.823583,
+          25.338542
+        ],
+        "bytes": 109790,
+        "operations": null
+      },
+      "fixed": {
+        "median_ms": 2.209458375,
+        "process_medians_ms": [
+          2.1870884999999998,
+          2.209458375,
+          2.227171875
+        ],
+        "bytes": 109790,
+        "operations": null
+      },
+      "identical_output": true,
+      "speedup": 11.245837116076014
+    },
+    {
+      "case": "custom-narrow-8000",
+      "mode": "custom-native",
+      "baseline": {
+        "median_ms": 25.2022295,
+        "process_medians_ms": [
+          25.2022295,
+          25.123479000000003,
+          27.086542
+        ],
+        "bytes": 109804,
+        "operations": null
+      },
+      "fixed": {
+        "median_ms": 2.270557125,
+        "process_medians_ms": [
+          2.270557125,
+          2.26177075,
+          2.292099
+        ],
+        "bytes": 109804,
+        "operations": null
+      },
+      "identical_output": true,
+      "speedup": 11.09957958005571
+    },
+    {
+      "case": "disjoint-plain-2000",
+      "mode": "plain",
+      "baseline": {
+        "median_ms": 2.2596197499999997,
+        "process_medians_ms": [
+          2.2895573750000002,
+          2.255828125,
+          2.2596197499999997
+        ],
+        "bytes": 165781,
+        "operations": 4000
+      },
+      "fixed": {
+        "median_ms": 0.219151046875,
+        "process_medians_ms": [
+          0.21743293749999998,
+          0.220796859375,
+          0.219151046875
+        ],
+        "bytes": 112891,
+        "operations": 2000
+      },
+      "identical_output": false,
+      "speedup": 10.31078693084614
+    }
+  ],
+  "records": [
+    {
+      "case": "small-config-edit",
+      "iterations": 512,
+      "median_ms": 0.011609904296875001,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.0118017578125,
+        0.011568685546875,
+        0.01170182421875,
+        0.011568197265625,
+        0.0119052734375,
+        0.011651123046875,
+        0.0115489921875,
+        0.011368001953125
+      ],
+      "wire_bytes": 53,
+      "output_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "small-config-edit",
+      "iterations": 2048,
+      "median_ms": 0.004035349609375,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.004134033203125,
+        0.00407427978515625,
+        0.003982747558593749,
+        0.003998982421875,
+        0.004067138671875,
+        0.004084615234375,
+        0.004003560546875,
+        0.0039993896484375
+      ],
+      "wire_bytes": 53,
+      "output_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "disjoint-2000",
+      "iterations": 2,
+      "median_ms": 4.371124999999999,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.319417,
+        4.4163955,
+        4.4378125,
+        4.466895999999999,
+        4.363854,
+        4.3783959999999995,
+        4.2941875000000005,
+        4.3625835
+      ],
+      "wire_bytes": 34038,
+      "output_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "disjoint-2000",
+      "iterations": 2,
+      "median_ms": 4.33380225,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.357520999999999,
+        4.2833125,
+        4.327396,
+        4.340208499999999,
+        4.5490625,
+        4.3103125,
+        4.2916045,
+        4.345292
+      ],
+      "wire_bytes": 34038,
+      "output_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "rotate-2000",
+      "iterations": 16,
+      "median_ms": 0.33375781250000003,
+      "mode": "plain",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.3277474375,
+        0.324604125,
+        0.328934875,
+        1.1456796875,
+        0.5853671874999999,
+        0.42775,
+        0.33758075000000004,
+        0.329934875
+      ],
+      "wire_bytes": 42,
+      "output_sha256": "fb168ca9dcafdddf04a600d938f7cbc7795032b1a104af7ae0b0a57ed956c5c5",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "rotate-2000",
+      "iterations": 16,
+      "median_ms": 0.333528625,
+      "mode": "plain",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.3448255625,
+        0.3310495,
+        0.33811193749999996,
+        0.332028625,
+        0.332854125,
+        0.34284893749999995,
+        0.334203125,
+        0.329466125
+      ],
+      "wire_bytes": 42,
+      "output_sha256": "fb168ca9dcafdddf04a600d938f7cbc7795032b1a104af7ae0b0a57ed956c5c5",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "ambiguous-ids-2000",
+      "iterations": 1,
+      "median_ms": 24.1951875,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        24.243333999999997,
+        24.147041,
+        24.253792,
+        24.845,
+        24.321417,
+        24.080583,
+        23.75,
+        23.760707999999997
+      ],
+      "wire_bytes": 44296,
+      "output_sha256": "95ab21059bac8ea19b9db5e7ab9a74bdcb8f604f79df3dfc03ee2fd0f79101f2",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "ambiguous-ids-2000",
+      "iterations": 1,
+      "median_ms": 23.597812499999996,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        23.592458999999998,
+        23.633792,
+        23.783416000000003,
+        23.881083,
+        23.380000000000003,
+        23.319959,
+        23.603165999999998,
+        23.59
+      ],
+      "wire_bytes": 44296,
+      "output_sha256": "95ab21059bac8ea19b9db5e7ab9a74bdcb8f604f79df3dfc03ee2fd0f79101f2",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "periodic-20000",
+      "iterations": 1,
+      "median_ms": 186.8202915,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        186.92845799999998,
+        186.823875,
+        186.816708,
+        186.178125,
+        186.344375,
+        186.192041,
+        187.45516600000002,
+        186.894417
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "c128c80e87e4727e2c7c43a6b0b8df83b18689e1a3cc6cb982110992d14bddb6",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "periodic-20000",
+      "iterations": 1,
+      "median_ms": 5.173771,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        5.1865000000000006,
+        5.161042,
+        5.2095839999999995,
+        5.214834,
+        5.190334,
+        5.142625,
+        5.136583,
+        5.157834
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "c128c80e87e4727e2c7c43a6b0b8df83b18689e1a3cc6cb982110992d14bddb6",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "periodic-40000",
+      "iterations": 1,
+      "median_ms": 10.305603999999999,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        10.642292,
+        10.471333,
+        10.295542,
+        10.288166,
+        10.259333,
+        10.36925,
+        10.2485,
+        10.315666
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "bb68c70432012b6159e583a64966d10342545efe66ac91297467e52d5cef8563",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "periodic-40000",
+      "iterations": 1,
+      "median_ms": 746.553292,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        746.289959,
+        754.489875,
+        739.961291,
+        740.9711249999999,
+        743.97475,
+        746.816625,
+        746.889625,
+        904.392625
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "bb68c70432012b6159e583a64966d10342545efe66ac91297467e52d5cef8563",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "large-unchanged-sibling",
+      "iterations": 64,
+      "median_ms": 0.1513095703125,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.15184309375000002,
+        0.15042121875,
+        0.149930984375,
+        0.150828125,
+        0.148903640625,
+        0.15257878125,
+        0.151791015625,
+        0.1545905
+      ],
+      "wire_bytes": 46,
+      "output_sha256": "57db21dc80a96f1ae06d1a6fa3544bd6ad1f8da8a50d1cf969f6075e2a52f9dd",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "large-unchanged-sibling",
+      "iterations": 1024,
+      "median_ms": 0.0078351845703125,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.0078572587890625,
+        0.007850666992187501,
+        0.007819702148437501,
+        0.007661661132812499,
+        0.007702107421875,
+        0.007929158203125,
+        0.0078531904296875,
+        0.007707967773437499
+      ],
+      "wire_bytes": 46,
+      "output_sha256": "57db21dc80a96f1ae06d1a6fa3544bd6ad1f8da8a50d1cf969f6075e2a52f9dd",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "root-long-text",
+      "iterations": 32,
+      "median_ms": 0.17137434375,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.17203253124999998,
+        0.17153775,
+        0.1769518125,
+        0.17071484374999998,
+        0.18539584375,
+        0.17118878125,
+        0.170625,
+        0.1712109375
+      ],
+      "wire_bytes": 294952,
+      "output_sha256": "f3f13640c68c071e14c9426aa7eefd33e133097e1442f99c320b2a05e49489cf",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "root-long-text",
+      "iterations": 16,
+      "median_ms": 0.53584634375,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.5339791875,
+        0.5273333125,
+        0.5377135,
+        0.55196875,
+        0.539622375,
+        0.5319453125,
+        0.5535,
+        0.5294661875000001
+      ],
+      "wire_bytes": 294952,
+      "output_sha256": "f3f13640c68c071e14c9426aa7eefd33e133097e1442f99c320b2a05e49489cf",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "custom-empty-8000",
+      "iterations": 1,
+      "median_ms": 24.847209,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        25.121458,
+        24.792959,
+        24.653416,
+        25.208499999999997,
+        24.825709,
+        25.0155,
+        24.868709,
+        24.538833999999998
+      ],
+      "wire_bytes": 109790,
+      "output_sha256": "725a8e8a3a0ddcf7686eb39ed22bf494430ba1641f059e43a8b6b714d31d89b8",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "custom-empty-8000",
+      "iterations": 4,
+      "median_ms": 2.1870884999999998,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.18628125,
+        2.18586475,
+        2.1763855,
+        2.17535425,
+        2.18789575,
+        2.3350625,
+        2.23914575,
+        2.24078125
+      ],
+      "wire_bytes": 109790,
+      "output_sha256": "725a8e8a3a0ddcf7686eb39ed22bf494430ba1641f059e43a8b6b714d31d89b8",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "custom-narrow-8000",
+      "iterations": 4,
+      "median_ms": 2.270557125,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.28851025,
+        2.24638525,
+        2.2468334999999997,
+        2.2706352499999998,
+        2.2335207500000003,
+        2.3730105,
+        2.32940625,
+        2.2704790000000004
+      ],
+      "wire_bytes": 109804,
+      "output_sha256": "b1b3e8c17f6df437b3f700d73abece996ed5a2968f97458a399afc362a454799",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "custom-narrow-8000",
+      "iterations": 1,
+      "median_ms": 25.2022295,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        24.849084,
+        25.166792,
+        24.964709000000003,
+        25.237667,
+        25.537084,
+        25.437417,
+        24.919833,
+        25.344125
+      ],
+      "wire_bytes": 109804,
+      "output_sha256": "b1b3e8c17f6df437b3f700d73abece996ed5a2968f97458a399afc362a454799",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "disjoint-plain-2000",
+      "iterations": 4,
+      "median_ms": 2.2895573750000002,
+      "mode": "plain",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.3916665,
+        2.30228125,
+        2.455302,
+        2.2768335,
+        2.27123975,
+        2.27601025,
+        2.31853125,
+        2.2478855
+      ],
+      "wire_bytes": 165781,
+      "output_sha256": "6f312370050deefb3a7d486876e3101519e61edb3986fb145b4cfe0a26cb8316",
+      "version": "baseline",
+      "repeat": 1
+    },
+    {
+      "case": "disjoint-plain-2000",
+      "iterations": 32,
+      "median_ms": 0.21743293749999998,
+      "mode": "plain",
+      "operations": 2000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.216872375,
+        0.21583721875,
+        0.21799349999999998,
+        0.21948178124999998,
+        0.21999740625,
+        0.21673175,
+        0.21630078125,
+        0.21814712500000003
+      ],
+      "wire_bytes": 112891,
+      "output_sha256": "36193f489955eeb9f13a4b23ae937335d706fdb2451ec1f0adfdaec477b1d611",
+      "version": "fixed",
+      "repeat": 1
+    },
+    {
+      "case": "small-config-edit",
+      "iterations": 2048,
+      "median_ms": 0.003997080322265624,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.00411454296875,
+        0.00409696435546875,
+        0.004074727539062501,
+        0.003987345214843749,
+        0.0039862265624999995,
+        0.0040068154296874995,
+        0.00394535302734375,
+        0.00394793701171875
+      ],
+      "wire_bytes": 53,
+      "output_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "small-config-edit",
+      "iterations": 512,
+      "median_ms": 0.0117532138671875,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.012892822265625001,
+        0.013969482421875,
+        0.013353677734375,
+        0.011524250000000002,
+        0.011489583984375001,
+        0.011982177734375,
+        0.011504232421875,
+        0.01146744921875
+      ],
+      "wire_bytes": 53,
+      "output_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "disjoint-2000",
+      "iterations": 2,
+      "median_ms": 4.37859375,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.4002085,
+        4.356979000000001,
+        4.553125,
+        4.5855204999999994,
+        4.3095,
+        5.074708500000001,
+        4.3043125,
+        4.286646
+      ],
+      "wire_bytes": 34038,
+      "output_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "disjoint-2000",
+      "iterations": 2,
+      "median_ms": 4.36183325,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.634875,
+        4.392625,
+        4.3896875,
+        4.4035415,
+        4.333979,
+        4.285146,
+        4.314603999999999,
+        4.2918125
+      ],
+      "wire_bytes": 34038,
+      "output_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "rotate-2000",
+      "iterations": 16,
+      "median_ms": 0.33019140625,
+      "mode": "plain",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.3306640625,
+        0.32925525,
+        0.32971875,
+        0.33194012500000003,
+        0.35541143750000004,
+        0.3288568125,
+        0.3281823125,
+        0.3331615
+      ],
+      "wire_bytes": 42,
+      "output_sha256": "fb168ca9dcafdddf04a600d938f7cbc7795032b1a104af7ae0b0a57ed956c5c5",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "rotate-2000",
+      "iterations": 16,
+      "median_ms": 0.32565103125,
+      "mode": "plain",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.3255989375,
+        0.329890625,
+        0.32512237499999996,
+        0.322783875,
+        0.3277708125,
+        0.325653625,
+        0.3263775625,
+        0.3256484375
+      ],
+      "wire_bytes": 42,
+      "output_sha256": "fb168ca9dcafdddf04a600d938f7cbc7795032b1a104af7ae0b0a57ed956c5c5",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "ambiguous-ids-2000",
+      "iterations": 1,
+      "median_ms": 23.867207999999998,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        23.994457999999998,
+        23.749334,
+        23.674542,
+        23.777124999999998,
+        23.957290999999998,
+        23.725875000000002,
+        24.330583,
+        24.073708
+      ],
+      "wire_bytes": 44296,
+      "output_sha256": "95ab21059bac8ea19b9db5e7ab9a74bdcb8f604f79df3dfc03ee2fd0f79101f2",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "ambiguous-ids-2000",
+      "iterations": 1,
+      "median_ms": 24.2452085,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        24.040875,
+        24.080292,
+        24.319917,
+        25.032875,
+        25.34575,
+        24.412125,
+        24.1705,
+        24.13625
+      ],
+      "wire_bytes": 44296,
+      "output_sha256": "95ab21059bac8ea19b9db5e7ab9a74bdcb8f604f79df3dfc03ee2fd0f79101f2",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "periodic-20000",
+      "iterations": 1,
+      "median_ms": 5.2199785,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        5.376708,
+        5.2485409999999995,
+        5.191416,
+        5.150791,
+        5.152417000000001,
+        5.419375,
+        5.396125,
+        5.168208
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "c128c80e87e4727e2c7c43a6b0b8df83b18689e1a3cc6cb982110992d14bddb6",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "periodic-20000",
+      "iterations": 1,
+      "median_ms": 188.2352295,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        188.379,
+        188.091459,
+        188.61125,
+        189.207333,
+        186.80279099999998,
+        187.738,
+        186.453166,
+        188.40158300000002
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "c128c80e87e4727e2c7c43a6b0b8df83b18689e1a3cc6cb982110992d14bddb6",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "periodic-40000",
+      "iterations": 1,
+      "median_ms": 751.9490205,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        758.510917,
+        746.796958,
+        752.760583,
+        772.986541,
+        747.017042,
+        756.352292,
+        751.1374579999999,
+        740.98725
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "bb68c70432012b6159e583a64966d10342545efe66ac91297467e52d5cef8563",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "periodic-40000",
+      "iterations": 1,
+      "median_ms": 10.3102295,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        10.376583,
+        10.292166,
+        10.302125,
+        10.30225,
+        10.333209,
+        10.257624999999999,
+        10.318209,
+        10.331667
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "bb68c70432012b6159e583a64966d10342545efe66ac91297467e52d5cef8563",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "large-unchanged-sibling",
+      "iterations": 1024,
+      "median_ms": 0.00778597021484375,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.0078665771484375,
+        0.007985798828125,
+        0.0078083085937500005,
+        0.0077178955078125,
+        0.0077636318359375,
+        0.007816853515625001,
+        0.007625570312500001,
+        0.00765625
+      ],
+      "wire_bytes": 46,
+      "output_sha256": "57db21dc80a96f1ae06d1a6fa3544bd6ad1f8da8a50d1cf969f6075e2a52f9dd",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "large-unchanged-sibling",
+      "iterations": 64,
+      "median_ms": 0.1518649140625,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.14995117187499998,
+        0.204043625,
+        0.159016265625,
+        0.171608078125,
+        0.151694671875,
+        0.150361328125,
+        0.15203515625,
+        0.1506640625
+      ],
+      "wire_bytes": 46,
+      "output_sha256": "57db21dc80a96f1ae06d1a6fa3544bd6ad1f8da8a50d1cf969f6075e2a52f9dd",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "root-long-text",
+      "iterations": 16,
+      "median_ms": 0.5337890625000001,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.5288958125000001,
+        0.5365025625000001,
+        0.5279140625,
+        0.5307109375000001,
+        0.5473958125,
+        0.5351484375000001,
+        0.5334062500000001,
+        0.5341718750000001
+      ],
+      "wire_bytes": 294952,
+      "output_sha256": "f3f13640c68c071e14c9426aa7eefd33e133097e1442f99c320b2a05e49489cf",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "root-long-text",
+      "iterations": 32,
+      "median_ms": 0.17174609375,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.17228775000000002,
+        0.1746484375,
+        0.1734609375,
+        0.17041665625000002,
+        0.175625,
+        0.171084625,
+        0.1712044375,
+        0.16837109375
+      ],
+      "wire_bytes": 294952,
+      "output_sha256": "f3f13640c68c071e14c9426aa7eefd33e133097e1442f99c320b2a05e49489cf",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "custom-empty-8000",
+      "iterations": 4,
+      "median_ms": 2.209458375,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.257323,
+        2.2507289999999998,
+        2.28063525,
+        2.1732707500000004,
+        2.18628125,
+        2.19240625,
+        2.19245825,
+        2.2264585
+      ],
+      "wire_bytes": 109790,
+      "output_sha256": "725a8e8a3a0ddcf7686eb39ed22bf494430ba1641f059e43a8b6b714d31d89b8",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "custom-empty-8000",
+      "iterations": 1,
+      "median_ms": 24.823583,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        24.839375,
+        24.585833,
+        25.094708,
+        24.900667000000002,
+        24.906875,
+        24.762625,
+        24.807790999999998,
+        24.607708
+      ],
+      "wire_bytes": 109790,
+      "output_sha256": "725a8e8a3a0ddcf7686eb39ed22bf494430ba1641f059e43a8b6b714d31d89b8",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "custom-narrow-8000",
+      "iterations": 1,
+      "median_ms": 25.123479000000003,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        25.290291999999997,
+        25.146541000000003,
+        25.081542,
+        25.229917,
+        24.99175,
+        25.232750000000003,
+        24.990667000000002,
+        25.100417
+      ],
+      "wire_bytes": 109804,
+      "output_sha256": "b1b3e8c17f6df437b3f700d73abece996ed5a2968f97458a399afc362a454799",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "custom-narrow-8000",
+      "iterations": 4,
+      "median_ms": 2.26177075,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.28578125,
+        2.25046875,
+        2.2326977500000003,
+        2.2620625000000003,
+        2.261479,
+        2.24896875,
+        2.2627605,
+        2.266625
+      ],
+      "wire_bytes": 109804,
+      "output_sha256": "b1b3e8c17f6df437b3f700d73abece996ed5a2968f97458a399afc362a454799",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "disjoint-plain-2000",
+      "iterations": 32,
+      "median_ms": 0.220796859375,
+      "mode": "plain",
+      "operations": 2000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.22141928125000002,
+        0.22226953125,
+        0.2192890625,
+        0.22097524999999998,
+        0.22061846875000002,
+        0.2221301875,
+        0.217990875,
+        0.21967187500000002
+      ],
+      "wire_bytes": 112891,
+      "output_sha256": "36193f489955eeb9f13a4b23ae937335d706fdb2451ec1f0adfdaec477b1d611",
+      "version": "fixed",
+      "repeat": 2
+    },
+    {
+      "case": "disjoint-plain-2000",
+      "iterations": 4,
+      "median_ms": 2.255828125,
+      "mode": "plain",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.255229,
+        2.2430000000000003,
+        2.27765625,
+        2.2564272499999998,
+        2.21996875,
+        2.27546875,
+        2.224625,
+        2.2737292499999997
+      ],
+      "wire_bytes": 165781,
+      "output_sha256": "6f312370050deefb3a7d486876e3101519e61edb3986fb145b4cfe0a26cb8316",
+      "version": "baseline",
+      "repeat": 2
+    },
+    {
+      "case": "small-config-edit",
+      "iterations": 512,
+      "median_ms": 0.011575439453125,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.011691162109375,
+        0.011729492187500001,
+        0.01157771875,
+        0.011553142578125,
+        0.011627197265625,
+        0.011517498046875,
+        0.01142081640625,
+        0.01157316015625
+      ],
+      "wire_bytes": 53,
+      "output_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "small-config-edit",
+      "iterations": 2048,
+      "median_ms": 0.004015085937499999,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.00420961474609375,
+        0.0040807495117187505,
+        0.00401668310546875,
+        0.00399869775390625,
+        0.00412888623046875,
+        0.004004435546875001,
+        0.0039849853515625,
+        0.0040134887695312494
+      ],
+      "wire_bytes": 53,
+      "output_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "disjoint-2000",
+      "iterations": 2,
+      "median_ms": 4.3504895,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.3372915,
+        4.4113545,
+        4.320896,
+        4.335875000000001,
+        4.324854,
+        4.4022499999999996,
+        4.3775,
+        4.3636875
+      ],
+      "wire_bytes": 34038,
+      "output_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "disjoint-2000",
+      "iterations": 2,
+      "median_ms": 4.33722925,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.333562499999999,
+        4.340896000000001,
+        4.328167,
+        4.3119375,
+        4.365875,
+        4.3515625,
+        4.3534375,
+        4.307125
+      ],
+      "wire_bytes": 34038,
+      "output_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "rotate-2000",
+      "iterations": 16,
+      "median_ms": 0.3249895625,
+      "mode": "plain",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.322403625,
+        0.3231953125,
+        0.3283359375,
+        0.322388,
+        0.3264140625,
+        0.325971375,
+        0.32400781250000005,
+        0.3259713125
+      ],
+      "wire_bytes": 42,
+      "output_sha256": "fb168ca9dcafdddf04a600d938f7cbc7795032b1a104af7ae0b0a57ed956c5c5",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "rotate-2000",
+      "iterations": 16,
+      "median_ms": 0.332035125,
+      "mode": "plain",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.33531512500000005,
+        0.3285,
+        0.3318020625,
+        0.3322681875,
+        0.331359375,
+        0.3402213125,
+        0.33391143749999996,
+        0.330479125
+      ],
+      "wire_bytes": 42,
+      "output_sha256": "fb168ca9dcafdddf04a600d938f7cbc7795032b1a104af7ae0b0a57ed956c5c5",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "ambiguous-ids-2000",
+      "iterations": 1,
+      "median_ms": 24.764271,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        29.859666,
+        25.717334,
+        25.51825,
+        24.921916999999997,
+        24.606625,
+        24.508458,
+        24.16225,
+        24.000833
+      ],
+      "wire_bytes": 44296,
+      "output_sha256": "95ab21059bac8ea19b9db5e7ab9a74bdcb8f604f79df3dfc03ee2fd0f79101f2",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "ambiguous-ids-2000",
+      "iterations": 1,
+      "median_ms": 23.7305415,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        23.752042,
+        23.621583,
+        23.885333000000003,
+        23.645625,
+        23.838749999999997,
+        23.462332999999997,
+        23.736917,
+        23.724166
+      ],
+      "wire_bytes": 44296,
+      "output_sha256": "95ab21059bac8ea19b9db5e7ab9a74bdcb8f604f79df3dfc03ee2fd0f79101f2",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "periodic-20000",
+      "iterations": 1,
+      "median_ms": 187.68258350000002,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        187.189042,
+        185.78062500000001,
+        186.80745900000002,
+        188.718583,
+        199.091833,
+        188.29341599999998,
+        186.332417,
+        188.176125
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "c128c80e87e4727e2c7c43a6b0b8df83b18689e1a3cc6cb982110992d14bddb6",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "periodic-20000",
+      "iterations": 1,
+      "median_ms": 5.2205625,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        5.364042,
+        5.3792919999999995,
+        5.1985,
+        5.1820829999999996,
+        5.177208,
+        5.325375,
+        5.242625,
+        5.1545000000000005
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "c128c80e87e4727e2c7c43a6b0b8df83b18689e1a3cc6cb982110992d14bddb6",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "periodic-40000",
+      "iterations": 1,
+      "median_ms": 10.5948955,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        10.490625,
+        10.446,
+        15.101166,
+        14.214666000000001,
+        10.272084000000001,
+        11.452458,
+        10.699166,
+        10.404416999999999
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "bb68c70432012b6159e583a64966d10342545efe66ac91297467e52d5cef8563",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "periodic-40000",
+      "iterations": 1,
+      "median_ms": 761.2265625,
+      "mode": "native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        742.9115419999999,
+        748.7219590000001,
+        777.0262919999999,
+        744.4145,
+        764.596458,
+        759.206875,
+        763.24625,
+        1113.660833
+      ],
+      "wire_bytes": 28,
+      "output_sha256": "bb68c70432012b6159e583a64966d10342545efe66ac91297467e52d5cef8563",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "large-unchanged-sibling",
+      "iterations": 32,
+      "median_ms": 0.1702285,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.15117578125,
+        0.24350131249999998,
+        0.15119009375,
+        0.2043203125,
+        0.15030337500000002,
+        0.15032684375,
+        0.18926690625,
+        0.20436200000000002
+      ],
+      "wire_bytes": 46,
+      "output_sha256": "57db21dc80a96f1ae06d1a6fa3544bd6ad1f8da8a50d1cf969f6075e2a52f9dd",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "large-unchanged-sibling",
+      "iterations": 1024,
+      "median_ms": 0.00779876708984375,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.007825439453125,
+        0.0079022626953125,
+        0.00787373828125,
+        0.007769775390625,
+        0.007765583984375,
+        0.00772119140625,
+        0.0077720947265625005,
+        0.0078499345703125
+      ],
+      "wire_bytes": 46,
+      "output_sha256": "57db21dc80a96f1ae06d1a6fa3544bd6ad1f8da8a50d1cf969f6075e2a52f9dd",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "root-long-text",
+      "iterations": 32,
+      "median_ms": 0.1726263125,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.18357421875000002,
+        0.17370703125,
+        0.172102875,
+        0.1717486875,
+        0.17478646874999998,
+        0.17206249999999998,
+        0.17110546875000002,
+        0.17314975
+      ],
+      "wire_bytes": 294952,
+      "output_sha256": "f3f13640c68c071e14c9426aa7eefd33e133097e1442f99c320b2a05e49489cf",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "root-long-text",
+      "iterations": 16,
+      "median_ms": 0.5338736562499999,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.537364625,
+        0.530841125,
+        0.539658875,
+        0.5330650625,
+        0.5342213125,
+        0.533526,
+        0.5569818125,
+        0.53328125
+      ],
+      "wire_bytes": 294952,
+      "output_sha256": "f3f13640c68c071e14c9426aa7eefd33e133097e1442f99c320b2a05e49489cf",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "custom-empty-8000",
+      "iterations": 1,
+      "median_ms": 25.338542,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        24.896041,
+        25.313042,
+        25.364042,
+        26.062167000000002,
+        26.867416000000002,
+        25.8325,
+        24.8995,
+        24.986041
+      ],
+      "wire_bytes": 109790,
+      "output_sha256": "725a8e8a3a0ddcf7686eb39ed22bf494430ba1641f059e43a8b6b714d31d89b8",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "custom-empty-8000",
+      "iterations": 4,
+      "median_ms": 2.227171875,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.1948125000000003,
+        2.1846769999999998,
+        2.19320825,
+        2.2115,
+        2.2595312499999998,
+        2.24520825,
+        2.2540625,
+        2.24284375
+      ],
+      "wire_bytes": 109790,
+      "output_sha256": "725a8e8a3a0ddcf7686eb39ed22bf494430ba1641f059e43a8b6b714d31d89b8",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "custom-narrow-8000",
+      "iterations": 4,
+      "median_ms": 2.292099,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.3318855,
+        2.3298855,
+        2.2955625,
+        2.3183854999999998,
+        2.27809375,
+        2.2721875,
+        2.2886355,
+        2.248104
+      ],
+      "wire_bytes": 109804,
+      "output_sha256": "b1b3e8c17f6df437b3f700d73abece996ed5a2968f97458a399afc362a454799",
+      "version": "fixed",
+      "repeat": 3
+    },
+    {
+      "case": "custom-narrow-8000",
+      "iterations": 1,
+      "median_ms": 27.086542,
+      "mode": "custom-native",
+      "operations": null,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        25.877375,
+        25.567334,
+        25.440832999999998,
+        28.295709,
+        33.021041000000004,
+        25.181333,
+        42.228083,
+        29.679333
+      ],
+      "wire_bytes": 109804,
+      "output_sha256": "b1b3e8c17f6df437b3f700d73abece996ed5a2968f97458a399afc362a454799",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "disjoint-plain-2000",
+      "iterations": 4,
+      "median_ms": 2.2596197499999997,
+      "mode": "plain",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.25877075,
+        2.295625,
+        2.2878645,
+        2.2517915,
+        2.2422085,
+        2.22445825,
+        2.26046875,
+        2.264771
+      ],
+      "wire_bytes": 165781,
+      "output_sha256": "6f312370050deefb3a7d486876e3101519e61edb3986fb145b4cfe0a26cb8316",
+      "version": "baseline",
+      "repeat": 3
+    },
+    {
+      "case": "disjoint-plain-2000",
+      "iterations": 32,
+      "median_ms": 0.219151046875,
+      "mode": "plain",
+      "operations": 2000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.21747524999999998,
+        0.21765365625,
+        0.219196625,
+        0.21608334375000002,
+        0.22446225,
+        0.2249609375,
+        0.21910546875,
+        0.21925
+      ],
+      "wire_bytes": 112891,
+      "output_sha256": "36193f489955eeb9f13a4b23ae937335d706fdb2451ec1f0adfdaec477b1d611",
+      "version": "fixed",
+      "repeat": 3
+    }
+  ]
+}

@@ -193,6 +193,10 @@ impl DiffPatcher {
     }
     /// Compare JSON values; None means no differences after property filtering.
     pub fn diff(&self, left: &Value, right: &Value) -> Result<Option<Delta>, Error> {
+        self.check_inputs(left, right)?;
+        self.diff_validated(left, right)
+    }
+    fn check_inputs(&self, left: &Value, right: &Value) -> Result<(), Error> {
         if self.options.object_hash.is_some() && self.options.array_item_matcher.is_some() {
             return Err(Error::new(
                 "",
@@ -204,6 +208,9 @@ impl DiffPatcher {
         }
         delta::check_depth(left, self.options.max_depth)?;
         delta::check_depth(right, self.options.max_depth)?;
+        Ok(())
+    }
+    fn diff_validated(&self, left: &Value, right: &Value) -> Result<Option<Delta>, Error> {
         let result = diff::node(left, right, &self.options, "")?;
         if let Some(value) = &result {
             delta::check_depth(value, delta::MAX_DELTA_DEPTH)?;
@@ -229,16 +236,33 @@ impl DiffPatcher {
         right: &Value,
         options: &JsonPatchOptions,
     ) -> Result<Patch, Error> {
-        let change = self.diff(left, right)?;
+        self.check_inputs(left, right)?;
+        if !options.factorize
+            && !options.tests
+            && self.options.node_filter.is_none()
+            && self.options.property_filter.is_none()
+            && self.options.array_item_matcher.is_none()
+        {
+            if let Some(standard) = export::disjoint_array_patch(left, right)? {
+                return rfc::optimize(left, right, standard, options);
+            }
+        }
+        let change = self.diff_validated(left, right)?;
         let Some(change) = change else {
             return Ok(Patch::default());
         };
         if self.options.property_filter.is_some() || self.options.node_filter.is_some() {
             let projected = patch(left, &change)?;
-            let standard = export::export_known(left, &projected, &change)?;
+            let standard = export::export_known(
+                left,
+                &projected,
+                &change,
+                !options.factorize && !options.tests,
+            )?;
             rfc::optimize(left, &projected, standard, options)
         } else {
-            let standard = export::export_known(left, right, &change)?;
+            let standard =
+                export::export_known(left, right, &change, !options.factorize && !options.tests)?;
             rfc::optimize(left, right, standard, options)
         }
     }

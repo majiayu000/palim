@@ -168,6 +168,43 @@ fn bytes<T: Serialize + ?Sized>(value: &T) -> Result<usize, Error> {
     Ok(output.0)
 }
 
+struct LimitedByteCount {
+    count: usize,
+    limit: usize,
+    exceeded: bool,
+}
+
+impl Write for LimitedByteCount {
+    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
+        let next = self
+            .count
+            .checked_add(data.len())
+            .ok_or_else(|| io::Error::other("JSON size exceeds address space"))?;
+        if next >= self.limit {
+            self.exceeded = true;
+            return Err(io::Error::other("candidate cannot fit budget"));
+        }
+        self.count = next;
+        Ok(data.len())
+    }
+    fn flush(&mut self) -> io::Result<()> {
+        Ok(())
+    }
+}
+
+fn bytes_below<T: Serialize + ?Sized>(value: &T, limit: usize) -> Result<Option<usize>, Error> {
+    let mut output = LimitedByteCount {
+        count: 0,
+        limit,
+        exceeded: false,
+    };
+    match serde_json::to_writer(&mut output, value) {
+        Ok(()) => Ok((output.count < limit).then_some(output.count)),
+        Err(_) if output.exceeded => Ok(None),
+        Err(error) => Err(Error::new("", error.to_string())),
+    }
+}
+
 #[derive(Serialize)]
 struct ValueOperation<'a> {
     op: &'a str,
@@ -261,6 +298,45 @@ fn factorize(left: &Value, right: &Value, mut patch: Patch) -> Result<Patch, Err
         .iter()
         .any(|op| matches!(op, PatchOperation::Add(_) | PatchOperation::Replace(_)))
     {
+        return Ok(patch);
+    }
+    // A single operation has no earlier edits to replay. Search the initial
+    // document directly instead of building a whole-tree scalar cache.
+    if patch.0.len() == 1 {
+        let op = &patch.0[0];
+        let (value, destination, replace) = match op {
+            PatchOperation::Add(op) => (&op.value, op.path.as_str(), false),
+            PatchOperation::Replace(op) => (&op.value, op.path.as_str(), true),
+            _ => return Ok(patch),
+        };
+        let eligible = !replace
+            || parent(destination).is_none_or(|p| !left.pointer(p).is_some_and(Value::is_array));
+        if eligible {
+            let original_size = bytes(op)?;
+            let minimum_size = bytes(&CopyOperation {
+                op: "copy",
+                from: "",
+                path: destination,
+            })?;
+            if minimum_size < original_size {
+                let mut best = None;
+                find_copy(
+                    left,
+                    "",
+                    value,
+                    destination,
+                    original_size - minimum_size,
+                    &mut best,
+                )?;
+                if let Some((source, _)) = best {
+                    let copied =
+                        decode(json!({"op": "copy", "from": source, "path": destination}))?;
+                    if bytes(&copied)? < original_size {
+                        patch.0[0] = copied;
+                    }
+                }
+            }
+        }
         return Ok(patch);
     }
     // Retain removed scalars too: absence from this overapproximation proves
@@ -540,6 +616,9 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
             cursor = ancestor;
         }
     }
+    if parents.is_empty() {
+        return Ok(patch);
+    }
     let mut parents: Vec<_> = parents.into_iter().collect();
     let broad_first = tests
         && patch
@@ -582,35 +661,46 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         if boundary_crossed || selected.is_empty() {
             continue;
         }
-        let replacement_size = bytes(&ValueOperation {
-            op: "replace",
-            path: &ancestor,
-            value: new,
-        })?;
+        let removed_size = if tests {
+            0
+        } else {
+            selected
+                .iter()
+                .try_fold(0, |size, index| bytes(&patch.0[*index]).map(|n| size + n))?
+                + selected.len()
+                - 1
+        };
+        let budget = if tests {
+            current_size.saturating_sub(3)
+        } else {
+            removed_size
+        };
+        let Some(replacement_size) = bytes_below(
+            &ValueOperation {
+                op: "replace",
+                path: &ancestor,
+                value: new,
+            },
+            budget,
+        )?
+        else {
+            continue;
+        };
         let candidate_size = if tests {
-            // Every candidate needs its replacement and the old-value guard.
-            // Count borrowed payloads first, before cloning a large subtree or
-            // simulating all of the candidate's other guards.
-            let minimum_size = replacement_size
-                + bytes(&ValueOperation {
+            if bytes_below(
+                &ValueOperation {
                     op: "test",
                     path: &ancestor,
                     value: old,
-                })?
-                + 3; // The surrounding brackets and the test/replace comma.
-            if minimum_size >= current_size {
+                },
+                budget - replacement_size,
+            )?
+            .is_none()
+            {
                 continue;
             }
             None
         } else {
-            let removed_size = selected
-                .iter()
-                .try_fold(0, |size, index| bytes(&patch.0[*index]).map(|n| size + n))?
-                + selected.len()
-                - 1;
-            if replacement_size >= removed_size {
-                continue;
-            }
             Some(current_size - removed_size + replacement_size)
         };
         let replaced = decode(json!({"op": "replace", "path": ancestor, "value": new}))?;
@@ -907,6 +997,70 @@ mod guard_cost_tests {
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn bounded_cost_handles_escaped_utf8_and_exact_budget_boundaries() {
+        let value = json!({"a~/\"": ["line\n🦀\\", 1, null]});
+        for op in ["replace", "test"] {
+            let candidate = ValueOperation {
+                op,
+                path: "/a~1b~0/\"🦀",
+                value: &value,
+            };
+            let actual = serde_json::to_vec(&candidate).unwrap().len();
+            assert_eq!(bytes_below(&candidate, actual + 1).unwrap(), Some(actual));
+            assert_eq!(bytes_below(&candidate, actual).unwrap(), None);
+            assert_eq!(bytes_below(&candidate, actual - 1).unwrap(), None);
+            assert_eq!(bytes_below(&candidate, 0).unwrap(), None);
+        }
+    }
+
+    #[test]
+    fn bounded_cost_stops_traversal_and_preserves_real_serializer_errors() {
+        use serde::{Serializer, ser::SerializeSeq};
+        use std::cell::Cell;
+
+        struct Counted<'a>(&'a Cell<usize>);
+        impl Serialize for Counted<'_> {
+            fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+                let mut sequence = serializer.serialize_seq(Some(10_000))?;
+                for _ in 0..10_000 {
+                    self.0.set(self.0.get() + 1);
+                    sequence.serialize_element("unused payload")?;
+                }
+                sequence.end()
+            }
+        }
+        let visits = Cell::new(0);
+        assert_eq!(bytes_below(&Counted(&visits), 64).unwrap(), None);
+        assert!(visits.get() < 10);
+
+        struct Fails;
+        impl Serialize for Fails {
+            fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+                let mut sequence = serializer.serialize_seq(None)?;
+                sequence.serialize_element("written before failure")?;
+                Err(serde::ser::Error::custom(
+                    "deliberate serialization failure",
+                ))
+            }
+        }
+        let expected = bytes(&Fails).unwrap_err();
+        assert_eq!(bytes_below(&Fails, usize::MAX).unwrap_err(), expected);
+    }
+
+    #[test]
+    fn single_replace_in_an_array_cannot_become_an_inserting_copy() {
+        let text = "reusable payload".repeat(100);
+        let left = json!([text, "old"]);
+        let right = json!([text, text]);
+        let standard = patch(json!([{"op":"replace","path":"/1","value":text}]));
+        assert_eq!(
+            factorize(&left, &right, standard.clone()).unwrap(),
+            standard
+        );
+        assert_eq!(apply_json_patch(&left, &standard).unwrap(), right);
     }
 
     #[test]

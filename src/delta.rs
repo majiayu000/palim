@@ -14,13 +14,23 @@ pub(crate) fn check_depth(value: &Value, limit: usize) -> Result<(), Error> {
                 if depth >= limit {
                     return Err(Error::new("", "JSON nesting exceeds max_depth"));
                 }
-                pending.extend(values.iter().map(|v| (v, depth + 1)));
+                pending.extend(
+                    values
+                        .iter()
+                        .filter(|v| v.is_array() || v.is_object())
+                        .map(|v| (v, depth + 1)),
+                );
             }
             Value::Object(values) => {
                 if depth >= limit {
                     return Err(Error::new("", "JSON nesting exceeds max_depth"));
                 }
-                pending.extend(values.values().map(|v| (v, depth + 1)));
+                pending.extend(
+                    values
+                        .values()
+                        .filter(|v| v.is_array() || v.is_object())
+                        .map(|v| (v, depth + 1)),
+                );
             }
             _ => {}
         }

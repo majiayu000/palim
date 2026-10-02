@@ -357,6 +357,9 @@ fn custom_matches(
     matcher: &ArrayItemMatcher,
     path: &str,
 ) -> Vec<(usize, usize)> {
+    if a.is_empty() || b.is_empty() {
+        return Vec::new();
+    }
     let candidates: Vec<Vec<_>> = b
         .iter()
         .map(|new| {
@@ -368,21 +371,29 @@ fn custom_matches(
         .collect();
     let mut old_for_new = vec![None; b.len()];
     let mut new_for_old = vec![None; a.len()];
+    let mut visited_old = vec![0; a.len()];
+    let mut visited_new = vec![0; b.len()];
+    let mut previous = vec![None; b.len()];
+    let mut queue = VecDeque::new();
     for new in 0..b.len() {
-        let mut visited_old = vec![false; a.len()];
-        let mut visited_new = vec![false; b.len()];
-        let mut previous = vec![None; b.len()];
-        let mut queue = VecDeque::from([new]);
-        visited_new[new] = true;
+        // Array capacity was checked before matching, so new + 1 cannot
+        // overflow. Reuse scratch without clearing both arrays for each target.
+        let generation = new + 1;
+        queue.clear();
+        queue.push_back(new);
+        visited_new[new] = generation;
+        previous[new] = None;
         let mut available = None;
         'search: while let Some(current) = queue.pop_front() {
             for &old in &candidates[current] {
-                if std::mem::replace(&mut visited_old[old], true) {
+                if visited_old[old] == generation {
                     continue;
                 }
+                visited_old[old] = generation;
                 match new_for_old[old] {
                     Some(next) => {
-                        if !std::mem::replace(&mut visited_new[next], true) {
+                        if visited_new[next] != generation {
+                            visited_new[next] = generation;
                             previous[next] = Some((current, old));
                             queue.push_back(next);
                         }
@@ -438,13 +449,7 @@ fn array(
     array_diff(a, b, options, path, None)
 }
 
-fn array_diff(
-    a: &[Value],
-    b: &[Value],
-    options: &DiffOptions,
-    path: &str,
-    original_positions: Option<&[Option<usize>]>,
-) -> Result<Option<Value>, Error> {
+pub(crate) fn check_array_capacity(a: &[Value], b: &[Value], path: &str) -> Result<(), Error> {
     if a.len().max(b.len()) >= i32::MAX as usize
         || a.len()
             .checked_add(b.len())
@@ -455,40 +460,55 @@ fn array_diff(
             "array exceeds sequence algorithm index capacity",
         ));
     }
-    let mut interner = Interner::new(a.len() + b.len());
-    let before = a
-        .iter()
-        .enumerate()
-        .map(|(i, v)| interner.intern(key(v, i, options)))
-        .collect();
-    let after = b
-        .iter()
-        .enumerate()
-        .map(|(i, v)| interner.intern(key(v, i, options)))
-        .collect();
-    let input = InternedInput {
-        before,
-        after,
-        interner,
-    };
+    Ok(())
+}
+
+fn array_diff(
+    a: &[Value],
+    b: &[Value],
+    options: &DiffOptions,
+    path: &str,
+    original_positions: Option<&[Option<usize>]>,
+) -> Result<Option<Value>, Error> {
+    check_array_capacity(a, b, path)?;
     let custom = options
         .array_item_matcher
         .as_ref()
         .map(|matcher| custom_matches(a, b, matcher, path));
+    // Custom matching uses its candidate graph for both stable items and
+    // moves. Token interning would allocate and hash values it never uses.
+    let input = custom.is_none().then(|| {
+        let mut interner = Interner::new(a.len() + b.len());
+        let before = a
+            .iter()
+            .enumerate()
+            .map(|(i, v)| interner.intern(key(v, i, options)))
+            .collect();
+        let after = b
+            .iter()
+            .enumerate()
+            .map(|(i, v)| interner.intern(key(v, i, options)))
+            .collect();
+        InternedInput {
+            before,
+            after,
+            interner,
+        }
+    });
     let mut old_for_new = vec![None; b.len()];
     let mut new_for_old = vec![None; a.len()];
     let stable = custom
         .as_ref()
         .map(|matches| increasing_matches(matches))
-        .or_else(|| unique_matches(&input))
-        .or_else(|| bounded_matches(&input));
+        .or_else(|| input.as_ref().and_then(unique_matches))
+        .or_else(|| input.as_ref().and_then(bounded_matches));
     if let Some(matches) = stable {
         for (old, new) in matches {
             old_for_new[new] = Some(old);
             new_for_old[old] = Some(new);
         }
-    } else {
-        let differences = Diff::compute(Algorithm::Histogram, &input);
+    } else if let Some(input) = &input {
+        let differences = Diff::compute(Algorithm::Histogram, input);
         let (mut old, mut new) = (0, 0);
         for hunk in differences.hunks() {
             while old < hunk.before.start as usize {
@@ -514,7 +534,7 @@ fn array_diff(
                 old_for_new[new] = Some(old);
                 new_for_old[old] = Some(new);
             }
-        } else {
+        } else if let Some(input) = &input {
             let mut candidates: HashMap<_, VecDeque<usize>> = HashMap::new();
             for (old, token) in input.before.iter().enumerate() {
                 if new_for_old[old].is_none() {

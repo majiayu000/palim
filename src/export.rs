@@ -4,17 +4,92 @@ use json_patch::{
     jsonptr::{PointerBuf, Token},
 };
 use serde_json::{Value, json};
+use std::collections::HashSet;
+
+// Plain standard generation need not construct reversible tuples when no
+// primitive item can survive. Containers and caller-defined pairing stay on
+// the native matching path. Check the first target before allocating a set so
+// that common reorders usually return immediately.
+pub(crate) fn disjoint_array_patch(left: &Value, right: &Value) -> Result<Option<Patch>, Error> {
+    let (Some(source), Some(target)) = (left.as_array(), right.as_array()) else {
+        return Ok(None);
+    };
+    if let Some(first) = target.first() {
+        if first.is_array() || first.is_object() || source.contains(first) {
+            return Ok(None);
+        }
+    }
+    if let Some(first) = source.first() {
+        if first.is_array() || first.is_object() || target.contains(first) {
+            return Ok(None);
+        }
+    }
+    if source
+        .iter()
+        .chain(target)
+        .any(|value| value.is_array() || value.is_object())
+    {
+        return Ok(None);
+    }
+    crate::diff::check_array_capacity(source, target, "")?;
+    let originals: HashSet<_> = source.iter().collect();
+    if target.iter().any(|value| originals.contains(value)) {
+        return Ok(None);
+    }
+    let mut output = Vec::new();
+    replace_disjoint(source, target, &PointerBuf::new(), &mut output);
+    Ok(Some(Patch(output)))
+}
+
+fn replace_disjoint(
+    source: &[Value],
+    target: &[Value],
+    path: &PointerBuf,
+    out: &mut Vec<PatchOperation>,
+) {
+    let overlap = source.len().min(target.len());
+    out.reserve(source.len().max(target.len()));
+    for (index, value) in target.iter().take(overlap).enumerate() {
+        out.push(PatchOperation::Replace(ReplaceOperation {
+            path: child(path, index),
+            value: value.clone(),
+        }));
+    }
+    for index in (overlap..source.len()).rev() {
+        out.push(PatchOperation::Remove(RemoveOperation {
+            path: child(path, index),
+        }));
+    }
+    for (index, value) in target.iter().enumerate().skip(overlap) {
+        out.push(PatchOperation::Add(AddOperation {
+            path: child(path, index),
+            value: value.clone(),
+        }));
+    }
+}
 
 pub(crate) fn export(left: &Value, change: &Delta) -> Result<Patch, Error> {
     let right = patch::apply(left, &change.0, true)?;
-    export_known(left, &right, change)
+    export_known(left, &right, change, true)
 }
 
 // The diff pipeline already knows the target (or its filtered projection).
 // Public Delta::to_json_patch still validates its baseline through export above.
-pub(crate) fn export_known(left: &Value, right: &Value, change: &Delta) -> Result<Patch, Error> {
+pub(crate) fn export_known(
+    left: &Value,
+    right: &Value,
+    change: &Delta,
+    replace_disjoint_arrays: bool,
+) -> Result<Patch, Error> {
     let mut output = Vec::new();
-    walk(left, right, &change.0, &PointerBuf::new(), &mut output)?;
+    walk(
+        left,
+        right,
+        &change.0,
+        &PointerBuf::new(),
+        &mut output,
+        replace_disjoint_arrays,
+    )?;
     Ok(Patch(output))
 }
 
@@ -67,6 +142,7 @@ fn walk(
     change: &Value,
     path: &PointerBuf,
     out: &mut Vec<PatchOperation>,
+    replace_disjoint_arrays: bool,
 ) -> Result<(), Error> {
     match change {
         Value::Array(a) => match a.len() {
@@ -100,6 +176,18 @@ fn walk(
                 .as_array()
                 .ok_or_else(|| Error::new(path.as_str(), "array target is missing"))?;
             let parts = delta::parts(map, path.as_str())?;
+            // Without survivors, positional replacements need half as many
+            // operations. Factorization retains remove/add so that later adds
+            // can become copies; guarded generation retains its container tests.
+            if replace_disjoint_arrays
+                && parts.moves.is_empty()
+                && parts.changes.is_empty()
+                && parts.removals.len() == source.len()
+                && parts.additions.len() == target.len()
+            {
+                replace_disjoint(source, target, path, out);
+                return Ok(());
+            }
             let mut moved = vec![false; source.len()];
             let mut removed = vec![false; source.len()];
             for &old in parts.removals.keys() {
@@ -196,7 +284,14 @@ fn walk(
             for (&new, change) in &parts.changes {
                 let old = old_at_target[new]
                     .ok_or_else(|| Error::new(path.as_str(), "cannot modify an added item"))?;
-                walk(&source[old], &target[new], change, &child(path, new), out)?;
+                walk(
+                    &source[old],
+                    &target[new],
+                    change,
+                    &child(path, new),
+                    out,
+                    replace_disjoint_arrays,
+                )?;
             }
         }
         Value::Object(map) => {
@@ -207,6 +302,7 @@ fn walk(
                     change,
                     &child(path, key.as_str()),
                     out,
+                    replace_disjoint_arrays,
                 )?;
             }
         }

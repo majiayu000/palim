@@ -17,7 +17,7 @@ exclude = ["results", "tools", "node_modules", "fuzz"]
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", features = ["float_roundtrip", "arbitrary_precision"] }
 num-bigint = "0.4.6"
-imara-diff = { version = "0.2.0", default-features = false }
+imara-diff = { package = "gix-imara-diff", version = "0.2.5", default-features = false }
 json-patch = "4.2.0"
 percent-encoding = "2.3"
 

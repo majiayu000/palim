@@ -212,3 +212,95 @@ cargo package --allow-dirty --locked
 完整生成器、种子与首次 512 MiB fuzz 限额导致的 OOM 诊断也保留在 results/fuzz：当时空输入可成功重放，活跃堆约 42 MiB，RSS 包含 libFuzzer 特征和 ASan quarantine；最终只增加测试运行器 RSS 限额，未减少断言或关闭 sanitizer。
 
 单机冻结输入，无真实业务加权、跨生态统一运行环境或已核查下游采用。RSS 是整个进程峰值，含运行时、验证、预热、解析。大重复数组仍使用 Imara Histogram fallback，精确 LCS 有候选上限；未保证全部路径线性、最小字节、任意 JS inverse / DMP fuzzy 完全兼容或全球最快。历史首轮数据另见 [baseline-20260930](results/baseline-20260930/verification.json)。
+
+## 小对象与普通 RFC 数组路径（2026-10-01 UTC）
+
+本节比较已发布的 0.1.0（`38eaa8d`）与性能分支。边界仍为 parse 两份相同 bytes → typed RFC diff → serialize Patch。每个版本、引擎、输入运行 3 个独立进程，每进程保留 10 个原始批次；交错版本顺序，输出在计时前通过独立 json-patch 应用。共 66 个正确且完成的进程测量，不与历史测量累加为覆盖率。
+
+| 输入 / 模式 | 0.1.0 ms | 性能分支 ms | 0.1.0 / 分支 | 补丁条数，之前 → 之后 |
+|---|---:|---:|---:|---:|
+| small-config-edit / plain | 0.016195 | 0.011235 | 1.44× | 1 → 1 |
+| small-config-edit / optimized | 0.025551 | 0.020380 | 1.25× | 1 → 1 |
+| disjoint-2000 / plain | 2.627504 | 0.512221 | 5.13× | 4,000 → 2,000 |
+| disjoint-2000 / optimized | 4.540760 | 4.472508 | 1.02× | 1 → 1 |
+| rotate-2000 / plain | 0.512542 | 0.480542 | 1.07× | 1 → 1 |
+| reverse-2000 / plain | 2.195029 | 2.033635 | 1.08× | 1,999 → 1,999 |
+| duplicates-high-2000 / plain | 2.633945 | 2.624807 | 1.00× | 42 → 42 |
+| prepend-2000 / plain | 0.547572 | 0.544575 | 1.01× | 1 → 1 |
+| unchanged-2000 / plain | 0.232994 | 0.231296 | 1.01× | 0 → 0 |
+
+全异 plain 补丁从 165,781 B 缩至 112,891 B。相同轮次 typed json-patch：小配置 0.011153 ms，全异数组 0.473536 ms；小配置接近，全异数组本库仍约慢 8%。optimized 全异数组依旧以生成成本换取 34,038 B 的单次父替换；本轮没有消除该模式的开销。
+
+改动范围：
+
+- 深度检查仅把容器放入工作队列，保持既有容器深度和错误合同。
+- 无 node filter 时，未变化的 number/bool/null 属性跳过 JSON Pointer 分配；property filter 仍先调用。
+- plain 全异数组按位置 Replace 重叠项、倒序 Remove 多余尾项、顺序 Add 新尾项。根级标量数组在无过滤器、自定义匹配时直接生成 RFC 操作，省去可逆 delta 临时构造。
+- factorize 或 tests 开启时保留原数组生成路径，以保留后续 Copy 机会和数组容器 guards。公共 native diff 的 delta 格式保持；公开 Delta 导出仍先严格验证 baseline。
+
+分支独立完成 134 项测试、Clippy、fmt 与 Rust 1.85 库检查。另在临时目录组合主工作区的 guards 修改，138 项测试及 Clippy 通过；这份组合验证不表示主工作区已经合并或发布。
+
+[全部进程与原始批次](results/diff-performance-direct-20261001/summary.json)、[环境及源/二进制/输入哈希](results/diff-performance-direct-20261001/environment.json)、[实际检查输出及组合快照](results/diff-performance-direct-20261001/verification.json)。单机短时测量仍有波动；小幅变化不能证明普遍性能提升，表中 RFC 数据不代表 native Rust/JS 性能排名。
+
+复现时为两个 worktree 使用各自的 target 目录，避免相同包名的编译缓存混用。分别构建 0.1.0 和候选分支的 `standard_bench` 后运行：
+
+```sh
+python3 results/diff-performance-direct-20261001/run.py \
+  /path/to/candidate /path/to/published-worktree \
+  /path/to/published-worktree/target/release/examples/standard_bench \
+  /path/to/new-results-directory
+```
+
+## 已落地的性能修复（2026-10-02）
+
+本轮基于 `db9339d`，整合上节 plain 数组改动，并修复 RFC 优化和 custom matcher 的额外工作。以下为最终代码的重新测量，不能与前文不同计时边界的数据混合。
+
+### 依赖选择
+
+采用已发布的 [gix-imara-diff 0.2.5](https://docs.rs/gix-imara-diff/0.2.5/gix_imara_diff/)，通过 Cargo package alias 保留内部导入名称。其发布源码包含 `pos.saturating_sub(WINDOW_SIZE)` 修正；下载 archive、registry checksum 和 lockfile 一致。此依赖随 crate 正常解析，生产 manifest 没有 path/git override 或 `[patch]`。
+
+选择约束是保留 Rust 1.85、现有序列算法和公开 API，并让下游自动得到修正。0.3.0 要求 Rust 1.88；`immigrant-imara-diff 0.2.1` 发布源码仍有窗口问题；本地 patch 无法通过依赖包传给消费者。已发布的 Gitoxide 实现满足约束，因而不引入私有引擎副本。风险是维护分支还包含其他算法修正，验证使用原生/RFC往返、现有质量测试、JS互通、fuzz和解包后的消费者。
+
+### 最终代码对照
+
+输入已解析；计时包括生成和返回值析构，不包括解析、序列化或验证。两个版本使用独立 target；每项3个进程，每进程3次预热、至少5ms校准（上限2048次）、8批样本；版本顺序轮换。下表为进程中位数的中位数。
+
+| 场景 | API/选项 | db9339d ms | 修复后 ms | 倍率 |
+|---|---|---:|---:|---:|
+| 周期8、20,000项旋转 | native diff | 187.683 | 5.220 | 35.95× |
+| 周期8、40,000项旋转 | native diff | 751.949 | 10.310 | 72.93× |
+| 小配置编辑 | 默认 RFC | 0.011610 | 0.004015 | 2.89× |
+| 大片内容未变、改一个字段 | 默认 RFC | 0.151865 | 0.007799 | 19.47× |
+| 根部大文本增加一个字符 | 默认 RFC | 0.533874 | 0.171746 | 3.11× |
+| 空源、8,000项目标 | custom native | 24.847 | 2.209 | 11.25× |
+| 单项源、8,000项不匹配目标 | custom native | 25.202 | 2.271 | 11.10× |
+| 全异2,000项数组 | plain RFC | 2.260 | 0.219 | 10.31× |
+| 全异2,000项数组 | 默认 RFC | 4.337 | 4.362 | 0.99× |
+| 唯一项旋转2,000项 | plain RFC | 0.326 | 0.332 | 0.98× |
+| 重复身份2,000项 | 默认 RFC | 23.731 | 24.245 | 0.98× |
+
+66个进程测量均先验证应用与逆向/撤销。除了 plain 全异数组由4,000个 Remove/Add 改为2,000个 Replace，其他10种输入/选项的规范输出哈希均相同。控制负载没有显著改善，两个场景约2%的增加也保留在表中；单机测量不足以判断普遍排名。重复身份数组的父节点压缩成本，以及默认全异数组先构造大补丁的成本，本轮仍存在。
+
+RFC 改动为：单操作直接进行有预算的 Copy 搜索；没有候选父节点时返回；不能比当前补丁更小的候选提前停止字节计数。保留数学数值相等、Copy对数组的插入语义、guard成本及真实序列化错误。未全局改成宽优先压缩，避免已观测到的补丁体积增加。
+
+Custom matcher 保留原候选枚举、BFS和配对顺序，复用访问代数、前驱和队列，并省去此分支无用的 interning。任意自定义 matcher 的候选判断仍可能需要 `n×m` 次调用；本轮收益来自去除额外的二次初始化。
+
+### 完成的检查
+
+- debug/release各146项测试、fmt、Clippy `-D warnings` 通过；新增回归覆盖重复数组、奇数长度、回调顺序、歧义配对、root Copy、array Replace与字节预算边界/真实错误。
+- Rust 1.85 库检查通过；`cargo package --allow-dirty --locked` 解包验证通过。另一个无预置锁文件的 Rust 1.85 消费者使用解包产物运行20,000项重复数组往返成功，依赖从 registry解析。
+- JS互通1,073个用例，Rust delta前向、Rust inverse反向、Rust RFC前向与JS delta经Rust往返全部通过。上游JS inverse限制继续按已有分类报告，不能解释为完全兼容全部JS inverse。
+- 固定seed、max_len2048的结构化fuzz运行61秒、399,241次，无崩溃。这是短时检查，不是无缺陷证明。
+- 独立只读审查没有阻断问题；本地未重新执行跨平台CI。
+
+[全部进程和批次](results/performance-fixes-20261002/summary.json)、[环境/输入/源码/二进制哈希](results/performance-fixes-20261002/environment.json)、[检查输出](results/performance-fixes-checks-20261002/verification.json)、[消费者](results/performance-fixes-checks-20261002/package-consumer.json)、[fuzz记录](results/performance-fixes-checks-20261002/fuzz.json)。初次Clippy的测试范围写法警告和修正后的成功输出均保留。
+
+复现：
+
+```sh
+python3 tools/performance-fixes.py \
+  /path/to/db9339d-worktree /path/to/fixed-worktree \
+  /path/to/new-results-directory
+```
+
+本轮完成代码修复和本地验证，没有重新发布crate。以上收益不代表包含解析和序列化的完整业务流程，也不代表所有输入都最快。
