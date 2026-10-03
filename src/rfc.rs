@@ -263,30 +263,40 @@ fn factorize(left: &Value, right: &Value, mut patch: Patch) -> Result<Patch, Err
                 if bytes(&moved)? > bytes(&patch.0[*remove_index])? + bytes(op)? {
                     continue;
                 }
-                let candidate = Patch(
-                    patch
-                        .0
-                        .iter()
-                        .enumerate()
-                        .filter_map(|(index, op)| {
-                            if index == *remove_index {
-                                None
-                            } else if index == add_index {
-                                Some(moved.clone())
-                            } else {
-                                Some(op.clone())
-                            }
-                        })
-                        .collect(),
-                );
-                if apply_json_patch(left, &candidate).is_ok_and(|value| json_equal(&value, right)) {
-                    replacement = Some(candidate);
+                let candidate = patch.0.iter().enumerate().filter_map(|(index, op)| {
+                    if index == *remove_index {
+                        None
+                    } else if index == add_index {
+                        Some(&moved)
+                    } else {
+                        Some(op)
+                    }
+                });
+                if candidate_applies(left, right, candidate) {
+                    replacement = Some((*remove_index, add_index, moved));
                     break 'additions;
                 }
             }
         }
         match replacement {
-            Some(candidate) => patch = candidate,
+            Some((remove_index, add_index, moved)) => {
+                // Validation borrowed the operations, including their payloads.
+                // Only an accepted candidate needs a new dense operation vector.
+                let mut moved = Some(moved);
+                patch.0 = std::mem::take(&mut patch.0)
+                    .into_iter()
+                    .enumerate()
+                    .filter_map(|(index, op)| {
+                        if index == remove_index {
+                            None
+                        } else if index == add_index {
+                            moved.take()
+                        } else {
+                            Some(op)
+                        }
+                    })
+                    .collect();
+            }
             None => break,
         }
     }
@@ -726,20 +736,22 @@ fn candidate_applies<'a>(
     json_equal(&shadow, right)
 }
 
-// Replace-only patches have no shifting indices, source reads or parent
-// snapshot guards. Fine-first candidates can only contain a previously accepted
-// boundary or be disjoint from it, so the original selection lists remain valid
-// when removed slots are filtered out. Keep one exact byte weight per slot,
-// including its group's leading comma, and compact the vector once at the end.
+// Replace and object-member Add/Remove have no external shifting indices or
+// source reads across a boundary without strict ancestor writes. Preflight
+// excludes dependent external parent snapshots. Fine-first candidates can only
+// contain an accepted boundary or be disjoint from it, so the original selection
+// lists remain valid when removed slots are filtered out. Keep one exact byte
+// weight per slot, including its group's leading comma, and compact once.
 fn rationalize_replacements(
     left: &Value,
     right: &Value,
     patch: &mut Patch,
     parents: &[String],
     mut current_size: usize,
-    guard_costs: &[GuardCost],
+    guard_costs: (&[GuardCost], bool),
     baseline_verified: &mut Option<bool>,
 ) -> Result<bool, Error> {
+    let (guard_costs, exact_guard_baseline) = guard_costs;
     let tests = !guard_costs.is_empty();
     // Leaf destinations that are never parent candidates need no selection
     // entry. Borrow the already owned candidate paths instead of cloning them.
@@ -757,6 +769,44 @@ fn rationalize_replacements(
                 break;
             };
             cursor = above;
+        }
+    }
+    if tests {
+        let mut additions: HashMap<&str, Vec<usize>> = HashMap::new();
+        for (index, op) in patch.0.iter().enumerate() {
+            if matches!(op, PatchOperation::Add(_)) {
+                if let Some(parent) = parent(path(op)) {
+                    additions.entry(parent).or_default().push(index);
+                }
+            }
+        }
+        // An outside Add can snapshot an ancestor containing this boundary.
+        // Before its first edit the boundary is unchanged; after its last edit
+        // it equals the exact target. An interleaved snapshot observes an
+        // intermediate value, so retain the original whole-patch fallback.
+        // Keep original intervals even after compression: they are conservative
+        // for later ancestors. Decide every boundary before changing any slots.
+        if !additions.is_empty() {
+            for ancestor in parents {
+                let Some(selected) = selections.get(ancestor.as_str()) else {
+                    continue;
+                };
+                let (Some(&first), Some(&last)) = (selected.first(), selected.last()) else {
+                    continue;
+                };
+                let mut cursor = ancestor.as_str();
+                while let Some(above) = parent(cursor) {
+                    if let Some(indices) = additions.get(above) {
+                        let after_first = indices.partition_point(|index| *index <= first);
+                        if !exact_guard_baseline
+                            || indices.get(after_first).is_some_and(|index| *index < last)
+                        {
+                            return Ok(false);
+                        }
+                    }
+                    cursor = above;
+                }
+            }
         }
     }
     // A strict ancestor write cannot be removed by an earlier fine-first
@@ -884,12 +934,12 @@ fn rationalize_replacements(
         costs[first] = replacement_cost;
         for &index in &selected[1..] {
             costs[index] = 0;
-            if let PatchOperation::Replace(op) = &mut patch.0[index] {
-                // Removed groups need no pointer or payload. Only their stable
-                // vector slot remains until the final compaction.
-                op.path = Default::default();
-                op.value = Value::Null;
-            }
+            // Removed groups need no pointer or payload. Only their stable
+            // vector slot remains until the final compaction.
+            patch.0[index] = PatchOperation::Replace(json_patch::ReplaceOperation {
+                path: Default::default(),
+                value: Value::Null,
+            });
         }
         length -= selected.len() - 1;
         current_size = candidate_size;
@@ -934,23 +984,34 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         (if broad_first { depth } else { depth.reverse() }).then_with(|| a.cmp(b))
     });
     let original_length = patch.0.len();
-    let (mut current_size, mut guard_costs, mut baseline_verified) = if tests {
+    let (mut current_size, mut guard_costs, mut baseline_verified, exact_guard_baseline) = if tests
+    {
         let (size, costs, shadow) =
             guarded_operation_bytes(left, patch.0.iter(), patch.0.len(), &[])?;
         // Only a multi-operation patch with non-root candidates can reuse
         // this proof. Root and single-operation candidates are applied directly.
         let verified = (patch.0.len() > 1 && parents.len() > 1).then(|| json_equal(&shadow, right));
-        (size, costs, verified)
+        // A later outside parent snapshot can reuse its exact byte cost only
+        // when the original final values preserve the target's representation.
+        // Mathematical equality still governs the general optimizer's proof.
+        let exact = patch
+            .0
+            .iter()
+            .any(|op| matches!(op, PatchOperation::Add(_)))
+            && shadow == *right;
+        (size, costs, verified, exact)
     } else {
         let (size, costs) = guarded_bytes(left, &patch, false, &[])?;
-        (size, costs, None)
+        (size, costs, None, false)
     };
     if patch.0.len() > 1
         && parents.len() > 1
-        && patch
-            .0
-            .iter()
-            .all(|op| matches!(op, PatchOperation::Replace(_)))
+        && patch.0.iter().all(|op| match op {
+            PatchOperation::Replace(_) => true,
+            PatchOperation::Add(_) | PatchOperation::Remove(_) => parent(path(op))
+                .is_some_and(|parent| left.pointer(parent).is_some_and(Value::is_object)),
+            _ => false,
+        })
         && baseline_verified != Some(false)
         && rationalize_replacements(
             left,
@@ -958,7 +1019,7 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
             &mut patch,
             &parents,
             current_size,
-            &guard_costs,
+            (&guard_costs, exact_guard_baseline),
             &mut baseline_verified,
         )?
     {
@@ -1532,6 +1593,179 @@ mod guard_cost_tests {
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn mixed_slots_parent_snapshots_preserve_chronology_and_number_bytes() {
+        let left = json!({
+            "0accepted":{"leaf":{"old_a_long_property_name":0,"old_b_long_property_name":0}},
+            "a":{"old_a_long_property_name":0,"old_b_long_property_name":0},
+            "keep":"unchanged 🦀".repeat(500),
+        });
+        let changes = json!([
+            {"op":"remove","path":"/0accepted/leaf/old_a_long_property_name"},
+            {"op":"add","path":"/0accepted/leaf/new_a_long_property_name","value":1},
+            {"op":"remove","path":"/0accepted/leaf/old_b_long_property_name"},
+            {"op":"add","path":"/0accepted/leaf/new_b_long_property_name","value":2},
+            {"op":"remove","path":"/a/old_a_long_property_name"},
+            {"op":"add","path":"/a/new_a_long_property_name","value":11111},
+            {"op":"remove","path":"/a/old_b_long_property_name"},
+            {"op":"add","path":"/a/new_b_long_property_name","value":22222},
+        ]);
+        // Baseline 0.1.2 wire: root Add before, between, and after interior edits.
+        for insertion in [0, 6, 8] {
+            let mut original = Patch(
+                changes
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .cloned()
+                    .map(|v| decode(v).unwrap())
+                    .collect(),
+            );
+            let tail = decode(json!({"op":"add","path":"/tail","value":0})).unwrap();
+            original.0.insert(insertion, tail.clone());
+            let right = apply_json_patch(&left, &original).unwrap();
+            let mut expected = Patch(vec![
+                decode(json!({"op":"replace","path":"/0accepted/leaf","value":{"new_a_long_property_name":1,"new_b_long_property_name":2}})).unwrap(),
+                decode(json!({"op":"replace","path":"/a","value":{"new_a_long_property_name":11111,"new_b_long_property_name":22222}})).unwrap(),
+            ]);
+            expected.0.insert(if insertion == 0 { 0 } else { 2 }, tail);
+            for tests in [false, true] {
+                let optimized = rationalize(&left, &right, original.clone(), tests).unwrap();
+                assert_eq!(
+                    serde_json::to_vec(&optimized).unwrap(),
+                    serde_json::to_vec(&expected).unwrap()
+                );
+                let output = if tests {
+                    guard(left.clone(), &optimized).unwrap()
+                } else {
+                    optimized
+                };
+                assert!(json_equal(
+                    &apply_json_patch(&left, &output).unwrap(),
+                    &right
+                ));
+                let inverse = crate::invert_json_patch(&left, &output).unwrap();
+                assert!(json_equal(
+                    &apply_json_patch(&right, &inverse).unwrap(),
+                    &left
+                ));
+            }
+        }
+
+        // A one-byte acceptance margin: the external Add sees 1.0 originally,
+        // but the replacement comes from target 1. Math equality cannot price it.
+        let left = json!({"a":{"old":0,"u":"x".repeat(52)},"keep":"unchanged 🦀".repeat(500)});
+        let original = Patch(vec![
+            decode(json!({"op":"remove","path":"/a/old"})).unwrap(),
+            PatchOperation::Add(json_patch::AddOperation {
+                path: json_patch::jsonptr::PointerBuf::parse("/a/new").unwrap(),
+                value: serde_json::from_str("1.0").unwrap(),
+            }),
+            decode(json!({"op":"add","path":"/tail","value":0})).unwrap(),
+        ]);
+        let original_final = apply_json_patch(&left, &original).unwrap();
+        let mut right = original_final.clone();
+        right["a"]["new"] = json!(1);
+        assert!(json_equal(&original_final, &right));
+        assert_ne!(original_final, right);
+        let expected = Patch(vec![
+            decode(json!({"op":"replace","path":"/a","value":right["a"]})).unwrap(),
+            original.0[2].clone(),
+        ]);
+        assert_eq!(
+            serde_json::to_vec(&guard(left.clone(), &original).unwrap())
+                .unwrap()
+                .len(),
+            7366
+        );
+        assert_eq!(
+            serde_json::to_vec(&guard(left.clone(), &expected).unwrap())
+                .unwrap()
+                .len(),
+            7365
+        );
+        let optimized = rationalize(&left, &right, original, true).unwrap();
+        assert_eq!(
+            serde_json::to_vec(&optimized).unwrap(),
+            serde_json::to_vec(&expected).unwrap()
+        );
+        let output = guard(left.clone(), &optimized).unwrap();
+        assert!(json_equal(
+            &apply_json_patch(&left, &output).unwrap(),
+            &right
+        ));
+        let inverse = crate::invert_json_patch(&left, &output).unwrap();
+        assert!(json_equal(
+            &apply_json_patch(&right, &inverse).unwrap(),
+            &left
+        ));
+    }
+
+    #[test]
+    fn factorized_move_candidates_preserve_dense_indices_and_initial_errors() {
+        for accepted in [false, true] {
+            let left = if accepted {
+                json!({"a":["a","b","b"]})
+            } else {
+                json!({"a":["a","b","c"]})
+            };
+            let operations = if accepted {
+                json!([{"op":"add","path":"/a/0","value":"b"},{"op":"remove","path":"/a/2"}])
+            } else {
+                json!([{"op":"remove","path":"/a/0"},{"op":"remove","path":"/a/0"},{"op":"add","path":"/a/1","value":"a"}])
+            };
+            let original = Patch(
+                operations
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .cloned()
+                    .map(|v| decode(v).unwrap())
+                    .collect(),
+            );
+            let right = apply_json_patch(&left, &original).unwrap();
+            let expected = if accepted {
+                Patch(vec![
+                    decode(json!({"op":"move","from":"/a/2","path":"/a/0"})).unwrap(),
+                ])
+            } else {
+                original.clone()
+            };
+            let optimized = factorize(&left, &right, original).unwrap();
+            assert_eq!(
+                serde_json::to_vec(&optimized).unwrap(),
+                serde_json::to_vec(&expected).unwrap()
+            );
+            for tests in [false, true] {
+                let output = if tests {
+                    guard(left.clone(), &optimized).unwrap()
+                } else {
+                    optimized.clone()
+                };
+                assert!(json_equal(
+                    &apply_json_patch(&left, &output).unwrap(),
+                    &right
+                ));
+                let inverse = crate::invert_json_patch(&left, &output).unwrap();
+                assert!(json_equal(
+                    &apply_json_patch(&right, &inverse).unwrap(),
+                    &left
+                ));
+            }
+        }
+        let left = json!({"a":0});
+        let original = Patch(vec![
+            decode(json!({"op":"remove","path":"/missing"})).unwrap(),
+            decode(json!({"op":"add","path":"/new","value":1})).unwrap(),
+        ]);
+        let error = factorize(&left, &json!({"a":0,"new":1}), original).unwrap_err();
+        assert_eq!(error.path, "/missing");
+        assert_eq!(
+            error.message,
+            "operation '/0' failed at path '/missing': path is invalid"
+        );
     }
 
     #[test]

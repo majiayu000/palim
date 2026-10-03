@@ -53,10 +53,10 @@ native 数组把删除/移动放在 `_source`，新增/修改放在目标位置�
 原生补丁操作索引用 BTreeMap，包含 O(n log(k+1)) 与值复制，不宣称严格线性。
 
 标准数组由右向左安排移动，每个 native moved item 最多导出一次。原始槽位先占用，最终移动槽位先留空；最终槽位放在其下一个不移动项之前。Fenwick 前缀计数得到每步顺序索引，移动排序 O(n + moves × log n)，空间 O(n + moves)。无 move 不建计数树。公开 delta 导出仍应用一次验证基线，生成器已知目标时直接导出 typed operations。
-factorization 按字节收益选择跨路径 move/copy，验证完整候选结果；rationalize 考虑父树到 root 的替换，使用实际 UTF-8 JSON 字节，包含可选 tests 成本。两者不是全局最优。
+factorization 按字节收益选择跨路径 move/copy，借用操作验证完整 Move 候选，成功后才消费原补丁构造结果，保留原候选次序和错误；rationalize 考虑父树到 root 的替换，使用实际 UTF-8 JSON 字节，包含可选 tests 成本。两者不是全局最优。
 RFC 无 absence test，新增属性和数组插入保护父容器快照。
 copy 搜索先按真实序列化成本排除无字节收益的候选，再按需建立标量到来源路径成本下界的缓存，数字用同源规范键。数组下标与数字对象键按一位数字计下界，避免删项使路径变短时漏候选；Move/Copy 的累计路径缩短量保守扣减所有成本，新 payload 继续按目标路径递归加入，历史值不删除。缺失或下界已超收益预算时不创建 shadow、不搜索；其它候选在当前文档查找。DFS 用 raw UTF-8 路径长度剪去不可能获益的分支，但保存和比较真实序列化成本，避免短 escaped 路径挡住更便宜的普通路径。顺序 shadow 仅在需要时创建和推进，保留后来新增值的 copy 能力。
-rationalize 携带 tests 时，已验证独立子树可复用精确 GuardCost；外部祖先认证读、跨Copy/Move、数组移位等未证明情况仍完整模拟。Replace-only 使用 fine-first 父候选与原始操作槽位索引，正权重表示精确组成本、零权重表示失活；只更新选中槽位，及时释放废弃 payload/path，最终压缩一次。初始真实 guard 差值保留重复/嵌套写入的中间成本；普通补丁在首次接受前延迟验证原补丁，失败时返回未修改的通用路径。root/单活动操作仍实际验证，root 前释放索引与废弃槽以控制峰值。选择索引与访问成本随操作的候选祖先总数增长，取决于路径深度；候选 payload 序列化和完整验证仍有成本，不宣称整体严格线性。混合操作仍可能有逐父扫描、前缀重建和压缩的二次成本。历史探针及最终实测见 BENCHMARK.md 和 [稳定槽位报告](results/candidate-index-20261004/REPORT.md)。
+rationalize 携带 tests 时，已验证独立子树可复用精确 GuardCost；未证明的跨Copy/Move、数组移位和交错祖先快照仍完整模拟。Replace 与对象属性 Add/Remove 使用 fine-first 父候选与原始操作槽位索引，正权重表示精确组成本、零权重表示失活；只更新选中槽位，及时释放废弃 payload/path，最终压缩一次。结构性 Add/Remove 的父在 left 必须是 Object；类型后来变化由原 strict-ancestor 写入标记排除。guarded 在任何 mutation 前按原始 selected 首/末槽与 Add-parent 原始索引检查祖先快照，严格交错则整个原补丁回通用路径；非交错外部快照需要初始完整 shadow 与 target 严格 Value equality，不能用数学相等证明 `1.0`/`1` 的字节成本。初始真实 guard 差值保留重复/嵌套写入的中间成本；普通补丁在首次接受前延迟验证原补丁，失败时返回未修改的通用路径。generic 数学比较与真实错误保持。root/单活动操作仍实际验证，root 前释放索引与废弃槽以控制峰值。选择索引与访问成本随操作的候选祖先总数增长，取决于路径深度；快照 preflight 另查有序 Add 索引。候选 payload 序列化和完整验证仍有成本，不宣称整体严格线性。通用混合路径与 Move factorize 的逐次真实 replay 仍可能二次。历史探针及最终实测见 BENCHMARK.md、[稳定槽位报告](results/candidate-index-20261004/REPORT.md) 和 [混合成本报告](results/mixed-costs-20261004/REPORT.md)。
 
 过滤在对应节点调用：数组是原位置投影，排除的位置保留左值或缺失；新增容器递归过滤新子节点，删除容器保留被排除的旧后代，替换为容器递归过滤其新后代。容器改标量由父节点授权，后代不再回调。嵌套数组过滤见原始目标下标，wire 与错误位置用投影后下标；缺失不会补成 null。
 无序报告用最大二分匹配，候选工作计入预算，避免非传递容差的贪心误配。精确默认比较用私有结构指纹分桶；碰撞和粗指纹仍检查真实比较。

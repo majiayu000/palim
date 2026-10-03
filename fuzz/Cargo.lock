@@ -173,7 +173,7 @@ dependencies = [
 
 [[package]]
 name = "palim"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "gix-imara-diff",
  "json-patch",
