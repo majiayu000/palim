@@ -726,6 +726,187 @@ fn candidate_applies<'a>(
     json_equal(&shadow, right)
 }
 
+// Replace-only patches have no shifting indices, source reads or parent
+// snapshot guards. Fine-first candidates can only contain a previously accepted
+// boundary or be disjoint from it, so the original selection lists remain valid
+// when removed slots are filtered out. Keep one exact byte weight per slot,
+// including its group's leading comma, and compact the vector once at the end.
+fn rationalize_replacements(
+    left: &Value,
+    right: &Value,
+    patch: &mut Patch,
+    parents: &[String],
+    mut current_size: usize,
+    guard_costs: &[GuardCost],
+    baseline_verified: &mut Option<bool>,
+) -> Result<bool, Error> {
+    let tests = !guard_costs.is_empty();
+    // Leaf destinations that are never parent candidates need no selection
+    // entry. Borrow the already owned candidate paths instead of cloning them.
+    let mut selections: HashMap<&str, Vec<usize>> = parents
+        .iter()
+        .map(|ancestor| (ancestor.as_str(), Vec::new()))
+        .collect();
+    for (index, op) in patch.0.iter().enumerate() {
+        let mut cursor = path(op);
+        loop {
+            if let Some(selected) = selections.get_mut(cursor) {
+                selected.push(index);
+            }
+            let Some(above) = parent(cursor) else {
+                break;
+            };
+            cursor = above;
+        }
+    }
+    // A strict ancestor write cannot be removed by an earlier fine-first
+    // candidate. Freeze these flags while paths can still be borrowed, then
+    // release the destination set before replacing any operation slots.
+    let crossed: Vec<_> = {
+        let destinations: HashSet<_> = patch.0.iter().map(path).collect();
+        parents
+            .iter()
+            .map(|ancestor| {
+                let mut cursor = ancestor.as_str();
+                while let Some(above) = parent(cursor) {
+                    if destinations.contains(above) {
+                        return true;
+                    }
+                    cursor = above;
+                }
+                false
+            })
+            .collect()
+    };
+    let mut costs = if tests {
+        guard_costs
+            .windows(2)
+            .map(|group| group[1].bytes - group[0].bytes + usize::from(group[0].operations == 0))
+            .collect::<Vec<_>>()
+    } else {
+        patch
+            .0
+            .iter()
+            .map(|op| bytes(op).map(|size| size + 1))
+            .collect::<Result<Vec<_>, _>>()?
+    };
+    let original_length = patch.0.len();
+    let mut length = original_length;
+    for (ancestor, crossed) in parents.iter().zip(crossed) {
+        let (Some(old), Some(new)) = (left.pointer(ancestor), right.pointer(ancestor)) else {
+            continue;
+        };
+        if crossed {
+            continue;
+        }
+        let selected: Vec<_> = selections
+            .get(ancestor.as_str())
+            .into_iter()
+            .flatten()
+            .copied()
+            .filter(|index| costs[*index] != 0)
+            .collect();
+        if selected.is_empty() {
+            continue;
+        }
+        let removed: usize = selected.iter().map(|index| costs[*index]).sum();
+        let budget = if tests {
+            current_size.saturating_sub(3)
+        } else {
+            removed - 1
+        };
+        let Some(replacement_size) = bytes_below(
+            &ValueOperation {
+                op: "replace",
+                path: ancestor,
+                value: new,
+            },
+            budget,
+        )?
+        else {
+            continue;
+        };
+        let test_size = if tests {
+            let Some(size) = bytes_below(
+                &ValueOperation {
+                    op: "test",
+                    path: ancestor,
+                    value: old,
+                },
+                budget - replacement_size,
+            )?
+            else {
+                continue;
+            };
+            size + 1
+        } else {
+            0
+        };
+        let replaced = decode(json!({"op": "replace", "path": ancestor, "value": new}))?;
+        let replacement_cost = replacement_size + test_size + 1;
+        let candidate_size = current_size - removed + replacement_cost;
+        if candidate_size >= current_size {
+            continue;
+        }
+        if ancestor.is_empty() {
+            // Root is the last fine-first candidate. No later selection needs
+            // the stable slots or index, so release them before real validation
+            // clones the complete document and root replacement payload.
+            drop(selections);
+            if length < original_length {
+                let mut index = 0;
+                patch.0.retain(|_| {
+                    let keep = costs[index] != 0;
+                    index += 1;
+                    keep
+                });
+                patch.0.shrink_to_fit();
+            }
+            drop(costs);
+            if candidate_applies(left, right, std::iter::once(&replaced)) {
+                patch.0 = vec![replaced];
+            }
+            return Ok(true);
+        }
+        if length == 1 {
+            if !candidate_applies(left, right, std::iter::once(&replaced)) {
+                continue;
+            }
+        } else if !*baseline_verified.get_or_insert_with(|| {
+            apply_json_patch(left, patch).is_ok_and(|value| json_equal(&value, right))
+        }) {
+            // No replacement has been accepted before this lazy check. Leave
+            // the original patch intact for the full candidate-validation path.
+            return Ok(false);
+        }
+        let first = selected[0];
+        patch.0[first] = replaced;
+        costs[first] = replacement_cost;
+        for &index in &selected[1..] {
+            costs[index] = 0;
+            if let PatchOperation::Replace(op) = &mut patch.0[index] {
+                // Removed groups need no pointer or payload. Only their stable
+                // vector slot remains until the final compaction.
+                op.path = Default::default();
+                op.value = Value::Null;
+            }
+        }
+        length -= selected.len() - 1;
+        current_size = candidate_size;
+        *baseline_verified = Some(true);
+    }
+    if length < original_length {
+        let mut index = 0;
+        patch.0.retain(|_| {
+            let keep = costs[index] != 0;
+            index += 1;
+            keep
+        });
+        patch.0.shrink_to_fit();
+    }
+    Ok(true)
+}
+
 fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Result<Patch, Error> {
     let mut parents = BTreeSet::new();
     for op in &patch.0 {
@@ -764,6 +945,25 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         let (size, costs) = guarded_bytes(left, &patch, false, &[])?;
         (size, costs, None)
     };
+    if patch.0.len() > 1
+        && parents.len() > 1
+        && patch
+            .0
+            .iter()
+            .all(|op| matches!(op, PatchOperation::Replace(_)))
+        && baseline_verified != Some(false)
+        && rationalize_replacements(
+            left,
+            right,
+            &mut patch,
+            &parents,
+            current_size,
+            &guard_costs,
+            &mut baseline_verified,
+        )?
+    {
+        return Ok(patch);
+    }
     let mut selections = None;
     // After an accepted replacement, use the original scan rather than
     // rebuilding an index for every independently compressible parent.
@@ -1332,6 +1532,103 @@ mod guard_cost_tests {
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn stable_replacement_slots_preserve_interleaved_children_and_repeated_paths() {
+        for nested in [false, true] {
+            let left = if nested {
+                json!({
+                    "a": {"leaf": {"a_long_property_name": 0, "b_long_property_name": 0}},
+                    "keep": "unchanged 🦀".repeat(500),
+                })
+            } else {
+                json!({
+                    "a": {
+                        "left": {"a_long_property_name": 0, "b_long_property_name": 0},
+                        "right": {"a_long_property_name": 0, "b_long_property_name": 0},
+                    },
+                    "keep": "unchanged 🦀".repeat(500),
+                })
+            };
+            let original = if nested {
+                patch(json!([
+                    {"op":"replace","path":"/a","value":{"leaf":{"a_long_property_name":1,"b_long_property_name":1}}},
+                    {"op":"replace","path":"/a/leaf/a_long_property_name","value":2},
+                    {"op":"replace","path":"/a/leaf/a_long_property_name","value":3},
+                    {"op":"replace","path":"/a/leaf/b_long_property_name","value":4},
+                ]))
+            } else {
+                patch(json!([
+                    {"op":"replace","path":"/a/left/a_long_property_name","value":1},
+                    {"op":"replace","path":"/a/right/a_long_property_name","value":3},
+                    {"op":"replace","path":"/a/left/b_long_property_name","value":2},
+                    {"op":"replace","path":"/a/right/b_long_property_name","value":4},
+                ]))
+            };
+            let right = apply_json_patch(&left, &original).unwrap();
+            // Complete wire frozen from the published 0.1.1 implementation.
+            // Interleaved siblings first compress, then their common ancestor;
+            // nested original writes retain their intermediate guard costs.
+            let expected = patch(json!([
+                {"op":"replace","path":"/a","value":right["a"]},
+            ]));
+            for tests in [false, true] {
+                let optimized = rationalize(&left, &right, original.clone(), tests).unwrap();
+                assert_eq!(
+                    serde_json::to_vec(&optimized).unwrap(),
+                    serde_json::to_vec(&expected).unwrap()
+                );
+                let guarded = if tests {
+                    guard(left.clone(), &optimized).unwrap()
+                } else {
+                    optimized
+                };
+                assert_eq!(apply_json_patch(&left, &guarded).unwrap(), right);
+                let inverse = invert_json_patch(&left, &guarded).unwrap();
+                assert_eq!(apply_json_patch(&right, &inverse).unwrap(), left);
+            }
+        }
+    }
+
+    #[test]
+    fn invalid_original_replacements_keep_plain_replay_and_guard_errors() {
+        let left = json!({"a":{"x":0},"keep":"unchanged 🦀".repeat(500)});
+        let right = json!({"a":{"x":1,"missing":2},"keep":"unchanged 🦀".repeat(500)});
+        let original = patch(json!([
+            {"op":"replace","path":"/a/x","value":1},
+            {"op":"replace","path":"/a/missing","value":2},
+        ]));
+        // Frozen 0.1.1 behavior: the invalid original is not an error gate for
+        // plain compression, since the full parent candidate repairs it.
+        let expected = patch(json!([
+            {"op":"replace","path":"/a","value":{"missing":2,"x":1}},
+        ]));
+        let optimized = rationalize(&left, &right, original.clone(), false).unwrap();
+        assert_eq!(
+            serde_json::to_vec(&optimized).unwrap(),
+            serde_json::to_vec(&expected).unwrap()
+        );
+        assert_eq!(apply_json_patch(&left, &optimized).unwrap(), right);
+        let inverse = invert_json_patch(&left, &optimized).unwrap();
+        assert_eq!(apply_json_patch(&right, &inverse).unwrap(), left);
+        let error = rationalize(&left, &right, original, true).unwrap_err();
+        assert_eq!(error.path, "/a/missing");
+        assert_eq!(error.message, "test source is missing");
+    }
+
+    #[test]
+    fn pointer_tokens_preserve_parent_escapes_and_unicode() {
+        for (parent, token, expected) in [
+            ("", "", "/"),
+            ("", "a/b~c", "/a~1b~0c"),
+            ("/~0~1🦀", "~/🦀", "/~0~1🦀/~0~1🦀"),
+            ("/parent", "~1", "/parent/~01"),
+            ("/parent", "a~0b", "/parent/a~00b"),
+        ] {
+            assert_eq!(pointer(parent, token), expected);
+        }
+        assert_eq!(pointer("/🦀", 12), "/🦀/12");
     }
 
     #[test]

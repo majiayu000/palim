@@ -596,9 +596,15 @@ pub(crate) fn json_equal(left: &Value, right: &Value) -> bool {
     }
 }
 pub(crate) fn pointer(path: &str, key: impl fmt::Display) -> String {
-    format!(
-        "{}/{}",
-        path,
-        key.to_string().replace('~', "~0").replace('/', "~1")
-    )
+    let mut result = format!("{path}/{key}");
+    let start = path.len() + 1;
+    if result.as_bytes()[start..]
+        .iter()
+        .any(|byte| matches!(byte, b'~' | b'/'))
+    {
+        let escaped = result[start..].replace('~', "~0").replace('/', "~1");
+        result.truncate(start);
+        result.push_str(&escaped);
+    }
+    result
 }
