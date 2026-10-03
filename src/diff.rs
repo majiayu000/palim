@@ -41,6 +41,7 @@ fn node_unfiltered(
     let result = match (left, right) {
         (Value::Object(a), Value::Object(b)) => {
             let mut delta = Map::new();
+            let mut matched_keys = 0;
             for (key, old) in a {
                 if options
                     .property_filter
@@ -51,6 +52,7 @@ fn node_unfiltered(
                 }
                 match b.get(key) {
                     Some(new) => {
+                        matched_keys += 1;
                         // Equal primitive fields need no path allocation. A node
                         // filter still receives unchanged nodes in its usual order.
                         if options.node_filter.is_none()
@@ -85,25 +87,27 @@ fn node_unfiltered(
                     }
                 }
             }
-            for (key, new) in b {
-                if a.contains_key(key) {
-                    continue;
-                }
-                if options
-                    .property_filter
-                    .as_ref()
-                    .is_some_and(|f| !f(key, left, right, path))
-                {
-                    continue;
-                }
-                if options.node_filter.is_some() {
-                    if let Some(projected) =
-                        filtered_child(None, Some(new), options, &pointer(path, key))
-                    {
-                        delta.insert(key.clone(), json!([projected]));
+            if matched_keys != b.len() {
+                for (key, new) in b {
+                    if a.contains_key(key) {
+                        continue;
                     }
-                } else {
-                    delta.insert(key.clone(), json!([new]));
+                    if options
+                        .property_filter
+                        .as_ref()
+                        .is_some_and(|f| !f(key, left, right, path))
+                    {
+                        continue;
+                    }
+                    if options.node_filter.is_some() {
+                        if let Some(projected) =
+                            filtered_child(None, Some(new), options, &pointer(path, key))
+                        {
+                            delta.insert(key.clone(), json!([projected]));
+                        }
+                    } else {
+                        delta.insert(key.clone(), json!([new]));
+                    }
                 }
             }
             if delta.is_empty() {

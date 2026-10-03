@@ -160,8 +160,10 @@ cases = []
 frozen = baseline / "results/standard-benchmark-pipeline-20260930T214341.446185Z/fixtures"
 for name, mode in [
     ("small-config-edit", "native"), ("small-config-edit", "optimized"),
-    ("rotate-2000", "native"), ("disjoint-2000", "optimized"),
-    ("ambiguous-ids-2000", "optimized"),
+    ("small-config-edit", "guarded"),
+    ("rotate-2000", "native"), ("rotate-2000", "guarded"),
+    ("disjoint-2000", "optimized"), ("disjoint-2000", "guarded"),
+    ("ambiguous-ids-2000", "optimized"), ("ambiguous-ids-2000", "guarded"),
 ]:
     fixture = json.loads((frozen / f"{name}.json").read_text())
     fixture["name"] = name

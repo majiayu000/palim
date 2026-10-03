@@ -674,6 +674,20 @@ fn independent_replacement(left: &Value, patch: &Patch, ancestor: &str) -> bool 
     true
 }
 
+// Add-like guards can snapshot their destination parent, even when the
+// destination lies outside the replacement. Do not reuse such an ancestor
+// snapshot: it may observe the subtree before all selected edits finish.
+fn independent_guard_reads(patch: &Patch, ancestor: &str) -> bool {
+    patch.0.iter().all(|operation| {
+        contains(ancestor, path(operation))
+            || !matches!(
+                operation,
+                PatchOperation::Add(_) | PatchOperation::Copy(_) | PatchOperation::Move(_)
+            )
+            || parent(path(operation)).is_some_and(|parent| !contains(parent, ancestor))
+    })
+}
+
 fn candidate_applies<'a>(
     left: &Value,
     right: &Value,
@@ -718,12 +732,18 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         (if broad_first { depth } else { depth.reverse() }).then_with(|| a.cmp(b))
     });
     let original_length = patch.0.len();
-    let (mut current_size, mut guard_costs) = guarded_bytes(left, &patch, tests, &[])?;
+    let (mut current_size, mut guard_costs, mut baseline_verified) = if tests {
+        let (size, costs, shadow) =
+            guarded_operation_bytes(left, patch.0.iter(), patch.0.len(), &[])?;
+        (size, costs, Some(json_equal(&shadow, right)))
+    } else {
+        let (size, costs) = guarded_bytes(left, &patch, false, &[])?;
+        (size, costs, None)
+    };
     let mut selections = None;
     // After an accepted replacement, use the original scan rather than
     // rebuilding an index for every independently compressible parent.
     let mut index_unchanged = true;
-    let mut baseline_verified = None;
     for ancestor in parents {
         let (Some(old), Some(new)) = (left.pointer(&ancestor), right.pointer(&ancestor)) else {
             continue;
@@ -823,8 +843,8 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         else {
             continue;
         };
-        let candidate_size = if tests {
-            if bytes_below(
+        let (candidate_size, replacement_test_size) = if tests {
+            let Some(test_size) = bytes_below(
                 &ValueOperation {
                     op: "test",
                     path: &ancestor,
@@ -832,13 +852,12 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
                 },
                 budget - replacement_size,
             )?
-            .is_none()
-            {
+            else {
                 continue;
-            }
-            None
+            };
+            (None, test_size)
         } else {
-            Some(current_size - removed_size + replacement_size)
+            (Some(current_size - removed_size + replacement_size), 0)
         };
         let replaced = decode(json!({"op": "replace", "path": ancestor, "value": new}))?;
         let first = selected[0];
@@ -854,24 +873,35 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
                 }
             })
         };
-        // Guard costing already executes the complete candidate. Retain its
-        // final shadow instead of cloning and replaying the document twice.
+        // Independent boundaries preserve both external applications and
+        // their guard reads. Their exact per-operation costs can be reused;
+        // otherwise retain the complete guard simulation and its final shadow.
+        let independent_guards = tests
+            && baseline_verified == Some(true)
+            && independent_replacement(left, &patch, &ancestor)
+            && independent_guard_reads(&patch, &ancestor);
         let mut guarded_shadow = None;
-        let cost = candidate_size.map_or_else(
-            || {
-                guarded_operation_bytes(
-                    left,
-                    candidate(),
-                    patch.0.len() - selected.len() + 1,
-                    &guard_costs[..=first],
-                )
-                .map(|(size, costs, shadow)| {
-                    guarded_shadow = Some(shadow);
-                    (size, costs)
-                })
-            },
-            |size| Ok((size, Vec::new())),
-        );
+        let cost = if let Some(size) = candidate_size {
+            Ok((size, Vec::new()))
+        } else if independent_guards {
+            Ok(replacement_guard_costs(
+                &guard_costs,
+                &selected,
+                first,
+                replacement_size + replacement_test_size + 1,
+            ))
+        } else {
+            guarded_operation_bytes(
+                left,
+                candidate(),
+                patch.0.len() - selected.len() + 1,
+                &guard_costs[..=first],
+            )
+            .map(|(size, costs, shadow)| {
+                guarded_shadow = Some(shadow);
+                (size, costs)
+            })
+        };
         if let Ok((candidate_size, candidate_costs)) = cost {
             if candidate_size >= current_size {
                 continue;
@@ -882,6 +912,8 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
                 // Validating the one-step candidate is cheaper than replaying
                 // a potentially large original sequence for a root replacement.
                 candidate_applies(left, right, candidate())
+            } else if independent_guards {
+                true
             } else if independent_replacement(left, &patch, &ancestor)
                 && *baseline_verified.get_or_insert_with(|| {
                     apply_json_patch(left, &patch).is_ok_and(|value| json_equal(&value, right))
@@ -929,6 +961,39 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
 struct GuardCost {
     bytes: usize,
     operations: usize,
+}
+
+// Each prefix difference contains one complete operation group: generated
+// tests followed by the original operation. Strip its old leading comma and
+// rebuild every prefix after replacing the selected groups, including counts.
+fn replacement_guard_costs(
+    costs: &[GuardCost],
+    selected: &BTreeSet<usize>,
+    first: usize,
+    replacement_bytes: usize,
+) -> (usize, Vec<GuardCost>) {
+    let mut total = GuardCost {
+        bytes: 2,
+        operations: 0,
+    };
+    let mut result = Vec::with_capacity(costs.len() - selected.len() + 1);
+    result.push(total);
+    for (index, group) in costs.windows(2).enumerate() {
+        let (group_bytes, operations) = if index == first {
+            (replacement_bytes, 2)
+        } else if selected.contains(&index) {
+            continue;
+        } else {
+            (
+                group[1].bytes - group[0].bytes - usize::from(group[0].operations > 0),
+                group[1].operations - group[0].operations,
+            )
+        };
+        total.bytes += group_bytes + usize::from(total.operations > 0);
+        total.operations += operations;
+        result.push(total);
+    }
+    (total.bytes, result)
 }
 
 fn guarded_bytes(
@@ -1203,6 +1268,170 @@ mod guard_cost_tests {
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn independent_guard_costs_match_full_replay_after_multiple_parent_replacements() {
+        let left = json!({
+            "a/b~": {"a_long_property_name": 0, "b_long_property_name": "old 🦀\\\""},
+            "z~q": {"a_long_property_name": 0, "b_long_property_name": 0},
+            "unrelated": {"source": "copy 🦀\n", "old": false},
+            "before": 0,
+            "after": 0,
+            "flag": true,
+        });
+        for prefix in [false, true] {
+            let mut original = patch(json!([
+                {"op":"replace","path":"/a~1b~0/a_long_property_name","value":11111},
+                {"op":"copy","from":"/unrelated/source","path":"/unrelated/new"},
+                {"op":"replace","path":"/a~1b~0/b_long_property_name","value":"new 🦀\n\\\""},
+                {"op":"test","path":"/flag","value":true},
+                {"op":"replace","path":"/z~0q/a_long_property_name","value":33333},
+                {"op":"remove","path":"/unrelated/old"},
+                {"op":"replace","path":"/z~0q/b_long_property_name","value":44444},
+                {"op":"replace","path":"/after","value":5},
+            ]));
+            if prefix {
+                original.0.insert(
+                    0,
+                    decode(json!({"op":"replace","path":"/before","value":1})).unwrap(),
+                );
+            }
+            let right = apply_json_patch(&left, &original).unwrap();
+            let (_, mut costs) = guarded_bytes(&left, &original, true, &[]).unwrap();
+            for ancestor in ["/a~1b~0", "/z~0q"] {
+                assert!(independent_replacement(&left, &original, ancestor));
+                assert!(independent_guard_reads(&original, ancestor));
+                let selected: BTreeSet<_> = original
+                    .0
+                    .iter()
+                    .enumerate()
+                    .filter_map(|(index, operation)| {
+                        contains(ancestor, path(operation)).then_some(index)
+                    })
+                    .collect();
+                let first = *selected.first().unwrap();
+                let replacement = decode(json!({"op":"replace","path":ancestor,"value":right.pointer(ancestor).unwrap()})).unwrap();
+                let test_size = bytes(&ValueOperation {
+                    op: "test",
+                    path: ancestor,
+                    value: left.pointer(ancestor).unwrap(),
+                })
+                .unwrap();
+                let (size, next_costs) = replacement_guard_costs(
+                    &costs,
+                    &selected,
+                    first,
+                    test_size + bytes(&replacement).unwrap() + 1,
+                );
+                let candidate = Patch(
+                    original
+                        .0
+                        .iter()
+                        .enumerate()
+                        .filter_map(|(index, operation)| {
+                            if index == first {
+                                Some(replacement.clone())
+                            } else if selected.contains(&index) {
+                                None
+                            } else {
+                                Some(operation.clone())
+                            }
+                        })
+                        .collect(),
+                );
+                let actual_guards = guard(left.clone(), &candidate).unwrap();
+                let (expected_size, expected_costs) =
+                    guarded_bytes(&left, &candidate, true, &[]).unwrap();
+                assert_eq!(size, bytes(&actual_guards).unwrap());
+                assert_eq!(size, expected_size);
+                assert_eq!(next_costs.len(), expected_costs.len());
+                for (actual, expected) in next_costs.iter().zip(&expected_costs) {
+                    assert_eq!(
+                        (actual.bytes, actual.operations),
+                        (expected.bytes, expected.operations)
+                    );
+                }
+                assert_eq!(apply_json_patch(&left, &actual_guards).unwrap(), right);
+                original = candidate;
+                costs = next_costs;
+            }
+        }
+    }
+
+    #[test]
+    fn external_add_copy_and_move_can_change_ancestor_guard_snapshot_costs() {
+        let left = json!({
+            "a/b~": {"a_long_property_name": 0, "b_long_property_name": 0},
+            "source": 4,
+        });
+        for outside in [
+            json!({"op":"add","path":"/new","value":4}),
+            json!({"op":"copy","from":"/source","path":"/new"}),
+            json!({"op":"move","from":"/source","path":"/new"}),
+        ] {
+            let original = patch(json!([
+                {"op":"replace","path":"/a~1b~0/a_long_property_name","value":11111},
+                outside,
+                {"op":"replace","path":"/a~1b~0/b_long_property_name","value":22222},
+            ]));
+            let right = apply_json_patch(&left, &original).unwrap();
+            let replacement =
+                decode(json!({"op":"replace","path":"/a~1b~0","value":right["a/b~"]})).unwrap();
+            let candidate = Patch(vec![replacement.clone(), original.0[1].clone()]);
+            assert!(independent_replacement(&left, &original, "/a~1b~0"));
+            assert!(!independent_guard_reads(&original, "/a~1b~0"));
+            assert_eq!(apply_json_patch(&left, &candidate).unwrap(), right);
+            let (_, costs) = guarded_bytes(&left, &original, true, &[]).unwrap();
+            let test_size = bytes(&ValueOperation {
+                op: "test",
+                path: "/a~1b~0",
+                value: &left["a/b~"],
+            })
+            .unwrap();
+            let (invalid_reused_size, _) = replacement_guard_costs(
+                &costs,
+                &BTreeSet::from([0, 2]),
+                0,
+                test_size + bytes(&replacement).unwrap() + 1,
+            );
+            let full_size = bytes(&guard(left.clone(), &candidate).unwrap()).unwrap();
+            assert_ne!(invalid_reused_size, full_size);
+        }
+    }
+
+    #[test]
+    fn guarded_reuse_requires_the_original_patch_to_reach_the_requested_target() {
+        let left = json!({
+            "a": {"a_long_property_name": 0, "b_long_property_name": 0},
+            "omitted": 0,
+            "keep": "unchanged 🦀".repeat(1000),
+        });
+        let original = patch(json!([
+            {"op":"replace","path":"/a/a_long_property_name","value":11111},
+            {"op":"replace","path":"/a/b_long_property_name","value":22222},
+        ]));
+        let mut right = apply_json_patch(&left, &original).unwrap();
+        right["omitted"] = json!(1);
+        assert!(independent_replacement(&left, &original, "/a"));
+        assert!(independent_guard_reads(&original, "/a"));
+        for tests in [false, true] {
+            // A projected/filtered original patch is valid but cannot prove
+            // this candidate reaches the complete requested target.
+            assert_eq!(
+                rationalize(&left, &right, original.clone(), tests).unwrap(),
+                original
+            );
+        }
+
+        let invalid = patch(json!([
+            {"op":"replace","path":"/a/missing","value":1},
+        ]));
+        let expected_error = guarded_bytes(&left, &invalid, true, &[]).err().unwrap();
+        assert_eq!(
+            rationalize(&left, &right, invalid, true).unwrap_err(),
+            expected_error
+        );
     }
 
     #[test]
