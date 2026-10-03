@@ -630,9 +630,7 @@ fn selection_index(patch: &Patch) -> (HashMap<String, Vec<usize>>, HashSet<Strin
     (selected, destinations, moves)
 }
 
-// Replacing this complete subtree commutes with the other operations only
-// when neither pointers nor reads outside it depend on its intermediate state.
-fn independent_replacement(left: &Value, patch: &Patch, ancestor: &str) -> bool {
+fn ancestor_arrays<'a>(left: &Value, ancestor: &'a str) -> Vec<&'a str> {
     let mut arrays = Vec::new();
     let mut cursor = ancestor;
     while let Some(above) = parent(cursor) {
@@ -641,50 +639,73 @@ fn independent_replacement(left: &Value, patch: &Patch, ancestor: &str) -> bool 
         }
         cursor = above;
     }
-    for operation in &patch.0 {
-        let destination = path(operation);
-        let destination_inside = contains(ancestor, destination);
-        if contains(destination, ancestor) && !destination_inside {
+    arrays
+}
+
+#[inline(always)]
+fn independent_operation(
+    operation: &PatchOperation,
+    ancestor: &str,
+    destination_inside: bool,
+    arrays: &[&str],
+) -> bool {
+    let destination = path(operation);
+    // The caller has already rejected strict ancestor destination writes.
+    if let Some(source) = from(operation) {
+        let source_inside = contains(ancestor, source);
+        if source_inside != destination_inside || contains(source, ancestor) && !source_inside {
             return false;
         }
-        if let Some(source) = from(operation) {
-            let source_inside = contains(ancestor, source);
-            if source_inside != destination_inside || contains(source, ancestor) && !source_inside {
-                return false;
-            }
-        }
-        // Structural writes directly into any array on the boundary's path
-        // can shift that boundary. Deeper writes and Replace do not shift it.
-        if matches!(
-            operation,
-            PatchOperation::Add(_)
-                | PatchOperation::Remove(_)
-                | PatchOperation::Move(_)
-                | PatchOperation::Copy(_)
-        ) && parent(destination).is_some_and(|p| arrays.contains(&p))
-        {
+    }
+    // Structural writes directly into any array on the boundary's path
+    // can shift that boundary. Deeper writes and Replace do not shift it.
+    if matches!(
+        operation,
+        PatchOperation::Add(_)
+            | PatchOperation::Remove(_)
+            | PatchOperation::Move(_)
+            | PatchOperation::Copy(_)
+    ) && parent(destination).is_some_and(|p| arrays.contains(&p))
+    {
+        return false;
+    }
+    if let PatchOperation::Move(operation) = operation {
+        if parent(operation.from.as_str()).is_some_and(|p| arrays.contains(&p)) {
             return false;
-        }
-        if let PatchOperation::Move(operation) = operation {
-            if parent(operation.from.as_str()).is_some_and(|p| arrays.contains(&p)) {
-                return false;
-            }
         }
     }
     true
 }
 
+// Replacing this complete subtree commutes with the other operations only
+// when neither pointers nor reads outside it depend on its intermediate state.
+fn independent_replacement(left: &Value, patch: &Patch, ancestor: &str) -> bool {
+    let arrays = ancestor_arrays(left, ancestor);
+    patch.0.iter().all(|operation| {
+        let inside = contains(ancestor, path(operation));
+        (inside || !contains(path(operation), ancestor))
+            && independent_operation(operation, ancestor, inside, &arrays)
+    })
+}
+
 // Add-like guards can snapshot their destination parent, even when the
 // destination lies outside the replacement. Do not reuse such an ancestor
 // snapshot: it may observe the subtree before all selected edits finish.
+fn independent_guard_read(
+    operation: &PatchOperation,
+    ancestor: &str,
+    destination_inside: bool,
+) -> bool {
+    !matches!(
+        operation,
+        PatchOperation::Add(_) | PatchOperation::Copy(_) | PatchOperation::Move(_)
+    ) || destination_inside
+        || parent(path(operation)).is_some_and(|parent| !contains(parent, ancestor))
+}
+
 fn independent_guard_reads(patch: &Patch, ancestor: &str) -> bool {
     patch.0.iter().all(|operation| {
-        contains(ancestor, path(operation))
-            || !matches!(
-                operation,
-                PatchOperation::Add(_) | PatchOperation::Copy(_) | PatchOperation::Move(_)
-            )
-            || parent(path(operation)).is_some_and(|parent| !contains(parent, ancestor))
+        independent_guard_read(operation, ancestor, contains(ancestor, path(operation)))
     })
 }
 
@@ -735,7 +756,10 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
     let (mut current_size, mut guard_costs, mut baseline_verified) = if tests {
         let (size, costs, shadow) =
             guarded_operation_bytes(left, patch.0.iter(), patch.0.len(), &[])?;
-        (size, costs, Some(json_equal(&shadow, right)))
+        // Only a multi-operation patch with non-root candidates can reuse
+        // this proof. Root and single-operation candidates are applied directly.
+        let verified = (patch.0.len() > 1 && parents.len() > 1).then(|| json_equal(&shadow, right));
+        (size, costs, verified)
     } else {
         let (size, costs) = guarded_bytes(left, &patch, false, &[])?;
         (size, costs, None)
@@ -748,6 +772,7 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         let (Some(old), Some(new)) = (left.pointer(&ancestor), right.pointer(&ancestor)) else {
             continue;
         };
+        let mut selection_proof = None;
         let (selected, boundary_crossed) = if ancestor.is_empty() {
             ((0..patch.0.len()).collect::<Vec<_>>(), false)
         } else if patch.0.len() == 1 {
@@ -768,6 +793,12 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         } else if !index_unchanged {
             let mut selected = Vec::new();
             let mut crossed = false;
+            let arrays = if tests {
+                ancestor_arrays(left, &ancestor)
+            } else {
+                Vec::new()
+            };
+            let mut independent = true;
             for (index, operation) in patch.0.iter().enumerate() {
                 let inside = contains(&ancestor, path(operation));
                 if contains(path(operation), &ancestor) && !inside {
@@ -780,10 +811,21 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
                     crossed = true;
                     break;
                 }
+                // Guard costing needs this proof for viable candidates.
+                // Reuse the scan's destination classification only in guarded
+                // mode; unguarded size bounds can reject the candidate first.
+                // Copy/read failures only disable the shortcut; they do not
+                // change the original Move/ancestor boundary rejection above.
+                if tests {
+                    independent = independent
+                        && independent_operation(operation, &ancestor, inside, &arrays)
+                        && independent_guard_read(operation, &ancestor, inside);
+                }
                 if inside {
                     selected.push(index);
                 }
             }
+            selection_proof = tests.then_some(independent);
             (selected, crossed)
         } else {
             let (selected_by_parent, destinations, moves) =
@@ -877,12 +919,33 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         // their guard reads. Their exact per-operation costs can be reused;
         // otherwise retain the complete guard simulation and its final shadow.
         let independent_guards = tests
+            && !ancestor.is_empty()
             && baseline_verified == Some(true)
-            && independent_replacement(left, &patch, &ancestor)
-            && independent_guard_reads(&patch, &ancestor);
+            && selection_proof.unwrap_or_else(|| {
+                independent_replacement(left, &patch, &ancestor)
+                    && independent_guard_reads(&patch, &ancestor)
+            });
         let mut guarded_shadow = None;
         let cost = if let Some(size) = candidate_size {
             Ok((size, Vec::new()))
+        } else if ancestor.is_empty() {
+            // The one root replacement has no outside guard reads. Its exact
+            // cost is known independently of the original patch's final value;
+            // candidate_applies below still performs real validation.
+            let size = replacement_size + replacement_test_size + 3;
+            Ok((
+                size,
+                vec![
+                    GuardCost {
+                        bytes: 2,
+                        operations: 0,
+                    },
+                    GuardCost {
+                        bytes: size,
+                        operations: 2,
+                    },
+                ],
+            ))
         } else if independent_guards {
             Ok(replacement_guard_costs(
                 &guard_costs,
@@ -914,7 +977,8 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
                 candidate_applies(left, right, candidate())
             } else if independent_guards {
                 true
-            } else if independent_replacement(left, &patch, &ancestor)
+            } else if selection_proof
+                .unwrap_or_else(|| independent_replacement(left, &patch, &ancestor))
                 && *baseline_verified.get_or_insert_with(|| {
                     apply_json_patch(left, &patch).is_ok_and(|value| json_equal(&value, right))
                 })
@@ -1268,6 +1332,93 @@ mod guard_cost_tests {
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn selection_scan_keeps_copy_guard_and_array_fallbacks_after_parent_acceptance() {
+        for kind in 0..3 {
+            let mut left = json!({
+                "0accepted": {"leaf": {"a_long_property_name": 0, "b_long_property_name": 0}},
+                "a": {"a_long_property_name": 0, "b_long_property_name": 0},
+                "sink": 0,
+                "source": 7,
+                "keep": "unchanged 🦀".repeat(500),
+            });
+            let prefix = json!([
+                {"op":"replace","path":"/0accepted/leaf/a_long_property_name","value":1},
+                {"op":"replace","path":"/0accepted/leaf/b_long_property_name","value":2},
+            ]);
+            let suffix = match kind {
+                0 => json!([
+                    {"op":"replace","path":"/a/a_long_property_name","value":11111},
+                    {"op":"copy","from":"/a/b_long_property_name","path":"/sink"},
+                    {"op":"replace","path":"/a/b_long_property_name","value":22222},
+                    {"op":"replace","path":"/sink","value":9},
+                ]),
+                1 => json!([
+                    {"op":"replace","path":"/a/a_long_property_name","value":11111},
+                    {"op":"add","path":"/new","value":7},
+                    {"op":"replace","path":"/a/b_long_property_name","value":22222},
+                ]),
+                _ => {
+                    left["a"] = json!([
+                        {"tag":"shifted"},
+                        {"a_long_property_name":0,"b_long_property_name":0},
+                        {"a_long_property_name":9,"b_long_property_name":9},
+                    ]);
+                    json!([
+                        {"op":"replace","path":"/a/1/a_long_property_name","value":11111},
+                        {"op":"remove","path":"/a/0"},
+                        {"op":"replace","path":"/a/1/b_long_property_name","value":22222},
+                    ])
+                }
+            };
+            let mut original = patch(prefix);
+            original.0.extend(patch(suffix).0);
+            let right = apply_json_patch(&left, &original).unwrap();
+            // Frozen from 08f3735: /0accepted/leaf is accepted first, then
+            // unsafe intermediate reads/shifts still use full candidate replay.
+            let target = if kind == 2 {
+                json!([
+                    {"a_long_property_name":11111,"b_long_property_name":0},
+                    {"a_long_property_name":9,"b_long_property_name":22222},
+                ])
+            } else {
+                json!({"a_long_property_name":11111,"b_long_property_name":22222})
+            };
+            let mut expected = patch(json!([
+                {"op":"replace","path":"/0accepted/leaf","value":{"a_long_property_name":1,"b_long_property_name":2}},
+                {"op":"replace","path":"/a","value":target},
+            ]));
+            if kind == 0 {
+                expected.0.extend(
+                    patch(json!([
+                        {"op":"copy","from":"/a/b_long_property_name","path":"/sink"},
+                        {"op":"replace","path":"/sink","value":9},
+                    ]))
+                    .0,
+                );
+            } else if kind == 1 {
+                expected
+                    .0
+                    .push(decode(json!({"op":"add","path":"/new","value":7})).unwrap());
+            }
+            for tests in [false, true] {
+                let optimized = rationalize(&left, &right, original.clone(), tests).unwrap();
+                assert_eq!(
+                    serde_json::to_vec(&optimized).unwrap(),
+                    serde_json::to_vec(&expected).unwrap()
+                );
+                let output = if tests {
+                    guard(left.clone(), &optimized).unwrap()
+                } else {
+                    optimized
+                };
+                assert_eq!(apply_json_patch(&left, &output).unwrap(), right);
+                let inverse = invert_json_patch(&left, &output).unwrap();
+                assert_eq!(apply_json_patch(&right, &inverse).unwrap(), left);
+            }
+        }
     }
 
     #[test]
