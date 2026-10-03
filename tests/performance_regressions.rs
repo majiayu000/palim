@@ -504,3 +504,54 @@ fn rationalization_keeps_escaped_move_boundaries_after_other_parent_replacements
         }
     }
 }
+
+#[test]
+fn independently_compressible_array_objects_keep_the_same_guarded_root_patch() {
+    let left = json!(
+        (0..24)
+            .map(|id| json!({
+                "id": id,
+                "a_long_property_name": id,
+                "b_long_property_name": id,
+                "c_long_property_name": id,
+            }))
+            .collect::<Vec<_>>()
+    );
+    let right = json!(
+        (0..24)
+            .map(|id| json!({
+                "id": id,
+                "a_long_property_name": id + 100_000,
+                "b_long_property_name": id + 200_000,
+                "c_long_property_name": id + 300_000,
+            }))
+            .collect::<Vec<_>>()
+    );
+    for tests in [false, true] {
+        let patch = DiffPatcher::default()
+            .diff_json_patch(
+                &left,
+                &right,
+                &JsonPatchOptions {
+                    tests,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let expected = if tests {
+            json!([
+                {"op": "test", "path": "", "value": left},
+                {"op": "replace", "path": "", "value": right},
+            ])
+        } else {
+            json!([{ "op": "replace", "path": "", "value": right }])
+        };
+        assert_eq!(serde_json::to_value(&patch).unwrap(), expected);
+        roundtrip(&left, &right, &patch);
+        if tests {
+            let mut drifted = left.clone();
+            drifted[12]["a_long_property_name"] = json!(-1);
+            assert!(apply_json_patch(&drifted, &patch).is_err());
+        }
+    }
+}

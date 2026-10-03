@@ -630,6 +630,67 @@ fn selection_index(patch: &Patch) -> (HashMap<String, Vec<usize>>, HashSet<Strin
     (selected, destinations, moves)
 }
 
+// Replacing this complete subtree commutes with the other operations only
+// when neither pointers nor reads outside it depend on its intermediate state.
+fn independent_replacement(left: &Value, patch: &Patch, ancestor: &str) -> bool {
+    let mut arrays = Vec::new();
+    let mut cursor = ancestor;
+    while let Some(above) = parent(cursor) {
+        if left.pointer(above).is_some_and(Value::is_array) {
+            arrays.push(above);
+        }
+        cursor = above;
+    }
+    for operation in &patch.0 {
+        let destination = path(operation);
+        let destination_inside = contains(ancestor, destination);
+        if contains(destination, ancestor) && !destination_inside {
+            return false;
+        }
+        if let Some(source) = from(operation) {
+            let source_inside = contains(ancestor, source);
+            if source_inside != destination_inside || contains(source, ancestor) && !source_inside {
+                return false;
+            }
+        }
+        // Structural writes directly into any array on the boundary's path
+        // can shift that boundary. Deeper writes and Replace do not shift it.
+        if matches!(
+            operation,
+            PatchOperation::Add(_)
+                | PatchOperation::Remove(_)
+                | PatchOperation::Move(_)
+                | PatchOperation::Copy(_)
+        ) && parent(destination).is_some_and(|p| arrays.contains(&p))
+        {
+            return false;
+        }
+        if let PatchOperation::Move(operation) = operation {
+            if parent(operation.from.as_str()).is_some_and(|p| arrays.contains(&p)) {
+                return false;
+            }
+        }
+    }
+    true
+}
+
+fn candidate_applies<'a>(
+    left: &Value,
+    right: &Value,
+    operations: impl Iterator<Item = &'a PatchOperation>,
+) -> bool {
+    if delta::check_depth(left, 128).is_err() {
+        return false;
+    }
+    let mut shadow = left.clone();
+    for (index, operation) in operations.enumerate() {
+        if crate::apply_json_patch_step(&mut shadow, operation, index).is_err() {
+            return false;
+        }
+    }
+    json_equal(&shadow, right)
+}
+
 fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Result<Patch, Error> {
     let mut parents = BTreeSet::new();
     for op in &patch.0 {
@@ -656,11 +717,13 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         // Other patches retain the finer-first compression heuristic.
         (if broad_first { depth } else { depth.reverse() }).then_with(|| a.cmp(b))
     });
+    let original_length = patch.0.len();
     let (mut current_size, mut guard_costs) = guarded_bytes(left, &patch, tests, &[])?;
     let mut selections = None;
     // After an accepted replacement, use the original scan rather than
     // rebuilding an index for every independently compressible parent.
     let mut index_unchanged = true;
+    let mut baseline_verified = None;
     for ancestor in parents {
         let (Some(old), Some(new)) = (left.pointer(&ancestor), right.pointer(&ancestor)) else {
             continue;
@@ -780,38 +843,84 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         let replaced = decode(json!({"op": "replace", "path": ancestor, "value": new}))?;
         let first = selected[0];
         let selected: BTreeSet<_> = selected.into_iter().collect();
-        let candidate = Patch(
-            patch
-                .0
-                .iter()
-                .enumerate()
-                .filter_map(|(index, op)| {
-                    if index == first {
-                        Some(replaced.clone())
-                    } else if selected.contains(&index) {
-                        None
-                    } else {
-                        Some(op.clone())
-                    }
+        let candidate = || {
+            patch.0.iter().enumerate().filter_map(|(index, operation)| {
+                if index == first {
+                    Some(&replaced)
+                } else if selected.contains(&index) {
+                    None
+                } else {
+                    Some(operation)
+                }
+            })
+        };
+        // Guard costing already executes the complete candidate. Retain its
+        // final shadow instead of cloning and replaying the document twice.
+        let mut guarded_shadow = None;
+        let cost = candidate_size.map_or_else(
+            || {
+                guarded_operation_bytes(
+                    left,
+                    candidate(),
+                    patch.0.len() - selected.len() + 1,
+                    &guard_costs[..=first],
+                )
+                .map(|(size, costs, shadow)| {
+                    guarded_shadow = Some(shadow);
+                    (size, costs)
                 })
-                .collect(),
-        );
-        // The exact serialized size includes UTF-8, escaping, paths, commas and,
-        // when requested, the tests this candidate would need.
-        if let Ok((candidate_size, candidate_costs)) = candidate_size.map_or_else(
-            || guarded_bytes(left, &candidate, true, &guard_costs[..=first]),
+            },
             |size| Ok((size, Vec::new())),
-        ) {
-            if candidate_size < current_size
-                && apply_json_patch(left, &candidate).is_ok_and(|value| json_equal(&value, right))
+        );
+        if let Ok((candidate_size, candidate_costs)) = cost {
+            if candidate_size >= current_size {
+                continue;
+            }
+            let valid = if let Some(shadow) = guarded_shadow {
+                json_equal(&shadow, right)
+            } else if ancestor.is_empty() || patch.0.len() == 1 {
+                // Validating the one-step candidate is cheaper than replaying
+                // a potentially large original sequence for a root replacement.
+                candidate_applies(left, right, candidate())
+            } else if independent_replacement(left, &patch, &ancestor)
+                && *baseline_verified.get_or_insert_with(|| {
+                    apply_json_patch(left, &patch).is_ok_and(|value| json_equal(&value, right))
+                })
             {
-                patch = candidate;
+                // A verified original patch plus an independent boundary proves
+                // that replacing all its interior edits with the known target
+                // leaves every external operation and final value unchanged.
+                true
+            } else {
+                candidate_applies(left, right, candidate())
+            };
+            if valid {
+                let mut replacement = Some(replaced);
+                patch.0 = std::mem::take(&mut patch.0)
+                    .into_iter()
+                    .enumerate()
+                    .filter_map(|(index, operation)| {
+                        if index == first {
+                            replacement.take()
+                        } else if selected.contains(&index) {
+                            None
+                        } else {
+                            Some(operation)
+                        }
+                    })
+                    .collect();
                 selections = None;
                 index_unchanged = false;
+                baseline_verified = Some(true);
                 current_size = candidate_size;
                 guard_costs = candidate_costs;
             }
         }
+    }
+    if patch.0.len() < original_length {
+        // In-place filtering can retain the original operation allocation.
+        // Release it once before guard generation clones the final payloads.
+        patch.0.shrink_to_fit();
     }
     Ok(patch)
 }
@@ -831,16 +940,26 @@ fn guarded_bytes(
     if !tests {
         return Ok((bytes(patch)?, Vec::new()));
     }
+    guarded_operation_bytes(left, patch.0.iter(), patch.0.len(), prefix)
+        .map(|(size, costs, _)| (size, costs))
+}
+
+fn guarded_operation_bytes<'a>(
+    left: &Value,
+    operations: impl Iterator<Item = &'a PatchOperation> + Clone,
+    length: usize,
+    prefix: &[GuardCost],
+) -> Result<(usize, Vec<GuardCost>, Value), Error> {
     let mut shadow = left.clone();
     let first = prefix.len().saturating_sub(1);
     // Only the operations before the candidate's first change are identical.
     // Execute them on the same shadow, reusing their exact serialization cost.
     // Recompute every later guard: copy sources and array indices may depend on
     // the replacement even when their operations lie outside its subtree.
-    for (index, op) in patch.0[..first].iter().enumerate() {
+    for (index, op) in operations.clone().take(first).enumerate() {
         crate::apply_json_patch_step(&mut shadow, op, index)?;
     }
-    let mut costs = Vec::with_capacity(patch.0.len() + 1);
+    let mut costs = Vec::with_capacity(length + 1);
     if prefix.is_empty() {
         costs.push(GuardCost {
             bytes: 2, // Array brackets.
@@ -850,7 +969,7 @@ fn guarded_bytes(
         costs.extend_from_slice(prefix);
     }
     let mut total = costs[first];
-    for (index, op) in patch.0.iter().enumerate().skip(first) {
+    for (index, op) in operations.enumerate().skip(first) {
         for (path, value) in guard_values(&shadow, op)?.into_iter().flatten() {
             total.bytes += bytes(&ValueOperation {
                 op: "test",
@@ -864,7 +983,7 @@ fn guarded_bytes(
         crate::apply_json_patch_step(&mut shadow, op, index)?;
         costs.push(total);
     }
-    Ok((total.bytes, costs))
+    Ok((total.bytes, costs, shadow))
 }
 
 fn test_source<'a>(shadow: &'a Value, path: &str) -> Result<&'a Value, Error> {
@@ -1084,6 +1203,66 @@ mod guard_cost_tests {
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn rationalization_preserves_interleaved_copy_reads_of_a_subtree_and_its_ancestor() {
+        let left = json!({
+            "a/b~": {"a_long_property_name": 0, "b_long_property_name": 0},
+            "copied": null,
+            "keep": "unchanged 🦀 ".repeat(1000),
+        });
+        for source in ["/a~1b~0", ""] {
+            let original = patch(json!([
+                {"op": "replace", "path": "/a~1b~0/a_long_property_name", "value": 1},
+                {"op": "copy", "from": source, "path": "/copied"},
+                {"op": "replace", "path": "/a~1b~0/b_long_property_name", "value": 2},
+            ]));
+            let right = apply_json_patch(&left, &original).unwrap();
+            // A parent replacement would expose the final second field to the
+            // interleaved copy, which must instead preserve its earlier value.
+            let copied = if source.is_empty() {
+                &right["copied"]["a/b~"]
+            } else {
+                &right["copied"]
+            };
+            assert_eq!(copied["b_long_property_name"], json!(0));
+            for tests in [false, true] {
+                let optimized = rationalize(&left, &right, original.clone(), tests).unwrap();
+                assert_eq!(optimized, original);
+                assert_eq!(apply_json_patch(&left, &optimized).unwrap(), right);
+            }
+        }
+    }
+
+    #[test]
+    fn rationalization_preserves_interleaved_array_removal_and_move_indices() {
+        let left = json!([
+            {"tag": "shifted"},
+            {"a_long_property_name": 0, "b_long_property_name": 0},
+            {"a_long_property_name": 9, "b_long_property_name": 9},
+            {"keep": "unchanged 🦀 ".repeat(1000)},
+        ]);
+        for structural in [
+            json!({"op": "remove", "path": "/0"}),
+            json!({"op": "move", "from": "/0", "path": "/2"}),
+        ] {
+            let original = patch(json!([
+                {"op": "replace", "path": "/1/a_long_property_name", "value": 1},
+                structural,
+                {"op": "replace", "path": "/1/b_long_property_name", "value": 2},
+            ]));
+            let right = apply_json_patch(&left, &original).unwrap();
+            // The two operations at /1 act on different original elements.
+            // Combining them must not move the replacement across the shift.
+            assert_eq!(right[0]["a_long_property_name"], json!(1));
+            assert_eq!(right[1]["b_long_property_name"], json!(2));
+            for tests in [false, true] {
+                let optimized = rationalize(&left, &right, original.clone(), tests).unwrap();
+                assert_eq!(optimized, original);
+                assert_eq!(apply_json_patch(&left, &optimized).unwrap(), right);
+            }
+        }
     }
 
     #[test]

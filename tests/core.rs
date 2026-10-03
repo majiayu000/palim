@@ -48,6 +48,61 @@ fn structural_round_trips() {
 }
 
 #[test]
+fn atomic_replacements_keep_valid_number_and_mixed_payload_representations() {
+    let dp = DiffPatcher::new(DiffOptions {
+        text_diff_min_length: None,
+        ..Default::default()
+    });
+    let mut values: Vec<Value> = [
+        "null",
+        "true",
+        "1",
+        "1.0",
+        "-0.0",
+        "18446744073709551617",
+        "-18446744073709551617",
+        "0.012345678900000001234567890000000123456789",
+        "1e10000",
+        "10e9999",
+        "-1e-10000",
+        r#""escaped \" text 🦀\n""#,
+        r#"[null,true,1.0,{"n":18446744073709551617}]"#,
+        r#"{"a/b":[-0.0,1e10000],"~key":{"n":0.01234567890000000123456789}}"#,
+    ]
+    .iter()
+    .map(|input| serde_json::from_str(input).unwrap())
+    .collect();
+    values.extend(
+        [
+            0.1,
+            398043487186.00244,
+            1.0e40,
+            f64::MAX,
+            f64::MIN_POSITIVE,
+            f64::from_bits(1),
+        ]
+        .into_iter()
+        .map(|number| Value::Number(serde_json::Number::from_f64(number).unwrap())),
+    );
+    for left in values {
+        let right = if left.is_boolean() {
+            Value::Null
+        } else {
+            Value::Bool(false)
+        };
+        let delta = dp.diff(&left, &right).unwrap().unwrap();
+        let previous = json!([&left, &right]);
+        assert_eq!(delta.as_value(), &previous);
+        assert_eq!(
+            serde_json::to_vec(&delta).unwrap(),
+            serde_json::to_vec(&previous).unwrap()
+        );
+        assert_eq!(delta.as_value()[0], left);
+        check(&dp, &left, &right);
+    }
+}
+
+#[test]
 fn identity_moves_and_multiple_instances() {
     let opts = DiffOptions {
         object_hash: Some(Arc::new(|v, _| v.get("id").map(Value::to_string))),

@@ -123,7 +123,7 @@ fn node_unfiltered(
         _ if options.node_filter.is_some() && (right.is_object() || right.is_array()) => {
             json!([left, project_present(Some(left), right, options, path)])
         }
-        _ => json!([left, right]),
+        _ => Value::Array(vec![left.clone(), right.clone()]),
     };
     Ok(Some(result))
 }

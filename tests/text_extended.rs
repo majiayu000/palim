@@ -415,3 +415,26 @@ proptest::proptest! {
         proptest::prop_assert_eq!(patch(&json!(""), &d).unwrap(), json!(content));
     }
 }
+
+#[test]
+fn borrowed_line_tokens_keep_character_hunks_and_utf16_headers() {
+    let a: String = (0..4200)
+        .map(|i| format!("{i:04}: 🦀 e\u{301} \0中文\r\n\n"))
+        .collect();
+    let b = a
+        .replacen("0000", "开🦀", 1)
+        .replacen("2100", "e\u{301}🚀", 1)
+        .replacen("4199", "尾𐀀", 1);
+    let left = json!(a);
+    let right = json!(b);
+    let delta = DiffPatcher::default().diff(&left, &right).unwrap().unwrap();
+    // Frozen character-token output: mixed UTF-8 widths, CRLF, empty lines,
+    // NUL and more than 4096 lines must retain the same hunk/header choices.
+    let expected: serde_json::Value = serde_json::from_str(
+        r#"["@@ -1,9 +1,8 @@\n-0000\n+%E5%BC%80%F0%9F%A6%80\n : %F0%9F%A6%80 \n@@ -37796,13 +37796,13 @@\n %E6%96%87%0D%0A%0A\n-2100\n+e%CC%81%F0%9F%9A%80\n : %F0%9F%A6%80 \n@@ -75578,13 +75578,12 @@\n %E6%96%87%0D%0A%0A\n-4199\n+%E5%B0%BE%F0%90%80%80\n : %F0%9F%A6%80 \n",0,2]"#,
+    )
+    .unwrap();
+    assert_eq!(delta.as_value(), &expected);
+    assert_eq!(patch(&left, &delta).unwrap(), right);
+    assert_eq!(unpatch(&right, &delta).unwrap(), left);
+}

@@ -319,3 +319,37 @@ python3 tools/performance-fixes.py \
 两种有反例的优化已否决：每次接受压缩后重建索引导致 400 父节点负载慢约 46%；matcher exact-first 会增加部分补丁的 Move/Replace 数。最终控制负载与未测资源指标也完整保留。
 
 [完整报告、边界与下一步验收](results/core-leadership-20261003/REPORT.md)、[原始测量](results/core-leadership-20261003/measurements.json)、[实际检查](results/core-leadership-20261003/checks.json)、[冻结复现证据](results/core-leadership-20261003/evidence.zip)。本轮 debug/release 各157项、2,984项RFC逐字节等价、1,073项互通、61秒380,223次fuzz、MSRV和打包消费者均完成；未重新发布 crate。
+
+## 文本与补丁生成的后续优化（2026-10-03）
+
+相对 `afe1868`，候选补丁借用原操作，只在接受后转移所有权；guard 成本模拟复用其最终文档。普通候选仅在原补丁已验证、读写边界独立且上级数组不会移位时省去重复模拟，否则继续完整验证。压缩结束后仅收缩一次操作数组，避免单操作补丁保留数千条操作的容量。
+
+文本行 token 改用借用的 UTF-8 切片，字符坐标按有序 hunk 累计；边界只保存一个 byte offset。换行搜索使用安全的 8 字节精确 mask，无新增依赖或生产 unsafe。保留原字符细化、UTF-16 格式和错误合同。原子替换直接克隆已有 Value，省去一次重复序列化。
+
+最终冻结源码共 144 个独立进程：计时与分配插桩使用不同二进制，12种输入/模式各3个进程/版本/测量类型。输入已解析，计时含生成与结果析构，不含解析、序列化或验证；所有输出与 `afe1868` 逐字节相同。
+
+| 已解析场景 / 模式 | afe1868 ms | 本轮 ms | 提速 |
+|---|---:|---:|---:|
+| 100 对象压缩 / optimized | 12.425 | 1.393 | 8.92× |
+| 400 对象压缩 / optimized | 191.804 | 8.862 | 21.64× |
+| 400 对象压缩 / guarded | 371.839 | 235.404 | 1.58× |
+| Unicode 三处编辑 / native | 1.270 | 0.482 | 2.64× |
+| 全异 Unicode 短行 / native | 2.673 | 2.550 | 1.05× |
+| 小配置 / native | 0.002760 | 0.002837 | 0.97× |
+| 小配置 / optimized | 0.004121 | 0.004483 | 0.92× |
+
+小控制负载的变慢也保留，不能把微秒级波动解释为普遍提升。Unicode 两项峰值额外 live heap 不变；400 对象 guarded 从 1,936,853 降至 1,891,121 B。这里统计成功分配请求的同时存活字节，不是 RSS 或分配器实际内存。
+
+最终源码另完成 108 个串行竞品进程，边界为 parse→diff→serialize。native Unicode 三处编辑：Palim **0.790 ms**、jsondiffpatch JS 0.7.6 **1.242 ms**，均 **311 B**；小配置：Palim **0.010077 ms**、JS **0.006711 ms**，均 **28 B**，仍是 JS 更快。RFC 全异 optimized：Palim **3.227 ms**、Go jsondiff v0.7.1 **16.970 ms**，均 **34,038 B**；位置式 json-patch **0.555 ms**，输出 **112,891 B**，合同与压缩目标不同。
+
+带 guards 的独立父节点候选仍反复模拟文档，最坏路径未消除二次成本；小对象包含解析时也没有全面领先。未更改父候选次序、精度选项或公开 API，不承诺全局最小补丁或任意输入最快。本轮尚未发布 crate。
+
+[完整报告](results/remaining-hotspots-20261003/REPORT.md)、[全部测量](results/remaining-hotspots-20261003/measurements.json)、[实际检查](results/remaining-hotspots-20261003/checks.json)、[冻结证据](results/remaining-hotspots-20261003/evidence.zip)。
+
+复现内部对照时使用两个独立 worktree：
+
+```sh
+python3 tools/remaining-hotspots.py \
+  /path/to/afe1868-worktree /path/to/current-worktree \
+  /path/to/new-results-directory
+```

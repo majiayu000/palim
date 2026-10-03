@@ -276,16 +276,35 @@ fn character_hunks(a: &[char], b: &[char]) -> Vec<Hunk> {
         .collect()
 }
 
-fn line_boundaries(text: &[char], group: usize) -> Vec<usize> {
+fn line_boundaries(text: &str, group: usize) -> Vec<usize> {
     let mut boundaries = vec![0];
     let mut lines = 0;
-    for (i, c) in text.iter().enumerate() {
-        if *c == '\n' {
-            lines += 1;
-            if lines == group {
-                boundaries.push(i + 1);
-                lines = 0;
-            }
+    let mut newline_at = |byte| {
+        lines += 1;
+        if lines == group {
+            boundaries.push(byte + 1);
+            lines = 0;
+        }
+    };
+    const LOW: u64 = 0x7f7f_7f7f_7f7f_7f7f;
+    const HIGH: u64 = 0x8080_8080_8080_8080;
+    let mut chunks = text.as_bytes().chunks_exact(8);
+    for (block, chunk) in chunks.by_ref().enumerate() {
+        let mut bytes = [0; 8];
+        bytes.copy_from_slice(chunk);
+        let different = u64::from_le_bytes(bytes) ^ 0x0a0a_0a0a_0a0a_0a0a;
+        // Each low-seven-bit lane adds at most 254, so no carry reaches
+        // its neighbor. Only exact zero lanes retain a high bit.
+        let mut newlines = !((different & LOW).wrapping_add(LOW) | different | LOW) & HIGH;
+        while newlines != 0 {
+            newline_at(block * 8 + newlines.trailing_zeros() as usize / 8);
+            newlines &= newlines - 1;
+        }
+    }
+    let remainder_start = text.len() - chunks.remainder().len();
+    for (byte, value) in chunks.remainder().iter().enumerate() {
+        if *value == b'\n' {
+            newline_at(remainder_start + byte);
         }
     }
     if boundaries.last() != Some(&text.len()) {
@@ -294,7 +313,7 @@ fn line_boundaries(text: &[char], group: usize) -> Vec<usize> {
     boundaries
 }
 
-fn text_hunks(a: &[char], b: &[char]) -> Vec<Hunk> {
+fn text_hunks(a: &[char], b: &[char], old: &str, new: &str) -> Vec<Hunk> {
     if a.len() + b.len() <= MAX_DIFF_TOKENS {
         return character_hunks(a, b);
     }
@@ -304,36 +323,49 @@ fn text_hunks(a: &[char], b: &[char]) -> Vec<Hunk> {
     let lines = a.iter().chain(b).filter(|c| **c == '\n').count() + 2;
     // Rounding the two documents separately can add one token to their sum.
     let group = lines.div_ceil(MAX_DIFF_TOKENS - 1);
-    let before_lines = line_boundaries(a, group);
-    let after_lines = line_boundaries(b, group);
+    let before_lines = line_boundaries(old, group);
+    let after_lines = line_boundaries(new, group);
     let mut interner = Interner::new(before_lines.len() + after_lines.len());
     let before = before_lines
         .windows(2)
-        .map(|w| interner.intern(&a[w[0]..w[1]]))
+        .map(|w| interner.intern(&old[w[0]..w[1]]))
         .collect();
     let after = after_lines
         .windows(2)
-        .map(|w| interner.intern(&b[w[0]..w[1]]))
+        .map(|w| interner.intern(&new[w[0]..w[1]]))
         .collect();
     let input = InternedInput {
         before,
         after,
         interner,
     };
+    let mut before_byte = 0;
+    let mut after_byte = 0;
+    let mut before_chars = 0;
+    let mut after_chars = 0;
     Diff::compute(Algorithm::Histogram, &input)
         .hunks()
         .flat_map(|h| {
-            let start_a = before_lines[h.before.start as usize];
-            let start_b = after_lines[h.after.start as usize];
-            character_hunks(
-                &a[start_a..before_lines[h.before.end as usize]],
-                &b[start_b..after_lines[h.after.end as usize]],
-            )
-            .into_iter()
-            .map(move |h| Hunk {
-                before: h.before.start + start_a as u32..h.before.end + start_a as u32,
-                after: h.after.start + start_b as u32..h.after.end + start_b as u32,
-            })
+            // Line hunks are ordered and disjoint in both documents. Count
+            // character offsets only when refining a changed line range.
+            let start_byte_a = before_lines[h.before.start as usize];
+            let end_byte_a = before_lines[h.before.end as usize];
+            before_chars += old[before_byte..start_byte_a].chars().count();
+            let start_a = before_chars;
+            before_chars += old[start_byte_a..end_byte_a].chars().count();
+            before_byte = end_byte_a;
+            let start_byte_b = after_lines[h.after.start as usize];
+            let end_byte_b = after_lines[h.after.end as usize];
+            after_chars += new[after_byte..start_byte_b].chars().count();
+            let start_b = after_chars;
+            after_chars += new[start_byte_b..end_byte_b].chars().count();
+            after_byte = end_byte_b;
+            character_hunks(&a[start_a..before_chars], &b[start_b..after_chars])
+                .into_iter()
+                .map(move |h| Hunk {
+                    before: h.before.start + start_a as u32..h.before.end + start_a as u32,
+                    after: h.after.start + start_b as u32..h.after.end + start_b as u32,
+                })
         })
         .collect()
 }
@@ -358,6 +390,8 @@ pub(crate) fn diff(old: &str, new: &str, path: &str) -> Result<String, Error> {
         .char_indices()
         .nth(4)
         .map_or(tail, |(i, _)| i);
+    let changed_old = &old[head..old.len() - tail];
+    let changed_new = &new[head..new.len() - tail];
     let a: Vec<char> = old[window_start..old.len() - tail + context_end]
         .chars()
         .collect();
@@ -380,7 +414,7 @@ pub(crate) fn diff(old: &str, new: &str, path: &str) -> Result<String, Error> {
         .count();
     let changed_a = &a[head..a.len() - tail];
     let changed_b = &b[head..b.len() - tail];
-    let hunks: Vec<_> = text_hunks(changed_a, changed_b)
+    let hunks: Vec<_> = text_hunks(changed_a, changed_b, changed_old, changed_new)
         .into_iter()
         .map(|mut h| {
             h.before.start += head as u32;
@@ -833,4 +867,52 @@ pub(crate) fn reverse(text: &str, path: &str) -> Result<String, Error> {
         }
     }
     Ok(render(&patches))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::line_boundaries;
+
+    #[test]
+    fn newline_words_match_character_boundaries() {
+        let check = |text: &str| {
+            for group in [1, 2, 3, 7, 8, 9, 12] {
+                let mut expected = vec![0];
+                let mut lines = 0;
+                for (byte, character) in text.char_indices() {
+                    if character == '\n' {
+                        lines += 1;
+                        if lines == group {
+                            expected.push(byte + 1);
+                            lines = 0;
+                        }
+                    }
+                }
+                if expected.last() != Some(&text.len()) {
+                    expected.push(text.len());
+                }
+                assert_eq!(line_boundaries(text, group), expected);
+            }
+        };
+        // LF next to VT catches the false neighboring zero lane produced
+        // by the usual subtract-one mask when a borrow crosses bytes.
+        for lane in 0..8 {
+            for value in 0..=127 {
+                let mut bytes = [b'\n'; 8];
+                bytes[lane] = value;
+                check(std::str::from_utf8(&bytes).unwrap());
+            }
+        }
+        for prefix in 0..8 {
+            for suffix in 0..8 {
+                check(&format!(
+                    "{}🦀界\n\u{b}\n\0e\u{301}\r\n🚀\n\n{}",
+                    "x".repeat(prefix),
+                    "y".repeat(suffix)
+                ));
+            }
+            check(&"x".repeat(prefix));
+            check(&"\n".repeat(prefix));
+        }
+    }
 }
