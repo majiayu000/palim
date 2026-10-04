@@ -1,7 +1,7 @@
 use crate::{Error, Patch, PatchOperation, apply_json_patch, delta, json_equal, pointer};
 use serde::Serialize;
 use serde_json::{Value, json};
-use std::collections::{BTreeSet, HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet, VecDeque};
 use std::io::{self, Write};
 
 /// Options for producing RFC 6902 patches.
@@ -219,6 +219,79 @@ struct CopyOperation<'a> {
     path: &'a str,
 }
 
+// Disjoint object-member writes commute. Pairing a remove with an add at the
+// add's original position leaves every other read/write unchanged, including
+// when the add precedes the remove. Keep the generic candidate replay for
+// arrays, repeated paths, ancestor writes and source-dependent operations.
+// The caller has replayed the original patch and one accepted candidate, so
+// errors, source depth and target equality have already been checked.
+fn factorize_object_moves(
+    left: &Value,
+    patch: &mut Patch,
+    removed: &mut HashMap<Value, VecDeque<(usize, String)>>,
+) -> Result<bool, Error> {
+    let mut destinations = HashSet::with_capacity(patch.0.len());
+    for op in &patch.0 {
+        if !matches!(
+            op,
+            PatchOperation::Add(_) | PatchOperation::Remove(_) | PatchOperation::Replace(_)
+        ) || !parent(path(op)).is_some_and(|p| left.pointer(p).is_some_and(Value::is_object))
+            || !destinations.insert(path(op))
+        {
+            return Ok(false);
+        }
+    }
+    for destination in &destinations {
+        let mut ancestor = parent(destination);
+        while let Some(p) = ancestor {
+            if destinations.contains(p) {
+                return Ok(false);
+            }
+            ancestor = parent(p);
+        }
+    }
+    let mut deleted = vec![false; patch.0.len()];
+    let mut moves = Vec::new();
+    for (add_index, op) in patch.0.iter().enumerate() {
+        let PatchOperation::Add(add) = op else {
+            continue;
+        };
+        let Some(sources) = removed.get_mut(&add.value) else {
+            continue;
+        };
+        for (position, (remove_index, source)) in sources.iter().enumerate() {
+            let moved = decode(json!({"op":"move", "from":source, "path":add.path}))?;
+            if bytes(&moved)? > bytes(&patch.0[*remove_index])? + bytes(op)? {
+                continue;
+            }
+            deleted[*remove_index] = true;
+            moves.push((add_index, moved));
+            sources.remove(position);
+            break;
+        }
+    }
+    if !moves.is_empty() {
+        let mut moves = moves.into_iter().peekable();
+        patch.0 = std::mem::take(&mut patch.0)
+            .into_iter()
+            .enumerate()
+            .filter_map(|(index, op)| {
+                if deleted[index] {
+                    None
+                } else if moves
+                    .peek()
+                    .is_some_and(|(add_index, _)| *add_index == index)
+                {
+                    moves.next().map(|(_, moved)| moved)
+                } else {
+                    Some(op)
+                }
+            })
+            .collect();
+    }
+    Ok(true)
+}
+
 fn factorize(left: &Value, right: &Value, mut patch: Patch) -> Result<Patch, Error> {
     // Pair removes with additions first. A candidate is accepted only if its
     // sequential indices still produce the target; intervening array edits can
@@ -233,14 +306,14 @@ fn factorize(left: &Value, right: &Value, mut patch: Patch) -> Result<Patch, Err
             .any(|op| matches!(op, PatchOperation::Add(_)))
     {
         let mut shadow = left.clone();
-        let mut removed: HashMap<Value, Vec<(usize, String)>> = HashMap::new();
+        let mut removed: HashMap<Value, VecDeque<(usize, String)>> = HashMap::new();
         for (index, op) in patch.0.iter().enumerate() {
             if let PatchOperation::Remove(op) = op {
                 if let Some(value) = shadow.pointer(op.path.as_str()) {
                     removed
                         .entry(value.clone())
                         .or_default()
-                        .push((index, op.path.to_string()));
+                        .push_back((index, op.path.to_string()));
                 }
             }
             crate::apply_json_patch_step(&mut shadow, op, index)?;
@@ -280,6 +353,14 @@ fn factorize(left: &Value, right: &Value, mut patch: Patch) -> Result<Patch, Err
         }
         match replacement {
             Some((remove_index, add_index, moved)) => {
+                // Delay the independence proof until a real candidate succeeds:
+                // patches with no matching values need no extra scan. Disjoint
+                // writes make every later pairing equivalent to this replay.
+                if removed.values().map(VecDeque::len).sum::<usize>() > 1
+                    && factorize_object_moves(left, &mut patch, &mut removed)?
+                {
+                    break;
+                }
                 // Validation borrowed the operations, including their payloads.
                 // Only an accepted candidate needs a new dense operation vector.
                 let mut moved = Some(moved);
@@ -1359,18 +1440,48 @@ fn guarded_operation_bytes<'a>(
         costs.extend_from_slice(prefix);
     }
     let mut total = costs[first];
+    // Consecutive sibling object renames preserve all values and the member
+    // count. Only the serialized key length changes in their parent snapshot.
+    // Keep one exact test-operation cost; all other operations discard it.
+    let mut object_snapshot: Option<(&str, usize)> = None;
     for (index, op) in operations.enumerate().skip(first) {
-        for (path, value) in guard_values(&shadow, op)?.into_iter().flatten() {
-            total.bytes += bytes(&ValueOperation {
-                op: "test",
-                path,
-                value,
-            })? + usize::from(total.operations > 0);
+        let guards = guard_values(&shadow, op)?;
+        let rename = match (op, guards[1]) {
+            (PatchOperation::Move(op), Some((path, value)))
+                if value.is_object()
+                    && parent(op.from.as_str()) == Some(path)
+                    && parent(op.path.as_str()) == Some(path) =>
+            {
+                op.from.back().zip(op.path.back())
+            }
+            _ => None,
+        };
+        let mut next_snapshot = None;
+        for (path, value) in guards.into_iter().flatten() {
+            let snapshot = rename.is_some() && guards[1].is_some_and(|(p, _)| p == path);
+            let size = match object_snapshot.filter(|(p, _)| snapshot && *p == path) {
+                Some((_, size)) => size,
+                None => bytes(&ValueOperation {
+                    op: "test",
+                    path,
+                    value,
+                })?,
+            };
+            if snapshot {
+                if let Some((source, destination)) = &rename {
+                    let size = (size - bytes(source.decoded().as_ref())?)
+                        .checked_add(bytes(destination.decoded().as_ref())?)
+                        .ok_or_else(|| Error::new("", "JSON size exceeds address space"))?;
+                    next_snapshot = Some((path, size));
+                }
+            }
+            total.bytes += size + usize::from(total.operations > 0);
             total.operations += 1;
         }
         total.bytes += bytes(op)? + usize::from(total.operations > 0);
         total.operations += 1;
         crate::apply_json_patch_step(&mut shadow, op, index)?;
+        object_snapshot = next_snapshot;
         costs.push(total);
     }
     Ok((total.bytes, costs, shadow))
@@ -1701,6 +1812,106 @@ mod guard_cost_tests {
             &apply_json_patch(&right, &inverse).unwrap(),
             &left
         ));
+    }
+
+    #[test]
+    fn independent_object_moves_keep_duplicate_sources_and_original_add_order() {
+        let payload = json!({"body":"repeated Unicode 🦀 ".repeat(12)});
+        let left = json!({
+            "group/~":{"0":payload,"old":payload},
+            "other":{"old":{"unique":true}},
+            "destination":{},"keep":0,
+        });
+        let original = Patch(vec![
+            decode(json!({"op":"add","path":"/destination/first~1~0","value":payload})).unwrap(),
+            decode(json!({"op":"remove","path":"/group~1~0/old"})).unwrap(),
+            decode(json!({"op":"replace","path":"/keep","value":1})).unwrap(),
+            decode(json!({"op":"add","path":"/destination/second","value":payload})).unwrap(),
+            decode(json!({"op":"remove","path":"/group~1~0/0"})).unwrap(),
+            decode(json!({"op":"remove","path":"/other/old"})).unwrap(),
+            decode(json!({"op":"add","path":"/other/new","value":{"unique":true}})).unwrap(),
+        ]);
+        let right = apply_json_patch(&left, &original).unwrap();
+        // These are the sequential factorizer's original source/operation order.
+        let expected = json!([
+            {"op":"move","from":"/group~1~0/old","path":"/destination/first~1~0"},
+            {"op":"replace","path":"/keep","value":1},
+            {"op":"move","from":"/group~1~0/0","path":"/destination/second"},
+            {"op":"move","from":"/other/old","path":"/other/new"},
+        ]);
+        let optimized = factorize(&left, &right, original).unwrap();
+        assert_eq!(serde_json::to_value(&optimized).unwrap(), expected);
+        for tests in [false, true] {
+            let output = if tests {
+                guard(left.clone(), &optimized).unwrap()
+            } else {
+                optimized.clone()
+            };
+            let mut applied = left.clone();
+            json_patch::patch(&mut applied, &output).unwrap();
+            assert_eq!(applied, right);
+            let inverse = crate::invert_json_patch(&left, &output).unwrap();
+            json_patch::patch(&mut applied, &inverse).unwrap();
+            assert_eq!(applied, left);
+        }
+    }
+
+    #[test]
+    fn ancestor_removal_keeps_late_child_moves_on_sequential_replay() {
+        let child = "removed child 🦀 ".repeat(20);
+        let sibling = "other child ".repeat(20);
+        let third = "independent value ".repeat(20);
+        let left = json!({"a":{"x":child,"y":sibling},"a-":{"z":third},"dest":{}});
+        let original = Patch(vec![
+            decode(json!({"op":"remove","path":"/a/x"})).unwrap(),
+            decode(json!({"op":"remove","path":"/a"})).unwrap(),
+            decode(json!({"op":"add","path":"/dest/parent","value":{"y":sibling}})).unwrap(),
+            decode(json!({"op":"add","path":"/dest/child","value":child})).unwrap(),
+            decode(json!({"op":"remove","path":"/a-/z"})).unwrap(),
+            decode(json!({"op":"add","path":"/dest/third","value":third})).unwrap(),
+        ]);
+        let right = apply_json_patch(&left, &original).unwrap();
+        let optimized = factorize(&left, &right, original).unwrap();
+        // Moving /a/x at its later Add would read a source already removed by
+        // the ancestor operation. /a- must not hide that dependency.
+        let expected = json!([
+            {"op":"remove","path":"/a/x"},
+            {"op":"move","from":"/a","path":"/dest/parent"},
+            {"op":"add","path":"/dest/child","value":child},
+            {"op":"move","from":"/a-/z","path":"/dest/third"},
+        ]);
+        assert_eq!(serde_json::to_value(&optimized).unwrap(), expected);
+        for tests in [false, true] {
+            let output = if tests {
+                guard(left.clone(), &optimized).unwrap()
+            } else {
+                optimized.clone()
+            };
+            let mut applied = left.clone();
+            json_patch::patch(&mut applied, &output).unwrap();
+            assert_eq!(applied, right);
+            let inverse = crate::invert_json_patch(&left, &output).unwrap();
+            json_patch::patch(&mut applied, &inverse).unwrap();
+            assert_eq!(applied, left);
+        }
+    }
+
+    #[test]
+    fn object_move_preflight_preserves_initial_error_after_valid_pairs() {
+        let left = json!({"a":{"x":1,"y":2},"b":{}});
+        let original = Patch(vec![
+            decode(json!({"op":"remove","path":"/a/x"})).unwrap(),
+            decode(json!({"op":"add","path":"/b/x","value":1})).unwrap(),
+            decode(json!({"op":"remove","path":"/a/y"})).unwrap(),
+            decode(json!({"op":"add","path":"/b/y","value":2})).unwrap(),
+            decode(json!({"op":"remove","path":"/missing"})).unwrap(),
+        ]);
+        let error = factorize(&left, &json!({"a":{},"b":{"x":1,"y":2}}), original).unwrap_err();
+        assert_eq!(error.path, "/missing");
+        assert_eq!(
+            error.message,
+            "operation '/4' failed at path '/missing': path is invalid"
+        );
     }
 
     #[test]
@@ -2238,6 +2449,101 @@ mod guard_cost_tests {
             standard
         );
         assert_eq!(apply_json_patch(&left, &standard).unwrap(), right);
+    }
+
+    #[test]
+    fn object_rename_snapshot_costs_match_serialized_prefixes_and_resumed_replay() {
+        let payload: Value = serde_json::from_str(
+            r#"{"float":1.0,"integer":1234567890123456789012345678901234567890,"exponent":1e9999}"#,
+        )
+        .unwrap();
+        let object = json!({"":payload,"a/~\"\\\n":payload,"~1":[payload,"🦀"]});
+        for container in ["", "/outer~1~0", "/items/0"] {
+            let left = match container {
+                "" => object.clone(),
+                "/items/0" => json!({"items":[object]}),
+                _ => json!({"outer/~":object}),
+            };
+            let original = Patch(
+                [("a/~\"\\\n", "短"), ("", "目标~/🤖\0"), ("~1", "~01")]
+                    .into_iter()
+                    .map(|(source, destination)| {
+                        decode(json!({"op":"move","from":pointer(container,source),
+                            "path":pointer(container,destination)}))
+                        .unwrap()
+                    })
+                    .collect(),
+            );
+            let actual = guard(left.clone(), &original).unwrap();
+            let (size, costs, shadow) =
+                guarded_operation_bytes(&left, original.0.iter(), original.0.len(), &[]).unwrap();
+            assert_eq!(size, bytes(&actual).unwrap());
+            let mut applied = left.clone();
+            json_patch::patch(&mut applied, &actual).unwrap();
+            assert_eq!(shadow, applied);
+            for end in 0..=original.0.len() {
+                let prefix = guard(left.clone(), &Patch(original.0[..end].to_vec())).unwrap();
+                assert_eq!(costs[end].bytes, bytes(&prefix).unwrap());
+                assert_eq!(costs[end].operations, prefix.0.len());
+                assert_eq!(
+                    guarded_bytes(&left, &original, true, &costs[..=end])
+                        .unwrap()
+                        .0,
+                    size
+                );
+            }
+            let inverse = crate::invert_json_patch(&left, &actual).unwrap();
+            json_patch::patch(&mut applied, &inverse).unwrap();
+            assert_eq!(applied, left);
+        }
+    }
+
+    #[test]
+    fn object_rename_snapshot_costs_reset_on_other_writes_and_preserve_errors() {
+        let left = json!({"o":{"a":{"body":"old"},"b":2,"c":3,"d":4,
+            "e":5,"f":6,"g":7,"overwrite":{"large":"🦀".repeat(50)}},
+            "arr":[1,2],"source":"copy"});
+        let original = patch(json!([
+            {"op":"move","from":"/o/a","path":"/o/new-a"},
+            {"op":"move","from":"/o/b","path":"/o/overwrite"},
+            {"op":"move","from":"/o/c","path":"/o/new-c"},
+            {"op":"replace","path":"/o/new-a/body","value":"changed 🦀"},
+            {"op":"move","from":"/o/d","path":"/o/new-d"},
+            {"op":"copy","from":"/source","path":"/o/copied"},
+            {"op":"move","from":"/o/e","path":"/o/new-e"},
+            {"op":"move","from":"/arr/0","path":"/arr/1"},
+            {"op":"move","from":"/o/f","path":"/o/new-f"},
+            {"op":"add","path":"/o/added","value":true},
+            {"op":"remove","path":"/o/copied"},
+            {"op":"test","path":"/source","value":"copy"},
+            {"op":"move","from":"/o/g","path":"/o/new-g"},
+            {"op":"move","from":"/o/new-g","path":"/outside"},
+            {"op":"move","from":"/o/new-f","path":"/o/final-f"}
+        ]));
+        let (size, costs) = guarded_bytes(&left, &original, true, &[]).unwrap();
+        assert_eq!(
+            size,
+            bytes(&guard(left.clone(), &original).unwrap()).unwrap()
+        );
+        for end in 0..=original.0.len() {
+            let prefix = guard(left.clone(), &Patch(original.0[..end].to_vec())).unwrap();
+            assert_eq!(costs[end].bytes, bytes(&prefix).unwrap());
+            assert_eq!(costs[end].operations, prefix.0.len());
+            assert_eq!(
+                guarded_bytes(&left, &original, true, &costs[..=end])
+                    .unwrap()
+                    .0,
+                size
+            );
+        }
+        let mut invalid = original;
+        invalid
+            .0
+            .push(decode(json!({"op":"move","from":"/o/missing","path":"/o/end"})).unwrap());
+        assert_eq!(
+            guarded_bytes(&left, &invalid, true, &[]).err(),
+            guard(left, &invalid).err()
+        );
     }
 
     #[test]

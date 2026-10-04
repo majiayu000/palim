@@ -474,5 +474,54 @@ fn read_only_tests(c: &mut Criterion) {
     }
     group.finish();
 }
-criterion_group! { name = benches; config = Criterion::default().sample_size(20).warm_up_time(Duration::from_millis(100)).measurement_time(Duration::from_millis(300)).nresamples(5000); targets=benchmarks, extended_apis, risk_cases, read_only_tests }
+fn object_migrations(c: &mut Criterion) {
+    let mut group = c.benchmark_group("standard/object-migrations");
+    for count in [100, 800] {
+        for duplicates in [false, true] {
+            let files = |prefix: &str| {
+                (0..count)
+                    .map(|i| {
+                        (
+                            format!("{prefix}_{i:04}.toml"),
+                            json!({"component":if duplicates {0} else {i},
+                                "contents":"manifest Unicode 🦀 ".repeat(40)}),
+                        )
+                    })
+                    .collect::<serde_json::Map<_, _>>()
+            };
+            let left = json!({"files":files("legacy")});
+            let right = json!({"files":files("current")});
+            for (mode, rationalize, tests) in [
+                ("factorize", false, false),
+                ("optimized", true, false),
+                ("guarded", true, true),
+            ] {
+                let options = JsonPatchOptions {
+                    factorize: true,
+                    rationalize,
+                    tests,
+                };
+                let change = palim::diff_json_patch(&left, &right, &options).unwrap();
+                let mut applied = left.clone();
+                json_patch::patch(&mut applied, &change).unwrap();
+                assert_eq!(applied, right);
+                let inverse = invert_json_patch(&left, &change).unwrap();
+                json_patch::patch(&mut applied, &inverse).unwrap();
+                assert_eq!(applied, left);
+                group.bench_function(
+                    BenchmarkId::new(mode, format!("{count}-duplicates-{duplicates}")),
+                    |bencher| {
+                        bencher.iter(|| {
+                            palim::diff_json_patch(black_box(&left), black_box(&right), &options)
+                                .unwrap()
+                        });
+                    },
+                );
+            }
+        }
+    }
+    group.finish();
+}
+
+criterion_group! { name = benches; config = Criterion::default().sample_size(20).warm_up_time(Duration::from_millis(100)).measurement_time(Duration::from_millis(300)).nresamples(5000); targets=benchmarks, extended_apis, risk_cases, read_only_tests, object_migrations }
 criterion_main!(benches);
