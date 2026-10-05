@@ -7,13 +7,20 @@ use std::collections::{BTreeMap, BTreeSet};
 pub(crate) const MAX_DELTA_DEPTH: usize = 127;
 
 pub(crate) fn check_depth(value: &Value, limit: usize) -> Result<(), Error> {
+    measure_depth(value, limit).map(|_| ())
+}
+
+// Return the actual container depth during the existing boundary check.
+pub(crate) fn measure_depth(value: &Value, limit: usize) -> Result<usize, Error> {
     let mut pending = vec![(value, 0)];
+    let mut maximum = 0;
     while let Some((value, depth)) = pending.pop() {
         match value {
             Value::Array(values) => {
                 if depth >= limit {
                     return Err(Error::new("", "JSON nesting exceeds max_depth"));
                 }
+                maximum = maximum.max(depth + 1);
                 pending.extend(
                     values
                         .iter()
@@ -25,6 +32,7 @@ pub(crate) fn check_depth(value: &Value, limit: usize) -> Result<(), Error> {
                 if depth >= limit {
                     return Err(Error::new("", "JSON nesting exceeds max_depth"));
                 }
+                maximum = maximum.max(depth + 1);
                 pending.extend(
                     values
                         .values()
@@ -35,7 +43,7 @@ pub(crate) fn check_depth(value: &Value, limit: usize) -> Result<(), Error> {
             _ => {}
         }
     }
-    Ok(())
+    Ok(maximum)
 }
 
 pub(crate) fn index(key: &str, path: &str) -> Result<usize, Error> {

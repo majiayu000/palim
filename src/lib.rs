@@ -196,7 +196,7 @@ impl DiffPatcher {
         self.check_inputs(left, right)?;
         self.diff_validated(left, right)
     }
-    fn check_inputs(&self, left: &Value, right: &Value) -> Result<(), Error> {
+    fn check_inputs(&self, left: &Value, right: &Value) -> Result<usize, Error> {
         if self.options.object_hash.is_some() && self.options.array_item_matcher.is_some() {
             return Err(Error::new(
                 "",
@@ -206,9 +206,9 @@ impl DiffPatcher {
         if self.options.max_depth > 128 {
             return Err(Error::new("", "max_depth must not exceed 128"));
         }
-        delta::check_depth(left, self.options.max_depth)?;
-        delta::check_depth(right, self.options.max_depth)?;
-        Ok(())
+        let left_depth = delta::measure_depth(left, self.options.max_depth)?;
+        let right_depth = delta::measure_depth(right, self.options.max_depth)?;
+        Ok(left_depth.max(right_depth))
     }
     fn diff_validated(&self, left: &Value, right: &Value) -> Result<Option<Delta>, Error> {
         let result = diff::node(left, right, &self.options, "")?;
@@ -236,7 +236,7 @@ impl DiffPatcher {
         right: &Value,
         options: &JsonPatchOptions,
     ) -> Result<Patch, Error> {
-        self.check_inputs(left, right)?;
+        let input_depth = self.check_inputs(left, right)?;
         if !options.tests
             && self.options.node_filter.is_none()
             && self.options.property_filter.is_none()
@@ -245,6 +245,15 @@ impl DiffPatcher {
             if let Some(standard) = export::disjoint_array_patch(left, right, !options.factorize)? {
                 return rfc::optimize(left, right, standard, options);
             }
+        }
+        if self.options.node_filter.is_none() && self.options.property_filter.is_none() {
+            let mut matching = self.options.clone();
+            matching.text_diff_min_length = None;
+            let standard = export::direct_patch(left, right, &matching, options, input_depth)?;
+            if standard.0.is_empty() {
+                return Ok(standard);
+            }
+            return rfc::optimize(left, right, standard, options);
         }
         // Standard patches replace text values as a whole. Constructing a
         // text delta here would perform matching only to discard its result.

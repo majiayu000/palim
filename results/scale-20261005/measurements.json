@@ -1,0 +1,5172 @@
+{
+  "environment": {
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "cpu": "Apple M2 Max",
+    "memory_bytes": 103079215104,
+    "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6\n",
+    "date": "2026-10-05",
+    "base_commit": "50c72d59fd02d8a0e642100ad30be0771fb4eab0",
+    "candidate": "Uncommitted typed-guard construction; source hashes match the current worktree before measurement",
+    "source": {
+      "baseline": {
+        "base_commit": "50c72d59fd02d8a0e642100ad30be0771fb4eab0",
+        "identity": "frozen source hashes; candidate is uncommitted",
+        "hashes": {
+          "Cargo.toml": "ee9eff40ee81001966088dfac50beafd77fbb192f426869e2fba32a36c3b447d",
+          "Cargo.lock": "f7211788a7bbb3d6e72f95d3f66fbdbb8ff4bac2da47069372bd4625cf8209f4",
+          "README.md": "30524e06042e95b4c37d9a211064b92626ef61aa50eb120213988c30132ac0dd",
+          "examples/fixture_runner.rs": "90154c6740dc2c2343408102f9bb39288b277f9f70604d7d8001376f397fbcfe",
+          "examples/standard_bench.rs": "911a5ad4dd63f547fb318912a0fdce89c99413369d0fe43eccea73b7e5bee39b",
+          "benches/core.rs": "495d0c6db6d3080b471040d4ce2121f0d64767a7bc3c2ba041ae86bfd2366ddb",
+          "src/export.rs": "0e874e37117afd7b3056e8003e3949b5a3d9187da717d2af5ab39d891e6e69f6",
+          "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+          "src/lib.rs": "808bdc1219d0bd959f94e5cd7dc2490c7fd9de7f70e417c99773352b82bafeee",
+          "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+          "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+          "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+          "src/text.rs": "db20432df20ca009df41a645d8f10140fccc611915acae61231c98a33eefaaf8",
+          "src/diff.rs": "906a816e4016aca85de033a8f96a75bdca616689a0208d263e073fb705f46f31",
+          "src/delta.rs": "50a33c7f2abdbb4ccb1b070febc5e8c176ab1c955b24c7cb620172cbab85795a",
+          "src/rfc.rs": "b69045102d2036e149f8501fab300bcffbd36177056bd604c1945b4e762261de"
+        }
+      },
+      "candidate": {
+        "base_commit": "50c72d59fd02d8a0e642100ad30be0771fb4eab0",
+        "identity": "frozen source hashes; candidate is uncommitted",
+        "hashes": {
+          "Cargo.toml": "ee9eff40ee81001966088dfac50beafd77fbb192f426869e2fba32a36c3b447d",
+          "Cargo.lock": "f7211788a7bbb3d6e72f95d3f66fbdbb8ff4bac2da47069372bd4625cf8209f4",
+          "README.md": "30524e06042e95b4c37d9a211064b92626ef61aa50eb120213988c30132ac0dd",
+          "examples/fixture_runner.rs": "90154c6740dc2c2343408102f9bb39288b277f9f70604d7d8001376f397fbcfe",
+          "examples/standard_bench.rs": "911a5ad4dd63f547fb318912a0fdce89c99413369d0fe43eccea73b7e5bee39b",
+          "benches/core.rs": "cfd0503dc538854ae092fd5d8597e67f5a733504d4f4c4f2b8ebb52c0e78d204",
+          "src/export.rs": "0e874e37117afd7b3056e8003e3949b5a3d9187da717d2af5ab39d891e6e69f6",
+          "src/numbers.rs": "1c3ae7bc0f74f2cd38266d99697260dfd61a883ae270ab3056696abd0e4de30b",
+          "src/lib.rs": "808bdc1219d0bd959f94e5cd7dc2490c7fd9de7f70e417c99773352b82bafeee",
+          "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+          "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+          "src/compare.rs": "e62c317345062c34a9df21a91328091585daf4d5e4ff88e7c3649554fcb51e3c",
+          "src/text.rs": "db20432df20ca009df41a645d8f10140fccc611915acae61231c98a33eefaaf8",
+          "src/diff.rs": "906a816e4016aca85de033a8f96a75bdca616689a0208d263e073fb705f46f31",
+          "src/delta.rs": "50a33c7f2abdbb4ccb1b070febc5e8c176ab1c955b24c7cb620172cbab85795a",
+          "src/rfc.rs": "fc3235910d857916558dbeaff4f747d4f572d86350afd4a13fd82b6f2285b229"
+        }
+      }
+    },
+    "builds": {
+      "baseline": {
+        "stderr": "   Compiling proc-macro2 v1.0.107\n   Compiling unicode-ident v1.0.26\n   Compiling quote v1.0.47\n   Compiling serde_core v1.0.229\n   Compiling zmij v1.0.23\n   Compiling memchr v2.8.3\n   Compiling autocfg v1.5.1\n   Compiling serde_json v1.0.151\n   Compiling serde v1.0.229\n   Compiling itoa v1.0.18\n   Compiling thiserror v2.0.21\n   Compiling foldhash v0.1.5\n   Compiling hashbrown v0.15.5\n   Compiling percent-encoding v2.3.2\n   Compiling num-traits v0.2.19\n   Compiling bstr v1.13.1\n   Compiling gix-imara-diff v0.2.5\n   Compiling syn v3.0.6\n   Compiling num-integer v0.1.47\n   Compiling num-bigint v0.4.8\n   Compiling serde_derive v1.0.229\n   Compiling thiserror-impl v2.0.21\n   Compiling jsonptr v0.7.1\n   Compiling json-patch v4.2.0\n   Compiling palim v0.1.4 (/private/tmp/palim-guard-construction-measurements-20261005/sources/baseline)\n   Compiling palim-remaining-probe v0.0.0 (/private/tmp/palim-guard-construction-measurements-20261005/probes/baseline)\n    Finished `release` profile [optimized] target(s) in 10.14s\n",
+        "lock_sha256": "a094adb1350a818978db615337f2f21ca1bdd6d9d34bcfe3a2c9f36f112975a1",
+        "timing_sha256": "9c72a6a670f2f87d763cbaa06d5bff92841ec83559e89ab13b53b8dd222e780d",
+        "allocation_sha256": "39420255610c24ebf47439a2e34582c40a32d8cbfabd405a7289751ef20dd72d"
+      },
+      "candidate": {
+        "stderr": "   Compiling proc-macro2 v1.0.107\n   Compiling quote v1.0.47\n   Compiling unicode-ident v1.0.26\n   Compiling serde_core v1.0.229\n   Compiling memchr v2.8.3\n   Compiling zmij v1.0.23\n   Compiling autocfg v1.5.1\n   Compiling serde_json v1.0.151\n   Compiling serde v1.0.229\n   Compiling itoa v1.0.18\n   Compiling thiserror v2.0.21\n   Compiling foldhash v0.1.5\n   Compiling percent-encoding v2.3.2\n   Compiling hashbrown v0.15.5\n   Compiling num-traits v0.2.19\n   Compiling bstr v1.13.1\n   Compiling gix-imara-diff v0.2.5\n   Compiling syn v3.0.6\n   Compiling num-integer v0.1.47\n   Compiling serde_derive v1.0.229\n   Compiling thiserror-impl v2.0.21\n   Compiling num-bigint v0.4.8\n   Compiling jsonptr v0.7.1\n   Compiling json-patch v4.2.0\n   Compiling palim v0.1.4 (/private/tmp/palim-guard-construction-measurements-20261005/sources/candidate)\n   Compiling palim-remaining-probe v0.0.0 (/private/tmp/palim-guard-construction-measurements-20261005/probes/candidate)\n    Finished `release` profile [optimized] target(s) in 8.65s\n",
+        "lock_sha256": "a094adb1350a818978db615337f2f21ca1bdd6d9d34bcfe3a2c9f36f112975a1",
+        "timing_sha256": "cb069d1dbb2b5eb834e287f261170facf31a1b715a3176a5aab5c834352a672b",
+        "allocation_sha256": "57159b07ce1b831a9ed472026cfc9173e49164f25cda6c9e4c8b1693dfc1535c"
+      }
+    },
+    "runner_sha256": "509071c391ca8fed4b55a5ac77c56cc745608b78153860e4c7eccaf1fff0e65d",
+    "fixture_manifest": [
+      {
+        "name": "scalar-guards-2000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/scalar-guards-2000.json",
+        "sha256": "4276378a6a32884afed2d2fe7ac10b7163a448d44facd67de08b6a8bc2ae7ac6",
+        "left_bytes": 34902,
+        "right_bytes": 34905
+      },
+      {
+        "name": "scalar-guards-10000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/scalar-guards-10000.json",
+        "sha256": "79c39e2fb5e929dec29736aa24b78d70275f994ad722336dad811870bfafdc99",
+        "left_bytes": 178902,
+        "right_bytes": 178906
+      },
+      {
+        "name": "scalar-guards-100000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/scalar-guards-100000.json",
+        "sha256": "9b74d6d303de0449a6182e491509e076064d10fed2db7d6b2445efe090cfb26b",
+        "left_bytes": 1978902,
+        "right_bytes": 1978907
+      },
+      {
+        "name": "file_migrations_move_copy_800",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/file_migrations_move_copy_800.json",
+        "sha256": "0daea48c53149a44d76951781f9f0834fcb23cc686ff8466bd8dab3535cec942",
+        "left_bytes": 752873,
+        "right_bytes": 754019
+      },
+      {
+        "name": "file_migrations_move_copy_2000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/file_migrations_move_copy_2000.json",
+        "sha256": "5e16ed9e31f3eda6afd2d970eb8eee38b3c0170402de26ac03a09446e5e0f200",
+        "left_bytes": 1879473,
+        "right_bytes": 1881819
+      },
+      {
+        "name": "file_migrations_move_copy_5000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/file_migrations_move_copy_5000.json",
+        "sha256": "0856ed68869dd72f3e09ab0ce93358374e07cc4d41d4d9832e8aa0571f672217",
+        "left_bytes": 4696473,
+        "right_bytes": 4701819
+      },
+      {
+        "name": "rotate-2000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/rotate-2000.json",
+        "sha256": "b3a0e81f7aa9e750f06157c3780b7966af82a793b93f91a52fd07937f946a750",
+        "left_bytes": 34001,
+        "right_bytes": 34001
+      },
+      {
+        "name": "rotate-20000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/rotate-20000.json",
+        "sha256": "4ba4ead3b223439fbe66cd8b0a6c9c0d29c3b122b1544d5338e2bcc85f36bcb5",
+        "left_bytes": 340001,
+        "right_bytes": 340001
+      },
+      {
+        "name": "rotate-100000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/rotate-100000.json",
+        "sha256": "6bb6c29efb88280f9e4ba3e98a340e2c4b1e3f373c62d97c21abcacd48356a3b",
+        "left_bytes": 1700001,
+        "right_bytes": 1700001
+      },
+      {
+        "name": "rotate-1000000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/rotate-1000000.json",
+        "sha256": "b9b2a2d6ba0e7db26e89ae8f878ef65fe40b2d13b926ca037f8eaf0e1ac3c3e3",
+        "left_bytes": 17000001,
+        "right_bytes": 17000001
+      },
+      {
+        "name": "disjoint-2000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/disjoint-2000.json",
+        "sha256": "b56f955e9b2d3f25a7598cddc247b38c0ddc779f8c495b67e2bab3265ebec8e9",
+        "left_bytes": 34001,
+        "right_bytes": 34001
+      },
+      {
+        "name": "disjoint-10000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/disjoint-10000.json",
+        "sha256": "023d2fad5bbe42de58f7c090fe1f6b2f6d8065335651bb058de607ab6e5203bb",
+        "left_bytes": 170001,
+        "right_bytes": 170001
+      },
+      {
+        "name": "disjoint-20000",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/disjoint-20000.json",
+        "sha256": "66e970ac91e4756a925dc56af955d16b5bc2a410f9499239bb9c8a62c4390117",
+        "left_bytes": 340001,
+        "right_bytes": 340001
+      },
+      {
+        "name": "array-parent-guards-128",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/array-parent-guards-128.json",
+        "sha256": "b7710ec6c8b33f52aa091c2d71d8abf82aca2f4a48b35df490dbd1d5ae7a8a03",
+        "left_bytes": 925,
+        "right_bytes": 523
+      },
+      {
+        "name": "array-parent-guards-512",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/array-parent-guards-512.json",
+        "sha256": "48e12c330d2ee230edaf4a67a89a9f133ac534da94ab455bd3c16e26b6ef05bb",
+        "left_bytes": 4021,
+        "right_bytes": 2083
+      },
+      {
+        "name": "array-parent-guards-1024",
+        "path": "/private/tmp/palim-scale-measurements-20261005/fixtures/array-parent-guards-1024.json",
+        "sha256": "626285bc8f572bb935dd46a929b03e0bbf3db6b1cb2503d22049b69cdd247206",
+        "left_bytes": 9141,
+        "right_bytes": 5131
+      }
+    ],
+    "timing": "Already parsed Value and typed operations -> public diff or inverse API -> output destruction; no parsing/final serialization/verification within timing; plain disables factorize and rationalize; inverse modes borrow the original typed patch",
+    "samples": "3 warmups, >=10ms calibration cap2048, 9 batches, 3 independent processes/version; scalar guard highest sizes and selected largest cases alternate version order",
+    "allocation": "One separate counter process per input/mode/version; successful requested allocations; peak incremental live requests exclude held inputs, initial output and serialized wire, not RSS",
+    "correctness": "Every probe independently applies the generated RFC patch with json-patch 4.2.0, checks target equality, generates inverse and applies it to restore source; outside timing",
+    "bounds": "180-second timeout per process; measured modes and counts are fixed by runner; million-item rotation only, fully disjoint capped at 20k, growing-array guarded inverse capped at 1024 removes"
+  },
+  "summary": [
+    {
+      "case": "scalar-guards-2000",
+      "mode": "plain",
+      "wire_sha256": "fb48cbda1a30b21da5843d694b6869e11794057ba0affae832a2d5ba48a24cba",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 1.2667968749999998,
+        "process_medians_ms": [
+          1.2662031249999999,
+          1.34693225,
+          1.2667968749999998
+        ],
+        "wire_bytes": 114894,
+        "operations": 2000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 22363,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 552118,
+          "requested_bytes": 898436
+        }
+      }
+    },
+    {
+      "case": "scalar-guards-2000",
+      "mode": "plain-guarded",
+      "wire_sha256": "02a1f60f263ca4cbd2f5e91742b4dd443f05f81b1e36bc768c202209bad6f1ce",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 2.6840729999999997,
+        "process_medians_ms": [
+          2.70696875,
+          2.65642725,
+          2.6840729999999997
+        ],
+        "wire_bytes": 223784,
+        "operations": 4000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 56710,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 1143260,
+          "requested_bytes": 1941258
+        }
+      }
+    },
+    {
+      "case": "scalar-guards-2000",
+      "mode": "inverse-guarded",
+      "wire_sha256": "6d5f9448262828644693115141ab35fb80baea177139e0a244629edcba5e7018",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 3.03367725,
+        "process_medians_ms": [
+          3.03367725,
+          3.05925,
+          3.0107397500000004
+        ],
+        "wire_bytes": 223784,
+        "operations": 4000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 72368,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 765134,
+          "requested_bytes": 3063607
+        }
+      }
+    },
+    {
+      "case": "scalar-guards-10000",
+      "mode": "plain",
+      "wire_sha256": "5d1c354451cfe8cc2b0b2e46cd248671a0cb39815ff51093608c890f8f25ee6a",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 6.773625,
+        "process_medians_ms": [
+          6.756666500000001,
+          6.7995625,
+          6.773625
+        ],
+        "wire_bytes": 578895,
+        "operations": 10000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 111701,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 3161688,
+          "requested_bytes": 5484262
+        }
+      }
+    },
+    {
+      "case": "scalar-guards-10000",
+      "mode": "plain-guarded",
+      "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 14.202042,
+        "process_medians_ms": [
+          14.202042,
+          14.080291,
+          14.353
+        ],
+        "wire_bytes": 1127785,
+        "operations": 20000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 283383,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 6911904,
+          "requested_bytes": 12289166
+        }
+      }
+    },
+    {
+      "case": "scalar-guards-10000",
+      "mode": "inverse-guarded",
+      "wire_sha256": "20a7c586a18afaa2a54634c92e2c3bb9e8c23673b82c3604925f38db020a309d",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 15.886332999999999,
+        "process_medians_ms": [
+          15.800499999999998,
+          15.886332999999999,
+          15.904333999999999
+        ],
+        "wire_bytes": 1127785,
+        "operations": 20000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 361709,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 5017711,
+          "requested_bytes": 18004826
+        }
+      }
+    },
+    {
+      "case": "scalar-guards-100000",
+      "mode": "plain",
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 84.765958,
+        "process_medians_ms": [
+          83.882083,
+          84.938834,
+          84.765958
+        ],
+        "wire_bytes": 5978896,
+        "operations": 100000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 1116707,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 29997354,
+          "requested_bytes": 50169976
+        }
+      }
+    },
+    {
+      "case": "scalar-guards-100000",
+      "mode": "plain-guarded",
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "roundtrip_verified": true,
+      "baseline": {
+        "median_ms": 184.033041,
+        "process_medians_ms": [
+          184.033041,
+          185.064291,
+          179.95975
+        ],
+        "wire_bytes": 11657786,
+        "operations": 200000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 3331678,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 62749449,
+          "requested_bytes": 174536210
+        }
+      },
+      "candidate": {
+        "median_ms": 162.678834,
+        "process_medians_ms": [
+          161.764666,
+          162.678834,
+          163.639375
+        ],
+        "wire_bytes": 11657786,
+        "operations": 200000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 2831678,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 62748839,
+          "requested_bytes": 109836210
+        }
+      },
+      "speedup": 1.1312660441124136
+    },
+    {
+      "case": "scalar-guards-100000",
+      "mode": "inverse-guarded",
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "roundtrip_verified": true,
+      "baseline": {
+        "median_ms": 189.72425,
+        "process_medians_ms": [
+          189.062375,
+          189.86808299999998,
+          189.72425
+        ],
+        "wire_bytes": 11657786,
+        "operations": 200000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 4115004,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 43519631,
+          "requested_bytes": 231351245
+        }
+      },
+      "candidate": {
+        "median_ms": 170.81474999999998,
+        "process_medians_ms": [
+          170.81474999999998,
+          170.395292,
+          171.752041
+        ],
+        "wire_bytes": 11657786,
+        "operations": 200000,
+        "allocation": {
+          "allocation_or_reallocation_calls": 3615004,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 43519008,
+          "requested_bytes": 166651245
+        }
+      },
+      "speedup": 1.1107017982931804
+    },
+    {
+      "case": "file_migrations_move_copy_800",
+      "mode": "optimized",
+      "wire_sha256": "2dcc121a1e05c802040ded76b3425ac662c5494a3d038d6aa911b7baec67e9a9",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 6.374604,
+        "process_medians_ms": [
+          6.4182500000000005,
+          6.374604,
+          6.3549584999999995
+        ],
+        "wire_bytes": 80872,
+        "operations": 801,
+        "allocation": {
+          "allocation_or_reallocation_calls": 104245,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 9515236,
+          "requested_bytes": 12554369
+        }
+      }
+    },
+    {
+      "case": "file_migrations_move_copy_800",
+      "mode": "guarded",
+      "wire_sha256": "2a5879969813f95e9073e9474234679d76e5882b8ea769d51c64f76e959779fc",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 11.352166,
+        "process_medians_ms": [
+          11.411875,
+          11.340958,
+          11.352166
+        ],
+        "wire_bytes": 1506962,
+        "operations": 2,
+        "allocation": {
+          "allocation_or_reallocation_calls": 181540,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 9515236,
+          "requested_bytes": 23163981
+        }
+      }
+    },
+    {
+      "case": "file_migrations_move_copy_2000",
+      "mode": "optimized",
+      "wire_sha256": "7854a26628c0dde5b44962b354aeeea0b2102be16794fb2152c59b37b280e07a",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 17.755291999999997,
+        "process_medians_ms": [
+          17.837666,
+          17.755291999999997,
+          17.589625
+        ],
+        "wire_bytes": 202072,
+        "operations": 2001,
+        "allocation": {
+          "allocation_or_reallocation_calls": 260297,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 23820348,
+          "requested_bytes": 31555849
+        }
+      }
+    },
+    {
+      "case": "file_migrations_move_copy_2000",
+      "mode": "guarded",
+      "wire_sha256": "e0c130d870b928ed91b4eef80b9e256733971eb88c6331cddd5cbe6ac917a8dd",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 30.270292,
+        "process_medians_ms": [
+          30.681417,
+          30.187083,
+          30.270292
+        ],
+        "wire_bytes": 3761362,
+        "operations": 2,
+        "allocation": {
+          "allocation_or_reallocation_calls": 453306,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 23820348,
+          "requested_bytes": 57793253
+        }
+      }
+    },
+    {
+      "case": "file_migrations_move_copy_5000",
+      "mode": "optimized",
+      "wire_sha256": "db73b1c4dd05173880efded75108319a15a9cb1305e5dae93e0d2577cf91e356",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 45.961042,
+        "process_medians_ms": [
+          45.786958000000006,
+          45.961042,
+          45.998084
+        ],
+        "wire_bytes": 505072,
+        "operations": 5001,
+        "allocation": {
+          "allocation_or_reallocation_calls": 650398,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 59806636,
+          "requested_bytes": 80117177
+        }
+      }
+    },
+    {
+      "case": "file_migrations_move_copy_5000",
+      "mode": "guarded",
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "roundtrip_verified": true,
+      "baseline": {
+        "median_ms": 79.10962500000001,
+        "process_medians_ms": [
+          79.461542,
+          79.10962500000001,
+          78.896542
+        ],
+        "wire_bytes": 9398362,
+        "operations": 2,
+        "allocation": {
+          "allocation_or_reallocation_calls": 1132674,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 59806636,
+          "requested_bytes": 146112788
+        }
+      },
+      "candidate": {
+        "median_ms": 79.3825,
+        "process_medians_ms": [
+          79.003709,
+          80.1035,
+          79.3825
+        ],
+        "wire_bytes": 9398362,
+        "operations": 2,
+        "allocation": {
+          "allocation_or_reallocation_calls": 1132669,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 59806636,
+          "requested_bytes": 146112141
+        }
+      },
+      "speedup": 0.9965625295247695
+    },
+    {
+      "case": "rotate-2000",
+      "mode": "optimized",
+      "wire_sha256": "41b002c77538d88181a263d796c52cc165c2f60ba9f83f9db1f4c129cb23a2f8",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 0.231856109375,
+        "process_medians_ms": [
+          0.234643875,
+          0.231856109375,
+          0.23177865625000002
+        ],
+        "wire_bytes": 42,
+        "operations": 1,
+        "allocation": {
+          "allocation_or_reallocation_calls": 2079,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 364104,
+          "requested_bytes": 550002
+        }
+      }
+    },
+    {
+      "case": "rotate-2000",
+      "mode": "guarded",
+      "wire_sha256": "8ca2049efaed8d2f2c52fc3894a63fb13018c661b30969399977fa270d43d177",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 0.43134896875,
+        "process_medians_ms": [
+          0.4318828125,
+          0.43134896875,
+          0.42202993749999995
+        ],
+        "wire_bytes": 34130,
+        "operations": 3,
+        "allocation": {
+          "allocation_or_reallocation_calls": 8092,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 364104,
+          "requested_bytes": 826348
+        }
+      }
+    },
+    {
+      "case": "rotate-20000",
+      "mode": "optimized",
+      "wire_sha256": "1e1a5e78a4bb668cb552a9c4833aea03330b3e90c4a5fbf7f9b9db2c26acf66c",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 2.54902075,
+        "process_medians_ms": [
+          2.6228125,
+          2.539771,
+          2.54902075
+        ],
+        "wire_bytes": 43,
+        "operations": 1,
+        "allocation": {
+          "allocation_or_reallocation_calls": 20091,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 3854104,
+          "requested_bytes": 6186804
+        }
+      }
+    },
+    {
+      "case": "rotate-20000",
+      "mode": "guarded",
+      "wire_sha256": "155f94014719347acb6841fb9a98557ed27807f68701a1b6c29c080bb47690c7",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 4.3922605,
+        "process_medians_ms": [
+          4.389656250000001,
+          4.435948000000001,
+          4.3922605
+        ],
+        "wire_bytes": 340132,
+        "operations": 3,
+        "allocation": {
+          "allocation_or_reallocation_calls": 80104,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 3854104,
+          "requested_bytes": 8947152
+        }
+      }
+    },
+    {
+      "case": "rotate-100000",
+      "mode": "optimized",
+      "wire_sha256": "83bde1dcb8268901b39f8792adff0ce90e8e60ad78810678b6a24bb8c4e9faf0",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 13.407917,
+        "process_medians_ms": [
+          13.407917,
+          13.708833,
+          13.363875
+        ],
+        "wire_bytes": 43,
+        "operations": 1,
+        "allocation": {
+          "allocation_or_reallocation_calls": 100097,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 18156440,
+          "requested_bytes": 28501300
+        }
+      }
+    },
+    {
+      "case": "rotate-100000",
+      "mode": "guarded",
+      "wire_sha256": "36c23effd75521bfd33e334114f8c170c9e8a4cadf0cede9f912bcc95ceb45ee",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 23.997958,
+        "process_medians_ms": [
+          24.105792,
+          23.997958,
+          23.400958
+        ],
+        "wire_bytes": 1700132,
+        "operations": 3,
+        "allocation": {
+          "allocation_or_reallocation_calls": 400110,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 18156440,
+          "requested_bytes": 42301648
+        }
+      }
+    },
+    {
+      "case": "rotate-1000000",
+      "mode": "optimized",
+      "wire_sha256": "cec686053465ff870ef14ae5e88e58a5b9eccc54233f5de921b7f4c870b2ce23",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 235.0035,
+        "process_medians_ms": [
+          209.83633300000002,
+          245.10725,
+          235.0035
+        ],
+        "wire_bytes": 44,
+        "operations": 1,
+        "allocation": {
+          "allocation_or_reallocation_calls": 1000106,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 183137336,
+          "requested_bytes": 276082358
+        }
+      }
+    },
+    {
+      "case": "rotate-1000000",
+      "mode": "guarded",
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "roundtrip_verified": true,
+      "baseline": {
+        "median_ms": 328.75458299999997,
+        "process_medians_ms": [
+          304.43674999999996,
+          328.75458299999997,
+          332.99424999999997
+        ],
+        "wire_bytes": 17000134,
+        "operations": 3,
+        "allocation": {
+          "allocation_or_reallocation_calls": 4000129,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 183137336,
+          "requested_bytes": 414084002
+        }
+      },
+      "candidate": {
+        "median_ms": 332.81899999999996,
+        "process_medians_ms": [
+          332.81899999999996,
+          335.537708,
+          328.218167
+        ],
+        "wire_bytes": 17000134,
+        "operations": 3,
+        "allocation": {
+          "allocation_or_reallocation_calls": 4000119,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 183137336,
+          "requested_bytes": 414082708
+        }
+      },
+      "speedup": 0.9877879057385546
+    },
+    {
+      "case": "disjoint-2000",
+      "mode": "optimized",
+      "wire_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 2.43349475,
+        "process_medians_ms": [
+          2.4282187499999996,
+          2.47953125,
+          2.43349475
+        ],
+        "wire_bytes": 34038,
+        "operations": 1,
+        "allocation": {
+          "allocation_or_reallocation_calls": 40409,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 1263230,
+          "requested_bytes": 3030794
+        }
+      }
+    },
+    {
+      "case": "disjoint-2000",
+      "mode": "guarded",
+      "wire_sha256": "5f4a94fba3ce36f058ce38d6e2ad7473420d3fe2625f813d402040f61a56331f",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 21.139667,
+        "process_medians_ms": [
+          20.973374999999997,
+          21.215125,
+          21.139667
+        ],
+        "wire_bytes": 68072,
+        "operations": 2,
+        "allocation": {
+          "allocation_or_reallocation_calls": 91737,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 2005583,
+          "requested_bytes": 5655312
+        }
+      }
+    },
+    {
+      "case": "disjoint-10000",
+      "mode": "optimized",
+      "wire_sha256": "372a69e0f35865eb69876c63d88817b139649a5266831e3bd8b0cb825c4bb13a",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 12.571083999999999,
+        "process_medians_ms": [
+          12.657417,
+          12.571083999999999,
+          12.516917000000001
+        ],
+        "wire_bytes": 170038,
+        "operations": 1,
+        "allocation": {
+          "allocation_or_reallocation_calls": 201866,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 5368830,
+          "requested_bytes": 13401586
+        }
+      }
+    },
+    {
+      "case": "disjoint-10000",
+      "mode": "guarded",
+      "wire_sha256": "41f546bf1f3d512e3e9bd6b178f97fe4fe963c2a32505139e4f9fbbe370502c9",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 431.447958,
+        "process_medians_ms": [
+          431.447958,
+          431.244375,
+          434.245292
+        ],
+        "wire_bytes": 340072,
+        "operations": 2,
+        "allocation": {
+          "allocation_or_reallocation_calls": 458348,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 9881407,
+          "requested_bytes": 28173688
+        }
+      }
+    },
+    {
+      "case": "disjoint-20000",
+      "mode": "optimized",
+      "wire_sha256": "8be743888136bedbdc67ce3fedf8f3bf991b91b23524b76ec0a0b841a37db40b",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 26.534,
+        "process_medians_ms": [
+          27.105084,
+          26.534,
+          26.414375
+        ],
+        "wire_bytes": 340038,
+        "operations": 1,
+        "allocation": {
+          "allocation_or_reallocation_calls": 403688,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 10737630,
+          "requested_bytes": 26847074
+        }
+      }
+    },
+    {
+      "case": "disjoint-20000",
+      "mode": "guarded",
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "roundtrip_verified": true,
+      "baseline": {
+        "median_ms": 1641.431583,
+        "process_medians_ms": [
+          1657.59675,
+          1641.431583,
+          1640.0258330000001
+        ],
+        "wire_bytes": 680072,
+        "operations": 2,
+        "allocation": {
+          "allocation_or_reallocation_calls": 916678,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 19771135,
+          "requested_bytes": 56444263
+        }
+      },
+      "candidate": {
+        "median_ms": 1652.908083,
+        "process_medians_ms": [
+          1652.908083,
+          1654.426167,
+          1646.3008750000001
+        ],
+        "wire_bytes": 680072,
+        "operations": 2,
+        "allocation": {
+          "allocation_or_reallocation_calls": 916673,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 19771135,
+          "requested_bytes": 56443616
+        }
+      },
+      "speedup": 0.9930567826983032
+    },
+    {
+      "case": "array-parent-guards-128",
+      "mode": "inverse",
+      "wire_sha256": "9c2fd5655925930752e83383e83976d7aa97e2820f9e55ceaa4bc427fd755b34",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 0.08527148437500001,
+        "process_medians_ms": [
+          0.08505273437500001,
+          0.08618522656250001,
+          0.08527148437500001
+        ],
+        "wire_bytes": 5395,
+        "operations": 128,
+        "allocation": {
+          "allocation_or_reallocation_calls": 2320,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 25871,
+          "requested_bytes": 132323
+        }
+      }
+    },
+    {
+      "case": "array-parent-guards-128",
+      "mode": "inverse-guarded",
+      "wire_sha256": "08cec64e1cf2c47050ff4e6043f259e1a9d6bd9acc2b7920bb430be794a90367",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 1.7172865,
+        "process_medians_ms": [
+          1.7172865,
+          1.716135375,
+          1.718776
+        ],
+        "wire_bytes": 103568,
+        "operations": 256,
+        "allocation": {
+          "allocation_or_reallocation_calls": 77015,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 890368,
+          "requested_bytes": 1484929
+        }
+      }
+    },
+    {
+      "case": "array-parent-guards-512",
+      "mode": "inverse",
+      "wire_sha256": "e036c6897d4cfd076bcb7940e86eec47934c1b86cf90ae05a76b1d49421abeac",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 0.456283875,
+        "process_medians_ms": [
+          0.45523696875,
+          0.45725521874999997,
+          0.456283875
+        ],
+        "wire_bytes": 21907,
+        "operations": 512,
+        "allocation": {
+          "allocation_or_reallocation_calls": 9236,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 101927,
+          "requested_bytes": 529403
+        }
+      }
+    },
+    {
+      "case": "array-parent-guards-512",
+      "mode": "inverse-guarded",
+      "wire_sha256": "2939ca251b4252dc0a873de904747d29ad0e22f389f56a6820258d9f805488c5",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 26.405375,
+        "process_medians_ms": [
+          26.598667,
+          26.052625,
+          26.405375
+        ],
+        "wire_bytes": 1621520,
+        "operations": 1024,
+        "allocation": {
+          "allocation_or_reallocation_calls": 1192733,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 13909720,
+          "requested_bytes": 21921049
+        }
+      }
+    },
+    {
+      "case": "array-parent-guards-1024",
+      "mode": "inverse",
+      "wire_sha256": "76eb30766a1c898c96b32d919f3d8036176fda95191bf5880690d3fd26b139d9",
+      "roundtrip_verified": true,
+      "candidate": {
+        "median_ms": 1.238291625,
+        "process_medians_ms": [
+          1.2397135000000001,
+          1.238291625,
+          1.226359375
+        ],
+        "wire_bytes": 43947,
+        "operations": 1024,
+        "allocation": {
+          "allocation_or_reallocation_calls": 18454,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 204327,
+          "requested_bytes": 1059883
+        }
+      }
+    },
+    {
+      "case": "array-parent-guards-1024",
+      "mode": "inverse-guarded",
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "roundtrip_verified": true,
+      "baseline": {
+        "median_ms": 106.297958,
+        "process_medians_ms": [
+          106.297958,
+          106.183542,
+          107.210042
+        ],
+        "wire_bytes": 7442172,
+        "operations": 2048,
+        "allocation": {
+          "allocation_or_reallocation_calls": 4749856,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 56399193,
+          "requested_bytes": 89080097
+        }
+      },
+      "candidate": {
+        "median_ms": 107.667916,
+        "process_medians_ms": [
+          106.25574999999999,
+          107.667916,
+          108.52291699999999
+        ],
+        "wire_bytes": 7442172,
+        "operations": 2048,
+        "allocation": {
+          "allocation_or_reallocation_calls": 4744736,
+          "final_live_delta_bytes": 0,
+          "peak_additional_live_bytes": 56398556,
+          "requested_bytes": 88417569
+        }
+      },
+      "speedup": 0.9872760795332938
+    }
+  ],
+  "records": [
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 8,
+      "mode": "plain",
+      "operations": 2000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.293177,
+        1.2623385,
+        1.2662031249999999,
+        1.29785425,
+        1.286421875,
+        1.2649009999999998,
+        1.2798749999999999,
+        1.252421875,
+        1.2510937500000001
+      ],
+      "wire_bytes": 114894,
+      "wire_sha256": "fb48cbda1a30b21da5843d694b6869e11794057ba0affae832a2d5ba48a24cba",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.1332831660984084,
+      "median_ms": 1.2662031249999999
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 8,
+      "mode": "plain",
+      "operations": 2000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.353640625,
+        1.34693225,
+        1.3666615000000002,
+        1.3481875,
+        1.3308645,
+        1.341713625,
+        1.341213625,
+        1.340192625,
+        1.3523853750000001
+      ],
+      "wire_bytes": 114894,
+      "wire_sha256": "fb48cbda1a30b21da5843d694b6869e11794057ba0affae832a2d5ba48a24cba",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.1350638329749927,
+      "median_ms": 1.34693225
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 8,
+      "mode": "plain",
+      "operations": 2000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.27946875,
+        1.265114625,
+        1.2667968749999998,
+        1.2500208750000001,
+        1.24979175,
+        1.262698,
+        1.28763025,
+        1.27222925,
+        1.281671875
+      ],
+      "wire_bytes": 114894,
+      "wire_sha256": "fb48cbda1a30b21da5843d694b6869e11794057ba0affae832a2d5ba48a24cba",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.12797670904546976,
+      "median_ms": 1.2667968749999998
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 22363,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 552118,
+        "requested_bytes": 898436
+      },
+      "case": "scalar-guards-2000",
+      "iterations": 1,
+      "mode": "plain",
+      "operations": 2000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 114894,
+      "wire_sha256": "fb48cbda1a30b21da5843d694b6869e11794057ba0affae832a2d5ba48a24cba",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.022403166978619993
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 4,
+      "mode": "plain-guarded",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.723125,
+        2.6798332499999997,
+        2.71283325,
+        2.65326025,
+        2.74521875,
+        2.72452075,
+        2.6870417499999997,
+        2.70696875,
+        2.67129175
+      ],
+      "wire_bytes": 223784,
+      "wire_sha256": "02a1f60f263ca4cbd2f5e91742b4dd443f05f81b1e36bc768c202209bad6f1ce",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.14126654202118516,
+      "median_ms": 2.70696875
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 4,
+      "mode": "plain-guarded",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.65642725,
+        2.65603125,
+        2.65003125,
+        2.7189585,
+        2.66635425,
+        2.646448,
+        2.6940832500000003,
+        2.65414575,
+        2.7616562499999997
+      ],
+      "wire_bytes": 223784,
+      "wire_sha256": "02a1f60f263ca4cbd2f5e91742b4dd443f05f81b1e36bc768c202209bad6f1ce",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.14024574996437877,
+      "median_ms": 2.65642725
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 4,
+      "mode": "plain-guarded",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.69040625,
+        2.7448124999999997,
+        2.6497187500000003,
+        2.73294775,
+        2.68308325,
+        2.6840729999999997,
+        2.727823,
+        2.68177075,
+        2.6768644999999998
+      ],
+      "wire_bytes": 223784,
+      "wire_sha256": "02a1f60f263ca4cbd2f5e91742b4dd443f05f81b1e36bc768c202209bad6f1ce",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.14133591600693762,
+      "median_ms": 2.6840729999999997
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 56710,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 1143260,
+        "requested_bytes": 1941258
+      },
+      "case": "scalar-guards-2000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 223784,
+      "wire_sha256": "02a1f60f263ca4cbd2f5e91742b4dd443f05f81b1e36bc768c202209bad6f1ce",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.02932020800653845
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 4,
+      "mode": "inverse-guarded",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        3.01788525,
+        3.0653855,
+        3.01096875,
+        3.015729,
+        3.0424895,
+        3.03060425,
+        3.0809375,
+        3.03367725,
+        3.0605625
+      ],
+      "wire_bytes": 223784,
+      "wire_sha256": "6d5f9448262828644693115141ab35fb80baea177139e0a244629edcba5e7018",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.1582993339980021,
+      "median_ms": 3.03367725
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 4,
+      "mode": "inverse-guarded",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        3.0213750000000004,
+        3.02678125,
+        3.05375,
+        3.06140625,
+        3.069427,
+        3.05925,
+        3.12285425,
+        3.06454175,
+        3.00627075
+      ],
+      "wire_bytes": 223784,
+      "wire_sha256": "6d5f9448262828644693115141ab35fb80baea177139e0a244629edcba5e7018",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.1583997500129044,
+      "median_ms": 3.05925
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-2000",
+      "iterations": 4,
+      "mode": "inverse-guarded",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.97769775,
+        2.99151025,
+        3.01863525,
+        2.9859894999999996,
+        2.9919374999999997,
+        3.0107397500000004,
+        3.03190625,
+        3.0234375,
+        3.04471875
+      ],
+      "wire_bytes": 223784,
+      "wire_sha256": "6d5f9448262828644693115141ab35fb80baea177139e0a244629edcba5e7018",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.15616625000257045,
+      "median_ms": 3.0107397500000004
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 72368,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 765134,
+        "requested_bytes": 3063607
+      },
+      "case": "scalar-guards-2000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 4000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 223784,
+      "wire_sha256": "6d5f9448262828644693115141ab35fb80baea177139e0a244629edcba5e7018",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.029484416008926928
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 2,
+      "mode": "plain",
+      "operations": 10000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        6.739833,
+        6.565292,
+        6.683583499999999,
+        6.5870625,
+        6.8006875,
+        6.756666500000001,
+        6.967979499999999,
+        6.764979,
+        6.80275
+      ],
+      "wire_bytes": 578895,
+      "wire_sha256": "5d1c354451cfe8cc2b0b2e46cd248671a0cb39815ff51093608c890f8f25ee6a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.21043533307965845,
+      "median_ms": 6.756666500000001
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 2,
+      "mode": "plain",
+      "operations": 10000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        6.851,
+        6.643583,
+        6.853667,
+        6.614625,
+        6.7007915,
+        6.926625,
+        6.7953125000000005,
+        6.843542,
+        6.7995625
+      ],
+      "wire_bytes": 578895,
+      "wire_sha256": "5d1c354451cfe8cc2b0b2e46cd248671a0cb39815ff51093608c890f8f25ee6a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.2099557500332594,
+      "median_ms": 6.7995625
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 2,
+      "mode": "plain",
+      "operations": 10000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        6.905604,
+        6.547521,
+        6.5821250000000004,
+        6.6548125,
+        6.8505625,
+        6.7073125,
+        6.8384374999999995,
+        6.8911875,
+        6.773625
+      ],
+      "wire_bytes": 578895,
+      "wire_sha256": "5d1c354451cfe8cc2b0b2e46cd248671a0cb39815ff51093608c890f8f25ee6a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.2099010000238195,
+      "median_ms": 6.773625
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 111701,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 3161688,
+        "requested_bytes": 5484262
+      },
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "plain",
+      "operations": 10000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 578895,
+      "wire_sha256": "5d1c354451cfe8cc2b0b2e46cd248671a0cb39815ff51093608c890f8f25ee6a",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.0756230839760974
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 20000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        14.202042,
+        14.236958,
+        14.240625,
+        14.414916999999999,
+        14.20775,
+        13.701166,
+        13.726208,
+        13.899708,
+        14.071166
+      ],
+      "wire_bytes": 1127785,
+      "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.25000699993688613,
+      "median_ms": 14.202042
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 20000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        14.126958,
+        14.067875,
+        14.002583000000001,
+        13.970709,
+        14.271416,
+        14.236666999999999,
+        14.107708,
+        14.080291,
+        14.05025
+      ],
+      "wire_bytes": 1127785,
+      "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.25169279193505645,
+      "median_ms": 14.080291
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 20000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        14.474957999999999,
+        14.353,
+        14.266708,
+        14.37975,
+        14.353541,
+        14.499875000000001,
+        14.207792,
+        14.334667000000001,
+        14.186584
+      ],
+      "wire_bytes": 1127785,
+      "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.2523470000596717,
+      "median_ms": 14.353
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 283383,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 6911904,
+        "requested_bytes": 12289166
+      },
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 20000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 1127785,
+      "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.12457849993370473
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 20000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        15.81225,
+        16.021375000000003,
+        15.774166999999998,
+        15.800499999999998,
+        15.821709,
+        15.914250000000001,
+        15.70075,
+        15.271417000000001,
+        15.409584
+      ],
+      "wire_bytes": 1127785,
+      "wire_sha256": "20a7c586a18afaa2a54634c92e2c3bb9e8c23673b82c3604925f38db020a309d",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.2725509579759091,
+      "median_ms": 15.800499999999998
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 20000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        16.259834,
+        15.684291,
+        16.014666000000002,
+        15.896291,
+        15.886332999999999,
+        15.876417,
+        15.693499999999998,
+        15.761792,
+        17.538292000000002
+      ],
+      "wire_bytes": 1127785,
+      "wire_sha256": "20a7c586a18afaa2a54634c92e2c3bb9e8c23673b82c3604925f38db020a309d",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.2788949169917032,
+      "median_ms": 15.886332999999999
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 20000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        16.012792,
+        15.904333999999999,
+        15.799207999999998,
+        15.765417000000001,
+        15.673791999999999,
+        18.925417,
+        16.010959000000003,
+        15.585959,
+        15.909834000000002
+      ],
+      "wire_bytes": 1127785,
+      "wire_sha256": "20a7c586a18afaa2a54634c92e2c3bb9e8c23673b82c3604925f38db020a309d",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.2809665409149602,
+      "median_ms": 15.904333999999999
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 361709,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 5017711,
+        "requested_bytes": 18004826
+      },
+      "case": "scalar-guards-10000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 20000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 1127785,
+      "wire_sha256": "20a7c586a18afaa2a54634c92e2c3bb9e8c23673b82c3604925f38db020a309d",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.14011079096235335
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain",
+      "operations": 100000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        83.882083,
+        82.82291599999999,
+        83.083958,
+        84.110167,
+        83.91104200000001,
+        83.987083,
+        83.47366600000001,
+        82.4555,
+        84.107083
+      ],
+      "wire_bytes": 5978896,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 1.5765126249752939,
+      "median_ms": 83.882083
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain",
+      "operations": 100000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        83.84958300000001,
+        84.76845800000001,
+        85.60554099999999,
+        84.83975000000001,
+        84.938834,
+        84.988667,
+        84.795542,
+        85.671875,
+        85.260875
+      ],
+      "wire_bytes": 5978896,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 1.566850916016847,
+      "median_ms": 84.938834
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain",
+      "operations": 100000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        85.005292,
+        83.46029200000001,
+        84.82962500000001,
+        84.554209,
+        85.716666,
+        84.765958,
+        85.11745900000001,
+        84.211167,
+        83.248791
+      ],
+      "wire_bytes": 5978896,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 1.5756429170724005,
+      "median_ms": 84.765958
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 1116707,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 29997354,
+        "requested_bytes": 50169976
+      },
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain",
+      "operations": 100000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 5978896,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.8076460829470307
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        161.294084,
+        160.831167,
+        160.66216599999998,
+        162.031041,
+        162.171208,
+        162.615084,
+        161.681542,
+        161.764666,
+        163.284042
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 2.766488334047608,
+      "median_ms": 161.764666
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        184.086834,
+        184.51245799999998,
+        187.179542,
+        183.60325,
+        184.033041,
+        183.339,
+        181.68699999999998,
+        181.01325,
+        184.155291
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 3.257987124961801,
+      "median_ms": 184.033041
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        180.287125,
+        180.149041,
+        185.064291,
+        181.435333,
+        186.391458,
+        187.001792,
+        186.00050000000002,
+        182.295709,
+        223.307834
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 3.1107636670349166,
+      "median_ms": 185.064291
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        166.16133399999998,
+        162.131542,
+        161.667375,
+        163.584542,
+        163.622458,
+        162.09799999999998,
+        162.678834,
+        161.845458,
+        163.885
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 2.8049902089405805,
+      "median_ms": 162.678834
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        163.300833,
+        162.849334,
+        164.812916,
+        162.522542,
+        162.833,
+        163.639375,
+        165.745959,
+        163.68312500000002,
+        163.911375
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 2.7946400420041755,
+      "median_ms": 163.639375
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        181.12620900000002,
+        179.84375,
+        179.73741600000002,
+        179.407,
+        180.659875,
+        180.070292,
+        179.95975,
+        180.25158299999998,
+        179.70054199999998
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 3.039128999924287,
+      "median_ms": 179.95975
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 3331678,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 62749449,
+        "requested_bytes": 174536210
+      },
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 11657786,
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "version": "baseline",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 1.4310061249416322
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 2831678,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 62748839,
+        "requested_bytes": 109836210
+      },
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "plain-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 11657786,
+      "wire_sha256": "d8fe885e4b0e9ad169fc889ac88a2070aeb7782ce6e24e41ab6eddcffaccc6f0",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 1.3510834999615327
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        188.61987499999998,
+        190.066834,
+        187.756834,
+        189.622958,
+        189.908792,
+        189.062375,
+        188.682458,
+        188.351875,
+        189.39849999999998
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 3.1490678330883384,
+      "median_ms": 189.062375
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        171.57404200000002,
+        169.994167,
+        171.234583,
+        169.70908400000002,
+        170.81474999999998,
+        171.59754099999998,
+        169.561917,
+        170.447209,
+        171.455833
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 2.8953771670348942,
+      "median_ms": 170.81474999999998
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        170.075917,
+        171.34325,
+        169.731458,
+        169.558417,
+        170.395292,
+        171.2835,
+        172.360292,
+        169.959792,
+        171.124459
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 2.9001626250101253,
+      "median_ms": 170.395292
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        191.822292,
+        189.86808299999998,
+        188.99754199999998,
+        189.691459,
+        190.093709,
+        190.922292,
+        190.8165,
+        188.900667,
+        188.586875
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 3.16378187504597,
+      "median_ms": 189.86808299999998
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        189.122916,
+        190.19116599999998,
+        188.9605,
+        190.24433299999998,
+        189.69787499999998,
+        190.212084,
+        188.925375,
+        189.72425,
+        189.80712499999998
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 3.164619500050321,
+      "median_ms": 189.72425
+    },
+    {
+      "allocation": null,
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        187.213041,
+        171.43487499999998,
+        171.26370899999998,
+        172.240375,
+        171.338875,
+        172.31474999999998,
+        171.810791,
+        171.752041,
+        171.551916
+      ],
+      "wire_bytes": 11657786,
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 2.9280217080377042,
+      "median_ms": 171.752041
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 4115004,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 43519631,
+        "requested_bytes": 231351245
+      },
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 11657786,
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "version": "baseline",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 1.479701541014947
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 3615004,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 43519008,
+        "requested_bytes": 166651245
+      },
+      "case": "scalar-guards-100000",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 200000,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 11657786,
+      "wire_sha256": "6c31a3e6c8bcedf8f7afb9d8dc7111ca568c51e9a81f4020bd12bedff5138427",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 1.3820255000609905
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_800",
+      "iterations": 2,
+      "mode": "optimized",
+      "operations": 801,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        6.0193335,
+        6.584167,
+        6.3180205,
+        6.4182500000000005,
+        6.3770205,
+        6.2941875000000005,
+        6.644875,
+        6.513542,
+        6.5117294999999995
+      ],
+      "wire_bytes": 80872,
+      "wire_sha256": "2dcc121a1e05c802040ded76b3425ac662c5494a3d038d6aa911b7baec67e9a9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.17489679099526256,
+      "median_ms": 6.4182500000000005
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_800",
+      "iterations": 2,
+      "mode": "optimized",
+      "operations": 801,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        6.622146,
+        6.3882085,
+        6.3569795000000004,
+        6.1215625000000005,
+        6.508583499999999,
+        6.374604,
+        6.3034170000000005,
+        5.943582999999999,
+        6.6312915
+      ],
+      "wire_bytes": 80872,
+      "wire_sha256": "2dcc121a1e05c802040ded76b3425ac662c5494a3d038d6aa911b7baec67e9a9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.17307945899665356,
+      "median_ms": 6.374604
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_800",
+      "iterations": 2,
+      "mode": "optimized",
+      "operations": 801,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        6.4119585,
+        5.900625,
+        6.402375,
+        6.4736665,
+        6.153458,
+        6.3091045,
+        6.3695,
+        6.3549584999999995,
+        6.305271
+      ],
+      "wire_bytes": 80872,
+      "wire_sha256": "2dcc121a1e05c802040ded76b3425ac662c5494a3d038d6aa911b7baec67e9a9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.17212554102297872,
+      "median_ms": 6.3549584999999995
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 104245,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 9515236,
+        "requested_bytes": 12554369
+      },
+      "case": "file_migrations_move_copy_800",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 801,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 80872,
+      "wire_sha256": "2dcc121a1e05c802040ded76b3425ac662c5494a3d038d6aa911b7baec67e9a9",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.045033291913568974
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_800",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        11.690541,
+        12.001542,
+        11.415875000000002,
+        11.174167,
+        11.205667,
+        11.411875,
+        11.357542,
+        10.928125,
+        11.463709000000001
+      ],
+      "wire_bytes": 1506962,
+      "wire_sha256": "2a5879969813f95e9073e9474234679d76e5882b8ea769d51c64f76e959779fc",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.17850916599854827,
+      "median_ms": 11.411875
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_800",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        11.270999999999999,
+        11.411833,
+        11.3565,
+        11.340958,
+        11.458458,
+        10.942250000000001,
+        11.753584,
+        11.261709,
+        11.043249999999999
+      ],
+      "wire_bytes": 1506962,
+      "wire_sha256": "2a5879969813f95e9073e9474234679d76e5882b8ea769d51c64f76e959779fc",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.1770547500345856,
+      "median_ms": 11.340958
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_800",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        11.445833,
+        11.185125000000001,
+        12.014417,
+        11.273125,
+        11.352166,
+        10.980375,
+        11.677999999999999,
+        11.590167000000001,
+        11.227459
+      ],
+      "wire_bytes": 1506962,
+      "wire_sha256": "2a5879969813f95e9073e9474234679d76e5882b8ea769d51c64f76e959779fc",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.1785224579507485,
+      "median_ms": 11.352166
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 181540,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 9515236,
+        "requested_bytes": 23163981
+      },
+      "case": "file_migrations_move_copy_800",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 1506962,
+      "wire_sha256": "2a5879969813f95e9073e9474234679d76e5882b8ea769d51c64f76e959779fc",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.07543429196812212
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_2000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 2001,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        17.837666,
+        17.897667,
+        17.146,
+        17.713625,
+        18.142,
+        17.599875,
+        17.357958,
+        17.849708999999997,
+        18.667666
+      ],
+      "wire_bytes": 202072,
+      "wire_sha256": "7854a26628c0dde5b44962b354aeeea0b2102be16794fb2152c59b37b280e07a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.27494112495332956,
+      "median_ms": 17.837666
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_2000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 2001,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        17.949333000000003,
+        18.151332999999997,
+        16.643708,
+        17.755291999999997,
+        16.892042,
+        17.364500000000003,
+        18.858791999999998,
+        18.76275,
+        17.48525
+      ],
+      "wire_bytes": 202072,
+      "wire_sha256": "7854a26628c0dde5b44962b354aeeea0b2102be16794fb2152c59b37b280e07a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.27418104105163366,
+      "median_ms": 17.755291999999997
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_2000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 2001,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        16.750999999999998,
+        18.726875,
+        18.5365,
+        17.928875,
+        17.533,
+        17.355916999999998,
+        17.630458,
+        17.589625,
+        17.324333
+      ],
+      "wire_bytes": 202072,
+      "wire_sha256": "7854a26628c0dde5b44962b354aeeea0b2102be16794fb2152c59b37b280e07a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.2738025840371847,
+      "median_ms": 17.589625
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 260297,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 23820348,
+        "requested_bytes": 31555849
+      },
+      "case": "file_migrations_move_copy_2000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 2001,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 202072,
+      "wire_sha256": "7854a26628c0dde5b44962b354aeeea0b2102be16794fb2152c59b37b280e07a",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.11666820792015642
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        30.834625000000003,
+        29.989208,
+        29.59625,
+        30.681417,
+        30.753,
+        29.396834000000002,
+        30.868958,
+        30.766000000000002,
+        29.893709
+      ],
+      "wire_bytes": 3761362,
+      "wire_sha256": "e0c130d870b928ed91b4eef80b9e256733971eb88c6331cddd5cbe6ac917a8dd",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.46289666707161814,
+      "median_ms": 30.681417
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        30.617583,
+        30.187083,
+        29.996667000000002,
+        30.067291,
+        30.937708,
+        30.322833,
+        30.296917,
+        29.708959,
+        29.925667
+      ],
+      "wire_bytes": 3761362,
+      "wire_sha256": "e0c130d870b928ed91b4eef80b9e256733971eb88c6331cddd5cbe6ac917a8dd",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.4619815410114825,
+      "median_ms": 30.187083
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        31.532917,
+        28.770625000000003,
+        29.594583,
+        30.393832999999997,
+        30.373708,
+        29.137333,
+        30.270292,
+        30.50975,
+        30.221208
+      ],
+      "wire_bytes": 3761362,
+      "wire_sha256": "e0c130d870b928ed91b4eef80b9e256733971eb88c6331cddd5cbe6ac917a8dd",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.46287870802916586,
+      "median_ms": 30.270292
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 453306,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 23820348,
+        "requested_bytes": 57793253
+      },
+      "case": "file_migrations_move_copy_2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 3761362,
+      "wire_sha256": "e0c130d870b928ed91b4eef80b9e256733971eb88c6331cddd5cbe6ac917a8dd",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.19897670892532915
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 5001,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        46.494665999999995,
+        45.261583,
+        44.914,
+        45.483999999999995,
+        45.837542,
+        45.055125000000004,
+        46.383250000000004,
+        45.786958000000006,
+        45.872749999999996
+      ],
+      "wire_bytes": 505072,
+      "wire_sha256": "db73b1c4dd05173880efded75108319a15a9cb1305e5dae93e0d2577cf91e356",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.6974015409359708,
+      "median_ms": 45.786958000000006
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 5001,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        47.382959,
+        44.950333,
+        45.809708,
+        45.961042,
+        46.631040999999996,
+        46.412084,
+        45.390833,
+        46.407375,
+        45.671749999999996
+      ],
+      "wire_bytes": 505072,
+      "wire_sha256": "db73b1c4dd05173880efded75108319a15a9cb1305e5dae93e0d2577cf91e356",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.703315458027646,
+      "median_ms": 45.961042
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 5001,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        46.929666000000005,
+        45.828875,
+        45.331583,
+        46.924834,
+        47.514167,
+        46.517375,
+        44.972291999999996,
+        45.325209,
+        45.998084
+      ],
+      "wire_bytes": 505072,
+      "wire_sha256": "db73b1c4dd05173880efded75108319a15a9cb1305e5dae93e0d2577cf91e356",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.7060312500689179,
+      "median_ms": 45.998084
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 650398,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 59806636,
+        "requested_bytes": 80117177
+      },
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 5001,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 505072,
+      "wire_sha256": "db73b1c4dd05173880efded75108319a15a9cb1305e5dae93e0d2577cf91e356",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.30303245794493705
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        78.56150000000001,
+        79.484,
+        79.461542,
+        79.0775,
+        79.831583,
+        78.000125,
+        79.88025,
+        80.468417,
+        78.477208
+      ],
+      "wire_bytes": 9398362,
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 1.2072947500273585,
+      "median_ms": 79.461542
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        79.501167,
+        78.34037500000001,
+        78.94345899999999,
+        78.089833,
+        79.38012499999999,
+        79.658,
+        79.003709,
+        78.499709,
+        81.20675
+      ],
+      "wire_bytes": 9398362,
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 1.206226791953668,
+      "median_ms": 79.003709
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        80.1035,
+        79.937042,
+        80.05404100000001,
+        82.960709,
+        81.632584,
+        79.858375,
+        80.752458,
+        80.196084,
+        78.90516699999999
+      ],
+      "wire_bytes": 9398362,
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 1.2140549579635262,
+      "median_ms": 80.1035
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        81.8415,
+        79.042625,
+        80.005541,
+        77.56075,
+        79.10962500000001,
+        78.68625,
+        79.83833299999999,
+        79.433791,
+        78.387625
+      ],
+      "wire_bytes": 9398362,
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 1.2138720420189202,
+      "median_ms": 79.10962500000001
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        76.651416,
+        77.028417,
+        80.08604199999999,
+        77.0425,
+        79.017584,
+        76.864166,
+        79.99616700000001,
+        79.160375,
+        78.896542
+      ],
+      "wire_bytes": 9398362,
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 1.1956702910829335,
+      "median_ms": 78.896542
+    },
+    {
+      "allocation": null,
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        79.3825,
+        79.108083,
+        78.116708,
+        79.63425000000001,
+        79.29391700000001,
+        79.407625,
+        79.59979200000001,
+        80.216583,
+        78.668166
+      ],
+      "wire_bytes": 9398362,
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 1.2126008750637993,
+      "median_ms": 79.3825
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 1132674,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 59806636,
+        "requested_bytes": 146112788
+      },
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 9398362,
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "version": "baseline",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.5176122090779245
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 1132669,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 59806636,
+        "requested_bytes": 146112141
+      },
+      "case": "file_migrations_move_copy_5000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 9398362,
+      "wire_sha256": "f5d8c095f0aed14dc614ba88ab6954b41dc91e1c451f2bf21bcce475fb332ceb",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.5084243339952081
+    },
+    {
+      "allocation": null,
+      "case": "rotate-2000",
+      "iterations": 64,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.234643875,
+        0.229745453125,
+        0.2359733125,
+        0.240884109375,
+        0.23112759375,
+        0.234982421875,
+        0.23635546875,
+        0.22997265625000002,
+        0.2338815
+      ],
+      "wire_bytes": 42,
+      "wire_sha256": "41b002c77538d88181a263d796c52cc165c2f60ba9f83f9db1f4c129cb23a2f8",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.17191366699989885,
+      "median_ms": 0.234643875
+    },
+    {
+      "allocation": null,
+      "case": "rotate-2000",
+      "iterations": 64,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.23101953125,
+        0.230772140625,
+        0.231434890625,
+        0.2318704375,
+        0.231856109375,
+        0.22977409375,
+        0.233935546875,
+        0.23421614062499999,
+        0.232801421875
+      ],
+      "wire_bytes": 42,
+      "wire_sha256": "41b002c77538d88181a263d796c52cc165c2f60ba9f83f9db1f4c129cb23a2f8",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.17045258299913257,
+      "median_ms": 0.231856109375
+    },
+    {
+      "allocation": null,
+      "case": "rotate-2000",
+      "iterations": 64,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.23097265625,
+        0.23008528125,
+        0.233993484375,
+        0.233236984375,
+        0.23177865625000002,
+        0.233706375,
+        0.232988921875,
+        0.230196609375,
+        0.22905534375
+      ],
+      "wire_bytes": 42,
+      "wire_sha256": "41b002c77538d88181a263d796c52cc165c2f60ba9f83f9db1f4c129cb23a2f8",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.1701328749768436,
+      "median_ms": 0.23177865625000002
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 2079,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 364104,
+        "requested_bytes": 550002
+      },
+      "case": "rotate-2000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 42,
+      "wire_sha256": "41b002c77538d88181a263d796c52cc165c2f60ba9f83f9db1f4c129cb23a2f8",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.007332500070333481
+    },
+    {
+      "allocation": null,
+      "case": "rotate-2000",
+      "iterations": 32,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.43366015625000004,
+        0.43565496875,
+        0.43883984375,
+        0.42665625,
+        0.4414049375,
+        0.4307435,
+        0.4318828125,
+        0.43132943749999997,
+        0.41833203124999996
+      ],
+      "wire_bytes": 34130,
+      "wire_sha256": "8ca2049efaed8d2f2c52fc3894a63fb13018c661b30969399977fa270d43d177",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.15932020905893296,
+      "median_ms": 0.4318828125
+    },
+    {
+      "allocation": null,
+      "case": "rotate-2000",
+      "iterations": 32,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.42716537499999996,
+        0.42055990625,
+        0.41742315625000004,
+        0.42241275,
+        0.43476171874999997,
+        0.43134896875,
+        0.4554583125,
+        0.5593567500000001,
+        0.6753320312500001
+      ],
+      "wire_bytes": 34130,
+      "wire_sha256": "8ca2049efaed8d2f2c52fc3894a63fb13018c661b30969399977fa270d43d177",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.1714959159726277,
+      "median_ms": 0.43134896875
+    },
+    {
+      "allocation": null,
+      "case": "rotate-2000",
+      "iterations": 32,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.42036850000000003,
+        0.43007159375,
+        0.43311849999999996,
+        0.41973828125,
+        0.41542709375000003,
+        0.434984375,
+        0.42906771875,
+        0.41753515625,
+        0.42202993749999995
+      ],
+      "wire_bytes": 34130,
+      "wire_sha256": "8ca2049efaed8d2f2c52fc3894a63fb13018c661b30969399977fa270d43d177",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.16488658299203962,
+      "median_ms": 0.42202993749999995
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 8092,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 364104,
+        "requested_bytes": 826348
+      },
+      "case": "rotate-2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 34130,
+      "wire_sha256": "8ca2049efaed8d2f2c52fc3894a63fb13018c661b30969399977fa270d43d177",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.008745791972614825
+    },
+    {
+      "allocation": null,
+      "case": "rotate-20000",
+      "iterations": 4,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.55289575,
+        2.6609687500000003,
+        2.73047925,
+        2.6228125,
+        2.6166980000000004,
+        2.8198749999999997,
+        3.11165625,
+        2.60467725,
+        2.602927
+      ],
+      "wire_bytes": 43,
+      "wire_sha256": "1e1a5e78a4bb668cb552a9c4833aea03330b3e90c4a5fbf7f9b9db2c26acf66c",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.13626183394808322,
+      "median_ms": 2.6228125
+    },
+    {
+      "allocation": null,
+      "case": "rotate-20000",
+      "iterations": 4,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.496771,
+        2.59785425,
+        2.58341675,
+        2.486323,
+        2.521177,
+        2.539771,
+        2.496698,
+        2.5784582499999997,
+        2.54920825
+      ],
+      "wire_bytes": 43,
+      "wire_sha256": "1e1a5e78a4bb668cb552a9c4833aea03330b3e90c4a5fbf7f9b9db2c26acf66c",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.1294481250224635,
+      "median_ms": 2.539771
+    },
+    {
+      "allocation": null,
+      "case": "rotate-20000",
+      "iterations": 4,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.5960625,
+        2.52582275,
+        2.5357499999999997,
+        2.511521,
+        2.5835,
+        2.54902075,
+        2.5416250000000002,
+        2.5617085,
+        2.56590625
+      ],
+      "wire_bytes": 43,
+      "wire_sha256": "1e1a5e78a4bb668cb552a9c4833aea03330b3e90c4a5fbf7f9b9db2c26acf66c",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.12950687506236136,
+      "median_ms": 2.54902075
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 20091,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 3854104,
+        "requested_bytes": 6186804
+      },
+      "case": "rotate-20000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 43,
+      "wire_sha256": "1e1a5e78a4bb668cb552a9c4833aea03330b3e90c4a5fbf7f9b9db2c26acf66c",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.021996208932250738
+    },
+    {
+      "allocation": null,
+      "case": "rotate-20000",
+      "iterations": 4,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.484479250000001,
+        4.3760105000000005,
+        4.40895825,
+        4.2979895,
+        4.389656250000001,
+        4.314989499999999,
+        4.36503125,
+        4.405562499999999,
+        4.596125000000001
+      ],
+      "wire_bytes": 340132,
+      "wire_sha256": "155f94014719347acb6841fb9a98557ed27807f68701a1b6c29c080bb47690c7",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.2194121249485761,
+      "median_ms": 4.389656250000001
+    },
+    {
+      "allocation": null,
+      "case": "rotate-20000",
+      "iterations": 4,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.368927,
+        4.3926039999999995,
+        4.439177,
+        4.58810425,
+        4.350843749999999,
+        4.54735425,
+        4.469896,
+        4.39973975,
+        4.435948000000001
+      ],
+      "wire_bytes": 340132,
+      "wire_sha256": "155f94014719347acb6841fb9a98557ed27807f68701a1b6c29c080bb47690c7",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.22215841698925942,
+      "median_ms": 4.435948000000001
+    },
+    {
+      "allocation": null,
+      "case": "rotate-20000",
+      "iterations": 4,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        4.3612395,
+        4.40825,
+        4.25946875,
+        4.5181457499999995,
+        4.32839575,
+        4.3922605,
+        4.4670835,
+        4.3760727500000005,
+        4.44433325
+      ],
+      "wire_bytes": 340132,
+      "wire_sha256": "155f94014719347acb6841fb9a98557ed27807f68701a1b6c29c080bb47690c7",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.21966254094149917,
+      "median_ms": 4.3922605
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 80104,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 3854104,
+        "requested_bytes": 8947152
+      },
+      "case": "rotate-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 340132,
+      "wire_sha256": "155f94014719347acb6841fb9a98557ed27807f68701a1b6c29c080bb47690c7",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.035174958989955485
+    },
+    {
+      "allocation": null,
+      "case": "rotate-100000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        13.82075,
+        13.079208,
+        13.384208,
+        13.838083,
+        13.482584000000001,
+        13.84225,
+        13.407917,
+        13.199667,
+        13.401958
+      ],
+      "wire_bytes": 43,
+      "wire_sha256": "83bde1dcb8268901b39f8792adff0ce90e8e60ad78810678b6a24bb8c4e9faf0",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.2125137080438435,
+      "median_ms": 13.407917
+    },
+    {
+      "allocation": null,
+      "case": "rotate-100000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        13.622167,
+        13.82825,
+        13.559959,
+        13.453084,
+        13.275083,
+        14.036625,
+        13.708833,
+        14.118208000000001,
+        13.891667
+      ],
+      "wire_bytes": 43,
+      "wire_sha256": "83bde1dcb8268901b39f8792adff0ce90e8e60ad78810678b6a24bb8c4e9faf0",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.21413258300162852,
+      "median_ms": 13.708833
+    },
+    {
+      "allocation": null,
+      "case": "rotate-100000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        13.19725,
+        13.117291999999999,
+        14.064542,
+        13.428584,
+        13.210042,
+        14.177541,
+        13.701416,
+        13.363875,
+        13.338916
+      ],
+      "wire_bytes": 43,
+      "wire_sha256": "83bde1dcb8268901b39f8792adff0ce90e8e60ad78810678b6a24bb8c4e9faf0",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.21253112505655736,
+      "median_ms": 13.363875
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 100097,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 18156440,
+        "requested_bytes": 28501300
+      },
+      "case": "rotate-100000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 43,
+      "wire_sha256": "83bde1dcb8268901b39f8792adff0ce90e8e60ad78810678b6a24bb8c4e9faf0",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.09026491700205952
+    },
+    {
+      "allocation": null,
+      "case": "rotate-100000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        24.431791,
+        22.885959,
+        24.651875,
+        24.227083999999998,
+        23.314958999999998,
+        24.189167,
+        22.80575,
+        23.823625,
+        24.105792
+      ],
+      "wire_bytes": 1700132,
+      "wire_sha256": "36c23effd75521bfd33e334114f8c170c9e8a4cadf0cede9f912bcc95ceb45ee",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.3693669580388814,
+      "median_ms": 24.105792
+    },
+    {
+      "allocation": null,
+      "case": "rotate-100000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        22.759916,
+        23.997958,
+        24.359417,
+        23.495625,
+        24.042708,
+        24.307583,
+        23.738792,
+        24.758208,
+        22.874
+      ],
+      "wire_bytes": 1700132,
+      "wire_sha256": "36c23effd75521bfd33e334114f8c170c9e8a4cadf0cede9f912bcc95ceb45ee",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.37167395802680403,
+      "median_ms": 23.997958
+    },
+    {
+      "allocation": null,
+      "case": "rotate-100000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        23.13525,
+        24.1445,
+        24.674374999999998,
+        24.428417,
+        22.913,
+        23.051792000000003,
+        24.478707999999997,
+        22.982666,
+        23.400958
+      ],
+      "wire_bytes": 1700132,
+      "wire_sha256": "36c23effd75521bfd33e334114f8c170c9e8a4cadf0cede9f912bcc95ceb45ee",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.37854495795909315,
+      "median_ms": 23.400958
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 400110,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 18156440,
+        "requested_bytes": 42301648
+      },
+      "case": "rotate-100000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 1700132,
+      "wire_sha256": "36c23effd75521bfd33e334114f8c170c9e8a4cadf0cede9f912bcc95ceb45ee",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.2746404999634251
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        219.029833,
+        232.024708,
+        222.044708,
+        224.401834,
+        201.399709,
+        208.364958,
+        209.83633300000002,
+        188.405459,
+        186.941542
+      ],
+      "wire_bytes": 44,
+      "wire_sha256": "cec686053465ff870ef14ae5e88e58a5b9eccc54233f5de921b7f4c870b2ce23",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 3.272781667066738,
+      "median_ms": 209.83633300000002
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        245.10725,
+        257.037208,
+        256.49012500000003,
+        252.865,
+        231.26358299999998,
+        249.41470800000002,
+        233.375583,
+        226.16133299999998,
+        211.432041
+      ],
+      "wire_bytes": 44,
+      "wire_sha256": "cec686053465ff870ef14ae5e88e58a5b9eccc54233f5de921b7f4c870b2ce23",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 3.701259499997832,
+      "median_ms": 245.10725
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        225.75604199999998,
+        226.497708,
+        240.284875,
+        233.194958,
+        241.16470800000002,
+        242.40575,
+        232.39208299999999,
+        235.0035,
+        246.09074999999999
+      ],
+      "wire_bytes": 44,
+      "wire_sha256": "cec686053465ff870ef14ae5e88e58a5b9eccc54233f5de921b7f4c870b2ce23",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 3.436107249930501,
+      "median_ms": 235.0035
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 1000106,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 183137336,
+        "requested_bytes": 276082358
+      },
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 44,
+      "wire_sha256": "cec686053465ff870ef14ae5e88e58a5b9eccc54233f5de921b7f4c870b2ce23",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 1.3826918329577893
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        317.18820800000003,
+        298.2405,
+        296.586708,
+        295.803667,
+        292.7785,
+        304.43674999999996,
+        311.598541,
+        335.28304199999997,
+        331.478625
+      ],
+      "wire_bytes": 17000134,
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 4.833607582957484,
+      "median_ms": 304.43674999999996
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        332.81899999999996,
+        337.933292,
+        339.308042,
+        332.27508300000005,
+        339.499208,
+        331.933791,
+        320.618083,
+        332.633542,
+        335.78941699999996
+      ],
+      "wire_bytes": 17000134,
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 5.010477207950316,
+      "median_ms": 332.81899999999996
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        338.16325,
+        335.537708,
+        331.60525,
+        358.080625,
+        342.834125,
+        320.87075,
+        310.616792,
+        341.690959,
+        312.894292
+      ],
+      "wire_bytes": 17000134,
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 4.986885333899409,
+      "median_ms": 335.537708
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        328.75458299999997,
+        332.688667,
+        349.54479100000003,
+        340.732458,
+        349.394708,
+        314.72225,
+        296.724417,
+        327.97495799999996,
+        322.69458299999997
+      ],
+      "wire_bytes": 17000134,
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 5.0067157910671085,
+      "median_ms": 328.75458299999997
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        334.418542,
+        347.750167,
+        332.99424999999997,
+        338.772167,
+        329.689458,
+        324.991208,
+        322.06929099999996,
+        335.20604199999997,
+        326.825834
+      ],
+      "wire_bytes": 17000134,
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 5.028066375060007,
+      "median_ms": 332.99424999999997
+    },
+    {
+      "allocation": null,
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        330.32129100000003,
+        341.882542,
+        328.218167,
+        341.11420799999996,
+        347.60895899999997,
+        316.236875,
+        319.517375,
+        306.459292,
+        317.050417
+      ],
+      "wire_bytes": 17000134,
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 4.980665041017346,
+      "median_ms": 328.218167
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 4000129,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 183137336,
+        "requested_bytes": 414084002
+      },
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 17000134,
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "version": "baseline",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 1.9974359589396045
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 4000119,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 183137336,
+        "requested_bytes": 414082708
+      },
+      "case": "rotate-1000000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 3,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 17000134,
+      "wire_sha256": "3329eb2a3bf56c91eb8cec77ac89fb165324bd90869dd8d695b1302771e1a18e",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 2.0066037500509992
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-2000",
+      "iterations": 8,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.425557375,
+        2.437474,
+        2.4003593750000003,
+        2.4282187499999996,
+        2.454052125,
+        2.404489625,
+        2.389520875,
+        2.435609375,
+        2.461520875
+      ],
+      "wire_bytes": 34038,
+      "wire_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.22972437494900078,
+      "median_ms": 2.4282187499999996
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-2000",
+      "iterations": 4,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.476448,
+        4.10971875,
+        2.49127075,
+        2.557979,
+        2.5132085,
+        2.47953125,
+        2.46710425,
+        2.42671875,
+        2.4304375
+      ],
+      "wire_bytes": 34038,
+      "wire_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.1304480000399053,
+      "median_ms": 2.47953125
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-2000",
+      "iterations": 8,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        2.43349475,
+        2.43443225,
+        2.4589895,
+        2.4284375000000002,
+        2.4288228750000003,
+        2.4486457500000003,
+        2.398010375,
+        2.445083375,
+        2.392875
+      ],
+      "wire_bytes": 34038,
+      "wire_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.2296002919320017,
+      "median_ms": 2.43349475
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 40409,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 1263230,
+        "requested_bytes": 3030794
+      },
+      "case": "disjoint-2000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 34038,
+      "wire_sha256": "d9e4aa011e140b8d84b6b0310f75621574c601d1222191e2ef6061a6fd7d24ac",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.019874708028510213
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        21.214,
+        20.895042,
+        21.08275,
+        20.985958999999998,
+        21.347084,
+        20.919332999999998,
+        20.833916000000002,
+        20.973374999999997,
+        20.958958
+      ],
+      "wire_bytes": 68072,
+      "wire_sha256": "5f4a94fba3ce36f058ce38d6e2ad7473420d3fe2625f813d402040f61a56331f",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.30246579099912196,
+      "median_ms": 20.973374999999997
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        21.357834,
+        21.322,
+        21.74775,
+        21.312959,
+        21.038958,
+        21.030958,
+        21.171792,
+        21.215125,
+        21.005041
+      ],
+      "wire_bytes": 68072,
+      "wire_sha256": "5f4a94fba3ce36f058ce38d6e2ad7473420d3fe2625f813d402040f61a56331f",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.3059738330775872,
+      "median_ms": 21.215125
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        21.41125,
+        21.215083,
+        21.139667,
+        21.385125000000002,
+        21.19075,
+        21.060167,
+        21.055125,
+        21.087917,
+        21.050791999999998
+      ],
+      "wire_bytes": 68072,
+      "wire_sha256": "5f4a94fba3ce36f058ce38d6e2ad7473420d3fe2625f813d402040f61a56331f",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.3047169999917969,
+      "median_ms": 21.139667
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 91737,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 2005583,
+        "requested_bytes": 5655312
+      },
+      "case": "disjoint-2000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 68072,
+      "wire_sha256": "5f4a94fba3ce36f058ce38d6e2ad7473420d3fe2625f813d402040f61a56331f",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.11366099992301315
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-10000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        12.657417,
+        13.1575,
+        13.022292,
+        12.616791000000001,
+        12.566583,
+        12.528125,
+        12.28575,
+        13.088083000000001,
+        13.227167
+      ],
+      "wire_bytes": 170038,
+      "wire_sha256": "372a69e0f35865eb69876c63d88817b139649a5266831e3bd8b0cb825c4bb13a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.18984670902136713,
+      "median_ms": 12.657417
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-10000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        12.487959,
+        12.309583,
+        12.9925,
+        12.39375,
+        12.508541,
+        12.769959,
+        12.571083999999999,
+        12.690583,
+        12.750375
+      ],
+      "wire_bytes": 170038,
+      "wire_sha256": "372a69e0f35865eb69876c63d88817b139649a5266831e3bd8b0cb825c4bb13a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.1878873750101775,
+      "median_ms": 12.571083999999999
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-10000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        12.218125,
+        12.280375,
+        12.557333999999999,
+        12.8385,
+        12.567125,
+        12.828834,
+        12.193917,
+        12.516917000000001,
+        12.157417
+      ],
+      "wire_bytes": 170038,
+      "wire_sha256": "372a69e0f35865eb69876c63d88817b139649a5266831e3bd8b0cb825c4bb13a",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.1857299159746617,
+      "median_ms": 12.516917000000001
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 201866,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 5368830,
+        "requested_bytes": 13401586
+      },
+      "case": "disjoint-10000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 170038,
+      "wire_sha256": "372a69e0f35865eb69876c63d88817b139649a5266831e3bd8b0cb825c4bb13a",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.07446124998386949
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-10000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        433.372541,
+        432.842083,
+        432.00845799999996,
+        431.447958,
+        431.118334,
+        431.08162500000003,
+        430.806375,
+        431.191375,
+        431.494709
+      ],
+      "wire_bytes": 340072,
+      "wire_sha256": "41f546bf1f3d512e3e9bd6b178f97fe4fe963c2a32505139e4f9fbbe370502c9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 6.054901374969631,
+      "median_ms": 431.447958
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-10000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        454.778458,
+        431.244375,
+        432.33225,
+        432.86733300000003,
+        431.394666,
+        429.875916,
+        430.983208,
+        431.12154200000003,
+        431.11787499999997
+      ],
+      "wire_bytes": 340072,
+      "wire_sha256": "41f546bf1f3d512e3e9bd6b178f97fe4fe963c2a32505139e4f9fbbe370502c9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 6.107467415975407,
+      "median_ms": 431.244375
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-10000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        433.85825,
+        434.245292,
+        437.40229200000005,
+        433.942,
+        432.22749999999996,
+        437.45270899999997,
+        612.076584,
+        435.16262500000005,
+        431.67758299999997
+      ],
+      "wire_bytes": 340072,
+      "wire_sha256": "41f546bf1f3d512e3e9bd6b178f97fe4fe963c2a32505139e4f9fbbe370502c9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 6.281225459068082,
+      "median_ms": 434.245292
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 458348,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 9881407,
+        "requested_bytes": 28173688
+      },
+      "case": "disjoint-10000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 340072,
+      "wire_sha256": "41f546bf1f3d512e3e9bd6b178f97fe4fe963c2a32505139e4f9fbbe370502c9",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 2.178335874923505
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        26.701959000000002,
+        27.282209,
+        27.105084,
+        27.739417,
+        30.615834000000003,
+        30.004416,
+        26.024792,
+        26.794042,
+        26.965042
+      ],
+      "wire_bytes": 340038,
+      "wire_sha256": "8be743888136bedbdc67ce3fedf8f3bf991b91b23524b76ec0a0b841a37db40b",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.4018069169251248,
+      "median_ms": 27.105084
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        26.353542,
+        25.760125,
+        27.637915999999997,
+        27.898083,
+        27.04875,
+        26.410417,
+        26.326875,
+        26.534,
+        26.987417
+      ],
+      "wire_bytes": 340038,
+      "wire_sha256": "8be743888136bedbdc67ce3fedf8f3bf991b91b23524b76ec0a0b841a37db40b",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.39258691703435034,
+      "median_ms": 26.534
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        26.414375,
+        26.567332999999998,
+        26.699625,
+        27.0035,
+        26.827167,
+        26.352792,
+        25.614874999999998,
+        25.286167,
+        25.978917
+      ],
+      "wire_bytes": 340038,
+      "wire_sha256": "8be743888136bedbdc67ce3fedf8f3bf991b91b23524b76ec0a0b841a37db40b",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.38676020794082433,
+      "median_ms": 26.414375
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 403688,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 10737630,
+        "requested_bytes": 26847074
+      },
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "optimized",
+      "operations": 1,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 340038,
+      "wire_sha256": "8be743888136bedbdc67ce3fedf8f3bf991b91b23524b76ec0a0b841a37db40b",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.14842300000600517
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1664.250584,
+        1653.3112079999999,
+        1660.2192919999998,
+        1661.226584,
+        1651.7892920000002,
+        1667.518042,
+        1654.623542,
+        1656.3325419999999,
+        1657.59675
+      ],
+      "wire_bytes": 680072,
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 23.29089883400593,
+      "median_ms": 1657.59675
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1653.940542,
+        1651.741667,
+        1657.2695419999998,
+        1656.113458,
+        1651.307583,
+        1648.749417,
+        1652.908083,
+        1650.950916,
+        1653.255042
+      ],
+      "wire_bytes": 680072,
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 23.191889042034745,
+      "median_ms": 1652.908083
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1652.434,
+        1654.529625,
+        1738.26,
+        1742.07125,
+        1654.426167,
+        1652.2173329999998,
+        1643.540625,
+        1678.530375,
+        1652.9305829999998
+      ],
+      "wire_bytes": 680072,
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 23.371316249947995,
+      "median_ms": 1654.426167
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1648.813792,
+        1642.142333,
+        1641.431583,
+        1642.515041,
+        1638.9175,
+        1642.1729579999999,
+        1640.431208,
+        1638.429291,
+        1640.260041
+      ],
+      "wire_bytes": 680072,
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 23.035416124970652,
+      "median_ms": 1641.431583
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1676.681084,
+        1645.434875,
+        1642.6109580000002,
+        1637.517791,
+        1637.935583,
+        1640.0258330000001,
+        1639.1581670000003,
+        1636.5959169999999,
+        1640.396459
+      ],
+      "wire_bytes": 680072,
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 23.02831437496934,
+      "median_ms": 1640.0258330000001
+    },
+    {
+      "allocation": null,
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1635.026458,
+        1635.7897500000001,
+        1646.3008750000001,
+        1640.108708,
+        1671.4154159999998,
+        1655.981166,
+        1650.553792,
+        1656.556,
+        1642.7019579999999
+      ],
+      "wire_bytes": 680072,
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 23.181618625065312,
+      "median_ms": 1646.3008750000001
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 916678,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 19771135,
+        "requested_bytes": 56444263
+      },
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 680072,
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "version": "baseline",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 8.415643000043929
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 916673,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 19771135,
+        "requested_bytes": 56443616
+      },
+      "case": "disjoint-20000",
+      "iterations": 1,
+      "mode": "guarded",
+      "operations": 2,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 680072,
+      "wire_sha256": "9c59a0003616430f352b528cef6f783fb911187e50636f434d264cd5d035842d",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 8.232043750002049
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-128",
+      "iterations": 128,
+      "mode": "inverse",
+      "operations": 128,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.08505273437500001,
+        0.08425,
+        0.08412207031249999,
+        0.08463509375,
+        0.0849580078125,
+        0.08925292968750001,
+        0.0859534453125,
+        0.08597818750000001,
+        0.0863268203125
+      ],
+      "wire_bytes": 5395,
+      "wire_sha256": "9c2fd5655925930752e83383e83976d7aa97e2820f9e55ceaa4bc427fd755b34",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.12711887492332608,
+      "median_ms": 0.08505273437500001
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-128",
+      "iterations": 128,
+      "mode": "inverse",
+      "operations": 128,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.08671060937500001,
+        0.0861803359375,
+        0.086267578125,
+        0.0854287109375,
+        0.08690690625,
+        0.084636390625,
+        0.086305015625,
+        0.08618522656250001,
+        0.08514257812499999
+      ],
+      "wire_bytes": 5395,
+      "wire_sha256": "9c2fd5655925930752e83383e83976d7aa97e2820f9e55ceaa4bc427fd755b34",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.12795791600365192,
+      "median_ms": 0.08618522656250001
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-128",
+      "iterations": 128,
+      "mode": "inverse",
+      "operations": 128,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.08625065625,
+        0.086619140625,
+        0.085138671875,
+        0.085583328125,
+        0.085984375,
+        0.084910484375,
+        0.0841223984375,
+        0.08527148437500001,
+        0.08478417968749999
+      ],
+      "wire_bytes": 5395,
+      "wire_sha256": "9c2fd5655925930752e83383e83976d7aa97e2820f9e55ceaa4bc427fd755b34",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.127290082979016,
+      "median_ms": 0.08527148437500001
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 2320,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 25871,
+        "requested_bytes": 132323
+      },
+      "case": "array-parent-guards-128",
+      "iterations": 1,
+      "mode": "inverse",
+      "operations": 128,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 5395,
+      "wire_sha256": "9c2fd5655925930752e83383e83976d7aa97e2820f9e55ceaa4bc427fd755b34",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.006801957963034511
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-128",
+      "iterations": 8,
+      "mode": "inverse-guarded",
+      "operations": 256,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.692599,
+        1.70124475,
+        1.7003593750000001,
+        1.72319275,
+        1.7390937499999999,
+        1.719052125,
+        1.6898855000000002,
+        1.7172865,
+        1.730817625
+      ],
+      "wire_bytes": 103568,
+      "wire_sha256": "08cec64e1cf2c47050ff4e6043f259e1a9d6bd9acc2b7920bb430be794a90367",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.16305687499698251,
+      "median_ms": 1.7172865
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-128",
+      "iterations": 8,
+      "mode": "inverse-guarded",
+      "operations": 256,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.7199375,
+        1.7517396250000001,
+        1.74296875,
+        1.716135375,
+        1.735208375,
+        1.7125625,
+        1.7081822500000001,
+        1.688203125,
+        1.71206775
+      ],
+      "wire_bytes": 103568,
+      "wire_sha256": "08cec64e1cf2c47050ff4e6043f259e1a9d6bd9acc2b7920bb430be794a90367",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.16461300000082701,
+      "median_ms": 1.716135375
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-128",
+      "iterations": 8,
+      "mode": "inverse-guarded",
+      "operations": 256,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.701010375,
+        1.718776,
+        1.72684375,
+        1.697239625,
+        1.7282603749999998,
+        1.7210260000000002,
+        1.7243332500000002,
+        1.71071875,
+        1.6905729999999999
+      ],
+      "wire_bytes": 103568,
+      "wire_sha256": "08cec64e1cf2c47050ff4e6043f259e1a9d6bd9acc2b7920bb430be794a90367",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.16339237499050796,
+      "median_ms": 1.718776
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 77015,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 890368,
+        "requested_bytes": 1484929
+      },
+      "case": "array-parent-guards-128",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 256,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 103568,
+      "wire_sha256": "08cec64e1cf2c47050ff4e6043f259e1a9d6bd9acc2b7920bb430be794a90367",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.01652429101523012
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-512",
+      "iterations": 32,
+      "mode": "inverse",
+      "operations": 512,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.45796484374999996,
+        0.45653125,
+        0.45875521874999997,
+        0.4537421875,
+        0.45095703125000003,
+        0.45523696875,
+        0.447002625,
+        0.45392187500000003,
+        0.46095834375
+      ],
+      "wire_bytes": 21907,
+      "wire_sha256": "e036c6897d4cfd076bcb7940e86eec47934c1b86cf90ae05a76b1d49421abeac",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.1699331250274554,
+      "median_ms": 0.45523696875
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-512",
+      "iterations": 32,
+      "mode": "inverse",
+      "operations": 512,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.46531121875,
+        0.45714062499999997,
+        0.45642709374999996,
+        0.45752993750000004,
+        0.46040365625,
+        0.44985546875,
+        0.45725521874999997,
+        0.4533763125,
+        0.46114453125000004
+      ],
+      "wire_bytes": 21907,
+      "wire_sha256": "e036c6897d4cfd076bcb7940e86eec47934c1b86cf90ae05a76b1d49421abeac",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.17066516692284495,
+      "median_ms": 0.45725521874999997
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-512",
+      "iterations": 32,
+      "mode": "inverse",
+      "operations": 512,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        0.45102865625,
+        0.46042056249999996,
+        0.44935675,
+        0.45325,
+        0.456283875,
+        0.46154296875,
+        0.45691534375,
+        0.4540924375,
+        0.45668359375
+      ],
+      "wire_bytes": 21907,
+      "wire_sha256": "e036c6897d4cfd076bcb7940e86eec47934c1b86cf90ae05a76b1d49421abeac",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.1695240830304101,
+      "median_ms": 0.456283875
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 9236,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 101927,
+        "requested_bytes": 529403
+      },
+      "case": "array-parent-guards-512",
+      "iterations": 1,
+      "mode": "inverse",
+      "operations": 512,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 21907,
+      "wire_sha256": "e036c6897d4cfd076bcb7940e86eec47934c1b86cf90ae05a76b1d49421abeac",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.010376291000284255
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-512",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 1024,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        26.598667,
+        26.229792,
+        26.224458,
+        26.115,
+        26.6425,
+        27.205291,
+        26.172207999999998,
+        27.14675,
+        27.308417000000002
+      ],
+      "wire_bytes": 1621520,
+      "wire_sha256": "2939ca251b4252dc0a873de904747d29ad0e22f389f56a6820258d9f805488c5",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.3928560829954222,
+      "median_ms": 26.598667
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-512",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 1024,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        26.052625,
+        26.032417,
+        26.065917000000002,
+        26.239416000000002,
+        25.918792,
+        25.974542,
+        26.109417,
+        25.927167,
+        26.183917
+      ],
+      "wire_bytes": 1621520,
+      "wire_sha256": "2939ca251b4252dc0a873de904747d29ad0e22f389f56a6820258d9f805488c5",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.38858458294998854,
+      "median_ms": 26.052625
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-512",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 1024,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        26.533,
+        26.408542,
+        26.079125,
+        25.817916999999998,
+        26.3265,
+        26.453167,
+        26.429042,
+        26.270291,
+        26.405375
+      ],
+      "wire_bytes": 1621520,
+      "wire_sha256": "2939ca251b4252dc0a873de904747d29ad0e22f389f56a6820258d9f805488c5",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.3907069159904495,
+      "median_ms": 26.405375
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 1192733,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 13909720,
+        "requested_bytes": 21921049
+      },
+      "case": "array-parent-guards-512",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 1024,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 1621520,
+      "wire_sha256": "2939ca251b4252dc0a873de904747d29ad0e22f389f56a6820258d9f805488c5",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.16076749993953854
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 8,
+      "mode": "inverse",
+      "operations": 1024,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.24290625,
+        1.237447875,
+        1.252890625,
+        1.24293225,
+        1.2399375,
+        1.22390625,
+        1.2303645,
+        1.2397135000000001,
+        1.229359375
+      ],
+      "wire_bytes": 43947,
+      "wire_sha256": "76eb30766a1c898c96b32d919f3d8036176fda95191bf5880690d3fd26b139d9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 0.12330970796756446,
+      "median_ms": 1.2397135000000001
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 8,
+      "mode": "inverse",
+      "operations": 1024,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.2519115,
+        1.233890625,
+        1.21749475,
+        1.240859375,
+        1.2425625,
+        1.2316615,
+        1.251177125,
+        1.238291625,
+        1.208723875
+      ],
+      "wire_bytes": 43947,
+      "wire_sha256": "76eb30766a1c898c96b32d919f3d8036176fda95191bf5880690d3fd26b139d9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 0.12234108301345259,
+      "median_ms": 1.238291625
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 8,
+      "mode": "inverse",
+      "operations": 1024,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        1.233078125,
+        1.226359375,
+        1.2021614999999999,
+        1.2223855000000001,
+        1.238109375,
+        1.2392447500000001,
+        1.240098875,
+        1.213838625,
+        1.224359375
+      ],
+      "wire_bytes": 43947,
+      "wire_sha256": "76eb30766a1c898c96b32d919f3d8036176fda95191bf5880690d3fd26b139d9",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 0.1223967500263825,
+      "median_ms": 1.226359375
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 18454,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 204327,
+        "requested_bytes": 1059883
+      },
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse",
+      "operations": 1024,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 43947,
+      "wire_sha256": "76eb30766a1c898c96b32d919f3d8036176fda95191bf5880690d3fd26b139d9",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.016336291912011802
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 2048,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        107.155333,
+        106.70858299999999,
+        106.711583,
+        105.99420900000001,
+        104.801834,
+        106.872625,
+        105.86733299999999,
+        106.297958,
+        105.367458
+      ],
+      "wire_bytes": 7442172,
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 1.5606219590408728,
+      "median_ms": 106.297958
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 2048,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        106.28620799999999,
+        105.71025,
+        105.551584,
+        106.51929200000001,
+        106.380083,
+        106.902875,
+        106.25574999999999,
+        104.939167,
+        105.936125
+      ],
+      "wire_bytes": 7442172,
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 0,
+      "wall_seconds": 1.5555647079600021,
+      "median_ms": 106.25574999999999
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 2048,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        107.33345800000001,
+        107.47316699999999,
+        108.21333299999999,
+        108.297125,
+        107.76629199999999,
+        106.746958,
+        106.96391700000001,
+        107.667916,
+        107.870625
+      ],
+      "wire_bytes": 7442172,
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 1.5774737499887124,
+      "median_ms": 107.667916
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 2048,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        107.32704199999999,
+        107.307458,
+        106.408458,
+        106.183542,
+        105.91241699999999,
+        107.215334,
+        105.798334,
+        105.810709,
+        105.810209
+      ],
+      "wire_bytes": 7442172,
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 1,
+      "wall_seconds": 1.5670458750100806,
+      "median_ms": 106.183542
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 2048,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        109.06141699999999,
+        108.0025,
+        106.905958,
+        105.82979200000001,
+        106.773042,
+        107.01575000000001,
+        107.378292,
+        107.41516700000001,
+        107.210042
+      ],
+      "wire_bytes": 7442172,
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "version": "baseline",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 1.5763709590537474,
+      "median_ms": 107.210042
+    },
+    {
+      "allocation": null,
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 2048,
+      "roundtrip_verified": true,
+      "samples_ms": [
+        108.52291699999999,
+        109.52775,
+        108.428792,
+        108.601916,
+        109.91725,
+        108.301584,
+        108.447375,
+        108.20408300000001,
+        112.288041
+      ],
+      "wire_bytes": 7442172,
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "version": "candidate",
+      "kind": "timing",
+      "repeat": 2,
+      "wall_seconds": 1.5934859169647098,
+      "median_ms": 108.52291699999999
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 4749856,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 56399193,
+        "requested_bytes": 89080097
+      },
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 2048,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 7442172,
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "version": "baseline",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.6433503750013188
+    },
+    {
+      "allocation": {
+        "allocation_or_reallocation_calls": 4744736,
+        "final_live_delta_bytes": 0,
+        "peak_additional_live_bytes": 56398556,
+        "requested_bytes": 88417569
+      },
+      "case": "array-parent-guards-1024",
+      "iterations": 1,
+      "mode": "inverse-guarded",
+      "operations": 2048,
+      "roundtrip_verified": true,
+      "samples_ms": [],
+      "wire_bytes": 7442172,
+      "wire_sha256": "a890fc904930d2772d2e319a074e831b34c9e17da0e6064137fce7a12cc6700b",
+      "version": "candidate",
+      "kind": "allocation",
+      "repeat": 0,
+      "wall_seconds": 0.6339604160748422
+    }
+  ],
+  "rss": [
+    {
+      "case": "scalar-guards-100000",
+      "mode": "plain-guarded",
+      "peak_rss_bytes": 439599104,
+      "wall_seconds": 2.8628992920275778,
+      "roundtrip_verified": true,
+      "time_stderr": "        2.81 real         2.66 user         0.11 sys\n           439599104  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               40166  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  93  voluntary context switches\n                2170  involuntary context switches\n         42500424885  instructions retired\n          9141253558  cycles elapsed\n           336478928  peak memory footprint\n",
+      "scope": "Whole default-allocator timing process; includes loaded fixtures, original typed patch, initial output, independent apply/inverse verification, serialized wire, warmups and samples. Not incremental API-only memory."
+    },
+    {
+      "case": "file_migrations_move_copy_5000",
+      "mode": "guarded",
+      "peak_rss_bytes": 126386176,
+      "wall_seconds": 1.2219179579988122,
+      "roundtrip_verified": true,
+      "time_stderr": "        1.18 real         1.13 user         0.03 sys\n           126386176  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                8457  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                 158  voluntary context switches\n                 931  involuntary context switches\n         16808001439  instructions retired\n          3879844327  cycles elapsed\n            96207256  peak memory footprint\n",
+      "scope": "Whole default-allocator timing process; includes loaded fixtures, original typed patch, initial output, independent apply/inverse verification, serialized wire, warmups and samples. Not incremental API-only memory."
+    },
+    {
+      "case": "rotate-1000000",
+      "mode": "guarded",
+      "peak_rss_bytes": 744341504,
+      "wall_seconds": 4.945692208013497,
+      "roundtrip_verified": true,
+      "time_stderr": "        4.88 real         4.68 user         0.14 sys\n           744341504  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               64215  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                 149  voluntary context switches\n                6145  involuntary context switches\n         59102047714  instructions retired\n         15828336093  cycles elapsed\n           687244200  peak memory footprint\n",
+      "scope": "Whole default-allocator timing process; includes loaded fixtures, original typed patch, initial output, independent apply/inverse verification, serialized wire, warmups and samples. Not incremental API-only memory."
+    },
+    {
+      "case": "disjoint-20000",
+      "mode": "guarded",
+      "peak_rss_bytes": 48021504,
+      "wall_seconds": 23.46147579094395,
+      "roundtrip_verified": true,
+      "time_stderr": "       23.45 real        22.96 user         0.24 sys\n            48021504  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                3247  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   7  voluntary context switches\n               18120  involuntary context switches\n        459659197608  instructions retired\n         76428057472  cycles elapsed\n            44499328  peak memory footprint\n",
+      "scope": "Whole default-allocator timing process; includes loaded fixtures, original typed patch, initial output, independent apply/inverse verification, serialized wire, warmups and samples. Not incremental API-only memory."
+    },
+    {
+      "case": "array-parent-guards-1024",
+      "mode": "inverse-guarded",
+      "peak_rss_bytes": 163758080,
+      "wall_seconds": 1.5926657079253346,
+      "roundtrip_verified": true,
+      "time_stderr": "        1.56 real         1.52 user         0.03 sys\n           163758080  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               10164  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  75  voluntary context switches\n                1108  involuntary context switches\n         32749055365  instructions retired\n          5101074248  cycles elapsed\n           104776160  peak memory footprint\n",
+      "scope": "Whole default-allocator timing process; includes loaded fixtures, original typed patch, initial output, independent apply/inverse verification, serialized wire, warmups and samples. Not incremental API-only memory."
+    }
+  ],
+  "failures": [],
+  "reproducibility": {
+    "rebuilt_from_portable_sources": true,
+    "commands": [
+      "python3 build-probes.py . rebuilt"
+    ],
+    "case": "scalar-guards-10000",
+    "mode": "plain-guarded",
+    "checks": [
+      {
+        "version": "baseline",
+        "kind": "timing",
+        "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+        "roundtrip_verified": true,
+        "binary_sha256": "e77c9b1c72eecabb359be7d70bf7578baa04cfcda51b427d06d24c284a313c00"
+      },
+      {
+        "version": "baseline",
+        "kind": "allocation",
+        "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+        "roundtrip_verified": true,
+        "binary_sha256": "36bf64599f9fb664a3d885353f249d2ad4ae5713b62f679a715ef6e838f5c85f"
+      },
+      {
+        "version": "candidate",
+        "kind": "timing",
+        "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+        "roundtrip_verified": true,
+        "binary_sha256": "98089fbccb57bbd0d7b2e100f2b3ff88836945d35bfd3b8c3af08fa2e4ee863f"
+      },
+      {
+        "version": "candidate",
+        "kind": "allocation",
+        "wire_sha256": "9ee6ceb11b1bc43afc64cd16b918efcb27d741ca56e079fb95ea9b4443d69ae4",
+        "roundtrip_verified": true,
+        "binary_sha256": "17a8700c7a4d572527b1008c078f45afb51d659188d7d62e740bc1ac827ad5e1"
+      }
+    ],
+    "scope": "Both versions and both probe kinds rebuilt; four replay outputs match original measurement. Full 35-case timings were not repeated."
+  }
+}

@@ -1440,10 +1440,10 @@ fn guarded_operation_bytes<'a>(
         costs.extend_from_slice(prefix);
     }
     let mut total = costs[first];
-    // Consecutive sibling object renames preserve all values and the member
-    // count. Only the serialized key length changes in their parent snapshot.
-    // Keep one exact test-operation cost; all other operations discard it.
-    let mut object_snapshot: Option<(&str, usize)> = None;
+    // Consecutive sibling renames change only key lengths. Consecutive array
+    // insertions change only the inserted value and one optional comma. Keep
+    // one exact parent test cost; all other operations discard it.
+    let mut container_snapshot: Option<(&str, usize)> = None;
     for (index, op) in operations.enumerate().skip(first) {
         let guards = guard_values(&shadow, op)?;
         let rename = match (op, guards[1]) {
@@ -1456,10 +1456,19 @@ fn guarded_operation_bytes<'a>(
             }
             _ => None,
         };
+        let insertion = match (op, guards[0]) {
+            (PatchOperation::Add(op), Some((path, Value::Array(values))))
+                if parent(op.path.as_str()) == Some(path) =>
+            {
+                Some((path, &op.value, !values.is_empty()))
+            }
+            _ => None,
+        };
         let mut next_snapshot = None;
         for (path, value) in guards.into_iter().flatten() {
-            let snapshot = rename.is_some() && guards[1].is_some_and(|(p, _)| p == path);
-            let size = match object_snapshot.filter(|(p, _)| snapshot && *p == path) {
+            let snapshot = (rename.is_some() && guards[1].is_some_and(|(p, _)| p == path))
+                || insertion.is_some_and(|(p, _, _)| p == path);
+            let size = match container_snapshot.filter(|(p, _)| snapshot && *p == path) {
                 Some((_, size)) => size,
                 None => bytes(&ValueOperation {
                     op: "test",
@@ -1473,6 +1482,12 @@ fn guarded_operation_bytes<'a>(
                         .checked_add(bytes(destination.decoded().as_ref())?)
                         .ok_or_else(|| Error::new("", "JSON size exceeds address space"))?;
                     next_snapshot = Some((path, size));
+                } else if let Some((_, value, comma)) = insertion {
+                    let size = size
+                        .checked_add(bytes(value)?)
+                        .and_then(|size| size.checked_add(usize::from(comma)))
+                        .ok_or_else(|| Error::new("", "JSON size exceeds address space"))?;
+                    next_snapshot = Some((path, size));
                 }
             }
             total.bytes += size + usize::from(total.operations > 0);
@@ -1481,7 +1496,7 @@ fn guarded_operation_bytes<'a>(
         total.bytes += bytes(op)? + usize::from(total.operations > 0);
         total.operations += 1;
         crate::apply_json_patch_step(&mut shadow, op, index)?;
-        object_snapshot = next_snapshot;
+        container_snapshot = next_snapshot;
         costs.push(total);
     }
     Ok((total.bytes, costs, shadow))
@@ -1543,7 +1558,15 @@ fn guard(mut shadow: Value, patch: &Patch) -> Result<Patch, Error> {
     let mut output = Vec::new();
     for (index, op) in patch.0.iter().enumerate() {
         for (path, value) in guard_values(&shadow, op)?.into_iter().flatten() {
-            output.push(decode(json!({"op": "test", "path": path, "value": value}))?);
+            // Keep the existing payload serialization, including Number's
+            // normalization, without building and dismantling an outer map.
+            let value = json!(value);
+            let path = json_patch::jsonptr::PointerBuf::parse(path)
+                .map_err(|error| Error::new("", error.to_string()))?;
+            output.push(PatchOperation::Test(json_patch::TestOperation {
+                path,
+                value,
+            }));
         }
         output.push(op.clone());
         crate::apply_json_patch_step(&mut shadow, op, index)?;
@@ -1704,6 +1727,185 @@ mod guard_cost_tests {
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn array_insertion_costs_match_every_serialized_prefix_and_resumed_replay() {
+        for container in ["", "/a~1~0🦀", "/items/0"] {
+            for initial in [json!([]), json!([null, "🦀"])] {
+                let left = match container {
+                    "" => initial,
+                    "/items/0" => json!({"items":[initial]}),
+                    _ => json!({"a/~🦀":initial}),
+                };
+                let values: Value = serde_json::from_str(
+                    r#"[1.0,1e9999,123456789012345678901234567890,{"escaped":"\n\"🦀"},[true,null]]"#,
+                ).unwrap();
+                let original = Patch(values.as_array().unwrap().iter().enumerate().map(|(index,value)| {
+                    decode(json!({"op":"add","path":pointer(container,if index%2==0 {"0"} else {"-"}),"value":value})).unwrap()
+                }).collect());
+                let actual = guard(left.clone(), &original).unwrap();
+                let (size, costs, shadow) =
+                    guarded_operation_bytes(&left, original.0.iter(), original.0.len(), &[])
+                        .unwrap();
+                assert_eq!(size, bytes(&actual).unwrap());
+                assert_eq!(shadow, apply_json_patch(&left, &original).unwrap());
+                for end in 0..=original.0.len() {
+                    let prefix = guard(left.clone(), &Patch(original.0[..end].to_vec())).unwrap();
+                    assert_eq!(costs[end].bytes, bytes(&prefix).unwrap());
+                    assert_eq!(costs[end].operations, prefix.0.len());
+                    assert_eq!(
+                        guarded_bytes(&left, &original, true, &costs[..=end])
+                            .unwrap()
+                            .0,
+                        size
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn array_insertion_costs_reset_on_other_writes_and_keep_errors() {
+        let left = json!({"a":[],"b":[1],"o":{"x":true,"y":false},"source":{"nested":"🦀"}});
+        let original = patch(json!([
+            {"op":"add","path":"/a/-","value":1},
+            {"op":"add","path":"/a/0","value":2},
+            {"op":"add","path":"/b/-","value":3},
+            {"op":"add","path":"/a/-","value":4},
+            {"op":"replace","path":"/a/0","value":"changed"},
+            {"op":"add","path":"/a/-","value":5},
+            {"op":"remove","path":"/a/1"},
+            {"op":"add","path":"/a/-","value":6},
+            {"op":"copy","from":"/source","path":"/a/-"},
+            {"op":"add","path":"/a/-","value":7},
+            {"op":"move","from":"/a/0","path":"/a/-"},
+            {"op":"add","path":"/a/-","value":8},
+            {"op":"move","from":"/o/x","path":"/o/longer-name"},
+            {"op":"add","path":"/a/-","value":9},
+            {"op":"test","path":"/b","value":[1,3]},
+            {"op":"add","path":"/a/-","value":10}
+        ]));
+        let (size, costs) = guarded_bytes(&left, &original, true, &[]).unwrap();
+        assert_eq!(
+            size,
+            bytes(&guard(left.clone(), &original).unwrap()).unwrap()
+        );
+        for end in 0..=original.0.len() {
+            assert_eq!(
+                guarded_bytes(&left, &original, true, &costs[..=end])
+                    .unwrap()
+                    .0,
+                size
+            );
+        }
+        for invalid in [
+            json!({"op":"add","path":"/a/999","value":0}),
+            json!({"op":"add","path":"/missing/-","value":0}),
+            json!({"op":"add","path":"/a/00","value":0}),
+        ] {
+            let mut invalid_patch = original.clone();
+            invalid_patch.0.push(decode(invalid).unwrap());
+            assert_eq!(
+                guarded_bytes(&left, &invalid_patch, true, &[])
+                    .err()
+                    .unwrap(),
+                guard(left.clone(), &invalid_patch).unwrap_err()
+            );
+        }
+        // Adding at the root replaces the document, including its type. It
+        // must not reuse the old array's insertion cost for subsequent edits.
+        let left = json!([1, 2, 3]);
+        let root_writes = patch(json!([
+            {"op":"add","path":"","value":["replacement"]},
+            {"op":"add","path":"/-","value":"next"},
+            {"op":"add","path":"/0","value":null},
+            {"op":"add","path":"","value":{"a":1,"b":2}},
+            {"op":"move","from":"/a","path":"/longer-a"},
+            {"op":"move","from":"/b","path":"/longer-b"}
+        ]));
+        let (size, costs) = guarded_bytes(&left, &root_writes, true, &[]).unwrap();
+        assert_eq!(
+            size,
+            bytes(&guard(left.clone(), &root_writes).unwrap()).unwrap()
+        );
+        for end in 0..=root_writes.0.len() {
+            assert_eq!(
+                guarded_bytes(&left, &root_writes, true, &costs[..=end])
+                    .unwrap()
+                    .0,
+                size
+            );
+        }
+    }
+
+    #[test]
+    fn guard_payloads_keep_existing_number_normalization_and_escaped_paths() {
+        for (raw, expected) in [
+            ("-0", "0"),
+            ("1E+0003", "1e+0003"),
+            ("1.00e00", "1.00e+00"),
+            ("1.0", "1.0"),
+            ("1e9999", "1e+9999"),
+            (
+                "1234567890123456789012345678901234567890",
+                "1234567890123456789012345678901234567890",
+            ),
+        ] {
+            let mut fields = serde_json::Map::new();
+            fields.insert(
+                "a/~🦀".into(),
+                Value::Number(serde_json::Number::from_string_unchecked(raw.into())),
+            );
+            let left = Value::Object(fields);
+            let original = patch(json!([{"op":"remove","path":"/a~1~0🦀"}]));
+            let actual = guard(left.clone(), &original).unwrap();
+            let expected = format!(
+                r#"[{{"op":"test","path":"/a~1~0🦀","value":{expected}}},{{"op":"remove","path":"/a~1~0🦀"}}]"#
+            );
+            assert_eq!(serde_json::to_string(&actual).unwrap(), expected);
+            assert_eq!(apply_json_patch(&left, &actual).unwrap(), json!({}));
+        }
+    }
+
+    #[test]
+    fn guard_construction_keeps_missing_sources_and_application_error_order() {
+        let left = json!({"o":{"a":1},"array":[0]});
+        for (operations, path, message) in [
+            (
+                json!([
+                    {"op":"replace","path":"/o/a","value":2},
+                    {"op":"move","from":"/missing","path":"/also-missing/x"}
+                ]),
+                "/missing",
+                "test source is missing",
+            ),
+            (
+                json!([
+                    {"op":"replace","path":"/o/a","value":2},
+                    {"op":"add","path":"/missing/x","value":1}
+                ]),
+                "/missing",
+                "addition parent is missing",
+            ),
+        ] {
+            let error = guard(left.clone(), &patch(operations)).unwrap_err();
+            assert_eq!(error, Error::new(path, message));
+        }
+        for operation in [
+            json!({"op":"add","path":"/array/9","value":1}),
+            json!({"op":"test","path":"/o/a","value":99}),
+        ] {
+            let operations = patch(json!([
+                {"op":"replace","path":"/o/a","value":2},
+                operation
+            ]));
+            assert_eq!(
+                guard(left.clone(), &operations).unwrap_err(),
+                apply_json_patch(&left, &operations).unwrap_err()
+            );
+        }
+        assert_eq!(left, json!({"o":{"a":1},"array":[0]}));
     }
 
     #[test]

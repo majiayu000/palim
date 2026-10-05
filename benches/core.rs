@@ -523,5 +523,164 @@ fn object_migrations(c: &mut Criterion) {
     group.finish();
 }
 
-criterion_group! { name = benches; config = Criterion::default().sample_size(20).warm_up_time(Duration::from_millis(100)).measurement_time(Duration::from_millis(300)).nresamples(5000); targets=benchmarks, extended_apis, risk_cases, read_only_tests, object_migrations }
+fn guard_construction(c: &mut Criterion) {
+    let mut group = c.benchmark_group("standard/guard-construction");
+    for count in [100, 2000] {
+        let fields = |offset| {
+            (0..count)
+                .map(|i| (format!("field_{i:04}"), json!(i + offset)))
+                .collect::<serde_json::Map<_, _>>()
+        };
+        let left = json!({"fields":fields(0)});
+        let right = json!({"fields":fields(1)});
+        let original = palim::diff_json_patch(
+            &left,
+            &right,
+            &JsonPatchOptions {
+                factorize: false,
+                rationalize: false,
+                tests: false,
+            },
+        )
+        .unwrap();
+        for tests in [false, true] {
+            let options = JsonPatchOptions {
+                factorize: false,
+                rationalize: false,
+                tests,
+            };
+            let generated = palim::diff_json_patch(&left, &right, &options).unwrap();
+            let mut applied = left.clone();
+            json_patch::patch(&mut applied, &generated).unwrap();
+            assert_eq!(applied, right);
+            let inverse = if tests {
+                invert_json_patch_guarded(&left, &original).unwrap()
+            } else {
+                invert_json_patch(&left, &original).unwrap()
+            };
+            json_patch::patch(&mut applied, &inverse).unwrap();
+            assert_eq!(applied, left);
+            group.bench_function(
+                BenchmarkId::new(format!("diff-tests-{tests}"), count),
+                |b| {
+                    b.iter(|| {
+                        palim::diff_json_patch(black_box(&left), black_box(&right), &options)
+                            .unwrap()
+                    });
+                },
+            );
+            group.bench_function(
+                BenchmarkId::new(format!("inverse-tests-{tests}"), count),
+                |b| {
+                    b.iter(|| {
+                        if tests {
+                            invert_json_patch_guarded(black_box(&left), black_box(&original))
+                                .unwrap()
+                        } else {
+                            invert_json_patch(black_box(&left), black_box(&original)).unwrap()
+                        }
+                    });
+                },
+            );
+        }
+    }
+    group.finish();
+}
+
+fn large_standard_generation(c: &mut Criterion) {
+    let mut group = c.benchmark_group("standard/large-generation");
+    for count in [2000, 100000] {
+        let fields = |offset| {
+            Value::Object(
+                (0..count)
+                    .map(|i| (format!("field_{i:06}"), json!(i + offset)))
+                    .collect(),
+            )
+        };
+        let left = fields(0);
+        let right = fields(1);
+        for tests in [false, true] {
+            let options = JsonPatchOptions {
+                factorize: false,
+                rationalize: false,
+                tests,
+            };
+            let patch = palim::diff_json_patch(&left, &right, &options).unwrap();
+            assert_eq!(apply_json_patch(&left, &patch).unwrap(), right);
+            group.bench_function(
+                BenchmarkId::new(format!("object-tests-{tests}"), count),
+                |b| {
+                    b.iter(|| {
+                        palim::diff_json_patch(black_box(&left), black_box(&right), &options)
+                            .unwrap()
+                    });
+                },
+            );
+            let mixed_left = json!({"fields":left,"z_array":(0..2000).collect::<Vec<_>>()});
+            let mixed_right =
+                json!({"fields":right,"z_array":(1999..2000).chain(0..1999).collect::<Vec<_>>()});
+            let patch = palim::diff_json_patch(&mixed_left, &mixed_right, &options).unwrap();
+            assert_eq!(apply_json_patch(&mixed_left, &patch).unwrap(), mixed_right);
+            group.bench_function(
+                BenchmarkId::new(format!("mixed-tests-{tests}"), count),
+                |b| {
+                    b.iter(|| {
+                        palim::diff_json_patch(
+                            black_box(&mixed_left),
+                            black_box(&mixed_right),
+                            &options,
+                        )
+                        .unwrap()
+                    });
+                },
+            );
+        }
+    }
+    for count in [2000, 20000] {
+        let left = json!(
+            (0..count)
+                .map(|i| format!("old-{i:08}"))
+                .collect::<Vec<_>>()
+        );
+        let right = json!(
+            (0..count)
+                .map(|i| format!("new-{i:08}"))
+                .collect::<Vec<_>>()
+        );
+        let options = JsonPatchOptions {
+            tests: true,
+            ..Default::default()
+        };
+        let patch = palim::diff_json_patch(&left, &right, &options).unwrap();
+        assert_eq!(apply_json_patch(&left, &patch).unwrap(), right);
+        group.bench_function(BenchmarkId::new("guarded-disjoint", count), |b| {
+            b.iter(|| {
+                palim::diff_json_patch(black_box(&left), black_box(&right), &options).unwrap()
+            });
+        });
+    }
+    for count in [2000, 10000] {
+        let left = json!({"kept":0});
+        let right = json!({"kept":0,"added":Value::Object(
+            (0..count)
+                .map(|i| (format!("item_{i:05}"), json!({"n":i,"s":format!("value_{i:05}")})))
+                .collect()
+        )});
+        let options = JsonPatchOptions {
+            factorize: false,
+            rationalize: false,
+            tests: false,
+        };
+        let patch = palim::diff_json_patch(&left, &right, &options).unwrap();
+        assert_eq!(apply_json_patch(&left, &patch).unwrap(), right);
+        group.bench_function(BenchmarkId::new("added-object", count), |b| {
+            b.iter(|| {
+                palim::diff_json_patch(black_box(&left), black_box(&right), &options).unwrap()
+            });
+        });
+    }
+    group.finish();
+}
+
+criterion_group! { name = benches; config = Criterion::default().sample_size(20).warm_up_time(Duration::from_millis(100)).measurement_time(Duration::from_millis(300)).nresamples(5000); targets=benchmarks, extended_apis, risk_cases, read_only_tests, object_migrations, guard_construction, large_standard_generation }
 criterion_main!(benches);

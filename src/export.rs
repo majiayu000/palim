@@ -6,6 +6,191 @@ use json_patch::{
 use serde_json::{Value, json};
 use std::collections::HashSet;
 
+// Generate objects directly; only arrays and unsorted Map backends construct
+// a local native delta. Projection filters use the whole native path instead.
+pub(crate) fn direct_patch(
+    left: &Value,
+    right: &Value,
+    matching: &crate::DiffOptions,
+    options: &crate::JsonPatchOptions,
+    input_depth: usize,
+) -> Result<Patch, Error> {
+    let mut direct = Direct {
+        matching,
+        replace_disjoint: !options.factorize && !options.tests,
+        // A native leaf tuple adds at most one container to the input depth.
+        bounded_delta: input_depth < delta::MAX_DELTA_DEPTH,
+        operations: Vec::new(),
+    };
+    let depth_error = direct.walk(left, right, &mut PointerBuf::new(), 0)?;
+    if let Some(error) = depth_error {
+        return Err(error);
+    }
+    Ok(Patch(direct.operations))
+}
+
+// Reuse the existing Map structure instead of serde_json::to_value's generic
+// serializer and per-entry insertion, then keep its numeric normalization.
+#[inline(never)]
+fn copy_addition(value: &Value) -> Value {
+    let mut copied = value.clone();
+    normalize_addition(&mut copied);
+    copied
+}
+
+fn normalize_addition(value: &mut Value) {
+    match value {
+        Value::Array(values) => values.iter_mut().for_each(normalize_addition),
+        Value::Object(values) => values.values_mut().for_each(normalize_addition),
+        // Use the same parser and unwrap behavior as json!(value), including
+        // malformed Numbers constructed through from_string_unchecked.
+        Value::Number(number) => *number = number.as_str().parse().unwrap(),
+        _ => {}
+    }
+}
+
+struct Direct<'a> {
+    matching: &'a crate::DiffOptions,
+    replace_disjoint: bool,
+    bounded_delta: bool,
+    operations: Vec<PatchOperation>,
+}
+
+fn check_leaf_depth(depth: usize, values: &[&Value]) -> Result<(), Error> {
+    if depth >= delta::MAX_DELTA_DEPTH {
+        return Err(Error::new("", "JSON nesting exceeds max_depth"));
+    }
+    for value in values {
+        if value.is_array() || value.is_object() {
+            delta::check_depth(value, delta::MAX_DELTA_DEPTH - depth - 1)?;
+        }
+    }
+    Ok(())
+}
+
+impl Direct<'_> {
+    fn native(
+        &mut self,
+        left: &Value,
+        right: &Value,
+        path: &PointerBuf,
+        depth: usize,
+    ) -> Result<Option<Error>, Error> {
+        let Some(change) = crate::diff::node(left, right, self.matching, path.as_str())? else {
+            return Ok(None);
+        };
+        let depth_error = if self.bounded_delta {
+            None
+        } else {
+            delta::check_depth(&change, delta::MAX_DELTA_DEPTH.saturating_sub(depth)).err()
+        };
+        walk(
+            left,
+            right,
+            &change,
+            path,
+            &mut self.operations,
+            self.replace_disjoint,
+        )?;
+        Ok(depth_error)
+    }
+
+    fn walk(
+        &mut self,
+        left: &Value,
+        right: &Value,
+        path: &mut PointerBuf,
+        depth: usize,
+    ) -> Result<Option<Error>, Error> {
+        if left == right {
+            return Ok(None);
+        }
+        match (left, right) {
+            (Value::Array(_), Value::Array(_)) => self.native(left, right, path, depth),
+            (Value::Object(source), Value::Object(target)) => {
+                // serde_json's downstream preserve_order feature can substitute
+                // an insertion-ordered Map. Retain native ordering for that case.
+                if !source.keys().is_sorted() || !target.keys().is_sorted() {
+                    return self.native(left, right, path, depth);
+                }
+                let mut source = source.iter().peekable();
+                let mut target = target.iter().peekable();
+                let mut depth_error = None;
+                loop {
+                    let order = match (source.peek(), target.peek()) {
+                        (Some((old, _)), Some((new, _))) => old.cmp(new),
+                        (Some(_), None) => std::cmp::Ordering::Less,
+                        (None, Some(_)) => std::cmp::Ordering::Greater,
+                        (None, None) => break,
+                    };
+                    let (key, old, new) = match order {
+                        std::cmp::Ordering::Less => {
+                            let (key, old) = source.next().unwrap();
+                            (key, Some(old), None)
+                        }
+                        std::cmp::Ordering::Greater => {
+                            let (key, new) = target.next().unwrap();
+                            (key, None, Some(new))
+                        }
+                        std::cmp::Ordering::Equal => {
+                            let (key, old) = source.next().unwrap();
+                            let (_, new) = target.next().unwrap();
+                            (key, Some(old), Some(new))
+                        }
+                    };
+                    path.push_back(key.as_str());
+                    // Delay wire-depth failures until all matching callbacks have
+                    // run, as in the full native diff followed by depth checking.
+                    let child_error = match (old, new) {
+                        (Some(old), Some(new)) => self.walk(old, new, path, depth + 1)?,
+                        (Some(old), None) => {
+                            let error = if self.bounded_delta {
+                                None
+                            } else {
+                                check_leaf_depth(depth + 1, &[old]).err()
+                            };
+                            self.operations
+                                .push(PatchOperation::Remove(RemoveOperation {
+                                    path: path.clone(),
+                                }));
+                            error
+                        }
+                        (None, Some(new)) => {
+                            let error = if self.bounded_delta {
+                                None
+                            } else {
+                                check_leaf_depth(depth + 1, &[new]).err()
+                            };
+                            self.operations.push(PatchOperation::Add(AddOperation {
+                                path: path.clone(),
+                                value: copy_addition(new),
+                            }));
+                            error
+                        }
+                        (None, None) => unreachable!("key came from one of the objects"),
+                    };
+                    depth_error = depth_error.or(child_error);
+                    path.pop_back();
+                }
+                Ok(depth_error)
+            }
+            _ => {
+                let error = if self.bounded_delta {
+                    None
+                } else {
+                    check_leaf_depth(depth, &[left, right]).err()
+                };
+                self.operations
+                    .push(PatchOperation::Replace(ReplaceOperation {
+                        path: path.clone(),
+                        value: right.clone(),
+                    }));
+                Ok(error)
+            }
+        }
+    }
+}
+
 // Standard generation need not construct reversible tuples when no
 // primitive item can survive. Containers and caller-defined pairing stay on
 // the native matching path. Check the first target before allocating a set so
@@ -333,4 +518,314 @@ fn walk(
         }
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod direct_tests {
+    use super::*;
+    use crate::{DiffOptions, DiffPatcher, JsonPatchOptions};
+    use proptest::prelude::*;
+    use std::sync::{Arc, Mutex};
+
+    #[test]
+    fn addition_copy_keeps_nested_number_normalization_and_patch_bytes() {
+        for raw in [
+            "0",
+            "-0",
+            "-0.0",
+            "1.0",
+            "1E+0003",
+            "1.00e00",
+            "1e9999",
+            "18446744073709551616",
+            "-9223372036854775809",
+            "0.000000001234567890123456789",
+            "123456789012345678901234567890",
+        ] {
+            let number = Value::Number(serde_json::Number::from_string_unchecked(raw.into()));
+            let mut value = json!({"nested":[null,{"a/~🦀":null}],"empty":{},
+                "empty_array":[],"nil":null,"bool":true,"text":"Unicode 🦀"});
+            value["nested"][0] = number.clone();
+            value["nested"][1]["a/~🦀"] = number;
+            let original = value.clone();
+            let actual = copy_addition(&value);
+            let expected = json!(&value);
+            assert_eq!(actual, expected, "{raw}");
+            assert_eq!(
+                serde_json::to_vec(&actual).unwrap(),
+                serde_json::to_vec(&expected).unwrap()
+            );
+            let left = json!({"kept":0});
+            let mut right = left.clone();
+            right["added/~"] = value.clone();
+            let actual = direct_standard(&left, &right).unwrap();
+            let expected = native_standard(&left, &right).unwrap();
+            assert_eq!(
+                serde_json::to_vec(&actual).unwrap(),
+                serde_json::to_vec(&expected).unwrap()
+            );
+            assert_eq!(value, original);
+        }
+    }
+
+    #[test]
+    fn addition_copy_keeps_malformed_unchecked_number_failure() {
+        let message = |result: std::thread::Result<Value>| {
+            let error = result.expect_err("malformed unchecked Number must fail");
+            error.downcast::<String>().unwrap()
+        };
+        for raw in ["", "01", "+1", "NaN", "1e", "1 ", "null"] {
+            let value = Value::Array(vec![Value::Number(
+                serde_json::Number::from_string_unchecked(raw.into()),
+            )]);
+            assert_eq!(
+                message(std::panic::catch_unwind(|| copy_addition(&value))),
+                message(std::panic::catch_unwind(|| json!(&value))),
+                "{raw}"
+            );
+        }
+    }
+
+    fn native_optimized(
+        matching: &DiffOptions,
+        left: &Value,
+        right: &Value,
+        options: &JsonPatchOptions,
+    ) -> Result<Patch, Error> {
+        let patcher = DiffPatcher::new(matching.clone());
+        let Some(change) = patcher.diff(left, right)? else {
+            return Ok(Patch::default());
+        };
+        let standard = export_known(left, right, &change, !options.factorize && !options.tests)?;
+        crate::rfc::optimize(left, right, standard, options)
+    }
+
+    fn mixed_json() -> impl Strategy<Value = Value> {
+        prop_oneof![
+            Just(Value::Null),
+            any::<bool>().prop_map(Value::Bool),
+            any::<i64>().prop_map(|value| json!(value)),
+            proptest::collection::vec(any::<char>(), 0..8)
+                .prop_map(|value| json!(value.into_iter().collect::<String>())),
+        ]
+        .prop_recursive(4, 64, 6, |inner| {
+            prop_oneof![
+                proptest::collection::vec(inner.clone(), 0..5).prop_map(Value::Array),
+                proptest::collection::btree_map("[a-z~/]{0,4}", inner, 0..5)
+                    .prop_map(|values| Value::Object(values.into_iter().collect())),
+            ]
+        })
+    }
+
+    proptest! {
+        #![proptest_config(ProptestConfig { cases:128, rng_seed:proptest::test_runner::RngSeed::Fixed(20261005), ..ProptestConfig::default() })]
+        #[test]
+        fn hybrid_matches_native_on_arbitrary_mixed_json(left in mixed_json(), right in mixed_json()) {
+            let matching = DiffOptions { text_diff_min_length:None, ..Default::default() };
+            let patcher = DiffPatcher::new(matching.clone());
+            for factorize in [false,true] {
+                for rationalize in [false,true] {
+                    for tests in [false,true] {
+                        let options = JsonPatchOptions { factorize,rationalize,tests };
+                        let expected = native_optimized(&matching,&left,&right,&options).unwrap();
+                        let actual = patcher.diff_json_patch(&left,&right,&options).unwrap();
+                        prop_assert_eq!(&actual,&expected);
+                        let mut applied = left.clone();
+                        json_patch::patch(&mut applied,&actual).unwrap();
+                        prop_assert_eq!(&applied,&right);
+                        let inverse = crate::invert_json_patch(&left,&actual).unwrap();
+                        json_patch::patch(&mut applied,&inverse).unwrap();
+                        prop_assert_eq!(&applied,&left);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn hybrid_generation_keeps_native_operations_and_matching_callbacks() {
+        let left = json!({"a/~":[{"id":1,"body":"old".repeat(40)},{"id":2,"body":"unchanged"}],
+            "fields":{"a":1,"b":false},"z":{"array":[[1,2],[3,4]],"removed":[0]},"gone":true});
+        let right = json!({"a/~":[{"id":2,"body":"unchanged"},{"id":1,"body":"new".repeat(40)}],
+            "fields":{"a":2,"b":true},"z":{"array":[[3,4],[1,5]],"added":[1]},"added":null});
+        for mode in 0..3 {
+            for detect_moves in [false, true] {
+                let calls = Arc::new(Mutex::new(Vec::new()));
+                let mut matching = DiffOptions {
+                    detect_moves,
+                    include_value_on_move: true,
+                    text_diff_min_length: None,
+                    ..Default::default()
+                };
+                if mode == 1 {
+                    let calls = calls.clone();
+                    matching.object_hash = Some(Arc::new(move |value, index| {
+                        calls.lock().unwrap().push(format!("hash:{index}:{value}"));
+                        value.get("id").map(Value::to_string)
+                    }));
+                } else if mode == 2 {
+                    let calls = calls.clone();
+                    matching.array_item_matcher = Some(Arc::new(move |path, left, right| {
+                        calls
+                            .lock()
+                            .unwrap()
+                            .push(format!("match:{path}:{left}:{right}"));
+                        match (left.get("id"), right.get("id")) {
+                            (Some(a), Some(b)) => a == b,
+                            _ => left == right,
+                        }
+                    }));
+                }
+                for factorize in [false, true] {
+                    for rationalize in [false, true] {
+                        for tests in [false, true] {
+                            let options = JsonPatchOptions {
+                                factorize,
+                                rationalize,
+                                tests,
+                            };
+                            calls.lock().unwrap().clear();
+                            let expected =
+                                native_optimized(&matching, &left, &right, &options).unwrap();
+                            let expected_calls = calls.lock().unwrap().clone();
+                            calls.lock().unwrap().clear();
+                            let actual = DiffPatcher::new(matching.clone())
+                                .diff_json_patch(&left, &right, &options)
+                                .unwrap();
+                            assert_eq!(calls.lock().unwrap().as_slice(), expected_calls);
+                            assert_eq!(actual, expected);
+                            let mut applied = left.clone();
+                            json_patch::patch(&mut applied, &actual).unwrap();
+                            assert_eq!(applied, right);
+                            let inverse = crate::invert_json_patch(&left, &actual).unwrap();
+                            json_patch::patch(&mut applied, &inverse).unwrap();
+                            assert_eq!(applied, left);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn hybrid_deep_errors_keep_later_matching_callbacks_and_inputs() {
+        for depth in [0, 123, 124, 125, 126] {
+            let wrap = |value| (0..depth).fold(value, |value, _| json!({"a":value}));
+            let left = json!({"deep":wrap(json!([{"id":1,"n":1}])),"later":[{"id":2,"n":1}]});
+            let right = json!({"deep":wrap(json!([{"id":1,"n":2}])),"later":[{"id":2,"n":2}]});
+            let original = left.clone();
+            let calls = Arc::new(Mutex::new(Vec::new()));
+            let recorded = calls.clone();
+            let matching = DiffOptions {
+                object_hash: Some(Arc::new(move |value, index| {
+                    recorded.lock().unwrap().push((value.clone(), index));
+                    value.get("id").map(Value::to_string)
+                })),
+                text_diff_min_length: None,
+                ..Default::default()
+            };
+            let options = JsonPatchOptions {
+                factorize: false,
+                rationalize: false,
+                tests: false,
+            };
+            let expected = native_optimized(&matching, &left, &right, &options);
+            let expected_calls = calls.lock().unwrap().clone();
+            calls.lock().unwrap().clear();
+            let actual = DiffPatcher::new(matching).diff_json_patch(&left, &right, &options);
+            assert_eq!(actual, expected, "depth {depth}");
+            assert_eq!(*calls.lock().unwrap(), expected_calls, "depth {depth}");
+            assert_eq!(left, original);
+        }
+    }
+
+    fn native_standard(left: &Value, right: &Value) -> Result<Patch, Error> {
+        let patcher = DiffPatcher::new(DiffOptions {
+            text_diff_min_length: None,
+            ..Default::default()
+        });
+        match patcher.diff(left, right)? {
+            Some(change) => export_known(left, right, &change, true),
+            None => Ok(Patch::default()),
+        }
+    }
+
+    fn direct_standard(left: &Value, right: &Value) -> Result<Patch, Error> {
+        let options = DiffOptions {
+            text_diff_min_length: None,
+            ..Default::default()
+        };
+        let depth = delta::measure_depth(left, options.max_depth)?
+            .max(delta::measure_depth(right, options.max_depth)?);
+        direct_patch(
+            left,
+            right,
+            &options,
+            &JsonPatchOptions {
+                factorize: false,
+                rationalize: false,
+                tests: false,
+            },
+            depth,
+        )
+    }
+
+    #[test]
+    fn direct_objects_keep_native_wire_order_and_payloads() {
+        for raw in ["-0", "1E+0003", "1.00e00", "1.0", "1e9999"] {
+            let number = Value::Number(serde_json::Number::from_string_unchecked(raw.into()));
+            let mut right = json!({"":{"a/~🦀":2},"add":null,"z":true});
+            right["add"] = number.clone();
+            let left = json!({"":{"a/~🦀":1},"removed":[{"nested":true}],"z":false});
+            for (left, right) in [
+                (left.clone(), right.clone()),
+                (right, left),
+                (json!(null), number.clone()),
+                (number, json!({"whole":[1,2]})),
+            ] {
+                let expected = native_standard(&left, &right).unwrap();
+                let actual = direct_standard(&left, &right).unwrap();
+                assert_eq!(actual, expected);
+                assert_eq!(
+                    serde_json::to_vec(&actual).unwrap(),
+                    serde_json::to_vec(&expected).unwrap()
+                );
+            }
+        }
+        let left = json!({"array":[1,2],"nested":{"a":1}});
+        let right = json!({"array":[1,2],"nested":{"a":2}});
+        assert_eq!(
+            direct_standard(&left, &right).unwrap(),
+            native_standard(&left, &right).unwrap()
+        );
+        let right = json!({"array":[2,1]});
+        assert_eq!(
+            direct_standard(&left, &right).unwrap(),
+            native_standard(&left, &right).unwrap()
+        );
+    }
+
+    #[test]
+    fn direct_generation_keeps_native_delta_depth_errors() {
+        let options = JsonPatchOptions {
+            factorize: false,
+            rationalize: false,
+            tests: false,
+        };
+        for depth in 124..=129 {
+            let wrap = |value: Value| (0..depth).fold(value, |value, _| json!({"a":value}));
+            let deep = wrap(json!(1));
+            for (left, right) in [
+                (deep.clone(), wrap(json!(2))),
+                (json!({}), json!({"added":deep})),
+                (wrap(json!(1)), json!(null)),
+                (wrap(json!(1)), wrap(json!(1))),
+            ] {
+                assert_eq!(
+                    DiffPatcher::default().diff_json_patch(&left, &right, &options),
+                    native_standard(&left, &right)
+                );
+            }
+        }
+    }
 }
