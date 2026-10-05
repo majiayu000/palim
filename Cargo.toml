@@ -1,6 +1,6 @@
 [package]
 name = "palim"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2024"
 rust-version = "1.85"
 description = "Reversible JSON diff and patch for Rust, with array moves, text deltas, JSON Patch and Merge Patch"
