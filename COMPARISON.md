@@ -2,7 +2,42 @@
 
 本库已更名为 **Palim**（包名 `palim`）。以下历史测量与验证记录保留当时的名称 `jsondiffpatch-rs`，未因更名重新计时。
 
-## 2026-10-06 Rust 生成路径复测
+## 当前结论：2026-10-06 CI 修复与跨语言复测
+
+[`b733c19` 的远端 CI](https://github.com/majiayu000/palim/actions/runs/37455708819)
+六个 job 全部成功，包括 Windows/macOS/Ubuntu、Rust 1.85、JS 互通和 structured fuzz。
+Windows 失败由 depth 回归测试的 128 KiB 小栈触发；仅将测试栈改为 1 MiB，深度断言未变。
+
+当前生成路径已重跑 Rust、Go、JS：63 个组合、189 次独立进程测量，无正确性失败，
+另有 12 条预算跳过记录。完整边界、字节、批次与源码见
+[最新跨语言/采样报告](results/ci-crosslang-20261006/REPORT.md)。
+
+| Pipeline（解析→生成→序列化） | Palim plain ms | Rust json-patch ms | fast-json-patch ms |
+|---|---:|---:|---:|
+| 小配置 | 0.0099 | 0.0103 | 0.0034 |
+| 100k 标量修改 | 75.2793 | 88.8133 | 87.8517 |
+| 5k 迁移 | 14.1455 | 13.9747 | 23.1885 |
+| 百万 rotate | 191.9300 | 263.8194 | 312.5023 |
+| disjoint-20000 | 5.2044 | 4.9789 | 4.2310 |
+| shuffle-2000 | 1.8270 | 0.5327 | 0.2781 |
+
+**仍不能宣称全面领先。** 百万 rotate 的小补丁和完整 pipeline、标量 plain、
+迁移 opt 相对 Go optimized 有实测优势；JS 小输入与随机重排、部分生成 Core 有更快的对手。
+百万 rotate 本轮 plain Core 中位数 125.52 ms，json-patch 116.71 ms；Palim 各进程
+中位数为 104.18–125.93 ms，不能拿上一轮的 96.95 ms 宣称每轮都更快。
+opt 与 plain、不同 guard 范围的速度和体积不能当作同合同排名。
+
+### 下一步与已核查的覆盖
+
+- CI 修复已完成。0.2.0 仅准备版本与 changelog，尚未发布；crates.io 当前为 0.1.4。
+- shuffle 采样确认 delta 构造/导出及分配都有成本；强制 positional 原型约快 10 倍但输出增大 8.1%，正式退出策略和输出变化待用户选择。
+- RFC scalar cache 仍用 SipHash；foldhash 直接依赖原型在三个大型 opt 输入减少约 5.5%–14.2% 时间，已测 wire 相同，尚未完成全部候选回归，待用户选择。
+- rationalize 的主要剩余成本是补丁回放、比较与分配；依赖 json-patch 的 `Value::pointer_mut` 仍有字符串解析，不能将本库 typed lookup 当成全部已消除。
+- 通用 untrusted JSON strategy 不生成数组协议键，但现有 protocol_properties 与 structured fuzz 已直接生成/变异真实数组协议；无需因为旧通用 strategy 的限制重复增加生成器。
+- 当前远端 JS 结果：1073 组必需路径全过；566 个 JS 自逆成功案例中默认 fuzzy 还原 562 个合法格式，4 个畸形 header 明确报错。strict 成功 471，不能把历史 95 个 strict 拒绝写成当前 95 个合法 fuzzy 失败。
+- 尚未核查真实下游采用；功能组合、已测性能与生产采用是不同证据。
+
+## 同日较早快照：Rust 生成路径复测
 
 旧跨语言表格保留为历史快照，不能代表当前生成性能。最新同轮结果与可重放源码见
 [Pointer/rotate 报告](results/opt-rotate-20261006/REPORT.md)；上一轮
@@ -374,7 +409,9 @@ native 的 500 项半区交换只有 0.1489 ms、4,400 B，说明瓶颈主要在
 
 [arrays-by-hash](https://github.com/schnerd/jsondiffpatch-arrays-by-hash#why) 说明 ID 在 diff 阶段匹配、delta 在 patch 阶段仍用索引，两个同基线 patch 不能任意叠加。版本、基线和冲突处理由上层负责，不能把本库宣传为协作合并引擎。
 
-### 9. 建议改进顺序
+### 9. 历史建议改进顺序（2026-09-30）
+
+> 以下计划与判断属于实施前基线。当前完成状态和剩余瓶颈以本页顶部 2026-10-06 结论为准。
 
 | 顺序 | 必要工作 | 可审查验收 |
 |---|---|---|
@@ -385,7 +422,7 @@ native 的 500 项半区交换只有 0.1489 ms、4,400 B，说明瓶颈主要在
 
 是否增加 Merge Patch、无序/容差、模糊文本、插件或绑定，要由具体使用需求决定。先完成这些质量改进，才能支持“这个明确场景下很强”；不能通过不断加功能得到一个有证据的“全球最好”。
 
-### 最终判断
+### 历史最终判断（2026-09-30）
 
 - **已有价值：** 可逆 JSON 和大规模身份数组，尤其需要 JS native delta 互通的 Rust 应用。
 - **不是功能最全：** JSON 范围内就存在已核查的缺项，无需拿 Python对象或 CRDT 来凑差距。

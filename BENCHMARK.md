@@ -2,6 +2,17 @@
 
 本库已更名为 **Palim**（包名 `palim`）。以下历史测量与验证记录保留当时的名称 `jsondiffpatch-rs`，未因更名重新计时。
 
+## 2026-10-06：当前源码的 Go/JS/Rust 复测
+
+冻结 `b733c19`（生产代码与 `8701b2f` 相同），完成 63 个组合、189 次独立进程测量，
+无正确性失败，预算跳过单列。小配置和随机重排仍慢于 JS；百万 rotate 的完整 pipeline
+191.93 ms 对 Rust json-patch 263.82 ms，输出 44 B 对 58,888,891 B，但本轮 plain Core
+125.52 ms 对 116.71 ms，存在速度波动，不能只引用上一轮更快的中位数。
+
+分阶段 CPU 采样、foldhash 与 positional 的临时原型、guard 合同差异、原始批次和复现脚本
+见 [本轮报告](results/ci-crosslang-20261006/REPORT.md)。两个原型未进入生产代码，数字不是已发布版本的优化收益。
+Windows 小栈测试已修复，[对应远端六个 CI job 全绿](https://github.com/majiayu000/palim/actions/runs/37455708819)。
+
 ## 2026-10-04：0.1.3 混合对象操作与 Move 候选复制
 
 相对已发布 0.1.2（4b8e9b3），稳定槽位路径扩到可证明的对象 Add/Remove/Replace；
