@@ -38,6 +38,17 @@ fn node_unfiltered(
     if left == right {
         return Ok(None);
     }
+    node_changed(left, right, options, path)
+}
+
+// The caller has already compared the pair. Array matching can delay building
+// its path until this point without comparing large changed values twice.
+fn node_changed(
+    left: &Value,
+    right: &Value,
+    options: &DiffOptions,
+    path: &str,
+) -> Result<Option<Value>, Error> {
     let result = match (left, right) {
         (Value::Object(a), Value::Object(b)) => {
             let mut delta = Map::new();
@@ -329,7 +340,14 @@ fn increasing_matches(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
     let mut tails: Vec<usize> = Vec::new();
     let mut previous = vec![None; pairs.len()];
     for (index, &(old, _)) in pairs.iter().enumerate() {
-        let length = tails.partition_point(|&tail| pairs[tail].0 < old);
+        // Most matches in a reorder still extend the increasing subsequence.
+        // This is the same insertion point as the binary search, including
+        // equal-source ties, but avoids searching all earlier tails.
+        let length = if tails.last().is_none_or(|&tail| pairs[tail].0 < old) {
+            tails.len()
+        } else {
+            tails.partition_point(|&tail| pairs[tail].0 < old)
+        };
         if length != 0 {
             previous[index] = Some(tails[length - 1]);
         }
@@ -602,10 +620,16 @@ fn array_diff(
             options
         };
         if let Some(old) = paired {
-            if let Some(child) =
-                node_unfiltered(&a[*old], &b[new], child_options, &pointer(path, new))?
-            {
-                result.insert(new.to_string(), child);
+            // node_unfiltered returns immediately for an unchanged pair.
+            // Test before constructing its path; large reorders otherwise
+            // allocate a pointer for every stable item. Matching and projection
+            // callbacks above retain their original evaluation order.
+            if a[*old] != b[new] {
+                if let Some(child) =
+                    node_changed(&a[*old], &b[new], child_options, &pointer(path, new))?
+                {
+                    result.insert(new.to_string(), child);
+                }
             }
         } else {
             let added = if child_options.node_filter.is_some() {
@@ -620,5 +644,52 @@ fn array_diff(
         Ok(None)
     } else {
         Ok(Some(Value::Object(result)))
+    }
+}
+
+#[cfg(test)]
+mod matching_tests {
+    use super::*;
+
+    #[test]
+    fn append_fast_path_preserves_lis_ties_and_reconstruction() {
+        fn reference(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
+            let mut tails: Vec<usize> = Vec::new();
+            let mut previous = vec![None; pairs.len()];
+            for (index, &(old, _)) in pairs.iter().enumerate() {
+                let length = tails.partition_point(|&tail| pairs[tail].0 < old);
+                if length != 0 {
+                    previous[index] = Some(tails[length - 1]);
+                }
+                if length == tails.len() {
+                    tails.push(index);
+                } else {
+                    tails[length] = index;
+                }
+            }
+            let mut result = Vec::new();
+            let mut current = tails.last().copied();
+            while let Some(index) = current {
+                result.push(pairs[index]);
+                current = previous[index];
+            }
+            result.reverse();
+            result
+        }
+        // Exhaustive small sequences include empty, duplicate, increasing,
+        // decreasing and interleaved source positions. Target indices differ
+        // even when sources tie, so the exact reconstructed pairs matter.
+        for length in 0..=7u32 {
+            for mut encoded in 0..4usize.pow(length) {
+                let pairs: Vec<_> = (0..length as usize)
+                    .map(|new| {
+                        let old = encoded % 4;
+                        encoded /= 4;
+                        (old, new)
+                    })
+                    .collect();
+                assert_eq!(increasing_matches(&pairs), reference(&pairs), "{pairs:?}");
+            }
+        }
     }
 }

@@ -435,7 +435,7 @@ fn apply_standard_checked(
     let mut copied = 0usize;
     for (index, op) in patch.0.iter().enumerate() {
         if let (Some(limit), PatchOperation::Copy(copy)) = (options.max_copy_bytes, op) {
-            let value = result.pointer(copy.from.as_str()).ok_or_else(|| {
+            let value = copy.from.resolve(&result).map_err(|_| {
                 standard_error(index, copy.path.as_str(), "\"from\" path is invalid")
             })?;
             let mut size = ByteCount(0);
@@ -501,12 +501,8 @@ fn step_with_depth(
     }
     let target_depth = path.bytes().filter(|byte| *byte == b'/').count();
     let inserted_height = match op {
-        PatchOperation::Move(op) => {
-            moved_subtree_height(result, op.from.as_str(), target_depth, max_depth)
-        }
-        PatchOperation::Copy(op) => {
-            moved_subtree_height(result, op.from.as_str(), target_depth, max_depth)
-        }
+        PatchOperation::Move(op) => moved_subtree_height(result, &op.from, target_depth, max_depth),
+        PatchOperation::Copy(op) => moved_subtree_height(result, &op.from, target_depth, max_depth),
         _ => Ok(payload_height),
     }
     .map_err(|e| standard_error(index, path, e.message))?;
@@ -541,9 +537,10 @@ fn test_standard(
     let path = test.path.as_str();
     standard_subtree_height(&test.value, max_depth)
         .map_err(|error| standard_error(index, path, error.message))?;
-    let current = source
-        .pointer(path)
-        .ok_or_else(|| standard_error(index, path, "path is invalid"))?;
+    let current = test
+        .path
+        .resolve(source)
+        .map_err(|_| standard_error(index, path, "path is invalid"))?;
     if !json_equal(current, &test.value) {
         return Err(standard_error(index, path, "value did not match"));
     }
@@ -552,18 +549,18 @@ fn test_standard(
 
 fn moved_subtree_height(
     result: &Value,
-    from: &str,
+    from: &json_patch::jsonptr::Pointer,
     target_depth: usize,
     max_depth: usize,
 ) -> Result<Option<usize>, Error> {
-    let source_depth = from.bytes().filter(|byte| *byte == b'/').count();
+    let source_depth = from.count();
     if target_depth <= source_depth {
         return Ok(None);
     }
     // Missing sources are reported by the standard operation, whose validation
     // order also handles moves into their own descendants.
-    result
-        .pointer(from)
+    from.resolve(result)
+        .ok()
         .map(|source| standard_subtree_height(source, max_depth))
         .transpose()
 }

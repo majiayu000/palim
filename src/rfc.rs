@@ -120,14 +120,17 @@ pub(crate) fn decode(value: Value) -> Result<PatchOperation, Error> {
 }
 
 fn path(op: &PatchOperation) -> &str {
-    match op {
-        PatchOperation::Add(op) => op.path.as_str(),
-        PatchOperation::Remove(op) => op.path.as_str(),
-        PatchOperation::Replace(op) => op.path.as_str(),
-        PatchOperation::Move(op) => op.path.as_str(),
-        PatchOperation::Copy(op) => op.path.as_str(),
-        PatchOperation::Test(op) => op.path.as_str(),
-    }
+    op.path().as_str()
+}
+
+// Ancestors derived from typed operation paths remain valid JSON pointers.
+// Resolving through jsonptr borrows unescaped tokens instead of allocating
+// two replacement strings for every segment as Value::pointer does.
+fn resolve<'a>(value: &'a Value, path: &str) -> Option<&'a Value> {
+    json_patch::jsonptr::Pointer::parse(path)
+        .ok()?
+        .resolve(value)
+        .ok()
 }
 
 fn from(op: &PatchOperation) -> Option<&str> {
@@ -235,7 +238,7 @@ fn factorize_object_moves(
         if !matches!(
             op,
             PatchOperation::Add(_) | PatchOperation::Remove(_) | PatchOperation::Replace(_)
-        ) || !parent(path(op)).is_some_and(|p| left.pointer(p).is_some_and(Value::is_object))
+        ) || !parent(path(op)).is_some_and(|p| resolve(left, p).is_some_and(Value::is_object))
             || !destinations.insert(path(op))
         {
             return Ok(false);
@@ -309,7 +312,7 @@ fn factorize(left: &Value, right: &Value, mut patch: Patch) -> Result<Patch, Err
         let mut removed: HashMap<Value, VecDeque<(usize, String)>> = HashMap::new();
         for (index, op) in patch.0.iter().enumerate() {
             if let PatchOperation::Remove(op) = op {
-                if let Some(value) = shadow.pointer(op.path.as_str()) {
+                if let Ok(value) = op.path.resolve(&shadow) {
                     removed
                         .entry(value.clone())
                         .or_default()
@@ -401,7 +404,7 @@ fn factorize(left: &Value, right: &Value, mut patch: Patch) -> Result<Patch, Err
             _ => return Ok(patch),
         };
         let eligible = !replace
-            || parent(destination).is_none_or(|p| !left.pointer(p).is_some_and(Value::is_array));
+            || parent(destination).is_none_or(|p| !resolve(left, p).is_some_and(Value::is_array));
         if eligible {
             let original_size = bytes(op)?;
             let minimum_size = bytes(&CopyOperation {
@@ -501,7 +504,7 @@ fn factorize(left: &Value, right: &Value, mut patch: Patch) -> Result<Patch, Err
                     // array element. Check the parent in the current document.
                     let eligible = !matches!(op, PatchOperation::Replace(_))
                         || parent(destination).is_none_or(|parent| {
-                            !current.pointer(parent).is_some_and(Value::is_array)
+                            !resolve(current, parent).is_some_and(Value::is_array)
                         });
                     if eligible {
                         let mut best = None;
@@ -725,7 +728,7 @@ fn ancestor_arrays<'a>(left: &Value, ancestor: &'a str) -> Vec<&'a str> {
     let mut arrays = Vec::new();
     let mut cursor = ancestor;
     while let Some(above) = parent(cursor) {
-        if left.pointer(above).is_some_and(Value::is_array) {
+        if resolve(left, above).is_some_and(Value::is_array) {
             arrays.push(above);
         }
         cursor = above;
@@ -927,7 +930,7 @@ fn rationalize_replacements(
     let original_length = patch.0.len();
     let mut length = original_length;
     for (ancestor, crossed) in parents.iter().zip(crossed) {
-        let (Some(old), Some(new)) = (left.pointer(ancestor), right.pointer(ancestor)) else {
+        let (Some(old), Some(new)) = (resolve(left, ancestor), resolve(right, ancestor)) else {
             continue;
         };
         if crossed {
@@ -1093,7 +1096,7 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
         && patch.0.iter().all(|op| match op {
             PatchOperation::Replace(_) => true,
             PatchOperation::Add(_) | PatchOperation::Remove(_) => parent(path(op))
-                .is_some_and(|parent| left.pointer(parent).is_some_and(Value::is_object)),
+                .is_some_and(|parent| resolve(left, parent).is_some_and(Value::is_object)),
             _ => false,
         })
         && baseline_verified != Some(false)
@@ -1114,7 +1117,7 @@ fn rationalize(left: &Value, right: &Value, mut patch: Patch, tests: bool) -> Re
     // rebuilding an index for every independently compressible parent.
     let mut index_unchanged = true;
     for ancestor in parents {
-        let (Some(old), Some(new)) = (left.pointer(&ancestor), right.pointer(&ancestor)) else {
+        let (Some(old), Some(new)) = (resolve(left, &ancestor), resolve(right, &ancestor)) else {
             continue;
         };
         let mut selection_proof = None;
@@ -1598,17 +1601,17 @@ fn invalidate_guards(shadow: &Value, op: &PatchOperation, tested: &mut BTreeSet<
     }
     forget_guards(tested, path(op), true);
     if !matches!(op, PatchOperation::Replace(_)) {
-        if let Some(parent) = parent(path(op)) {
-            if shadow.pointer(parent).is_some_and(Value::is_array) {
-                forget_guards(tested, parent, false);
+        if let Some(parent) = op.path().parent() {
+            if parent.resolve(shadow).is_ok_and(Value::is_array) {
+                forget_guards(tested, parent.as_str(), false);
             }
         }
     }
     if let PatchOperation::Move(op) = op {
         forget_guards(tested, op.from.as_str(), true);
-        if let Some(parent) = parent(op.from.as_str()) {
-            if shadow.pointer(parent).is_some_and(Value::is_array) {
-                forget_guards(tested, parent, false);
+        if let Some(parent) = op.from.parent() {
+            if parent.resolve(shadow).is_ok_and(Value::is_array) {
+                forget_guards(tested, parent.as_str(), false);
             }
         }
     }
@@ -1789,6 +1792,33 @@ fn undo_move(
 #[cfg(test)]
 mod guard_cost_tests {
     use super::*;
+
+    #[test]
+    fn borrowed_resolution_keeps_value_pointer_results() {
+        let value = json!({
+            "": {"": 0}, "a/b~": {"🦀": [null, {"": 2}]},
+            "array": [1, 2], "01": 3, "~2": 4,
+        });
+        for path in [
+            "",
+            "/",
+            "//",
+            "/a~1b~0",
+            "/a~1b~0/🦀/1/",
+            "/a~1b~0/🦀/0/x",
+            "/array/0",
+            "/array/1",
+            "/array/01",
+            "/array/+1",
+            "/array/-",
+            "/array/184467440737095516160",
+            "/01",
+            "/~02",
+            "/missing",
+        ] {
+            assert_eq!(resolve(&value, path), value.pointer(path), "{path}");
+        }
+    }
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
