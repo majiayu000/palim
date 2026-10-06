@@ -213,7 +213,9 @@ mod depth_tests {
     #[test]
     fn bounded_traversal_keeps_exact_depth_limits_and_wide_containers() {
         std::thread::Builder::new()
-            .stack_size(128 * 1024)
+            // Windows debug frames need more stack than the macOS build.
+            // The assertions bound JSON depth, not platform-specific frame size.
+            .stack_size(1024 * 1024)
             .spawn(|| {
                 let mut value = Value::Null;
                 assert_eq!(measure_depth(&value, 0).unwrap(), 0);
