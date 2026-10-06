@@ -18,6 +18,9 @@ LIS for unique array identities, `imara-diff` for other sequence matching and
 Minimum Rust: **1.85**. See the [API documentation](https://docs.rs/palim),
 [benchmarks](https://github.com/majiayu000/palim/blob/main/BENCHMARK.md) and
 [release history](https://github.com/majiayu000/palim/releases).
+The current release is [0.2.0](https://github.com/majiayu000/palim/releases/tag/v0.2.0).
+Guarded and some plain JSON Patch output shapes changed; see the
+[changelog](https://github.com/majiayu000/palim/blob/main/CHANGELOG.md).
 
 ## Installation
 
@@ -29,7 +32,7 @@ Or add these dependencies to `Cargo.toml`:
 
 ```toml
 [dependencies]
-palim = "0.1"
+palim = "0.2"
 serde_json = "1.0"
 ```
 
@@ -161,10 +164,26 @@ and preserves the target. Rationalization considers replacing parent subtrees,
 including the root, using actual UTF-8 patch bytes. This is a verified heuristic,
 not a globally optimal compressor. Enable `tests` to guard old values; absent keys
 and array insertions use parent snapshots because RFC 6902 has no absence test.
+Since 0.2.0, guard generation reuses already authenticated subtrees and invalidates
+affected records when array indices shift. This avoids repeatedly emitting full
+parent snapshots for the measured insertion and migration cases. Guard bytes and
+operation counts can differ from earlier releases; the output remains RFC 6902.
 With guards and moves, rationalization tries broader parents first to avoid
 repeated container snapshots; other patches try deeper parents first. An accepted
 parent replacement can discard more detailed edits. Neither order promises the
 smallest possible patch.
+
+With `factorize`, `rationalize` and `tests` all disabled, direct `diff_json_patch`
+generation can use positional replacements for unique primitive permutations
+when moves offer little estimated byte saving. It accepts exact replacement cost
+up to 110% of estimated move cost, using the widest array index for the estimate;
+this does not guarantee actual output grows by at most 10%. Custom item matchers,
+filters and near-depth-limit inputs retain the existing path. Native `diff` and
+`Delta::to_json_patch` retain their move strategy. The measured rotations and
+long-value reorders keep byte-identical move output.
+
+Private RFC maps and sets use `foldhash`, a noncryptographic hash with a different
+collision-resistance contract from SipHash.
 
 `invert_json_patch` consumes the original operations and their baseline values,
 not a re-diff. Inverting an overwrite or ancestor move may require multiple
@@ -283,12 +302,12 @@ coarser, particularly after line insertions change group alignment. This bound
 applies to generation, not to the separate fuzzy alignment algorithm.
 
 The implementation does not promise identical delta bytes or globally smallest
-patches. Unique array tokens use O(n log n) LIS and yield the minimum number of
-single-item moves for pure permutations. Repeated tokens retain heuristic Histogram
-matching above a bounded exact-LCS candidate limit. Within that limit the stable
+patches. Native diffs with unique array tokens use O(n log n) LIS and yield the
+minimum number of single-item moves for pure permutations. Repeated tokens retain
+heuristic Histogram matching above a bounded exact-LCS candidate limit. Within that limit the stable
 subsequence is exact; this does not guarantee minimum edits for arbitrary custom
-matchers or minimum serialized bytes. Standard export emits at most one operation
-per native move; Fenwick ranks compute sequential move positions in
+matchers or minimum serialized bytes. `Delta::to_json_patch` emits at most one
+operation per native move; Fenwick ranks compute sequential move positions in
 O(n + moves × log n) time and O(n + moves) space. Native deltas rebuild
 arrays once, without repeated vector removals or a quadratic LCS matrix.
 
@@ -314,6 +333,40 @@ bindings are outside this JSON library. See [DESIGN.md](https://github.com/majia
 and [BENCHMARK.md](https://github.com/majiayu000/palim/blob/main/BENCHMARK.md) for measured results and limitations.
 
 ## Verification and benchmarks
+
+### 0.2.0 measurements
+
+Same-run Rust comparison on 2026-10-06–07, with matching serde_json features.
+Each entry is the median of three independent process medians, with nine timed
+batches per process. Core generates and drops an owned patch from parsed Values;
+pipeline parses both inputs, generates and serializes. Plain uses all three
+`JsonPatchOptions` flags set to false. Validation runs outside timing.
+
+| Plain RFC input | Palim Core ms | json-patch 4.2.0 Core ms | Palim pipeline ms | json-patch pipeline ms | Patch bytes: Palim / json-patch |
+|---|---:|---:|---:|---:|---:|
+| shuffle-2000 | 0.2715 | 0.2056 | 0.5933 | 0.5289 | 87,736 / 87,736 |
+| shuffle-20000 | 3.1130 | 2.1254 | 6.4768 | 5.3771 | 917,781 / 917,781 |
+| rotate-1000000 | 131.2561 | 114.8378 | 209.4459 | 259.1759 | 44 / 58,888,891 |
+
+Relative to the source before the adaptive changes (`ca8235a`), the plain path
+makes these 2k/20k shuffles about 5.4 times faster, with 8.1%/5.2% larger output.
+Foldhash alone reduces generation time by 8.1%–13.9% in three large optimized
+fixtures, with unchanged output bytes and allocation counts. Shuffle generation
+still trails Rust json-patch, and results vary by input and machine. The
+[full A/B report](https://github.com/majiayu000/palim/blob/main/results/adaptive-rfc-20261006/REPORT.md)
+retains all 19 fixtures, four RFC modes, 522 timing processes, regressions and replay
+sources. The earlier Go/JS results are a
+[separate cross-language run](https://github.com/majiayu000/palim/blob/main/results/ci-crosslang-20261006/REPORT.md);
+they do not measure the final adaptive implementation.
+
+Release validation includes 202 debug and 202 release tests, 1,073 required JS
+interoperability paths and 135,242 local structured fuzz runs without failure.
+All 3,305 legacy frozen records are unchanged; 128 additional direct-generation
+records cover the changed plain output across all eight RFC flag combinations.
+[The tagged source passed all six remote CI jobs](https://github.com/majiayu000/palim/actions/runs/37495591648),
+including Windows/macOS/Linux, Rust 1.85, JS interoperability and structured fuzzing.
+
+### Run the checks
 
 ```sh
 cargo test --locked
