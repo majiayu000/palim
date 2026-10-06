@@ -323,6 +323,33 @@ fn standard(input: &mut Unstructured<'_>) {
     }
     let after = document(input, 3);
     let flags = byte(input);
+    let (before, after) = if flags & 8 != 0 {
+        // Pure unique permutations enter the adaptive RFC path. The ordinary
+        // independently generated documents rarely contain the same token set.
+        let count = usize::from(byte(input) % 64) + 2;
+        let source: Vec<_> = (0..count)
+            .map(|i| {
+                if flags & 16 == 0 {
+                    json!(i)
+                } else {
+                    json!(format!("{i}:{}", "🦀\"\\\n".repeat(16)))
+                }
+            })
+            .collect();
+        let mut target = source.clone();
+        for i in (1..count).rev() {
+            target.swap(i, usize::from(byte(input)) % (i + 1));
+        }
+        let before = Value::Array(source);
+        let after = Value::Array(target);
+        if flags & 32 == 0 {
+            (before, after)
+        } else {
+            (json!({"a/~\"\\🦀":before}), json!({"a/~\"\\🦀":after}))
+        }
+    } else {
+        (before, after)
+    };
     let operations = diff_json_patch(
         &before,
         &after,

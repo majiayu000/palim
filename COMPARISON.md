@@ -2,7 +2,39 @@
 
 本库已更名为 **Palim**（包名 `palim`）。以下历史测量与验证记录保留当时的名称 `jsondiffpatch-rs`，未因更名重新计时。
 
-## 当前结论：2026-10-06 CI 修复与跨语言复测
+## 当前结论：2026-10-06–07 自适应重排与 RFC 哈希
+
+已采用 foldhash 直接依赖和 plain 模式的字节成本判断；没有新增公共选项。
+完整的 19 个 fixture × 4 种 RFC 模式、Rust json-patch 控制组和 A-only 对照共
+522 次独立计时进程，全部前向/逆向验证成功。原始批次、冻结源码、复现脚本见
+[最新 A/B 报告](results/adaptive-rfc-20261006/REPORT.md)。
+
+| Core：预解析 Values → 生成与销毁 | 改前 ms | 当前 ms | 同轮 json-patch ms |
+|---|---:|---:|---:|
+| shuffle-2000 / plain | 1.4723 | 0.2715 | 0.2056 |
+| shuffle-20000 / plain | 16.7728 | 3.1130 | 2.1254 |
+| 百万 rotate / plain | 128.9923 | 131.2561 | 114.8378 |
+| 标量 100k / optimized | 169.5839 | 153.1753 | 不同合同 |
+| 迁移 5k / optimized | 34.5915 | 29.9583 | 不同合同 |
+
+plain 低收益重排改用逐位置 Replace，2k/20k 生成约快 5.4 倍，输出分别增大
+8.1%/5.2%；生成仍慢于 json-patch。估算采用最大下标宽度，110% 是估算阈值，
+不是实际字节增幅上限。唯一 primitive 的纯排列才可能进入；其它模式、native delta
+及 `Delta::to_json_patch` 保留移动策略。两种 rotate 和长值重排在所有模式下保持逐字节一致。
+
+百万 rotate 保持一条 move、44 B；Core 本轮约慢 1.8%，Pipeline 214.72→209.45 ms，
+同轮 json-patch 为 259.18 ms。长值重排 Core 约慢 2.6%，未改动的 add-wide 控制组约慢
+6.8%；完整报告保留这些结果，不据单个输入宣称全面领先。A-only 哈希改动在三个大型
+opt 输入减少约 8.1%–13.9% Core 时间；分配次数未减少。foldhash 为非密码学哈希，
+不能把其抗碰撞能力描述成与 SipHash 相同。
+
+本机 debug/release 各 202 项、MSRV、Clippy、1,073 个 JS 互通和 135,242 次 fuzz
+通过。原有 3,305 条冻结记录全部一致，但不覆盖新变化路径；另有 128 条直接生成记录
+覆盖全部八种 flag 组合，只有普通短 reverse 与嵌套 reverse 变化。打包 dry-run 已通过；发布门槛仍是
+提交对应的六个远端 CI job 全绿（[Actions](https://github.com/majiayu000/palim/actions/workflows/ci.yml)）。
+本文先记录本机验收；该快照下 0.2.0 尚未上传。
+
+## 较早快照：2026-10-06 CI 修复与跨语言复测
 
 [`b733c19` 的远端 CI](https://github.com/majiayu000/palim/actions/runs/37455708819)
 六个 job 全部成功，包括 Windows/macOS/Ubuntu、Rust 1.85、JS 互通和 structured fuzz。
@@ -29,9 +61,9 @@ opt 与 plain、不同 guard 范围的速度和体积不能当作同合同排名
 
 ### 下一步与已核查的覆盖
 
-- CI 修复已完成。0.2.0 仅准备版本与 changelog，尚未发布；crates.io 当前为 0.1.4。
-- shuffle 采样确认 delta 构造/导出及分配都有成本；强制 positional 原型约快 10 倍但输出增大 8.1%，正式退出策略和输出变化待用户选择。
-- RFC scalar cache 仍用 SipHash；foldhash 直接依赖原型在三个大型 opt 输入减少约 5.5%–14.2% 时间，已测 wire 相同，尚未完成全部候选回归，待用户选择。
+- CI 修复已完成；这份跨语言数据冻结于 A/B 实施前，后续改动见上方报告。
+- 当时强制 positional 原型约快 10 倍；正式的自适应判断已采用，同轮实际收益约 5.4 倍。
+- 当时 foldhash 为原型；现在已采用直接依赖并完成冻结记录与完整回归。
 - rationalize 的主要剩余成本是补丁回放、比较与分配；依赖 json-patch 的 `Value::pointer_mut` 仍有字符串解析，不能将本库 typed lookup 当成全部已消除。
 - 通用 untrusted JSON strategy 不生成数组协议键，但现有 protocol_properties 与 structured fuzz 已直接生成/变异真实数组协议；无需因为旧通用 strategy 的限制重复增加生成器。
 - 当前远端 JS 结果：1073 组必需路径全过；566 个 JS 自逆成功案例中默认 fuzzy 还原 562 个合法格式，4 个畸形 header 明确报错。strict 成功 471，不能把历史 95 个 strict 拒绝写成当前 95 个合法 fuzzy 失败。
@@ -111,7 +143,7 @@ JS 自逆成功的 566 个案例中，562 个格式合法案例现在全部还�
 | 无序与自定义比较 | 新增独立 `compare` 报告 API，支持按路径选择无序数组、多重集重复计数、身份配对、自定义相等、相似度以及比较/差异预算 | [比较用例](tests/compare.rs)：重复值、嵌套无序容器、非贪心最大配对、过滤和预算。`CompareReport` 不是 patch；无序和容差不会进入 native 可逆 delta。报告的 moves 是身份项索引变化，不是最短移动脚本 |
 | 根、缺失节点与数组过滤 | `node_filter` 覆盖根、对象增删、数组位置；原有 `property_filter` 保留。native 数组先按原位置投影，排除的位置保留 source 值，再进行身份配对 | [投影与调用次数用例](tests/array_quality.rs)、[报告过滤用例](tests/compare.rs)。native 过滤后的 patch 目标是投影结果，不必等于未过滤的 B；数组项根只进行一次投影过滤，嵌套字段继续过滤并见原始目标下标。新增容器和容器目标类型变化递归过滤后代；整体删除可保留排除的后代；容器改标量由父节点授权。报告配对后的路径语义与 native 投影不同 |
 | 精确数值与容差 | 启用 serde 任意精度数值；标准 `test` 和比较报告按十进制数值递归比较，支持巨大整数、小数和符号指数；报告可选绝对/相对容差 | [数值用例](tests/numbers.rs)、[标准语义用例](tests/standard_semantics.rs)。精确比较不先转 f64。容差按精确十进制不等式计算，f64 阈值表示其最短 JSON 十进制值；巨大正负指数保持符号形式，数字工作计入比较预算。native diff/旧值校验仍保留 serde 表示语义，不把 `1` 与 `1.0` 的表示变化吞掉 |
-| 有序数组移动质量 | 唯一 token/身份使用 LIS；RFC 导出按目标顺序从右侧安排 native moves，避免重复移动同一项 | [移动数量用例](tests/array_quality.rs) 枚举长度 2–7 的 5,906 个非恒等唯一排列，并要求 native/RFC 都达到 `n−LIS`；500 项半区交换要求 250 次。该最少只针对固定唯一项、单元素移动、无整树 replace 的成本模型；重复 token 在内部候选预算内用精确 LCS，超预算仍用 Histogram，任意自定义配对和一般 JSON 不保证全局最少操作/字节 |
+| 有序数组移动质量 | 唯一 token/身份的 native 使用 LIS；Delta 的 RFC 导出按目标顺序从右侧安排 native moves，避免重复移动同一项 | [移动数量用例](tests/array_quality.rs) 枚举长度 2–7 的 5,906 个非恒等唯一排列，并要求 native/Delta 导出的 RFC 都达到 `n−LIS`；plain 直接生成可按估算字节收益选择 Replace；500 项半区交换要求 250 次。该最少只针对固定唯一项、单元素移动、无整树 replace 的成本模型；重复 token 在内部候选预算内用精确 LCS，超预算仍用 Histogram，任意自定义配对和一般 JSON 不保证全局最少操作/字节 |
 | RFC 6902 补丁缩小 | 新增 `diff_json_patch`，支持跨路径 remove/add→move、复用当前文档值的 copy，以及按实际序列化 UTF-8 字节比较父节点 replace | [RFC 扩展用例](tests/rfc_extended.rs)：跨属性/数组、重复值、交错索引、嵌套 rationalize、转义与 UTF-8。rationalize 计入请求的 guards；候选通过重新应用验证。优化是顺序启发式，不是全局最小字节算法；copy 转换并不覆盖所有数组 replace 情形 |
 | RFC guards 与保存逆补丁 | 可在标准补丁中生成旧值/来源/容器 `test`；`invert_json_patch` 根据原操作与完整基线生成可保存的 RFC 逆补丁，处理覆盖、append、跨数组 move 和祖先目标 | [RFC 扩展用例](tests/rfc_extended.rs)。标准逆补丁需要基线；native reverse 仍无需基线。guard 对缺失键、数组插入测试父容器，可能较大且拒绝同容器中其它变化；`test` 本身不产生逆操作 |
 | RFC 7396 | 新增 Merge Patch 应用、原子原地应用、生成与可表示的补丁组合 | [RFC 附录与属性用例](tests/merge.rs)。对象成员 null 表示删除，因此新增/改成 null 的成员不能由生成器表示；根 null 和数组内 null 可表示。对未知基线无法保持语义的组合返回 Error，不声称任意两个 merge patches 都可合并 |

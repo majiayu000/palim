@@ -1,13 +1,18 @@
 # Changelog
 
-## 0.2.0 — Unreleased
+## 0.2.0
 
 ### Changed
 
 - Guarded RFC 6902 generation reuses authenticated subtrees instead of repeatedly copying parent containers into `test` operations. Array index shifts invalidate affected authentication records. Guarded output bytes and operation counts can change; patches remain standard RFC 6902.
 - Disjoint primitive arrays in plain guarded mode can use positional replacements with one baseline array test. This removes the previous quadratic output growth for these inputs.
 
+- Direct plain RFC generation can use positional replacements for low-benefit unique primitive permutations, based on estimated move bytes. Plain output shape/bytes can change. Native delta and its exporter, optimized/guarded modes, custom filters/matchers and deep/error paths keep their existing strategy.
+
 ### Performance
+
+- Use foldhash 0.1.5 directly for private RFC maps/sets. It is a noncryptographic hash; its collision-resistance contract differs from SipHash.
+- Reuse interning/LIS and skip native tuple construction when positional replacements are accepted. Large-value moves and tested rotations retain byte-identical output.
 
 - Avoid reparsing already normalized arbitrary-precision numbers when copying additions. Noncanonical and malformed unchecked numbers retain the existing parser behavior.
 - Bound input-depth traversal by nesting depth rather than container width.
@@ -20,4 +25,5 @@
 ### Verification
 
 - Three operating systems, Rust 1.85 library checks, JS interoperability and structured fuzzing passed remotely on `b733c19`.
-- Current-source cross-language measurements and pending optimization prototypes are recorded in [the comparison report](results/ci-crosslang-20261006/REPORT.md). Prototype output and dependency changes are not part of this release preparation.
+- Current-source cross-language measurements are recorded in [the cross-language report](results/ci-crosslang-20261006/REPORT.md).
+- Final hashing/adaptive A/B: 522 timing processes, 3,305 unchanged legacy records plus 128 direct records, 202 debug/release tests each, 1,073 required JS interoperability paths and 135,242 local fuzz runs. Actual tradeoffs and regressions are preserved in [the final report](results/adaptive-rfc-20261006/REPORT.md).

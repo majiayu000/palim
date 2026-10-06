@@ -18,6 +18,13 @@ pub(crate) fn direct_patch(
     let mut direct = Direct {
         matching,
         replace_disjoint: !options.factorize && !options.tests,
+        positional_reorders: !options.factorize
+            && !options.rationalize
+            && !options.tests
+            && matching.detect_moves
+            && matching.array_item_matcher.is_none()
+            && matching.node_filter.is_none()
+            && matching.property_filter.is_none(),
         // A native leaf tuple adds at most one container to the input depth.
         bounded_delta: input_depth < delta::MAX_DELTA_DEPTH,
         operations: Vec::new(),
@@ -98,6 +105,7 @@ fn normalized_number(raw: &str) -> bool {
 struct Direct<'a> {
     matching: &'a crate::DiffOptions,
     replace_disjoint: bool,
+    positional_reorders: bool,
     bounded_delta: bool,
     operations: Vec<PatchOperation>,
 }
@@ -122,7 +130,21 @@ impl Direct<'_> {
         path: &PointerBuf,
         depth: usize,
     ) -> Result<Option<Error>, Error> {
-        let Some(change) = crate::diff::node(left, right, self.matching, path.as_str())? else {
+        let change = match (left, right) {
+            (Value::Array(source), Value::Array(target))
+                if self.positional_reorders && self.bounded_delta =>
+            {
+                crate::diff::array_for_patch(
+                    source,
+                    target,
+                    self.matching,
+                    path,
+                    &mut self.operations,
+                )?
+            }
+            _ => crate::diff::node(left, right, self.matching, path.as_str())?,
+        };
+        let Some(change) = change else {
             return Ok(None);
         };
         let depth_error = if self.bounded_delta {
@@ -316,6 +338,66 @@ fn replace_disjoint(
             value: value.clone(),
         }));
     }
+}
+
+// Accept at most 10% overhead against estimated move bytes. The widest index
+// is a cheap estimate; replacement bytes use exact scalar serialization and
+// escaped parent-path lengths. Stop as soon as the budget is exceeded, so a
+// one-move rotate examines only a few values and retains its native script.
+pub(crate) fn positional_reorder(
+    source: &[Value],
+    target: &[Value],
+    path: &PointerBuf,
+    moves: usize,
+    out: &mut Vec<PatchOperation>,
+) -> Result<bool, Error> {
+    if moves == 0 {
+        return Ok(false);
+    }
+    let parent_bytes = crate::rfc::bytes(path.as_str())? as u128;
+    let digits = (source.len() - 1).checked_ilog10().map_or(1, |v| v + 1) as u128;
+    // A move has 29 bytes besides its two serialized pointer strings.
+    // Include one comma per operation on both sides of the comparison.
+    let budget = moves as u128 * (30 + 2 * (parent_bytes + 1 + digits)) * 11 / 10;
+    let supported = |value: &Value| match value {
+        Value::Array(_) | Value::Object(_) => false,
+        // Preserve normalization and malformed unchecked-number behavior on
+        // the native path; only already-normalized numbers enter this shortcut.
+        Value::Number(number) => normalized_number(number.as_str()),
+        _ => true,
+    };
+    let mut cost = 0u128;
+    for (index, (old, new)) in source.iter().zip(target).enumerate() {
+        // Matching proved that the unique token sets are identical. Checking
+        // the target once therefore also establishes scalar/canonical source
+        // values; identity/position keys cannot equal primitive value keys.
+        if !supported(new) {
+            return Ok(false);
+        }
+        if old != new {
+            let digits = index.checked_ilog10().map_or(1, |v| v + 1) as u128;
+            let value_bytes = match new {
+                // arbitrary_precision serializes a normalized Number verbatim.
+                Value::Number(number) => number.as_str().len(),
+                _ => crate::rfc::bytes(new)?,
+            };
+            // Replace has 33 bytes besides its serialized path and value.
+            cost += 34 + parent_bytes + 1 + digits + value_bytes as u128;
+            if cost > budget {
+                return Ok(false);
+            }
+        }
+    }
+    out.reserve(source.len());
+    for (index, (old, new)) in source.iter().zip(target).enumerate() {
+        if old != new {
+            out.push(PatchOperation::Replace(ReplaceOperation {
+                path: child(path, index),
+                value: new.clone(),
+            }));
+        }
+    }
+    Ok(true)
 }
 
 pub(crate) fn export(left: &Value, change: &Delta) -> Result<Patch, Error> {
@@ -938,6 +1020,66 @@ mod direct_tests {
                     DiffPatcher::default().diff_json_patch(&left, &right, &options),
                     native_standard(&left, &right)
                 );
+            }
+        }
+    }
+
+    #[test]
+    fn positional_reorders_keep_native_delta_depth_errors() {
+        let options = JsonPatchOptions {
+            factorize: false,
+            rationalize: false,
+            tests: false,
+        };
+        for depth in 124..=129 {
+            let wrap = |value: Value| (0..depth).fold(value, |value, _| json!({"a":value}));
+            let left = wrap(json!((0..16).collect::<Vec<_>>()));
+            let right = wrap(json!((0..16).rev().collect::<Vec<_>>()));
+            let expected = native_standard(&left, &right);
+            let actual = DiffPatcher::default().diff_json_patch(&left, &right, &options);
+            assert_eq!(
+                actual.as_ref().err(),
+                expected.as_ref().err(),
+                "depth {depth}"
+            );
+            if let Ok(patch) = actual {
+                let mut applied = left.clone();
+                json_patch::patch(&mut applied, &patch).unwrap();
+                assert_eq!(applied, right);
+            }
+        }
+    }
+
+    #[test]
+    fn positional_reorders_keep_unchecked_number_behavior() {
+        for raw in ["-0", "1E5", "01", "not-a-number"] {
+            let mut source: Vec<Value> = (0..16).map(|i| json!(i)).collect();
+            source[15] = Value::Number(serde_json::Number::from_string_unchecked(raw.into()));
+            let target: Vec<_> = source.iter().rev().cloned().collect();
+            let left = Value::Array(source);
+            let right = Value::Array(target);
+            for include_value_on_move in [false, true] {
+                let matching = DiffOptions {
+                    text_diff_min_length: None,
+                    include_value_on_move,
+                    ..Default::default()
+                };
+                let options = JsonPatchOptions {
+                    factorize: false,
+                    rationalize: false,
+                    tests: false,
+                };
+                let expected = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                    native_optimized(&matching, &left, &right, &options)
+                }));
+                let actual = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                    DiffPatcher::new(matching).diff_json_patch(&left, &right, &options)
+                }));
+                match (expected, actual) {
+                    (Ok(expected), Ok(actual)) => assert_eq!(actual, expected, "{raw}"),
+                    (Err(_), Err(_)) => {}
+                    _ => panic!("unchecked Number behavior changed: {raw}"),
+                }
             }
         }
     }

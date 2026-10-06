@@ -1,5 +1,6 @@
 use crate::{ArrayItemMatcher, DiffOptions, Error, pointer, text};
 use imara_diff::{Algorithm, Diff, InternedInput, Interner, Token};
+use json_patch::{PatchOperation, jsonptr::PointerBuf};
 use serde_json::{Map, Value, json};
 use std::collections::{HashMap, VecDeque};
 use std::sync::Arc;
@@ -466,9 +467,35 @@ fn array(
         if a == projected {
             return Ok(None);
         }
-        return array_diff(a, &projected, options, path, Some(&original_positions));
+        return array_diff(
+            a,
+            &projected,
+            options,
+            path,
+            Some(&original_positions),
+            None,
+        );
     }
-    array_diff(a, b, options, path, None)
+    array_diff(a, b, options, path, None, None)
+}
+
+// Direct plain RFC generation can emit positional replacements after matching,
+// before constructing native tuples. Native diff never supplies this output.
+pub(crate) fn array_for_patch(
+    source: &[Value],
+    target: &[Value],
+    options: &DiffOptions,
+    path: &PointerBuf,
+    output: &mut Vec<PatchOperation>,
+) -> Result<Option<Value>, Error> {
+    array_diff(
+        source,
+        target,
+        options,
+        path.as_str(),
+        None,
+        Some((path, output)),
+    )
 }
 
 pub(crate) fn check_array_capacity(a: &[Value], b: &[Value], path: &str) -> Result<(), Error> {
@@ -491,6 +518,7 @@ fn array_diff(
     options: &DiffOptions,
     path: &str,
     original_positions: Option<&[Option<usize>]>,
+    positional: Option<(&PointerBuf, &mut Vec<PatchOperation>)>,
 ) -> Result<Option<Value>, Error> {
     check_array_capacity(a, b, path)?;
     let custom = options
@@ -517,13 +545,24 @@ fn array_diff(
             interner,
         }
     });
-    let mut old_for_new = vec![None; b.len()];
-    let mut new_for_old = vec![None; a.len()];
+    let unique = input.as_ref().and_then(unique_matches);
+    if let (Some(matches), Some(input), Some((pointer, output))) = (&unique, &input, positional) {
+        // Both sides were checked for uniqueness. Equal length and a union of
+        // that size imply a pure permutation, with exactly n - LIS moves.
+        if a.len() == b.len()
+            && input.interner.num_tokens() as usize == a.len()
+            && crate::export::positional_reorder(a, b, pointer, a.len() - matches.len(), output)?
+        {
+            return Ok(None);
+        }
+    }
     let stable = custom
         .as_ref()
         .map(|matches| increasing_matches(matches))
-        .or_else(|| input.as_ref().and_then(unique_matches))
+        .or(unique)
         .or_else(|| input.as_ref().and_then(bounded_matches));
+    let mut old_for_new = vec![None; b.len()];
+    let mut new_for_old = vec![None; a.len()];
     if let Some(matches) = stable {
         for (old, new) in matches {
             old_for_new[new] = Some(old);

@@ -301,6 +301,19 @@ fn risk_cases(c: &mut Criterion) {
         arrays.bench_function(BenchmarkId::new("export-precomputed", name), |bencher| {
             bencher.iter(|| delta.to_json_patch(black_box(&a)).unwrap());
         });
+        let plain = JsonPatchOptions {
+            factorize: false,
+            rationalize: false,
+            tests: false,
+        };
+        let generated = dp.diff_json_patch(&a, &b, &plain).unwrap();
+        assert_eq!(apply_json_patch(&a, &generated).unwrap(), b);
+        arrays.bench_function(BenchmarkId::new("plain-rfc", name), |bencher| {
+            bencher.iter(|| {
+                dp.diff_json_patch(black_box(&a), black_box(&b), &plain)
+                    .unwrap()
+            });
+        });
     }
     arrays.finish();
 

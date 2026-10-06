@@ -1,7 +1,8 @@
 use crate::{Error, Patch, PatchOperation, apply_json_patch, delta, json_equal, pointer};
+use foldhash::{HashMap, HashMapExt, HashSet, HashSetExt};
 use serde::Serialize;
 use serde_json::{Value, json};
-use std::collections::{BTreeSet, HashMap, HashSet, VecDeque};
+use std::collections::{BTreeSet, VecDeque};
 use std::io::{self, Write};
 
 /// Options for producing RFC 6902 patches.
@@ -165,7 +166,7 @@ impl Write for ByteCount {
     }
 }
 
-fn bytes<T: Serialize + ?Sized>(value: &T) -> Result<usize, Error> {
+pub(crate) fn bytes<T: Serialize + ?Sized>(value: &T) -> Result<usize, Error> {
     let mut output = ByteCount(0);
     serde_json::to_writer(&mut output, value).map_err(|error| Error::new("", error.to_string()))?;
     Ok(output.0)

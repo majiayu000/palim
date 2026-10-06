@@ -230,6 +230,9 @@ impl DiffPatcher {
         unpatch(right, delta)
     }
     /// Generate optimized standard operations using this instance's matching choices.
+    /// With all JSON Patch flags disabled, unique primitive reorders can use
+    /// positional replacements when estimated move bytes offer little saving.
+    /// Native deltas and their JSON Patch exporter retain their move strategy.
     pub fn diff_json_patch(
         &self,
         left: &Value,

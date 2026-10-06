@@ -25,6 +25,138 @@ fn assert_roundtrip(before: &Value, after: &Value, patch: &Patch) {
 }
 
 #[test]
+fn plain_reorders_trade_low_byte_savings_for_positional_output() {
+    for escaped_strings in [false, true] {
+        let source: Vec<Value> = (0..256)
+            .map(|i| {
+                if escaped_strings {
+                    json!(format!("{i}\"\\\n🦀"))
+                } else {
+                    json!(i)
+                }
+            })
+            .collect();
+        let target: Vec<_> = source.iter().rev().cloned().collect();
+        let key = "a/~\"\\🦀";
+        let before = json!({key: source});
+        let after = json!({key: target});
+        let positional = diff_json_patch(&before, &after, &options(false, false, false)).unwrap();
+        assert_eq!(positional.0.len(), 256);
+        assert!(
+            positional
+                .0
+                .iter()
+                .all(|op| matches!(op, PatchOperation::Replace(_)))
+        );
+        assert_roundtrip(&before, &after, &positional);
+        let mut independent = before.clone();
+        json_patch::patch(&mut independent, &positional).unwrap();
+        assert_eq!(independent, after);
+
+        // Native delta and its exporter still use the minimum-move script.
+        let native = palim::diff(&before, &after).unwrap().unwrap();
+        let exported = native.to_json_patch(&before).unwrap();
+        assert_eq!(exported.0.len(), 255);
+        assert!(
+            exported
+                .0
+                .iter()
+                .all(|op| matches!(op, PatchOperation::Move(_)))
+        );
+        for opts in [
+            options(false, false, true),
+            options(true, false, false),
+            options(false, true, false),
+        ] {
+            let patch = diff_json_patch(&before, &after, &opts).unwrap();
+            if !opts.rationalize {
+                assert!(
+                    patch
+                        .0
+                        .iter()
+                        .any(|op| matches!(op, PatchOperation::Move(_)))
+                );
+            } else {
+                // Rationalization can replace the whole changed container.
+                assert!(patch.0.len() < positional.0.len());
+            }
+            assert_roundtrip(&before, &after, &patch);
+        }
+    }
+}
+
+#[test]
+fn plain_keeps_rotations_and_large_value_moves_byte_identical_to_native() {
+    for payload in [0, 256] {
+        let source: Vec<Value> = (0..256)
+            .map(|i| {
+                if payload == 0 {
+                    json!(i)
+                } else {
+                    json!(format!("{i}:{}", "🦀\"\\\n".repeat(payload)))
+                }
+            })
+            .collect();
+        for shift in [1, 128, 255] {
+            let mut target = source.clone();
+            target.rotate_left(shift);
+            let before = json!(source);
+            let after = json!(target);
+            let expected = palim::diff(&before, &after)
+                .unwrap()
+                .unwrap()
+                .to_json_patch(&before)
+                .unwrap();
+            let actual = diff_json_patch(&before, &after, &options(false, false, false)).unwrap();
+            assert_eq!(
+                serde_json::to_vec(&actual).unwrap(),
+                serde_json::to_vec(&expected).unwrap()
+            );
+            assert_roundtrip(&before, &after, &actual);
+        }
+        if payload != 0 {
+            let before = json!(source);
+            let after = json!(source.iter().rev().cloned().collect::<Vec<_>>());
+            let expected = palim::diff(&before, &after)
+                .unwrap()
+                .unwrap()
+                .to_json_patch(&before)
+                .unwrap();
+            let actual = diff_json_patch(&before, &after, &options(false, false, false)).unwrap();
+            assert_eq!(actual, expected);
+        }
+    }
+}
+
+proptest! {
+    #![proptest_config(ProptestConfig { cases:128, rng_seed:proptest::test_runner::RngSeed::Fixed(20261006), ..ProptestConfig::default() })]
+    #[test]
+    fn adaptive_plain_permutations_roundtrip_independently(
+        priorities in proptest::collection::vec(any::<u32>(), 2..128),
+        nested in any::<bool>(),
+    ) {
+        // Sort by arbitrary priorities to generate permutations independently
+        // of production token interning/LIS and include fixed positions.
+        let source: Vec<_> = (0..priorities.len()).collect();
+        let mut target = source.clone();
+        target.sort_by_key(|&i| (priorities[i], i));
+        let mut before = json!(source);
+        let mut after = json!(target);
+        if nested {
+            before = json!({"a/~\"\\🦀":before});
+            after = json!({"a/~\"\\🦀":after});
+        }
+        let patch = diff_json_patch(&before, &after, &options(false, false, false))?;
+        let mut independent = before.clone();
+        json_patch::patch(&mut independent, &patch)?;
+        prop_assert_eq!(&independent, &after);
+        let inverse = invert_json_patch(&before, &patch)?;
+        json_patch::patch(&mut independent, &inverse)?;
+        prop_assert_eq!(independent, before);
+    }
+}
+
+#[test]
 fn factorizes_cross_property_and_cross_array_moves() {
     let payload = "a large payload ".repeat(100);
     let before = json!({"a/b": payload, "keep": 1});

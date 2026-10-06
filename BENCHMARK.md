@@ -2,7 +2,20 @@
 
 本库已更名为 **Palim**（包名 `palim`）。以下历史测量与验证记录保留当时的名称 `jsondiffpatch-rs`，未因更名重新计时。
 
-## 2026-10-06：当前源码的 Go/JS/Rust 复测
+## 2026-10-06–07：采用 foldhash 与 plain 自适应重排
+
+相对 `ca8235a`，522 次独立进程完成 19 fixture、四种 RFC 模式、Rust json-patch
+控制组和 foldhash 单独对照。2k/20k 重排 Core 为 1.4723→0.2715 / 16.7728→3.1130 ms，
+输出增长 8.1%/5.2%，仍慢于同轮 json-patch 的 0.2056 / 2.1254 ms。
+百万 rotate 保留逐字节相同的 44 B move；Core 约慢 1.8%，pipeline 约快 2.5%。
+A-only 大型 opt 生成减少约 8.1%–13.9%；完整批次、其它回退与分配请求见
+[最终 A/B 报告](results/adaptive-rfc-20261006/REPORT.md)。
+
+202 项 debug/release、MSRV、Clippy、1,073 JS 互通、135,242 次结构化 fuzz 本机通过。
+3,305 个旧冻结记录全同；新增 128 个直接生成记录另行覆盖改变输出的路径。
+五个 Criterion plain RFC array 条目完成 smoke 检查，不能当作正式 Criterion 计时。
+
+## 较早快照：2026-10-06 Go/JS/Rust 复测
 
 冻结 `b733c19`（生产代码与 `8701b2f` 相同），完成 63 个组合、189 次独立进程测量，
 无正确性失败，预算跳过单列。小配置和随机重排仍慢于 JS；百万 rotate 的完整 pipeline
@@ -10,7 +23,7 @@
 125.52 ms 对 116.71 ms，存在速度波动，不能只引用上一轮更快的中位数。
 
 分阶段 CPU 采样、foldhash 与 positional 的临时原型、guard 合同差异、原始批次和复现脚本
-见 [本轮报告](results/ci-crosslang-20261006/REPORT.md)。两个原型未进入生产代码，数字不是已发布版本的优化收益。
+见 [本轮报告](results/ci-crosslang-20261006/REPORT.md)。该轮两个原型后来进入当前源码，但当时的原型数字不是最终自适应实现或已发布版本的收益。
 Windows 小栈测试已修复，[对应远端六个 CI job 全绿](https://github.com/majiayu000/palim/actions/runs/37455708819)。
 
 ## 2026-10-04：0.1.3 混合对象操作与 Move 候选复制
