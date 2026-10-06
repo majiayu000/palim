@@ -584,6 +584,44 @@ fn guard_construction(c: &mut Criterion) {
             );
         }
     }
+    for count in [100, 2000] {
+        for objects in [false, true] {
+            let left = if objects {
+                json!({"items":[]})
+            } else {
+                json!((0..count).collect::<Vec<_>>())
+            };
+            let right = if objects {
+                json!({"items":(0..count).map(|i| json!({"id":i,"body":"new 🦀"})).collect::<Vec<_>>()})
+            } else {
+                json!((count..2 * count).collect::<Vec<_>>())
+            };
+            let options = JsonPatchOptions {
+                factorize: false,
+                rationalize: false,
+                tests: true,
+            };
+            let generated = palim::diff_json_patch(&left, &right, &options).unwrap();
+            assert_eq!(apply_json_patch(&left, &generated).unwrap(), right);
+            assert!(serde_json::to_vec(&generated).unwrap().len() < count * 200 + 200);
+            group.bench_function(
+                BenchmarkId::new(
+                    if objects {
+                        "array-insertions"
+                    } else {
+                        "disjoint-array"
+                    },
+                    count,
+                ),
+                |b| {
+                    b.iter(|| {
+                        palim::diff_json_patch(black_box(&left), black_box(&right), &options)
+                            .unwrap()
+                    });
+                },
+            );
+        }
+    }
     group.finish();
 }
 

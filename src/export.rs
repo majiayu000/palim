@@ -32,7 +32,7 @@ pub(crate) fn direct_patch(
 // Reuse the existing Map structure instead of serde_json::to_value's generic
 // serializer and per-entry insertion, then keep its numeric normalization.
 #[inline(never)]
-fn copy_addition(value: &Value) -> Value {
+pub(crate) fn copy_addition(value: &Value) -> Value {
     let mut copied = value.clone();
     normalize_addition(&mut copied);
     copied
@@ -44,9 +44,55 @@ fn normalize_addition(value: &mut Value) {
         Value::Object(values) => values.values_mut().for_each(normalize_addition),
         // Use the same parser and unwrap behavior as json!(value), including
         // malformed Numbers constructed through from_string_unchecked.
-        Value::Number(number) => *number = number.as_str().parse().unwrap(),
+        Value::Number(number) if !normalized_number(number.as_str()) => {
+            *number = number.as_str().parse().unwrap();
+        }
         _ => {}
     }
+}
+
+// Under arbitrary_precision, serde_json keeps decimal digits but lowercases E,
+// adds an exponent sign, and converts the integer -0 to 0. Only skip its parser
+// for strings it would leave byte-for-byte unchanged; everything else still
+// uses that parser, including invalid from_string_unchecked payloads.
+fn normalized_number(raw: &str) -> bool {
+    let mut bytes = raw.as_bytes();
+    if let Some(rest) = bytes.strip_prefix(b"-") {
+        bytes = rest;
+    }
+    match bytes.first() {
+        Some(b'0') => bytes = &bytes[1..],
+        Some(b'1'..=b'9') => {
+            bytes = &bytes[1..];
+            while bytes.first().is_some_and(u8::is_ascii_digit) {
+                bytes = &bytes[1..];
+            }
+        }
+        _ => return false,
+    }
+    if let Some(rest) = bytes.strip_prefix(b".") {
+        bytes = rest;
+        if !bytes.first().is_some_and(u8::is_ascii_digit) {
+            return false;
+        }
+        while bytes.first().is_some_and(u8::is_ascii_digit) {
+            bytes = &bytes[1..];
+        }
+    }
+    if let Some(rest) = bytes.strip_prefix(b"e") {
+        bytes = rest;
+        match bytes.first() {
+            Some(b'+' | b'-') => bytes = &bytes[1..],
+            _ => return false,
+        }
+        if !bytes.first().is_some_and(u8::is_ascii_digit) {
+            return false;
+        }
+        while bytes.first().is_some_and(u8::is_ascii_digit) {
+            bytes = &bytes[1..];
+        }
+    }
+    bytes.is_empty() && raw != "-0"
 }
 
 struct Direct<'a> {
@@ -528,6 +574,69 @@ mod direct_tests {
     use std::sync::{Arc, Mutex};
 
     #[test]
+    fn normalized_number_matches_serde_parser() {
+        for raw in [
+            "0",
+            "-0",
+            "-0.0",
+            "1.0",
+            "1E5",
+            "1e5",
+            "1e+5",
+            "1e-005",
+            "1.00e+000",
+            "0e-0",
+            "1.5e+999",
+            "18446744073709551616",
+            "-9223372036854775809",
+            "",
+            "01",
+            "-01",
+            "+1",
+            ".1",
+            "1.",
+            "1e",
+            "1e+",
+            "1e-",
+            "1e+2.0",
+            "1e+2x",
+            "1e++2",
+            "NaN",
+            "1 ",
+            " 1",
+            "1\n",
+            "١",
+            "null",
+        ] {
+            let parsed = raw.parse::<serde_json::Number>();
+            let unchanged = parsed.as_ref().is_ok_and(|number| number.as_str() == raw);
+            assert_eq!(normalized_number(raw), unchanged, "{raw:?}");
+        }
+    }
+
+    proptest! {
+        #![proptest_config(ProptestConfig { cases:4096, rng_seed:proptest::test_runner::RngSeed::Fixed(20261006), ..ProptestConfig::default() })]
+        #[test]
+        fn number_fast_path_only_skips_unchanged_parser_results(
+            raw in "[0-9.eE+\\-a-z \\n]{0,64}",
+            float in any::<f64>(),
+        ) {
+            if normalized_number(&raw) {
+                let parsed = raw.parse::<serde_json::Number>().unwrap();
+                prop_assert_eq!(parsed.as_str(), raw.as_str());
+            }
+            if let Some(number) = serde_json::Number::from_f64(float) {
+                let value = Value::Number(number);
+                prop_assert_eq!(copy_addition(&value), json!(&value));
+            }
+            if let Ok(number) = raw.parse::<serde_json::Number>() {
+                let value = Value::Number(number);
+                prop_assert_eq!(copy_addition(&value), json!(&value));
+            }
+        }
+    }
+
+    #[test]
     fn addition_copy_keeps_nested_number_normalization_and_patch_bytes() {
         for raw in [
             "0",
@@ -629,7 +738,11 @@ mod direct_tests {
                         let options = JsonPatchOptions { factorize,rationalize,tests };
                         let expected = native_optimized(&matching,&left,&right,&options).unwrap();
                         let actual = patcher.diff_json_patch(&left,&right,&options).unwrap();
-                        prop_assert_eq!(&actual,&expected);
+                        // Plain guarded root arrays can now use positional
+                        // edits behind one complete baseline array test.
+                        if !(tests && !factorize && !rationalize && left.is_array() && right.is_array()) {
+                            prop_assert_eq!(&actual,&expected);
+                        }
                         let mut applied = left.clone();
                         json_patch::patch(&mut applied,&actual).unwrap();
                         prop_assert_eq!(&applied,&right);

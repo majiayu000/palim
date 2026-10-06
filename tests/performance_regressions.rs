@@ -57,6 +57,36 @@ fn disjoint_arrays_replace_overlap_and_handle_both_tail_directions() {
 }
 
 #[test]
+fn plain_guarded_disjoint_arrays_use_one_structural_test() {
+    let dp = DiffPatcher::default();
+    for (old_len, new_len) in [(0, 0), (0, 512), (512, 0), (512, 512), (512, 768)] {
+        let left = json!((0..old_len).collect::<Vec<_>>());
+        let right = json!((10_000..10_000 + new_len).collect::<Vec<_>>());
+        let guarded = dp.diff_json_patch(&left, &right, &plain(true)).unwrap();
+        if old_len == 0 && new_len == 0 {
+            assert!(guarded.0.is_empty());
+            continue;
+        }
+        assert_eq!(guarded.0.len(), old_len.max(new_len) + 1);
+        assert!(matches!(&guarded.0[0], PatchOperation::Test(test)
+            if test.path.as_str().is_empty() && test.value == left));
+        assert_eq!(
+            guarded
+                .0
+                .iter()
+                .filter(|op| matches!(op, PatchOperation::Replace(_)))
+                .count(),
+            old_len.min(new_len)
+        );
+        assert!(serde_json::to_vec(&guarded).unwrap().len() < old_len.max(new_len) * 100 + 100);
+        roundtrip(&left, &right, &guarded);
+        let mut drift = left.clone();
+        drift.as_array_mut().unwrap().push(json!("unexpected"));
+        assert!(apply_json_patch(&drift, &guarded).is_err());
+    }
+}
+
+#[test]
 fn repeated_disjoint_payloads_still_factorize_and_guard_container_drift() {
     let left = json!(["old-a", "old-b"]);
     let right = json!(["全新/文本~".repeat(100), "全新/文本~".repeat(100)]);

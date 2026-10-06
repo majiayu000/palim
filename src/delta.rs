@@ -10,40 +10,30 @@ pub(crate) fn check_depth(value: &Value, limit: usize) -> Result<(), Error> {
     measure_depth(value, limit).map(|_| ())
 }
 
-// Return the actual container depth during the existing boundary check.
+// Callers cap limit at 128. Reject before descending past it, so this traversal
+// needs bounded stack space rather than queueing every child of a wide object.
 pub(crate) fn measure_depth(value: &Value, limit: usize) -> Result<usize, Error> {
-    let mut pending = vec![(value, 0)];
-    let mut maximum = 0;
-    while let Some((value, depth)) = pending.pop() {
-        match value {
-            Value::Array(values) => {
-                if depth >= limit {
-                    return Err(Error::new("", "JSON nesting exceeds max_depth"));
-                }
-                maximum = maximum.max(depth + 1);
-                pending.extend(
-                    values
-                        .iter()
-                        .filter(|v| v.is_array() || v.is_object())
-                        .map(|v| (v, depth + 1)),
-                );
-            }
-            Value::Object(values) => {
-                if depth >= limit {
-                    return Err(Error::new("", "JSON nesting exceeds max_depth"));
-                }
-                maximum = maximum.max(depth + 1);
-                pending.extend(
-                    values
-                        .values()
-                        .filter(|v| v.is_array() || v.is_object())
-                        .map(|v| (v, depth + 1)),
-                );
-            }
-            _ => {}
-        }
+    if !value.is_array() && !value.is_object() {
+        return Ok(0);
     }
-    Ok(maximum)
+    if limit == 0 {
+        return Err(Error::new("", "JSON nesting exceeds max_depth"));
+    }
+    let mut maximum = 0;
+    match value {
+        Value::Array(values) => {
+            for child in values.iter().filter(|v| v.is_array() || v.is_object()) {
+                maximum = maximum.max(measure_depth(child, limit - 1)?);
+            }
+        }
+        Value::Object(values) => {
+            for child in values.values().filter(|v| v.is_array() || v.is_object()) {
+                maximum = maximum.max(measure_depth(child, limit - 1)?);
+            }
+        }
+        _ => unreachable!(),
+    }
+    Ok(maximum + 1)
 }
 
 pub(crate) fn index(key: &str, path: &str) -> Result<usize, Error> {
@@ -213,5 +203,43 @@ pub(crate) fn strip_old(value: &Value) -> Value {
                 .collect(),
         ),
         _ => value.clone(),
+    }
+}
+
+#[cfg(test)]
+mod depth_tests {
+    use super::*;
+
+    #[test]
+    fn bounded_traversal_keeps_exact_depth_limits_and_wide_containers() {
+        std::thread::Builder::new()
+            .stack_size(128 * 1024)
+            .spawn(|| {
+                let mut value = Value::Null;
+                assert_eq!(measure_depth(&value, 0).unwrap(), 0);
+                for depth in 1..=140 {
+                    value = if depth % 2 == 0 {
+                        Value::Object([("a".into(), value)].into_iter().collect())
+                    } else {
+                        Value::Array(vec![value])
+                    };
+                    for limit in [0, 1, 127, 128] {
+                        if depth <= limit {
+                            assert_eq!(measure_depth(&value, limit).unwrap(), depth);
+                        } else {
+                            assert_eq!(
+                                measure_depth(&value, limit).unwrap_err(),
+                                Error::new("", "JSON nesting exceeds max_depth")
+                            );
+                        }
+                    }
+                }
+                let wide = Value::Array(vec![json!({"n":1}); 10_000]);
+                assert_eq!(measure_depth(&wide, 2).unwrap(), 2);
+                assert!(measure_depth(&wide, 1).is_err());
+            })
+            .unwrap()
+            .join()
+            .unwrap();
     }
 }

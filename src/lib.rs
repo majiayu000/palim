@@ -237,12 +237,25 @@ impl DiffPatcher {
         options: &JsonPatchOptions,
     ) -> Result<Patch, Error> {
         let input_depth = self.check_inputs(left, right)?;
-        if !options.tests
+        if (!options.tests || (!options.factorize && !options.rationalize))
             && self.options.node_filter.is_none()
             && self.options.property_filter.is_none()
             && self.options.array_item_matcher.is_none()
         {
-            if let Some(standard) = export::disjoint_array_patch(left, right, !options.factorize)? {
+            if let Some(mut standard) =
+                export::disjoint_array_patch(left, right, !options.factorize)?
+            {
+                if options.tests && !standard.0.is_empty() {
+                    // Positional replacements need one baseline array test to
+                    // retain the structural guards of the remove/add pipeline.
+                    standard.0.insert(
+                        0,
+                        PatchOperation::Test(json_patch::TestOperation {
+                            path: json_patch::jsonptr::PointerBuf::new(),
+                            value: export::copy_addition(left),
+                        }),
+                    );
+                }
                 return rfc::optimize(left, right, standard, options);
             }
         }

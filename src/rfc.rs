@@ -11,7 +11,7 @@ pub struct JsonPatchOptions {
     pub factorize: bool,
     /// Replace a changed parent when its serialized patch is smaller.
     pub rationalize: bool,
-    /// Include tests for the values and containers affected by each operation.
+    /// Include tests authenticating the values and containers touched by the patch.
     pub tests: bool,
 }
 
@@ -880,6 +880,9 @@ fn rationalize_replacements(
                     if let Some(indices) = additions.get(above) {
                         let after_first = indices.partition_point(|index| *index <= first);
                         if !exact_guard_baseline
+                            // An earlier ancestor test also suppresses interior
+                            // tests. A replacement cannot reuse their old costs.
+                            || indices.first().is_some_and(|index| *index <= first)
                             || indices.get(after_first).is_some_and(|index| *index < last)
                         {
                             return Ok(false);
@@ -1422,12 +1425,15 @@ fn guarded_operation_bytes<'a>(
     prefix: &[GuardCost],
 ) -> Result<(usize, Vec<GuardCost>, Value), Error> {
     let mut shadow = left.clone();
+    let mut tested = BTreeSet::new();
     let first = prefix.len().saturating_sub(1);
     // Only the operations before the candidate's first change are identical.
     // Execute them on the same shadow, reusing their exact serialization cost.
     // Recompute every later guard: copy sources and array indices may depend on
     // the replacement even when their operations lie outside its subtree.
     for (index, op) in operations.clone().take(first).enumerate() {
+        unique_guard_values(&shadow, op, &mut tested)?;
+        invalidate_guards(&shadow, op, &mut tested);
         crate::apply_json_patch_step(&mut shadow, op, index)?;
     }
     let mut costs = Vec::with_capacity(length + 1);
@@ -1440,92 +1446,54 @@ fn guarded_operation_bytes<'a>(
         costs.extend_from_slice(prefix);
     }
     let mut total = costs[first];
-    // Consecutive sibling renames change only key lengths. Consecutive array
-    // insertions change only the inserted value and one optional comma. Keep
-    // one exact parent test cost; all other operations discard it.
-    let mut container_snapshot: Option<(&str, usize)> = None;
     for (index, op) in operations.enumerate().skip(first) {
-        let guards = guard_values(&shadow, op)?;
-        let rename = match (op, guards[1]) {
-            (PatchOperation::Move(op), Some((path, value)))
-                if value.is_object()
-                    && parent(op.from.as_str()) == Some(path)
-                    && parent(op.path.as_str()) == Some(path) =>
-            {
-                op.from.back().zip(op.path.back())
-            }
-            _ => None,
-        };
-        let insertion = match (op, guards[0]) {
-            (PatchOperation::Add(op), Some((path, Value::Array(values))))
-                if parent(op.path.as_str()) == Some(path) =>
-            {
-                Some((path, &op.value, !values.is_empty()))
-            }
-            _ => None,
-        };
-        let mut next_snapshot = None;
-        for (path, value) in guards.into_iter().flatten() {
-            let snapshot = (rename.is_some() && guards[1].is_some_and(|(p, _)| p == path))
-                || insertion.is_some_and(|(p, _, _)| p == path);
-            let size = match container_snapshot.filter(|(p, _)| snapshot && *p == path) {
-                Some((_, size)) => size,
-                None => bytes(&ValueOperation {
-                    op: "test",
-                    path,
-                    value,
-                })?,
-            };
-            if snapshot {
-                if let Some((source, destination)) = &rename {
-                    let size = (size - bytes(source.decoded().as_ref())?)
-                        .checked_add(bytes(destination.decoded().as_ref())?)
-                        .ok_or_else(|| Error::new("", "JSON size exceeds address space"))?;
-                    next_snapshot = Some((path, size));
-                } else if let Some((_, value, comma)) = insertion {
-                    let size = size
-                        .checked_add(bytes(value)?)
-                        .and_then(|size| size.checked_add(usize::from(comma)))
-                        .ok_or_else(|| Error::new("", "JSON size exceeds address space"))?;
-                    next_snapshot = Some((path, size));
-                }
-            }
+        for (path, value) in unique_guard_values(&shadow, op, &mut tested)?
+            .into_iter()
+            .flatten()
+        {
+            let size = bytes(&ValueOperation {
+                op: "test",
+                path,
+                value,
+            })?;
             total.bytes += size + usize::from(total.operations > 0);
             total.operations += 1;
         }
         total.bytes += bytes(op)? + usize::from(total.operations > 0);
         total.operations += 1;
+        invalidate_guards(&shadow, op, &mut tested);
         crate::apply_json_patch_step(&mut shadow, op, index)?;
-        container_snapshot = next_snapshot;
         costs.push(total);
     }
     Ok((total.bytes, costs, shadow))
 }
 
-fn test_source<'a>(shadow: &'a Value, path: &str) -> Result<&'a Value, Error> {
-    shadow
-        .pointer(path)
-        .ok_or_else(|| Error::new(path, "test source is missing"))
+fn test_source<'a>(
+    shadow: &'a Value,
+    path: &json_patch::jsonptr::Pointer,
+) -> Result<&'a Value, Error> {
+    path.resolve(shadow)
+        .map_err(|_| Error::new(path.as_str(), "test source is missing"))
 }
 
 fn guard_add_value<'a, 'b>(
     shadow: &'a Value,
-    path: &'b str,
+    path: &'b json_patch::jsonptr::Pointer,
 ) -> Result<(&'b str, &'a Value), Error> {
-    let Some(parent) = parent(path) else {
+    let Some(parent) = path.parent() else {
         return Ok(("", shadow));
     };
-    let container = shadow
-        .pointer(parent)
-        .ok_or_else(|| Error::new(parent, "addition parent is missing"))?;
+    let container = parent
+        .resolve(shadow)
+        .map_err(|_| Error::new(parent.as_str(), "addition parent is missing"))?;
     // RFC test has no "must be absent" operation. Testing the parent protects
     // missing object keys, append positions and the order of array insertions.
     if container.is_array() {
-        return Ok((parent, container));
+        return Ok((parent.as_str(), container));
     }
-    Ok(shadow
-        .pointer(path)
-        .map_or((parent, container), |value| (path, value)))
+    Ok(path
+        .resolve(shadow)
+        .map_or((parent.as_str(), container), |value| (path.as_str(), value)))
 }
 
 fn guard_values<'a, 'b>(
@@ -1533,34 +1501,130 @@ fn guard_values<'a, 'b>(
     op: &'b PatchOperation,
 ) -> Result<[Option<(&'b str, &'a Value)>; 2], Error> {
     Ok(match op {
-        PatchOperation::Add(op) => [Some(guard_add_value(shadow, op.path.as_str())?), None],
+        PatchOperation::Add(op) => [Some(guard_add_value(shadow, &op.path)?), None],
         PatchOperation::Remove(op) => [
-            Some((op.path.as_str(), test_source(shadow, op.path.as_str())?)),
+            Some((op.path.as_str(), test_source(shadow, &op.path)?)),
             None,
         ],
         PatchOperation::Replace(op) => [
-            Some((op.path.as_str(), test_source(shadow, op.path.as_str())?)),
+            Some((op.path.as_str(), test_source(shadow, &op.path)?)),
             None,
         ],
         PatchOperation::Move(op) => [
-            Some((op.from.as_str(), test_source(shadow, op.from.as_str())?)),
-            Some(guard_add_value(shadow, op.path.as_str())?),
+            Some((op.from.as_str(), test_source(shadow, &op.from)?)),
+            Some(guard_add_value(shadow, &op.path)?),
         ],
         PatchOperation::Copy(op) => [
-            Some((op.from.as_str(), test_source(shadow, op.from.as_str())?)),
-            Some(guard_add_value(shadow, op.path.as_str())?),
+            Some((op.from.as_str(), test_source(shadow, &op.from)?)),
+            Some(guard_add_value(shadow, &op.path)?),
         ],
         PatchOperation::Test(_) => [None, None],
     })
 }
 
+// Container tests certify their whole subtree. Deterministic interior edits do
+// not require another snapshot, but replacing that boundary or shifting its
+// array ancestors invalidates certificates below the changed path.
+fn unique_guard_values<'a, 'b>(
+    shadow: &'a Value,
+    op: &'b PatchOperation,
+    tested: &mut BTreeSet<String>,
+) -> Result<[Option<(&'b str, &'a Value)>; 2], Error> {
+    let mut guards = guard_values(shadow, op)?;
+    if let PatchOperation::Test(test) = op {
+        if (test.value.is_array() || test.value.is_object())
+            && !guarded_path(tested, test.path.as_str())
+        {
+            // The caller applies this operation before continuing; a failing
+            // explicit test returns its original error and no generated patch.
+            forget_guards(tested, test.path.as_str(), false);
+            tested.insert(test.path.to_string());
+        }
+    }
+    for guard in &mut guards {
+        let Some((path, value)) = *guard else {
+            continue;
+        };
+        if guarded_path(tested, path) {
+            *guard = None;
+        } else if value.is_array() || value.is_object() {
+            forget_guards(tested, path, false);
+            tested.insert(path.to_owned());
+        }
+    }
+    Ok(guards)
+}
+
+fn guarded_path(tested: &BTreeSet<String>, mut path: &str) -> bool {
+    loop {
+        if tested.contains(path) {
+            return true;
+        }
+        let Some(above) = parent(path) else {
+            return false;
+        };
+        path = above;
+    }
+}
+
+fn forget_guards(tested: &mut BTreeSet<String>, path: &str, inclusive: bool) {
+    if tested.is_empty() {
+        return;
+    }
+    if tested.len() == 1 {
+        let only = tested.first().unwrap();
+        if contains(path, only) && (inclusive || only != path) {
+            tested.clear();
+        }
+        return;
+    }
+    if inclusive {
+        tested.remove(path);
+    }
+    let prefix = format!("{path}/");
+    let descendants: Vec<_> = tested
+        .range(prefix.clone()..)
+        .take_while(|candidate| candidate.starts_with(&prefix))
+        .cloned()
+        .collect();
+    for descendant in descendants {
+        tested.remove(&descendant);
+    }
+}
+
+fn invalidate_guards(shadow: &Value, op: &PatchOperation, tested: &mut BTreeSet<String>) {
+    if matches!(op, PatchOperation::Test(_)) || tested.is_empty() {
+        return;
+    }
+    forget_guards(tested, path(op), true);
+    if !matches!(op, PatchOperation::Replace(_)) {
+        if let Some(parent) = parent(path(op)) {
+            if shadow.pointer(parent).is_some_and(Value::is_array) {
+                forget_guards(tested, parent, false);
+            }
+        }
+    }
+    if let PatchOperation::Move(op) = op {
+        forget_guards(tested, op.from.as_str(), true);
+        if let Some(parent) = parent(op.from.as_str()) {
+            if shadow.pointer(parent).is_some_and(Value::is_array) {
+                forget_guards(tested, parent, false);
+            }
+        }
+    }
+}
+
 fn guard(mut shadow: Value, patch: &Patch) -> Result<Patch, Error> {
     let mut output = Vec::new();
+    let mut tested = BTreeSet::new();
     for (index, op) in patch.0.iter().enumerate() {
-        for (path, value) in guard_values(&shadow, op)?.into_iter().flatten() {
+        for (path, value) in unique_guard_values(&shadow, op, &mut tested)?
+            .into_iter()
+            .flatten()
+        {
             // Keep the existing payload serialization, including Number's
             // normalization, without building and dismantling an outer map.
-            let value = json!(value);
+            let value = crate::export::copy_addition(value);
             let path = json_patch::jsonptr::PointerBuf::parse(path)
                 .map_err(|error| Error::new("", error.to_string()))?;
             output.push(PatchOperation::Test(json_patch::TestOperation {
@@ -1569,6 +1633,7 @@ fn guard(mut shadow: Value, patch: &Patch) -> Result<Patch, Error> {
             }));
         }
         output.push(op.clone());
+        invalidate_guards(&shadow, op, &mut tested);
         crate::apply_json_patch_step(&mut shadow, op, index)?;
     }
     Ok(Patch(output))
@@ -1727,6 +1792,98 @@ mod guard_cost_tests {
 
     fn patch(value: Value) -> Patch {
         serde_json::from_value(value).unwrap()
+    }
+
+    #[test]
+    fn container_guards_have_linear_output_for_interleaved_insertions() {
+        for count in [32, 512, 4096] {
+            let left = json!({"a/~":[], "a-":[]});
+            let mut original = Patch::default();
+            for index in 0..count {
+                for container in ["/a~1~0", "/a-"] {
+                    original.0.push(
+                        decode(json!({
+                            "op":"add", "path":format!("{container}/-"),
+                            "value":{"index":index,"text":"🦀"}
+                        }))
+                        .unwrap(),
+                    );
+                }
+            }
+            let guarded = guard(left.clone(), &original).unwrap();
+            assert_eq!(guarded.0.len(), original.0.len() + 2);
+            assert!(bytes(&guarded).unwrap() < count * 200 + 200);
+            let mut actual = left.clone();
+            json_patch::patch(&mut actual, &guarded).unwrap();
+            assert_eq!(actual, apply_json_patch(&left, &original).unwrap());
+            for key in ["a/~", "a-"] {
+                let mut drift = left.clone();
+                drift[key] = json!(["unexpected"]);
+                assert!(json_patch::patch(&mut drift, &guarded).is_err());
+            }
+        }
+    }
+
+    #[test]
+    fn container_certificates_do_not_follow_shifted_array_indices() {
+        let left = json!({"a":[{"x":1},{"x":2},{"x":3}],"sink":0});
+        let original = patch(json!([
+            {"op":"copy","from":"/a/0","path":"/sink"},
+            {"op":"remove","path":"/a/0"},
+            {"op":"replace","path":"/a/0/x","value":4}
+        ]));
+        let guarded = guard(left.clone(), &original).unwrap();
+        assert!(guarded.0.iter().any(|operation| matches!(operation,
+            PatchOperation::Test(test) if test.path.as_str() == "/a/0/x" && test.value == json!(2)
+        )));
+        let mut drift = left.clone();
+        drift["a"][1]["x"] = json!(99);
+        assert!(json_patch::patch(&mut drift, &guarded).is_err());
+        let (size, _) = guarded_bytes(&left, &original, true, &[]).unwrap();
+        assert_eq!(size, bytes(&guarded).unwrap());
+    }
+
+    proptest::proptest! {
+        #![proptest_config(proptest::test_runner::Config { cases:256, rng_seed:proptest::test_runner::RngSeed::Fixed(20261006), ..Default::default() })]
+        #[test]
+        fn deduplicated_guards_keep_reference_drift_rejections(choices in proptest::collection::vec(proptest::prelude::any::<u8>(), 0..32)) {
+            let left = json!({"a":[{"x":1},{"x":2},{"x":3}],"sink":0,"a-":{"x":4},"other":[]});
+            let mut shadow = left.clone();
+            let mut original = Patch::default();
+            let mut reference = Patch::default();
+            for (step, choice) in choices.into_iter().enumerate() {
+                let length = shadow["a"].as_array().unwrap().len();
+                let index = usize::from(choice) % length.max(1);
+                let value = json!({"x":step});
+                let operation = match choice % 7 {
+                    0 => json!({"op":"add","path":format!("/a/{index}"),"value":value}),
+                    1 if length > 0 => json!({"op":"remove","path":format!("/a/{index}")}),
+                    2 if length > 0 => json!({"op":"replace","path":format!("/a/{index}/x"),"value":step}),
+                    3 if length > 0 => json!({"op":"copy","from":format!("/a/{index}"),"path":"/sink"}),
+                    4 if length > 0 => json!({"op":"move","from":format!("/a/{index}"),"path":"/a/-"}),
+                    5 => json!({"op":"add","path":"/other/-","value":value}),
+                    _ => json!({"op":"add","path":format!("/a-/key{step}"),"value":value}),
+                };
+                let operation = decode(operation).unwrap();
+                for (path, value) in guard_values(&shadow, &operation).unwrap().into_iter().flatten() {
+                    reference.0.push(decode(json!({"op":"test","path":path,"value":value})).unwrap());
+                }
+                reference.0.push(operation.clone());
+                crate::apply_json_patch_step(&mut shadow, &operation, step).unwrap();
+                original.0.push(operation);
+            }
+            let guarded = guard(left.clone(), &original).unwrap();
+            proptest::prop_assert_eq!(apply_json_patch(&left, &guarded).unwrap(), shadow);
+            let (size, _) = guarded_bytes(&left, &original, true, &[]).unwrap();
+            proptest::prop_assert_eq!(size, bytes(&guarded).unwrap());
+            for path in ["/a/0/x", "/a/1/x", "/a/2/x", "/a-/x", "/sink", "/other"] {
+                let mut drift = left.clone();
+                *drift.pointer_mut(path).unwrap() = json!(99);
+                if apply_json_patch(&drift, &reference).is_err() {
+                    proptest::prop_assert!(apply_json_patch(&drift, &guarded).is_err(), "lost guard at {}", path);
+                }
+            }
+        }
     }
 
     #[test]
@@ -2348,6 +2505,15 @@ mod guard_cost_tests {
                     .push(decode(json!({"op":"add","path":"/new","value":7})).unwrap());
             }
             for tests in [false, true] {
+                let expected = if tests && kind == 1 {
+                    // The root Add now certifies the second leaf too, making
+                    // the original interleaved operations smaller than /a.
+                    let mut expected = Patch(vec![expected.0[0].clone()]);
+                    expected.0.extend(original.0[2..].iter().cloned());
+                    expected
+                } else {
+                    expected.clone()
+                };
                 let optimized = rationalize(&left, &right, original.clone(), tests).unwrap();
                 assert_eq!(
                     serde_json::to_vec(&optimized).unwrap(),
