@@ -6,14 +6,12 @@
 
 - Guarded RFC 6902 generation reuses authenticated subtrees instead of repeatedly copying parent containers into `test` operations. Array index shifts invalidate affected authentication records. Guarded output bytes and operation counts can change; patches remain standard RFC 6902.
 - Disjoint primitive arrays in plain guarded mode can use positional replacements with one baseline array test. This removes the previous quadratic output growth for these inputs.
-
 - Direct plain RFC generation can use positional replacements for low-benefit unique primitive permutations, based on estimated move bytes. Plain output shape/bytes can change. Native delta and its exporter, optimized/guarded modes, custom filters/matchers and deep/error paths keep their existing strategy.
 
 ### Performance
 
 - Use foldhash 0.1.5 directly for private RFC maps/sets. It is a noncryptographic hash; its collision-resistance contract differs from SipHash.
 - Reuse interning/LIS and skip native tuple construction when positional replacements are accepted. Large-value moves and tested rotations retain byte-identical output.
-
 - Avoid reparsing already normalized arbitrary-precision numbers when copying additions. Noncanonical and malformed unchecked numbers retain the existing parser behavior.
 - Bound input-depth traversal by nesting depth rather than container width.
 - Resolve RFC optimization lookups with parsed JSON Pointer tokens and skip unchanged array-item export work.
