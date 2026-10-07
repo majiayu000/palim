@@ -19,6 +19,7 @@ LIS for unique array identities, `imara-diff` for other sequence matching and
 Minimum Rust: **1.85**. See the [API documentation](https://docs.rs/palim),
 [benchmarks](https://github.com/majiayu000/palim/blob/main/BENCHMARK.md) and
 [release history](https://github.com/majiayu000/palim/releases).
+The current release is [0.3.0](https://github.com/majiayu000/palim/releases/tag/v0.3.0).
 The 0.3 series makes exact JSON numbers opt-in; see the
 [0.3.0 changelog](https://github.com/majiayu000/palim/blob/main/CHANGELOG.md).
 Guarded and some plain JSON Patch output shapes changed; see the
@@ -61,9 +62,10 @@ is specific to the change representation and workload. See
 [COMPARISON.md](https://github.com/majiayu000/palim/blob/main/COMPARISON.md) for the boundaries.
 External users and public downstream adoption have not yet been confirmed;
 these benchmarks and examples are not production adoption evidence.
-An [internal Helixflow proposal-diff trial](https://github.com/majiayu000/palim/blob/main/results/internal-integration-20261007/REPORT.md)
-has passed local integration tests using an unpublished 0.3.0 package; registry
-integration and production adoption remain pending.
+An [internal Helixflow proposal-diff integration](https://github.com/majiayu000/palim/blob/main/results/internal-integration-20261007/REPORT.md)
+uses published 0.3.0 and has passed registry integration tests. Its
+[pull request](https://github.com/majiayu000/helixflow/pull/225) is separate from
+evidence of external users or production adoption.
 
 ## Installation
 

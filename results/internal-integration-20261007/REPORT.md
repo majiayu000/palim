@@ -6,7 +6,27 @@
 改变下游数字行为，因此最终改为发布 0.3.0，`exact-numbers` 默认关闭。
 需要 0.2 数字能力的调用方显式开启；Helixflow 改用普通声明 `palim = "0.3"`。
 RFC `test` 与 compare 的 `1`/`1.0` 数学相等规则在两种配置下均保留。
-本节的发布状态会在完成提交、远端 CI、上传与正式 registry 验证后更新。
+0.3.0 已提交、推送并发布：
+
+- 发布提交：[`65506ef`](https://github.com/majiayu000/palim/commit/65506ef8bf9c9215007b2b1286543876c18ebaa1)。
+- [六项远端 CI 全部通过](https://github.com/majiayu000/palim/actions/runs/37590811691)：
+  Windows/macOS/Ubuntu、Rust 1.85、JS 互通、结构化 fuzz。
+- [crates.io 0.3.0](https://crates.io/crates/palim/0.3.0) 与
+  [GitHub Release v0.3.0](https://github.com/majiayu000/palim/releases/tag/v0.3.0) 已发布。
+- registry API 确认 `default = []`，`exact-numbers` 显式启用两个 serde_json 特性；
+  包 checksum 为 `e16d4b037a6697f5a23c29305a943e605a1e791fee8e519a93cd24fda4b0bdfa`。
+
+Helixflow 已在当前主线 `e090a240590a3dc6559b96dfb7eef3369581f5f0` 上应用接入，
+提交 [`882802c`](https://github.com/majiayu000/helixflow/commit/882802c95b46377cf9cf05c16d5968fa5d4fecb4)，
+并推送为 [PR #225](https://github.com/majiayu000/helixflow/pull/225)。
+`Cargo.lock` 使用真实 registry source 和上述 checksum；验证命令没有本地 patch 覆盖。
+依赖 metadata 确认 Palim 为 0.3.0，serde_json 特性只有 alloc/default/raw_value/std，
+没有 arbitrary_precision 或 float_roundtrip。
+
+在这个更新后的主线基线上，fmt、locked workspace check、strict all-targets Clippy、
+663 项 workspace/all-targets 测试及 workspace doctest 检查均通过；1 项原有测试 ignored。
+此前 0f4992a 基线的 Clippy 问题已由上游主线修复，本次接入没有清理这些无关文件。
+本次仅更新七个接入相关文件，不把同步上游已有改动计作本次实现。
 
 0.3.0 本地验证：默认普通配置 debug/release 各 186 项及 1 doctest；显式
 `exact-numbers` debug/release 各 203 项及 1 doctest。两种配置的全目标 Clippy、

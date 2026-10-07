@@ -14,7 +14,9 @@ RFC `test` 和 compare 在两种配置下都按数学值比较 `1` 与 `1.0`；�
 它证明接口可用于这些操作，不代表已有外部项目接入。
 
 [Helixflow 内部接入试验](results/internal-integration-20261007/REPORT.md) 已完成本地差异展示与
-持久化重载验证。它仍依赖尚未发布的 0.3.0 草稿，不计作公开下游、生产采用或大数组性能证据。
+持久化重载及正式 registry 包验证，使用已发布的 0.3.0。
+[Helixflow PR #225](https://github.com/majiayu000/helixflow/pull/225) 是内部接入，
+不计作外部用户、生产采用或大数组性能证据。
 
 目前尚未确认外部用户、公开下游接入或真实生产使用。下载计数和没有已发布 crate 的反向依赖，
 都不足以证明完全无人使用，也不足以证明已经被采用。下面的实测应按 native、plain RFC、
