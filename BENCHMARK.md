@@ -2,6 +2,19 @@
 
 本库已更名为 **Palim**（包名 `palim`）。以下历史测量与验证记录保留当时的名称 `jsondiffpatch-rs`，未因更名重新计时。
 
+## 当前版本与历史测量边界（2026-10-07）
+
+当前版本为 0.3.0。下方 0.2 及更早的性能数据启用了 serde_json 的
+`arbitrary_precision` 和 `float_roundtrip`，不代表 0.3 默认数字配置的性能。
+在当前源码上复现这些测量边界时，应显式启用 `--features exact-numbers`；
+Cargo 特性由依赖图统一，消费者直接启用这两个 serde_json 特性也会影响 Palim。
+默认配置可能在调用 Palim 前已将数字舍入或拒绝，不能据此承诺保留任意精度的原始输入。
+[0.3.0 变更说明](CHANGELOG.md#030)、[数字合同](README.md#error-and-interoperability-contract)。
+
+本轮只复核现有输入、API 与验证入口，不新增性能排名。
+[维护复核记录](results/maintenance-20261007/REPORT.md) 区分当前提交的远端 CI、
+本机重新完成的检查及未重新运行的历史测量；下方旧快照保持原始版本与状态。
+
 ## 2026-10-06–07：采用 foldhash 与 plain 自适应重排
 
 相对 `ca8235a`，522 次独立进程完成 19 fixture、四种 RFC 模式、Rust json-patch
@@ -281,13 +294,17 @@ python3 tools/standard-benchmark.py --task pipeline --engine optimized-guarded
 
 ```sh
 cargo test --locked
+cargo test --features exact-numbers --locked
 cargo test --release --locked
+cargo test --release --features exact-numbers --locked
 cargo clippy --all-targets --locked -- -D warnings
+cargo clippy --all-targets --features exact-numbers --locked -- -D warnings
 cargo fmt --check
 cargo +1.85.0 check --lib --locked
-cargo bench --bench core --locked -- --noplot
+cargo +1.85.0 check --lib --features exact-numbers --locked
+cargo bench --bench core --features exact-numbers --locked -- --noplot
 npm ci --prefix tools --ignore-scripts --no-audit --no-fund
-cargo build --release --example fixture_runner --example standard_bench --locked
+cargo build --release --example fixture_runner --example standard_bench --features exact-numbers --locked
 node tools/interop.mjs
 python3 tools/benchmark.py
 python3 tools/standard-benchmark.py --task pipeline

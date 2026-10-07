@@ -1,0 +1,4556 @@
+{
+  "date": "2026-10-07",
+  "baseline_commit": "0d1a041fa09859d51a344ec89ec7b2f6e180c223",
+  "version": "0.3.0",
+  "production_source_sha256": {
+    "src/compare.rs": "02fe3748540bc526e520e7ccabf62ca4653e38293bf11f04bf9f6f156629dcb5",
+    "src/delta.rs": "38495e7fcfb61dce3a55c369651e0c7eaef1d8bffb6bc7246e3089a8bc0cd488",
+    "src/diff.rs": "56189b2056fc20c7d712de257fa66e38513a3852238c4266015da123fc05cf56",
+    "src/export.rs": "a99a4b9590a3bff88570e8b795b7e5584068f82db7558a1eb6a53e328dd764b9",
+    "src/lib.rs": "ece385e628b1ae2b98d57851ca64a63daf6869a2c134446651010784e3fdc455",
+    "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+    "src/numbers.rs": "46ea5182594a87f5064a31c0f37645927124bd41566ca3d339180432fff9f8ec",
+    "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+    "src/rfc.rs": "ab69f979a38443c1af7cfba943e0ed0102d84b4dc695e15db56335c98c111895",
+    "src/text.rs": "db20432df20ca009df41a645d8f10140fccc611915acae61231c98a33eefaaf8"
+  },
+  "github_issue_list": [
+    {
+      "html_url": "https://github.com/majiayu000/palim/pull/1",
+      "number": 1,
+      "pull_request": {
+        "diff_url": "https://github.com/majiayu000/palim/pull/1.diff",
+        "html_url": "https://github.com/majiayu000/palim/pull/1",
+        "merged_at": "2026-10-02T12:00:56Z",
+        "patch_url": "https://github.com/majiayu000/palim/pull/1.patch",
+        "url": "https://api.github.com/repos/majiayu000/palim/pulls/1"
+      },
+      "state": "closed",
+      "title": "perf: reduce JSON diff and RFC array overhead",
+      "user": "majiayu000"
+    }
+  ],
+  "existing_source_ci": {
+    "url": "https://github.com/majiayu000/palim/actions/runs/37594965417",
+    "head_sha": "0d1a041fa09859d51a344ec89ec7b2f6e180c223",
+    "status": "completed",
+    "conclusion": "success",
+    "not_current_documentation_pr_ci": true
+  },
+  "checks": [
+    {
+      "command": "cargo test --locked -j 2",
+      "status": "passed",
+      "wrapper_exit_code": 0,
+      "passed_tests": 187,
+      "log": {
+        "text": "   Compiling palim v0.3.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 33.83s\n     Running unittests src/lib.rs (target/debug/deps/palim-e676d4a182693365)\n\nrunning 39 tests\ntest numbers::tests::equal_decimal_values_have_equal_hashes ... ok\ntest export::direct_tests::direct_objects_keep_native_wire_order_and_payloads ... ok\ntest rfc::guard_cost_tests::ancestor_removal_keeps_late_child_moves_on_sequential_replay ... ok\ntest rfc::guard_cost_tests::borrowed_resolution_keeps_value_pointer_results ... ok\ntest rfc::guard_cost_tests::bounded_cost_handles_escaped_utf8_and_exact_budget_boundaries ... ok\ntest rfc::guard_cost_tests::bounded_cost_stops_traversal_and_preserves_real_serializer_errors ... ok\ntest rfc::guard_cost_tests::container_certificates_do_not_follow_shifted_array_indices ... ok\ntest rfc::guard_cost_tests::array_insertion_costs_match_every_serialized_prefix_and_resumed_replay ... ok\ntest rfc::guard_cost_tests::array_insertion_costs_reset_on_other_writes_and_keep_errors ... ok\ntest rfc::guard_cost_tests::external_add_copy_and_move_can_change_ancestor_guard_snapshot_costs ... ok\ntest rfc::guard_cost_tests::factorized_move_candidates_preserve_dense_indices_and_initial_errors ... ok\ntest rfc::guard_cost_tests::guard_construction_keeps_missing_sources_and_application_error_order ... ok\ntest rfc::guard_cost_tests::guard_costs_match_serialized_guards_for_empty_root_and_two_guard_operations ... ok\ntest rfc::guard_cost_tests::guard_cost_prefixes_replay_dependent_copy_and_array_suffixes ... ok\ntest rfc::guard_cost_tests::guarded_reuse_requires_the_original_patch_to_reach_the_requested_target ... ok\ntest rfc::guard_cost_tests::independent_object_moves_keep_duplicate_sources_and_original_add_order ... ok\ntest rfc::guard_cost_tests::independent_guard_costs_match_full_replay_after_multiple_parent_replacements ... ok\ntest rfc::guard_cost_tests::invalid_original_replacements_keep_plain_replay_and_guard_errors ... ok\ntest delta::depth_tests::bounded_traversal_keeps_exact_depth_limits_and_wide_containers ... ok\ntest rfc::guard_cost_tests::object_move_preflight_preserves_initial_error_after_valid_pairs ... ok\ntest rfc::guard_cost_tests::object_rename_snapshot_costs_match_serialized_prefixes_and_resumed_replay ... ok\ntest rfc::guard_cost_tests::object_rename_snapshot_costs_reset_on_other_writes_and_preserve_errors ... ok\ntest rfc::guard_cost_tests::pointer_tokens_preserve_parent_escapes_and_unicode ... ok\ntest rfc::guard_cost_tests::mixed_slots_parent_snapshots_preserve_chronology_and_number_bytes ... ok\ntest rfc::guard_cost_tests::rationalization_preserves_interleaved_array_removal_and_move_indices ... ok\ntest rfc::guard_cost_tests::rationalization_preserves_interleaved_copy_reads_of_a_subtree_and_its_ancestor ... ok\ntest rfc::guard_cost_tests::single_replace_in_an_array_cannot_become_an_inserting_copy ... ok\ntest rfc::guard_cost_tests::selection_scan_keeps_copy_guard_and_array_fallbacks_after_parent_acceptance ... ok\ntest rfc::guard_cost_tests::stable_replacement_slots_preserve_interleaved_children_and_repeated_paths ... ok\ntest text::tests::newline_words_match_character_boundaries ... ok\ntest diff::matching_tests::append_fast_path_preserves_lis_ties_and_reconstruction ... ok\ntest export::direct_tests::hybrid_deep_errors_keep_later_matching_callbacks_and_inputs ... ok\ntest export::direct_tests::hybrid_generation_keeps_native_operations_and_matching_callbacks ... ok\ntest export::direct_tests::positional_reorders_keep_native_delta_depth_errors ... ok\ntest export::direct_tests::hybrid_matches_native_on_arbitrary_mixed_json ... ok\ntest rfc::guard_cost_tests::container_guards_have_linear_output_for_interleaved_insertions ... ok\ntest export::direct_tests::direct_generation_keeps_native_delta_depth_errors ... ok\ntest rfc::guard_cost_tests::deduplicated_guards_keep_reference_drift_rejections ... ok\ntest export::direct_tests::number_fast_path_only_skips_unchanged_parser_results ... ok\n\ntest result: ok. 39 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.06s\n\n     Running tests/application.rs (target/debug/deps/application-1d2ad81c9094e153)\n\nrunning 7 tests\ntest standard_resource_error_priority_remains_stable ... ok\ntest copy_budget_counts_cumulative_serialized_source_bytes_before_copying ... ok\ntest standard_depth_limits_validate_the_baseline_and_intermediate_results ... ok\ntest standard_path_errors_precede_combined_depth_errors ... ok\ntest standard_insertions_reject_combined_depth_at_the_failing_operation ... ok\ntest owned_and_atomic_in_place_application_restore_documents ... ok\ntest fuzzy_application_reaches_nested_strings_and_keeps_other_edits_strict ... ok\n\ntest result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/array_quality.rs (target/debug/deps/array_quality-9652fbd48c6cf3f1)\n\nrunning 17 tests\ntest standard_export_does_not_repeat_a_native_move ... ok\ntest node_filter_projects_original_positions_and_object_additions_and_deletions ... ok\ntest subtree_filters_allow_atomic_container_to_scalar_replacement ... ok\ntest custom_array_matching_handles_changed_primitives_before_value_matching ... ok\ntest custom_array_matching_resolves_ambiguous_pairs_without_remove_add ... ok\ntest projected_array_items_are_filtered_once_and_nested_fields_still_filter ... ok\ntest subtree_filters_keep_original_paths_after_array_compaction ... ok\ntest subtree_filters_do_not_turn_excluded_missing_values_into_null ... ok\ntest subtree_filters_project_additions_type_changes_and_partial_deletions ... ok\ntest unique_identity_moves_preserve_nested_edits_and_baseline_checks ... ok\ntest half_rotation_of_500_items_needs_250_moves ... ok\ntest large_dense_repetition_and_duplicate_identities_round_trip ... ok\ntest arbitrary_custom_matching_round_trips ... ok\ntest small_repeated_sequences_use_the_minimum_stable_subsequence ... ok\ntest arbitrary_position_filters_match_the_explicit_projection ... ok\ntest unique_permutations_use_the_minimum_native_and_standard_moves ... ok\ntest mixed_add_remove_reorder_and_nested_changes ... ok\n\ntest result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.72s\n\n     Running tests/compare.rs (target/debug/deps/compare-af13558d0554e5ed)\n\nrunning 15 tests\ntest empty_equal_documents_and_report_serialization ... ok\ntest custom_comparison_has_a_fallback_and_can_override_equality ... ok\ntest identities_report_moves_and_nested_changes_without_counting_missing_as_null ... ok\ntest custom_matcher_and_duplicate_identities_are_deterministic ... ok\ntest excluded_identity_items_do_not_report_moves_and_budget_counts_matching_edges ... ok\ntest filters_include_root_array_and_missing_nodes ... ok\ntest budgets_and_invalid_options_return_errors_instead_of_partial_reports ... ok\ntest nested_unordered_containers_and_keyed_changes ... ok\ntest exact_json_report_and_mathematical_numbers ... ok\ntest tolerance_uses_absolute_relative_and_exact_large_integer_distance ... ok\ntest unordered_arrays_are_multisets_selected_by_path ... ok\ntest unordered_matching_finds_maximum_pairs_instead_of_greedy_pairs ... ok\ntest structural_fingerprints_reduce_candidates_and_still_check_nested_order ... ok\ntest tolerance_pairing_agrees_with_exhaustive_matching ... ok\ntest unordered_primitive_permutation_preserves_repeated_counts ... ok\n\ntest result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s\n\n     Running tests/core.rs (target/debug/deps/core-bc0e6c23c0b45fd2)\n\nrunning 10 tests\ntest atomic_replacements_keep_valid_number_and_mixed_payload_representations ... ok\ntest structural_round_trips ... ok\ntest bad_baseline_is_an_error_and_input_is_unchanged ... ok\ntest filters_and_depth_limits ... ok\ntest invalid_array_and_text_patches ... ok\ntest unicode_long_text_and_multi_hunks ... ok\ntest identity_moves_and_multiple_instances ... ok\ntest standard_patch_atomicity_error_path_and_intermediate_depth ... ok\ntest compact_moves_in_both_directions ... ok\ntest near_depth_limit_deltas_round_trip_or_return_depth_error ... ok\n\ntest result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\n     Running tests/export_scaling.rs (target/debug/deps/export_scaling-62fc7df29009c5cd)\n\nrunning 4 tests\ntest typed_payloads_text_and_baseline_validation ... ok\ntest exhaustive_small_permutations_and_explicit_all_item_moves ... ok\ntest duplicate_ids_add_remove_and_nested_edits ... ok\ntest large_half_swaps_and_reversals_keep_one_operation_per_move ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.22s\n\n     Running tests/fixtures.rs (target/debug/deps/fixtures-962f039fb5cd60ab)\n\nrunning 2 tests\ntest rfc_6902_public_success_and_error_cases ... ok\ntest saved_373_document_pairs ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n     Running tests/merge.rs (target/debug/deps/merge-d052d3caee09fdf0)\n\nrunning 8 tests\ntest composition_rejects_loss_of_unknown_baseline_fields ... ok\ntest rfc7396_appendix_a_application_and_diff ... ok\ntest composition_preserves_deletion_instructions_and_nested_updates ... ok\ntest replacement_and_empty_object_semantics ... ok\ntest null_assignment_is_rejected_only_when_unrepresentable ... ok\ntest depth_errors_are_atomic ... ok\ntest generated_patch_round_trips_every_representable_target ... ok\ntest accepted_compositions_equal_sequential_application ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 15.94s\n\n     Running tests/numbers.rs (target/debug/deps/numbers-544a91728035a51d)\n\nrunning 4 tests\ntest ordinary_numeric_spellings_match_value_equality_and_patch_preconditions ... ok\ntest ordinary_decimal_tolerances_keep_their_inclusive_boundary ... ok\ntest ordinary_numeric_documents_replay_native_rfc_and_merge_changes ... ok\ntest sparse_decimal_tolerance_agrees_with_scaled_integer_arithmetic ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s\n\n     Running tests/performance_regressions.rs (target/debug/deps/performance_regressions-f93e4fc8d11cdd43)\n\nrunning 14 tests\ntest depth_checks_keep_scalar_and_container_boundaries_before_filtering ... ok\ntest root_array_fast_path_keeps_custom_pairing_and_option_errors ... ok\ntest disjoint_array_shortcut_keeps_identity_and_projection_semantics ... ok\ntest repeated_disjoint_payloads_still_factorize_and_guard_container_drift ... ok\ntest scalar_shortcut_preserves_property_and_node_filter_callbacks ... ok\ntest rationalization_keeps_multiple_escaped_parent_replacements ... ok\ntest default_disjoint_shortcut_preserves_configured_identity_callbacks ... ok\ntest single_root_copy_remains_profitable_and_guards_the_baseline ... ok\ntest rationalization_keeps_escaped_move_boundaries_after_other_parent_replacements ... ok\ntest independently_compressible_array_objects_keep_the_same_guarded_root_patch ... ok\ntest plain_guarded_disjoint_arrays_use_one_structural_test ... ok\ntest disjoint_arrays_replace_overlap_and_handle_both_tail_directions ... ok\ntest custom_matching_reuses_scratch_without_changing_callbacks_or_pairing ... ok\ntest dense_periodic_arrays_keep_a_single_move_and_roundtrip ... ok\n\ntest result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.53s\n\n     Running tests/properties.rs (target/debug/deps/properties-c13233c1e0007d2c)\n\nrunning 4 tests\ntest arbitrary_unicode_text ... ok\ntest untrusted_delta_never_panics ... ok\ntest arbitrary_json_round_trip ... ok\ntest duplicate_identity_and_mixed_array_edits ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.53s\n\n     Running tests/protocol_properties.rs (target/debug/deps/protocol_properties-0591b147af1fbde9)\n\nrunning 6 tests\ntest accepted_text_coordinates_have_serializable_inverses ... ok\ntest fuzzy_replacement_consumes_a_substituted_last_character ... ok\ntest array_protocol_mutations_never_escape_validated_type ... ok\ntest supplied_array_move_delete_add_and_edit ... ok\ntest supplied_unicode_text_and_protocol_mutations ... ok\ntest generated_documents_keep_complete_protocol_invariants ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.40s\n\n     Running tests/rfc_extended.rs (target/debug/deps/rfc_extended-0ced0ac87a24b5ed)\n\nrunning 24 tests\ntest copies_strings_inside_an_earlier_added_or_replaced_payload ... ok\ntest copies_numbers_added_or_replaced_by_an_earlier_operation ... ok\ntest copy_candidates_use_mathematical_number_equality ... ok\ntest guards_array_insertions_and_missing_object_properties ... ok\ntest factorization_handles_interleaved_array_indices_and_duplicates ... ok\ntest copy_sources_must_fit_the_serialized_path_budget ... ok\ntest factorizes_cross_property_and_cross_array_moves ... ok\ntest copy_cost_bounds_allow_shortened_moves_copies_and_array_indices ... ok\ntest copies_strings_added_or_replaced_by_an_earlier_operation ... ok\ntest factorizes_copies_using_the_current_document ... ok\ntest guards_move_sources_and_copy_sources ... ok\ntest inverts_root_add_copy_replace_and_test_only_patches ... ok\ntest inverts_all_six_operations_with_overwrites_and_append ... ok\ntest inversion_preserves_original_error_and_input ... ok\ntest inverts_moves_into_ancestors_and_shifted_array_objects ... ok\ntest rationalizes_nested_parents_by_serialized_size ... ok\ntest rationalization_accounts_for_tests_and_escaped_utf8_bytes ... ok\ntest guarded_rationalization_keeps_move_copy_prefixes_and_nested_replacements ... ok\ntest guarded_repeated_id_reordering_authenticates_the_replaced_container ... ok\ntest plain_keeps_rotations_and_large_value_moves_byte_identical_to_native ... ok\ntest plain_reorders_trade_low_byte_savings_for_positional_output ... ok\ntest adaptive_plain_permutations_roundtrip_independently ... ok\ntest inverses_restore_random_standard_operation_sequences ... ok\ntest optimized_and_guarded_patches_restore_random_documents ... ok\n\ntest result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.61s\n\n     Running tests/standard_extensions.rs (target/debug/deps/standard_extensions-67e5c17af30e94d6)\n\nrunning 8 tests\ntest read_only_tests_reject_every_mutating_operation_at_its_position ... ok\ntest guarded_inverse_keeps_original_errors_and_test_only_noops ... ok\ntest read_only_tests_keep_recursive_number_equality_and_escaped_paths ... ok\ntest inverse_guards_distinguish_touched_values_from_parent_snapshots ... ok\ntest guarded_inverse_rejects_the_reported_wrong_array_baseline ... ok\ntest guarded_inverse_restores_overwrites_arrays_roots_and_all_six_operations ... ok\ntest read_only_failures_keep_standard_order_and_error_details ... ok\ntest standard_text_generation_preserves_thresholds_filters_and_callback_order ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n     Running tests/standard_semantics.rs (target/debug/deps/standard_semantics-a84591e01e81c862)\n\nrunning 6 tests\ntest standard_test_error_keeps_operation_and_path ... ok\ntest root_move_to_itself_is_a_noop_and_missing_move_still_fails ... ok\ntest standard_moves_and_copies_use_the_final_destination_container ... ok\ntest standard_test_uses_mathematical_recursive_numeric_equality ... ok\ntest included_move_values_authenticate_and_remain_reversible_after_editing ... ok\ntest instance_standard_diff_applies_only_the_filtered_projection ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/text_extended.rs (target/debug/deps/text_extended-38a896b5c7e88cbe)\n\nrunning 18 tests\ntest historical_js_inverse_coordinate_formats_remain_strict ... ok\ntest fuzzy_matching_preserves_complete_context_and_overlapping_exact_occurrences ... ok\ntest fuzzy_text_handles_multiple_unicode_hunks_and_all_or_error ... ok\ntest fuzzy_anchor_ties_replace_the_fragment_and_preserve_external_suffixes ... ok\ntest fuzzy_displacement_limit_counts_utf16_not_characters ... ok\ntest fuzzy_text_accepts_bounded_offsets_and_preserves_context_edits ... ok\ntest common_text_blocks_trim_only_at_utf8_boundaries ... ok\ntest imported_js_inverses_restore_repeated_unicode_and_overlapping_context ... ok\ntest normalized_text_lengths_cannot_overflow_coordinates ... ok\ntest text_uri_decoding_preserves_javascript_reserved_escapes ... ok\ntest fuzzy_text_handles_long_deletions_without_losing_unicode ... ok\ntest borrowed_line_tokens_keep_character_hunks_and_utf16_headers ... ok\ntest sparse_long_unicode_text_keeps_utf16_coordinates_and_context ... ok\ntest distant_unicode_edits_keep_compact_hunks_and_roundtrip ... ok\ntest large_text_replacements_and_line_boundaries_roundtrip ... ok\ntest line_groups_preserve_empty_lines_unicode_and_terminal_newlines ... ok\ntest utf16_protocol_lengths_match_the_standard_library ... ok\ntest fuzzy_unicode_offsets_preserve_surrounding_text ... ok\n\ntest result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.90s\n\n   Doc-tests palim\n\nrunning 1 test\ntest src/../README.md - (line 100) ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\nall doctests ran in 7.21s; merged doctests compilation took 4.54s\n",
+        "sha256": "0a42532eb5439ade699064d6891bcdb9e9a8c31b91911957ae7e7e4dbfd9aaa2"
+      },
+      "exit_capture_note": "The original shell returned the tail command status; all Cargo suites and doctests completed successfully."
+    },
+    {
+      "command": "cargo test --features exact-numbers --locked -j 2",
+      "status": "passed",
+      "wrapper_exit_code": 0,
+      "passed_tests": 204,
+      "log": {
+        "text": "   Compiling palim v0.3.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 16.82s\n     Running unittests src/lib.rs (target/debug/deps/palim-9d9eef97b277aa3e)\n\nrunning 44 tests\ntest export::direct_tests::normalized_number_matches_serde_parser ... ok\ntest export::direct_tests::addition_copy_keeps_malformed_unchecked_number_failure ... ok\ntest export::direct_tests::addition_copy_keeps_nested_number_normalization_and_patch_bytes ... ok\ntest export::direct_tests::direct_objects_keep_native_wire_order_and_payloads ... ok\ntest export::direct_tests::positional_reorders_keep_unchecked_number_behavior ... ok\ntest numbers::tests::equal_decimal_values_have_equal_hashes ... ok\ntest rfc::guard_cost_tests::ancestor_removal_keeps_late_child_moves_on_sequential_replay ... ok\ntest delta::depth_tests::bounded_traversal_keeps_exact_depth_limits_and_wide_containers ... ok\ntest rfc::guard_cost_tests::array_insertion_costs_match_every_serialized_prefix_and_resumed_replay ... ok\ntest rfc::guard_cost_tests::array_insertion_costs_reset_on_other_writes_and_keep_errors ... ok\ntest rfc::guard_cost_tests::borrowed_resolution_keeps_value_pointer_results ... ok\ntest rfc::guard_cost_tests::bounded_cost_handles_escaped_utf8_and_exact_budget_boundaries ... ok\ntest rfc::guard_cost_tests::bounded_cost_stops_traversal_and_preserves_real_serializer_errors ... ok\ntest rfc::guard_cost_tests::container_certificates_do_not_follow_shifted_array_indices ... ok\ntest rfc::guard_cost_tests::external_add_copy_and_move_can_change_ancestor_guard_snapshot_costs ... ok\ntest rfc::guard_cost_tests::guard_construction_keeps_missing_sources_and_application_error_order ... ok\ntest rfc::guard_cost_tests::factorized_move_candidates_preserve_dense_indices_and_initial_errors ... ok\ntest rfc::guard_cost_tests::guard_cost_prefixes_replay_dependent_copy_and_array_suffixes ... ok\ntest rfc::guard_cost_tests::guard_costs_match_serialized_guards_for_empty_root_and_two_guard_operations ... ok\ntest rfc::guard_cost_tests::guard_payloads_keep_existing_number_normalization_and_escaped_paths ... ok\ntest rfc::guard_cost_tests::guarded_reuse_requires_the_original_patch_to_reach_the_requested_target ... ok\ntest rfc::guard_cost_tests::independent_guard_costs_match_full_replay_after_multiple_parent_replacements ... ok\ntest rfc::guard_cost_tests::independent_object_moves_keep_duplicate_sources_and_original_add_order ... ok\ntest rfc::guard_cost_tests::invalid_original_replacements_keep_plain_replay_and_guard_errors ... ok\ntest rfc::guard_cost_tests::object_move_preflight_preserves_initial_error_after_valid_pairs ... ok\ntest rfc::guard_cost_tests::object_rename_snapshot_costs_match_serialized_prefixes_and_resumed_replay ... ok\ntest rfc::guard_cost_tests::pointer_tokens_preserve_parent_escapes_and_unicode ... ok\ntest rfc::guard_cost_tests::mixed_slots_parent_snapshots_preserve_chronology_and_number_bytes ... ok\ntest rfc::guard_cost_tests::object_rename_snapshot_costs_reset_on_other_writes_and_preserve_errors ... ok\ntest rfc::guard_cost_tests::rationalization_preserves_interleaved_copy_reads_of_a_subtree_and_its_ancestor ... ok\ntest rfc::guard_cost_tests::single_replace_in_an_array_cannot_become_an_inserting_copy ... ok\ntest rfc::guard_cost_tests::rationalization_preserves_interleaved_array_removal_and_move_indices ... ok\ntest rfc::guard_cost_tests::selection_scan_keeps_copy_guard_and_array_fallbacks_after_parent_acceptance ... ok\ntest rfc::guard_cost_tests::stable_replacement_slots_preserve_interleaved_children_and_repeated_paths ... ok\ntest text::tests::newline_words_match_character_boundaries ... ok\ntest export::direct_tests::hybrid_deep_errors_keep_later_matching_callbacks_and_inputs ... ok\ntest diff::matching_tests::append_fast_path_preserves_lis_ties_and_reconstruction ... ok\ntest export::direct_tests::hybrid_generation_keeps_native_operations_and_matching_callbacks ... ok\ntest export::direct_tests::positional_reorders_keep_native_delta_depth_errors ... ok\ntest export::direct_tests::hybrid_matches_native_on_arbitrary_mixed_json ... ok\ntest rfc::guard_cost_tests::deduplicated_guards_keep_reference_drift_rejections ... ok\ntest export::direct_tests::direct_generation_keeps_native_delta_depth_errors ... ok\ntest rfc::guard_cost_tests::container_guards_have_linear_output_for_interleaved_insertions ... ok\ntest export::direct_tests::number_fast_path_only_skips_unchanged_parser_results ... ok\n\ntest result: ok. 44 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.61s\n\n     Running tests/application.rs (target/debug/deps/application-cf014bd6dcca8490)\n\nrunning 7 tests\ntest copy_budget_counts_cumulative_serialized_source_bytes_before_copying ... ok\ntest standard_resource_error_priority_remains_stable ... ok\ntest standard_depth_limits_validate_the_baseline_and_intermediate_results ... ok\ntest standard_insertions_reject_combined_depth_at_the_failing_operation ... ok\ntest owned_and_atomic_in_place_application_restore_documents ... ok\ntest fuzzy_application_reaches_nested_strings_and_keeps_other_edits_strict ... ok\ntest standard_path_errors_precede_combined_depth_errors ... ok\n\ntest result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/array_quality.rs (target/debug/deps/array_quality-e06194456a5a003d)\n\nrunning 17 tests\ntest custom_array_matching_resolves_ambiguous_pairs_without_remove_add ... ok\ntest custom_array_matching_handles_changed_primitives_before_value_matching ... ok\ntest node_filter_projects_original_positions_and_object_additions_and_deletions ... ok\ntest projected_array_items_are_filtered_once_and_nested_fields_still_filter ... ok\ntest subtree_filters_allow_atomic_container_to_scalar_replacement ... ok\ntest standard_export_does_not_repeat_a_native_move ... ok\ntest subtree_filters_keep_original_paths_after_array_compaction ... ok\ntest subtree_filters_do_not_turn_excluded_missing_values_into_null ... ok\ntest subtree_filters_project_additions_type_changes_and_partial_deletions ... ok\ntest unique_identity_moves_preserve_nested_edits_and_baseline_checks ... ok\ntest half_rotation_of_500_items_needs_250_moves ... ok\ntest large_dense_repetition_and_duplicate_identities_round_trip ... ok\ntest small_repeated_sequences_use_the_minimum_stable_subsequence ... ok\ntest arbitrary_custom_matching_round_trips ... ok\ntest unique_permutations_use_the_minimum_native_and_standard_moves ... ok\ntest arbitrary_position_filters_match_the_explicit_projection ... ok\ntest mixed_add_remove_reorder_and_nested_changes ... ok\n\ntest result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 30.19s\n\n     Running tests/compare.rs (target/debug/deps/compare-2d9b6e0e33f64b2e)\n\nrunning 17 tests\ntest budgets_and_invalid_options_return_errors_instead_of_partial_reports ... ok\ntest excluded_identity_items_do_not_report_moves_and_budget_counts_matching_edges ... ok\ntest empty_equal_documents_and_report_serialization ... ok\ntest custom_matcher_and_duplicate_identities_are_deterministic ... ok\ntest nested_unordered_containers_and_keyed_changes ... ok\ntest arbitrary_precision_number_matching_and_exact_decimal_tolerance ... ok\ntest custom_comparison_has_a_fallback_and_can_override_equality ... ok\ntest filters_include_root_array_and_missing_nodes ... ok\ntest exact_json_report_and_mathematical_numbers ... ok\ntest identities_report_moves_and_nested_changes_without_counting_missing_as_null ... ok\ntest tolerance_uses_absolute_relative_and_exact_large_integer_distance ... ok\ntest numeric_work_budget_precedes_exact_and_unordered_canonicalization ... ok\ntest unordered_arrays_are_multisets_selected_by_path ... ok\ntest unordered_matching_finds_maximum_pairs_instead_of_greedy_pairs ... ok\ntest structural_fingerprints_reduce_candidates_and_still_check_nested_order ... ok\ntest tolerance_pairing_agrees_with_exhaustive_matching ... ok\ntest unordered_primitive_permutation_preserves_repeated_counts ... ok\n\ntest result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.34s\n\n     Running tests/core.rs (target/debug/deps/core-e624a0ab0e29087a)\n\nrunning 10 tests\ntest bad_baseline_is_an_error_and_input_is_unchanged ... ok\ntest invalid_array_and_text_patches ... ok\ntest atomic_replacements_keep_valid_number_and_mixed_payload_representations ... ok\ntest structural_round_trips ... ok\ntest filters_and_depth_limits ... ok\ntest identity_moves_and_multiple_instances ... ok\ntest unicode_long_text_and_multi_hunks ... ok\ntest compact_moves_in_both_directions ... ok\ntest standard_patch_atomicity_error_path_and_intermediate_depth ... ok\ntest near_depth_limit_deltas_round_trip_or_return_depth_error ... ok\n\ntest result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n     Running tests/export_scaling.rs (target/debug/deps/export_scaling-e88a5579790d1a2c)\n\nrunning 4 tests\ntest typed_payloads_text_and_baseline_validation ... ok\ntest exhaustive_small_permutations_and_explicit_all_item_moves ... ok\ntest duplicate_ids_add_remove_and_nested_edits ... ok\ntest large_half_swaps_and_reversals_keep_one_operation_per_move ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.55s\n\n     Running tests/fixtures.rs (target/debug/deps/fixtures-2c05d40bd2881748)\n\nrunning 2 tests\ntest rfc_6902_public_success_and_error_cases ... ok\ntest saved_373_document_pairs ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s\n\n     Running tests/merge.rs (target/debug/deps/merge-80a80db96bd3ab1c)\n\nrunning 8 tests\ntest null_assignment_is_rejected_only_when_unrepresentable ... ok\ntest replacement_and_empty_object_semantics ... ok\ntest rfc7396_appendix_a_application_and_diff ... ok\ntest composition_preserves_deletion_instructions_and_nested_updates ... ok\ntest composition_rejects_loss_of_unknown_baseline_fields ... ok\ntest depth_errors_are_atomic ... ok\ntest generated_patch_round_trips_every_representable_target ... ok\ntest accepted_compositions_equal_sequential_application ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 15.77s\n\n     Running tests/numbers.rs (target/debug/deps/numbers-0616b3bd5ec4e3b1)\n\nrunning 12 tests\ntest arbitrary_precision_values_round_trip_through_native_delta ... ok\ntest tolerance_compares_arbitrary_precision_decimal_values ... ok\ntest ordinary_decimal_tolerances_keep_their_inclusive_boundary ... ok\ntest absolute_tolerance_is_exact_at_decimal_boundaries_and_cancellation ... ok\ntest standard_tests_and_reports_compare_exact_decimal_values ... ok\ntest relative_tolerance_handles_huge_small_and_signed_numbers_exactly ... ok\ntest unordered_reports_use_the_same_exact_number_equality_as_standard_test ... ok\ntest ordinary_numeric_documents_replay_native_rfc_and_merge_changes ... ok\ntest enormous_exponents_are_compared_without_expanding_the_number ... ok\ntest huge_exponent_tolerance_is_sparse_and_obeys_existing_work_budget ... ok\ntest shifting_decimal_places_keeps_mathematical_value ... ok\ntest sparse_decimal_tolerance_agrees_with_scaled_integer_arithmetic ... ok\n\ntest result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s\n\n     Running tests/performance_regressions.rs (target/debug/deps/performance_regressions-ae3482312d393868)\n\nrunning 14 tests\ntest root_array_fast_path_keeps_custom_pairing_and_option_errors ... ok\ntest disjoint_array_shortcut_keeps_identity_and_projection_semantics ... ok\ntest repeated_disjoint_payloads_still_factorize_and_guard_container_drift ... ok\ntest depth_checks_keep_scalar_and_container_boundaries_before_filtering ... ok\ntest rationalization_keeps_multiple_escaped_parent_replacements ... ok\ntest default_disjoint_shortcut_preserves_configured_identity_callbacks ... ok\ntest scalar_shortcut_preserves_property_and_node_filter_callbacks ... ok\ntest single_root_copy_remains_profitable_and_guards_the_baseline ... ok\ntest rationalization_keeps_escaped_move_boundaries_after_other_parent_replacements ... ok\ntest independently_compressible_array_objects_keep_the_same_guarded_root_patch ... ok\ntest plain_guarded_disjoint_arrays_use_one_structural_test ... ok\ntest disjoint_arrays_replace_overlap_and_handle_both_tail_directions ... ok\ntest custom_matching_reuses_scratch_without_changing_callbacks_or_pairing ... ok\ntest dense_periodic_arrays_keep_a_single_move_and_roundtrip ... ok\n\ntest result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.45s\n\n     Running tests/properties.rs (target/debug/deps/properties-38d9aa3378858a16)\n\nrunning 4 tests\ntest arbitrary_unicode_text ... ok\ntest untrusted_delta_never_panics ... ok\ntest arbitrary_json_round_trip ... ok\ntest duplicate_identity_and_mixed_array_edits has been running for over 60 seconds\ntest duplicate_identity_and_mixed_array_edits ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 82.05s\n\n     Running tests/protocol_properties.rs (target/debug/deps/protocol_properties-ba5f3ba48f8a82f1)\n\nrunning 6 tests\ntest accepted_text_coordinates_have_serializable_inverses ... ok\ntest fuzzy_replacement_consumes_a_substituted_last_character ... ok\ntest array_protocol_mutations_never_escape_validated_type ... ok\ntest supplied_array_move_delete_add_and_edit ... ok\ntest supplied_unicode_text_and_protocol_mutations ... ok\ntest generated_documents_keep_complete_protocol_invariants ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 23.19s\n\n     Running tests/rfc_extended.rs (target/debug/deps/rfc_extended-98d880c68d2e0357)\n\nrunning 26 tests\ntest copies_strings_added_or_replaced_by_an_earlier_operation ... ok\ntest copy_sources_must_fit_the_serialized_path_budget ... ok\ntest copies_strings_inside_an_earlier_added_or_replaced_payload ... ok\ntest copy_candidates_use_mathematical_number_equality ... ok\ntest factorizes_copies_using_the_current_document ... ok\ntest factorizes_cross_property_and_cross_array_moves ... ok\ntest copies_numbers_added_or_replaced_by_an_earlier_operation ... ok\ntest factorization_handles_interleaved_array_indices_and_duplicates ... ok\ntest copy_cost_bounds_allow_shortened_moves_copies_and_array_indices ... ok\ntest arbitrary_precision_payloads_survive_move_copy_guards_and_inverse ... ok\ntest inverts_all_six_operations_with_overwrites_and_append ... ok\ntest guards_move_sources_and_copy_sources ... ok\ntest guards_array_insertions_and_missing_object_properties ... ok\ntest inversion_preserves_original_error_and_input ... ok\ntest inverts_moves_into_ancestors_and_shifted_array_objects ... ok\ntest inverts_root_add_copy_replace_and_test_only_patches ... ok\ntest rationalization_accounts_for_tests_and_escaped_utf8_bytes ... ok\ntest guarded_rationalization_keeps_move_copy_prefixes_and_nested_replacements ... ok\ntest rationalizes_nested_parents_by_serialized_size ... ok\ntest arbitrary_precision_numbers_survive_all_standard_diff_options_and_wire ... ok\ntest plain_keeps_rotations_and_large_value_moves_byte_identical_to_native ... ok\ntest guarded_repeated_id_reordering_authenticates_the_replaced_container ... ok\ntest plain_reorders_trade_low_byte_savings_for_positional_output ... ok\ntest adaptive_plain_permutations_roundtrip_independently ... ok\ntest inverses_restore_random_standard_operation_sequences ... ok\ntest optimized_and_guarded_patches_restore_random_documents ... ok\n\ntest result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.74s\n\n     Running tests/standard_extensions.rs (target/debug/deps/standard_extensions-55160c140f2af018)\n\nrunning 8 tests\ntest read_only_tests_reject_every_mutating_operation_at_its_position ... ok\ntest guarded_inverse_rejects_the_reported_wrong_array_baseline ... ok\ntest guarded_inverse_keeps_original_errors_and_test_only_noops ... ok\ntest read_only_tests_keep_recursive_number_equality_and_escaped_paths ... ok\ntest inverse_guards_distinguish_touched_values_from_parent_snapshots ... ok\ntest read_only_failures_keep_standard_order_and_error_details ... ok\ntest guarded_inverse_restores_overwrites_arrays_roots_and_all_six_operations ... ok\ntest standard_text_generation_preserves_thresholds_filters_and_callback_order ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s\n\n     Running tests/standard_semantics.rs (target/debug/deps/standard_semantics-5e0a3cf75aaf6a8a)\n\nrunning 6 tests\ntest standard_test_error_keeps_operation_and_path ... ok\ntest root_move_to_itself_is_a_noop_and_missing_move_still_fails ... ok\ntest standard_moves_and_copies_use_the_final_destination_container ... ok\ntest standard_test_uses_mathematical_recursive_numeric_equality ... ok\ntest included_move_values_authenticate_and_remain_reversible_after_editing ... ok\ntest instance_standard_diff_applies_only_the_filtered_projection ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running tests/text_extended.rs (target/debug/deps/text_extended-12add35727756912)\n\nrunning 18 tests\ntest fuzzy_matching_preserves_complete_context_and_overlapping_exact_occurrences ... ok\ntest historical_js_inverse_coordinate_formats_remain_strict ... ok\ntest fuzzy_anchor_ties_replace_the_fragment_and_preserve_external_suffixes ... ok\ntest fuzzy_displacement_limit_counts_utf16_not_characters ... ok\ntest fuzzy_text_accepts_bounded_offsets_and_preserves_context_edits ... ok\ntest fuzzy_text_handles_long_deletions_without_losing_unicode ... ok\ntest fuzzy_text_handles_multiple_unicode_hunks_and_all_or_error ... ok\ntest common_text_blocks_trim_only_at_utf8_boundaries ... ok\ntest normalized_text_lengths_cannot_overflow_coordinates ... ok\ntest imported_js_inverses_restore_repeated_unicode_and_overlapping_context ... ok\ntest text_uri_decoding_preserves_javascript_reserved_escapes ... ok\ntest borrowed_line_tokens_keep_character_hunks_and_utf16_headers ... ok\ntest sparse_long_unicode_text_keeps_utf16_coordinates_and_context ... ok\ntest distant_unicode_edits_keep_compact_hunks_and_roundtrip ... ok\ntest large_text_replacements_and_line_boundaries_roundtrip ... ok\ntest line_groups_preserve_empty_lines_unicode_and_terminal_newlines ... ok\ntest utf16_protocol_lengths_match_the_standard_library ... ok\ntest fuzzy_unicode_offsets_preserve_surrounding_text ... ok\n\ntest result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.98s\n\n   Doc-tests palim\n\nrunning 1 test\ntest src/../README.md - (line 100) ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n\nall doctests ran in 4.23s; merged doctests compilation took 1.55s\n",
+        "sha256": "00243764c32f54aeaf0a1f3ef24857de74bc908d238e8499c01f327b0d40c34d"
+      },
+      "exit_capture_note": "The original shell returned the tail command status; all Cargo suites and doctests completed successfully."
+    },
+    {
+      "command": "cargo +1.85.0 check --lib --locked -j 2",
+      "status": "passed",
+      "wrapper_exit_code": 0,
+      "log": {
+        "text": "    Checking palim v0.3.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.06s\n",
+        "sha256": "a40bc5292f0a50113de9292b5dd37389f28ec45ed98a4bb86953c126e2f1bfe2"
+      }
+    },
+    {
+      "command": "cargo +1.85.0 check --lib --features exact-numbers --locked -j 2",
+      "status": "passed",
+      "wrapper_exit_code": 0,
+      "log": {
+        "text": "    Checking palim v0.3.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.47s\n",
+        "sha256": "58d92bd839315a114ed0c1bb6db234acb02905d151db86c797f591644e073250"
+      }
+    },
+    {
+      "command": "cargo build --release --example fixture_runner --example standard_bench --features exact-numbers --locked -j 2",
+      "status": "passed",
+      "wrapper_exit_code": 0,
+      "log": {
+        "text": "   Compiling palim v0.3.0 (/Users/apple/Desktop/code/AI/tool/secrets/palim)\n    Finished `release` profile [optimized] target(s) in 11.70s\n",
+        "sha256": "d9c2ade198b61306852c87a854b2b7bb86804482661a8d05b90e220db5e60361"
+      }
+    },
+    {
+      "command": "node tools/interop.mjs (isolated root; unchanged runner and fixture; symlink to compiled exact-number runner)",
+      "exit_code": 0,
+      "status": "passed",
+      "log": {
+        "text": "{\n  \"cases\": 1073,\n  \"counts\": {\n    \"rust_delta_js_forward\": 1073,\n    \"rust_inverse_js_backward\": 1073,\n    \"rust_rfc_js_forward\": 1073,\n    \"js_native_forward\": 1073,\n    \"js_delta_rust_roundtrip\": 1073,\n    \"js_native_backward\": 566\n  },\n  \"upstream_inverse_compatibility\": {\n    \"js_self_successes\": 566,\n    \"malformed\": [\n      {\n        \"name\": \"random-13\",\n        \"error\": \"<root>: text patch header length does not match operations\"\n      },\n      {\n        \"name\": \"random-93\",\n        \"error\": \"<root>: text patch header length does not match operations\"\n      },\n      {\n        \"name\": \"random-216\",\n        \"error\": \"<root>: text patch header length does not match operations\"\n      },\n      {\n        \"name\": \"random-285\",\n        \"error\": \"<root>: text patch header length does not match operations\"\n      }\n    ],\n    \"strict_successes\": 471,\n    \"zero_error_fuzzy_successes\": 525,\n    \"default_fuzzy_successes\": 562,\n    \"valid_fuzzy_failures\": []\n  },\n  \"upstream_inverse_failures\": 507,\n  \"failures\": []\n}\n",
+        "sha256": "3053d7aaa0a730d1ad128ba4f1b6ef4932a30f54bc62b43ee6b0936f37ca9015"
+      },
+      "summary": {
+        "cases": 1073,
+        "counts": {
+          "rust_delta_js_forward": 1073,
+          "rust_inverse_js_backward": 1073,
+          "rust_rfc_js_forward": 1073,
+          "js_native_forward": 1073,
+          "js_delta_rust_roundtrip": 1073,
+          "js_native_backward": 566
+        },
+        "upstream_inverse_compatibility": {
+          "js_self_successes": 566,
+          "malformed": [
+            {
+              "name": "random-13",
+              "error": "<root>: text patch header length does not match operations"
+            },
+            {
+              "name": "random-93",
+              "error": "<root>: text patch header length does not match operations"
+            },
+            {
+              "name": "random-216",
+              "error": "<root>: text patch header length does not match operations"
+            },
+            {
+              "name": "random-285",
+              "error": "<root>: text patch header length does not match operations"
+            }
+          ],
+          "strict_successes": 471,
+          "zero_error_fuzzy_successes": 525,
+          "default_fuzzy_successes": 562,
+          "valid_fuzzy_failures": []
+        },
+        "upstream_inverse_failures": [
+          "keyed-mixed-0",
+          "keyed-mixed-1",
+          "keyed-mixed-2",
+          "keyed-mixed-3",
+          "keyed-mixed-4",
+          "keyed-mixed-6",
+          "keyed-mixed-7",
+          "keyed-mixed-8",
+          "keyed-mixed-10",
+          "keyed-mixed-11",
+          "keyed-mixed-12",
+          "keyed-mixed-13",
+          "keyed-mixed-14",
+          "keyed-mixed-15",
+          "keyed-mixed-17",
+          "keyed-mixed-18",
+          "keyed-mixed-19",
+          "keyed-mixed-20",
+          "keyed-mixed-21",
+          "keyed-mixed-23",
+          "keyed-mixed-24",
+          "keyed-mixed-25",
+          "keyed-mixed-27",
+          "keyed-mixed-29",
+          "keyed-mixed-31",
+          "keyed-mixed-32",
+          "keyed-mixed-33",
+          "keyed-mixed-35",
+          "keyed-mixed-36",
+          "keyed-mixed-37",
+          "keyed-mixed-38",
+          "keyed-mixed-39",
+          "keyed-mixed-40",
+          "keyed-mixed-41",
+          "keyed-mixed-42",
+          "keyed-mixed-43",
+          "keyed-mixed-44",
+          "keyed-mixed-46",
+          "keyed-mixed-47",
+          "keyed-mixed-48",
+          "keyed-mixed-49",
+          "keyed-mixed-50",
+          "keyed-mixed-51",
+          "keyed-mixed-52",
+          "keyed-mixed-53",
+          "keyed-mixed-54",
+          "keyed-mixed-55",
+          "keyed-mixed-56",
+          "keyed-mixed-57",
+          "keyed-mixed-58",
+          "keyed-mixed-59",
+          "keyed-mixed-60",
+          "keyed-mixed-61",
+          "keyed-mixed-62",
+          "keyed-mixed-63",
+          "keyed-mixed-65",
+          "keyed-mixed-66",
+          "keyed-mixed-67",
+          "keyed-mixed-68",
+          "keyed-mixed-69",
+          "keyed-mixed-70",
+          "keyed-mixed-71",
+          "keyed-mixed-72",
+          "keyed-mixed-73",
+          "keyed-mixed-74",
+          "keyed-mixed-75",
+          "keyed-mixed-77",
+          "keyed-mixed-78",
+          "keyed-mixed-79",
+          "keyed-mixed-80",
+          "keyed-mixed-81",
+          "keyed-mixed-82",
+          "keyed-mixed-83",
+          "keyed-mixed-84",
+          "keyed-mixed-86",
+          "keyed-mixed-87",
+          "keyed-mixed-88",
+          "keyed-mixed-89",
+          "keyed-mixed-90",
+          "keyed-mixed-91",
+          "keyed-mixed-92",
+          "keyed-mixed-93",
+          "keyed-mixed-94",
+          "keyed-mixed-96",
+          "keyed-mixed-99",
+          "keyed-mixed-102",
+          "keyed-mixed-103",
+          "keyed-mixed-104",
+          "keyed-mixed-105",
+          "keyed-mixed-106",
+          "keyed-mixed-107",
+          "keyed-mixed-108",
+          "keyed-mixed-109",
+          "keyed-mixed-110",
+          "keyed-mixed-111",
+          "keyed-mixed-112",
+          "keyed-mixed-113",
+          "keyed-mixed-114",
+          "keyed-mixed-115",
+          "keyed-mixed-116",
+          "keyed-mixed-117",
+          "keyed-mixed-118",
+          "keyed-mixed-120",
+          "keyed-mixed-122",
+          "keyed-mixed-123",
+          "keyed-mixed-124",
+          "keyed-mixed-125",
+          "keyed-mixed-126",
+          "keyed-mixed-127",
+          "keyed-mixed-128",
+          "keyed-mixed-129",
+          "keyed-mixed-130",
+          "keyed-mixed-131",
+          "keyed-mixed-133",
+          "keyed-mixed-134",
+          "keyed-mixed-135",
+          "keyed-mixed-136",
+          "keyed-mixed-137",
+          "keyed-mixed-139",
+          "keyed-mixed-140",
+          "keyed-mixed-141",
+          "keyed-mixed-142",
+          "keyed-mixed-143",
+          "keyed-mixed-144",
+          "keyed-mixed-145",
+          "keyed-mixed-146",
+          "keyed-mixed-147",
+          "keyed-mixed-148",
+          "keyed-mixed-149",
+          "keyed-mixed-150",
+          "keyed-mixed-153",
+          "keyed-mixed-154",
+          "keyed-mixed-155",
+          "keyed-mixed-156",
+          "keyed-mixed-157",
+          "keyed-mixed-158",
+          "keyed-mixed-159",
+          "keyed-mixed-160",
+          "keyed-mixed-161",
+          "keyed-mixed-162",
+          "keyed-mixed-163",
+          "keyed-mixed-164",
+          "keyed-mixed-168",
+          "keyed-mixed-169",
+          "keyed-mixed-170",
+          "keyed-mixed-171",
+          "keyed-mixed-172",
+          "keyed-mixed-173",
+          "keyed-mixed-174",
+          "keyed-mixed-175",
+          "keyed-mixed-176",
+          "keyed-mixed-177",
+          "keyed-mixed-178",
+          "keyed-mixed-179",
+          "keyed-mixed-180",
+          "keyed-mixed-181",
+          "keyed-mixed-182",
+          "keyed-mixed-183",
+          "keyed-mixed-184",
+          "keyed-mixed-186",
+          "keyed-mixed-187",
+          "keyed-mixed-188",
+          "keyed-mixed-189",
+          "keyed-mixed-190",
+          "keyed-mixed-191",
+          "keyed-mixed-192",
+          "keyed-mixed-193",
+          "keyed-mixed-194",
+          "keyed-mixed-196",
+          "keyed-mixed-197",
+          "keyed-mixed-199",
+          "keyed-mixed-200",
+          "keyed-mixed-201",
+          "keyed-mixed-202",
+          "keyed-mixed-203",
+          "keyed-mixed-204",
+          "keyed-mixed-205",
+          "keyed-mixed-206",
+          "keyed-mixed-207",
+          "keyed-mixed-208",
+          "keyed-mixed-209",
+          "keyed-mixed-211",
+          "keyed-mixed-212",
+          "keyed-mixed-213",
+          "keyed-mixed-214",
+          "keyed-mixed-215",
+          "keyed-mixed-216",
+          "keyed-mixed-218",
+          "keyed-mixed-220",
+          "keyed-mixed-221",
+          "keyed-mixed-223",
+          "keyed-mixed-224",
+          "keyed-mixed-226",
+          "keyed-mixed-227",
+          "keyed-mixed-228",
+          "keyed-mixed-229",
+          "keyed-mixed-230",
+          "keyed-mixed-231",
+          "keyed-mixed-233",
+          "keyed-mixed-234",
+          "keyed-mixed-235",
+          "keyed-mixed-238",
+          "keyed-mixed-239",
+          "keyed-mixed-240",
+          "keyed-mixed-241",
+          "keyed-mixed-242",
+          "keyed-mixed-243",
+          "keyed-mixed-244",
+          "keyed-mixed-245",
+          "keyed-mixed-246",
+          "keyed-mixed-248",
+          "keyed-mixed-249",
+          "keyed-mixed-250",
+          "keyed-mixed-252",
+          "keyed-mixed-253",
+          "keyed-mixed-254",
+          "keyed-mixed-255",
+          "keyed-mixed-256",
+          "keyed-mixed-258",
+          "keyed-mixed-260",
+          "keyed-mixed-261",
+          "keyed-mixed-262",
+          "keyed-mixed-263",
+          "keyed-mixed-264",
+          "keyed-mixed-265",
+          "keyed-mixed-266",
+          "keyed-mixed-268",
+          "keyed-mixed-270",
+          "keyed-mixed-272",
+          "keyed-mixed-273",
+          "keyed-mixed-274",
+          "keyed-mixed-276",
+          "keyed-mixed-277",
+          "keyed-mixed-279",
+          "keyed-mixed-280",
+          "keyed-mixed-281",
+          "keyed-mixed-282",
+          "keyed-mixed-283",
+          "keyed-mixed-284",
+          "keyed-mixed-285",
+          "keyed-mixed-286",
+          "keyed-mixed-287",
+          "keyed-mixed-288",
+          "keyed-mixed-289",
+          "keyed-mixed-290",
+          "keyed-mixed-291",
+          "keyed-mixed-293",
+          "keyed-mixed-294",
+          "keyed-mixed-295",
+          "keyed-mixed-296",
+          "keyed-mixed-297",
+          "keyed-mixed-298",
+          "keyed-mixed-299",
+          "keyed-mixed-302",
+          "keyed-mixed-303",
+          "keyed-mixed-304",
+          "keyed-mixed-306",
+          "keyed-mixed-308",
+          "keyed-mixed-309",
+          "keyed-mixed-310",
+          "keyed-mixed-311",
+          "keyed-mixed-312",
+          "keyed-mixed-313",
+          "keyed-mixed-314",
+          "keyed-mixed-315",
+          "keyed-mixed-316",
+          "keyed-mixed-317",
+          "keyed-mixed-318",
+          "keyed-mixed-319",
+          "keyed-mixed-320",
+          "keyed-mixed-323",
+          "keyed-mixed-324",
+          "keyed-mixed-325",
+          "keyed-mixed-326",
+          "keyed-mixed-327",
+          "keyed-mixed-328",
+          "keyed-mixed-330",
+          "keyed-mixed-331",
+          "keyed-mixed-332",
+          "keyed-mixed-333",
+          "keyed-mixed-334",
+          "keyed-mixed-335",
+          "keyed-mixed-337",
+          "keyed-mixed-338",
+          "keyed-mixed-339",
+          "keyed-mixed-342",
+          "keyed-mixed-344",
+          "keyed-mixed-345",
+          "keyed-mixed-348",
+          "keyed-mixed-349",
+          "keyed-mixed-350",
+          "keyed-mixed-351",
+          "keyed-mixed-352",
+          "keyed-mixed-353",
+          "keyed-mixed-354",
+          "keyed-mixed-355",
+          "keyed-mixed-356",
+          "keyed-mixed-357",
+          "keyed-mixed-358",
+          "keyed-mixed-359",
+          "keyed-mixed-360",
+          "keyed-mixed-361",
+          "keyed-mixed-362",
+          "keyed-mixed-364",
+          "keyed-mixed-366",
+          "keyed-mixed-368",
+          "keyed-mixed-369",
+          "keyed-mixed-370",
+          "keyed-mixed-371",
+          "keyed-mixed-372",
+          "keyed-mixed-373",
+          "keyed-mixed-374",
+          "keyed-mixed-375",
+          "keyed-mixed-376",
+          "keyed-mixed-378",
+          "keyed-mixed-379",
+          "keyed-mixed-380",
+          "keyed-mixed-381",
+          "keyed-mixed-382",
+          "keyed-mixed-383",
+          "keyed-mixed-384",
+          "keyed-mixed-385",
+          "keyed-mixed-386",
+          "keyed-mixed-387",
+          "keyed-mixed-388",
+          "keyed-mixed-389",
+          "keyed-mixed-390",
+          "keyed-mixed-391",
+          "keyed-mixed-392",
+          "keyed-mixed-393",
+          "keyed-mixed-394",
+          "keyed-mixed-395",
+          "keyed-mixed-397",
+          "keyed-mixed-398",
+          "keyed-mixed-399",
+          "keyed-mixed-400",
+          "keyed-mixed-401",
+          "keyed-mixed-403",
+          "keyed-mixed-404",
+          "keyed-mixed-406",
+          "keyed-mixed-407",
+          "keyed-mixed-408",
+          "keyed-mixed-410",
+          "keyed-mixed-411",
+          "keyed-mixed-412",
+          "keyed-mixed-413",
+          "keyed-mixed-414",
+          "keyed-mixed-415",
+          "keyed-mixed-416",
+          "keyed-mixed-417",
+          "keyed-mixed-418",
+          "keyed-mixed-419",
+          "keyed-mixed-421",
+          "keyed-mixed-422",
+          "keyed-mixed-423",
+          "keyed-mixed-424",
+          "keyed-mixed-425",
+          "keyed-mixed-426",
+          "keyed-mixed-427",
+          "keyed-mixed-428",
+          "keyed-mixed-429",
+          "keyed-mixed-430",
+          "keyed-mixed-431",
+          "keyed-mixed-432",
+          "keyed-mixed-433",
+          "keyed-mixed-434",
+          "keyed-mixed-435",
+          "keyed-mixed-436",
+          "keyed-mixed-438",
+          "keyed-mixed-440",
+          "keyed-mixed-441",
+          "keyed-mixed-444",
+          "keyed-mixed-445",
+          "keyed-mixed-446",
+          "keyed-mixed-448",
+          "keyed-mixed-449",
+          "keyed-mixed-450",
+          "keyed-mixed-451",
+          "keyed-mixed-454",
+          "keyed-mixed-455",
+          "keyed-mixed-457",
+          "keyed-mixed-458",
+          "keyed-mixed-459",
+          "keyed-mixed-460",
+          "keyed-mixed-461",
+          "keyed-mixed-462",
+          "keyed-mixed-463",
+          "keyed-mixed-465",
+          "keyed-mixed-466",
+          "keyed-mixed-467",
+          "keyed-mixed-468",
+          "keyed-mixed-469",
+          "keyed-mixed-470",
+          "keyed-mixed-471",
+          "keyed-mixed-472",
+          "keyed-mixed-473",
+          "keyed-mixed-475",
+          "keyed-mixed-476",
+          "keyed-mixed-477",
+          "keyed-mixed-478",
+          "keyed-mixed-480",
+          "keyed-mixed-482",
+          "keyed-mixed-483",
+          "keyed-mixed-484",
+          "keyed-mixed-487",
+          "keyed-mixed-488",
+          "keyed-mixed-489",
+          "keyed-mixed-490",
+          "keyed-mixed-491",
+          "keyed-mixed-492",
+          "keyed-mixed-493",
+          "keyed-mixed-494",
+          "keyed-mixed-495",
+          "keyed-mixed-497",
+          "keyed-mixed-498",
+          "keyed-mixed-499",
+          "keyed-mixed-500",
+          "keyed-mixed-501",
+          "keyed-mixed-502",
+          "keyed-mixed-503",
+          "keyed-mixed-504",
+          "keyed-mixed-505",
+          "keyed-mixed-506",
+          "keyed-mixed-508",
+          "keyed-mixed-509",
+          "keyed-mixed-510",
+          "keyed-mixed-511",
+          "keyed-mixed-512",
+          "keyed-mixed-513",
+          "keyed-mixed-514",
+          "keyed-mixed-515",
+          "keyed-mixed-516",
+          "keyed-mixed-518",
+          "keyed-mixed-520",
+          "keyed-mixed-521",
+          "keyed-mixed-522",
+          "keyed-mixed-523",
+          "keyed-mixed-524",
+          "keyed-mixed-525",
+          "keyed-mixed-526",
+          "keyed-mixed-527",
+          "keyed-mixed-528",
+          "keyed-mixed-529",
+          "keyed-mixed-530",
+          "keyed-mixed-531",
+          "keyed-mixed-532",
+          "keyed-mixed-533",
+          "keyed-mixed-536",
+          "keyed-mixed-537",
+          "keyed-mixed-539",
+          "keyed-mixed-540",
+          "keyed-mixed-541",
+          "keyed-mixed-542",
+          "keyed-mixed-543",
+          "keyed-mixed-544",
+          "keyed-mixed-545",
+          "keyed-mixed-548",
+          "keyed-mixed-549",
+          "keyed-mixed-550",
+          "keyed-mixed-552",
+          "keyed-mixed-553",
+          "keyed-mixed-554",
+          "keyed-mixed-555",
+          "keyed-mixed-558",
+          "keyed-mixed-559",
+          "keyed-mixed-560",
+          "keyed-mixed-562",
+          "keyed-mixed-564",
+          "keyed-mixed-566",
+          "keyed-mixed-567",
+          "keyed-mixed-568",
+          "keyed-mixed-569",
+          "keyed-mixed-570",
+          "keyed-mixed-571",
+          "keyed-mixed-572",
+          "keyed-mixed-573",
+          "keyed-mixed-574",
+          "keyed-mixed-575",
+          "keyed-mixed-576",
+          "keyed-mixed-577",
+          "keyed-mixed-578",
+          "keyed-mixed-579",
+          "keyed-mixed-580",
+          "keyed-mixed-581",
+          "keyed-mixed-582",
+          "keyed-mixed-583",
+          "keyed-mixed-584",
+          "keyed-mixed-585",
+          "keyed-mixed-586",
+          "keyed-mixed-587",
+          "keyed-mixed-588",
+          "keyed-mixed-590",
+          "keyed-mixed-591",
+          "keyed-mixed-592",
+          "keyed-mixed-593",
+          "keyed-mixed-594",
+          "keyed-mixed-595",
+          "keyed-mixed-596",
+          "keyed-mixed-597",
+          "keyed-mixed-598",
+          "keyed-mixed-599",
+          "text-23",
+          "text-38",
+          "text-69",
+          "text-74",
+          "text-77",
+          "text-88"
+        ],
+        "failures": []
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/standard-benchmark.py",
+        "--dry-run",
+        "--task",
+        "pipeline",
+        "--case",
+        "small-config-edit",
+        "--output",
+        "/tmp/palim-maintenance-20261007/rfc-pipeline"
+      ],
+      "exit_code": 0,
+      "status": "passed",
+      "log": {
+        "text": "small-config-edit json-patch: verified; ops=1 bytes=53\nsmall-config-edit plain: verified; ops=1 bytes=53\nsmall-config-edit optimized: verified; ops=1 bytes=53\n{\"verified\": 3, \"measured\": 0, \"budget_skipped\": 0, \"unsupported\": 0, \"dry_run\": true, \"output\": \"/tmp/palim-maintenance-20261007/rfc-pipeline\"}\n",
+        "sha256": "94381661cb499394f455be4723534a9de6c799d22e80f31c0794ab2e7e0855eb"
+      },
+      "summary": {
+        "verified": 3,
+        "measured": 0,
+        "budget_skipped": 0,
+        "unsupported": 0,
+        "dry_run": true,
+        "output": "/tmp/palim-maintenance-20261007/rfc-pipeline"
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/standard-benchmark.py",
+        "--dry-run",
+        "--task",
+        "export",
+        "--case",
+        "small-config-edit",
+        "--output",
+        "/tmp/palim-maintenance-20261007/rfc-export"
+      ],
+      "exit_code": 0,
+      "status": "passed",
+      "log": {
+        "text": "small-config-edit plain: verified; ops=1 bytes=53\n{\"verified\": 1, \"measured\": 0, \"budget_skipped\": 0, \"unsupported\": 0, \"dry_run\": true, \"output\": \"/tmp/palim-maintenance-20261007/rfc-export\"}\n",
+        "sha256": "cf6a257b415b5cfab2c43d54d0533b75879b99f72b7b10e2ad8490d1bd4596bb"
+      },
+      "summary": {
+        "verified": 1,
+        "measured": 0,
+        "budget_skipped": 0,
+        "unsupported": 0,
+        "dry_run": true,
+        "output": "/tmp/palim-maintenance-20261007/rfc-export"
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/standard-benchmark.py",
+        "--dry-run",
+        "--task",
+        "apply",
+        "--case",
+        "batch-replace-2000",
+        "--output",
+        "/tmp/palim-maintenance-20261007/rfc-apply"
+      ],
+      "exit_code": 0,
+      "status": "passed",
+      "log": {
+        "text": "batch-replace-2000 json-patch: verified; ops=2000 bytes=122891\nbatch-replace-2000 plain: verified; ops=2000 bytes=122891\n{\"verified\": 2, \"measured\": 0, \"budget_skipped\": 0, \"unsupported\": 0, \"dry_run\": true, \"output\": \"/tmp/palim-maintenance-20261007/rfc-apply\"}\n",
+        "sha256": "80b956f7f377bfabae4bd1f120b27b37e9df14500e05781c3c9bfaea0cabb22b"
+      },
+      "summary": {
+        "verified": 2,
+        "measured": 0,
+        "budget_skipped": 0,
+        "unsupported": 0,
+        "dry_run": true,
+        "output": "/tmp/palim-maintenance-20261007/rfc-apply"
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "tools/standard-benchmark.py",
+        "--dry-run",
+        "--task",
+        "inverse",
+        "--case",
+        "batch-replace-2000",
+        "--output",
+        "/tmp/palim-maintenance-20261007/rfc-inverse"
+      ],
+      "exit_code": 0,
+      "status": "passed",
+      "log": {
+        "text": "batch-replace-2000 plain: verified; ops=2000 bytes=125781\n{\"verified\": 1, \"measured\": 0, \"budget_skipped\": 0, \"unsupported\": 0, \"dry_run\": true, \"output\": \"/tmp/palim-maintenance-20261007/rfc-inverse\"}\n",
+        "sha256": "dbf6c7a0bcf79dea334f1707cc4499a86c55eae5f46d25a362732822bfa8d1b6"
+      },
+      "summary": {
+        "verified": 1,
+        "measured": 0,
+        "budget_skipped": 0,
+        "unsupported": 0,
+        "dry_run": true,
+        "output": "/tmp/palim-maintenance-20261007/rfc-inverse"
+      }
+    }
+  ],
+  "issue_replay_attempts": [
+    {
+      "status": "failed_before_cases",
+      "reason": "Original standalone build exceeded 180-second limit",
+      "exit_code": null,
+      "log": {
+        "text": "Traceback (most recent call last):\n  File \"/Users/apple/Desktop/code/AI/tool/secrets/palim/results/github-user-needs-20261003/verify.py\", line 181, in <module>\n    built=run(['cargo','build','--release','--offline'],cwd=project,timeout=180)\n  File \"/Users/apple/Desktop/code/AI/tool/secrets/palim/results/github-user-needs-20261003/verify.py\", line 165, in run\n    r = subprocess.run(command, text=True, capture_output=True, **kwargs)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py\", line 557, in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\n                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py\", line 1221, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py\", line 2154, in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py\", line 1268, in _check_timeout\n    raise TimeoutExpired(\n    ...<2 lines>...\n            stderr=b''.join(stderr_seq) if stderr_seq else None)\nsubprocess.TimeoutExpired: Command '['cargo', 'build', '--release', '--offline']' timed out after 180 seconds\n",
+        "sha256": "b57e2f0dd48ea506c7161c33f2ab0dd266e9964ad3e25f707e5bdb959c4fb84e"
+      }
+    },
+    {
+      "status": "incomplete",
+      "reason": "Cache reuse succeeded; a subsequent independent JavaScript large input process exceeded the original 30-second limit",
+      "exit_code": null,
+      "log": {
+        "text": "Traceback (most recent call last):\n  File \"/tmp/palim-maintenance-20261007/replay-cached/verify.py\", line 213, in <module>\n    else:entry[engine]=json.loads(run(['node','--max-old-space-size=1024',str(script),str(large)],timeout=30).stdout)['rows']\n                                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/palim-maintenance-20261007/replay-cached/verify.py\", line 165, in run\n    r = subprocess.run(command, text=True, capture_output=True, **kwargs)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py\", line 557, in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\n                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py\", line 1221, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py\", line 2154, in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py\", line 1268, in _check_timeout\n    raise TimeoutExpired(\n    ...<2 lines>...\n            stderr=b''.join(stderr_seq) if stderr_seq else None)\nsubprocess.TimeoutExpired: Command '['node', '--max-old-space-size=1024', '/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-issue-probe-yl_hv4p2/upstream.mjs', '/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-issue-probe-yl_hv4p2/large.json']' timed out after 30 seconds\n",
+        "sha256": "d0639515ba268b50922d1e746a63543fd0e6679e08d93faf6e11f330a0dc130b"
+      }
+    },
+    {
+      "status": "completed",
+      "exit_code": 0,
+      "temporary_runner_changes": [
+        "reuse existing target via symlink",
+        "per-process time limit 30 -> 90 seconds; V8 old-space unchanged at 1024 MiB"
+      ],
+      "temporary_runner_sha256": "b03ae720a18155e632583f45822b948ce803bcdea25738c21f83df1e1f60ef02",
+      "original_runner_sha256": "f8856166c5d68788f720b4c8ce5c0daf106dd087d145f985dde3641ef6104f30",
+      "full_verification": {
+        "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "palim_commit": "0d1a041fa09859d51a344ec89ec7b2f6e180c223",
+        "source_sha256": {
+          "src/compare.rs": "02fe3748540bc526e520e7ccabf62ca4653e38293bf11f04bf9f6f156629dcb5",
+          "src/delta.rs": "38495e7fcfb61dce3a55c369651e0c7eaef1d8bffb6bc7246e3089a8bc0cd488",
+          "src/diff.rs": "56189b2056fc20c7d712de257fa66e38513a3852238c4266015da123fc05cf56",
+          "src/export.rs": "a99a4b9590a3bff88570e8b795b7e5584068f82db7558a1eb6a53e328dd764b9",
+          "src/lib.rs": "ece385e628b1ae2b98d57851ca64a63daf6869a2c134446651010784e3fdc455",
+          "src/merge.rs": "5d7b23a273fcd3ae516537fcf7f3adde5b3e8e2990c4394cc47a16464ef6428f",
+          "src/numbers.rs": "46ea5182594a87f5064a31c0f37645927124bd41566ca3d339180432fff9f8ec",
+          "src/patch.rs": "d526407574e8bf189815d6da49a5269d49f7997963761757449f59d0051083d2",
+          "src/rfc.rs": "ab69f979a38443c1af7cfba943e0ed0102d84b4dc695e15db56335c98c111895",
+          "src/text.rs": "db20432df20ca009df41a645d8f10140fccc611915acae61231c98a33eefaaf8"
+        },
+        "manifest_sha256": "cac17e5df2cf172dc21c7a458513e69018f904ad9d3e4a41ebaee73b091f21d0",
+        "fixture_sha256": "25d3b601ea0a6cabac4cb52b87b4a8e55a76152352870f53679a730a1674ca2f",
+        "runner_sha256": "b03ae720a18155e632583f45822b948ce803bcdea25738c21f83df1e1f60ef02",
+        "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6\n",
+        "node": "v24.14.0",
+        "note": "Loaded input diagnostic timings, large-array scenario: three independent processes/engine, alternating order, three timed samples/process; no end-to-end or general ranking claim. Upstream version is frozen, and default JS lacks a custom matcher equivalent.",
+        "build": {
+          "exit_code": 0,
+          "stderr": "   Compiling palim-github-issue-probe v0.0.0 (/private/var/folders/58/pj_81qw13l59j103s0njbw1c0000gn/T/palim-issue-probe-ljn48hy8)\n    Finished `release` profile [optimized] target(s) in 8.92s\n",
+          "lock_sha256": "83401e4774aa28e03ec0266c71039cc909037e54b705532b8b8ac91cf31b03e3"
+        },
+        "binary_sha256": "bcc96e23db91236da2d64cf16711bdf8c6411a2966a8b2f392dc88c8d76974e1",
+        "palim": [
+          {
+            "actual": {
+              "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus eu tellus sit amet tortor gravida placerat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            },
+            "delta": {
+              "text": [
+                "@@ -1,180 +1,59 @@\n-Sed d\n+L\n o\n- \n+r\n e\n+m \n i\n-u\n+p\n s\n-mod tempor incidid\n u\n-nt ut labore et\n+m\n  dolo\n-re magna aliqua. Excepteu\n r si\n-n\n t \n-occ\n a\n+m\n e\n-cat cupidatat non proiden\n t, \n-sunt in \n c\n+onsectet\n u\n-l\n+r adi\n p\n-a qu\n i\n- offi\n+s\n ci\n-a deseru\n n\n-t mollit anim id\n+g\n  e\n-st \n l\n-aborum\n+it\n . Do\n@@ -125,77 +125,220 @@\n em. \n-D\n+Lorem ipsum dolor sit amet, c\n on\n+s\n ec\n+tetur adipiscing elit. Duis aute irure dolor in reprehenderit in\n  v\n+oluptate velit esse cillum dolore eu fugiat nulla p\n ari\n+atur. Phasell\n us\n-, orci\n  e\n+u tellus sit amet tortor \n g\n-et \n r\n+av\n i\n-sus\n+da\n  \n-s\n+pla\n ce\n-le\n r\n-isque, lec\n+a\n t\n-us sem tristique lorem\n . Ut\n@@ -443,777 +443,7 @@\n sequ\n-at. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.%0A%0ADonec varius, orci eget risus scelerisque, lectus sem tristique lorem. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.%0A%0ACurabitur pretium tincidunt lacus, nulla gravida orci a odio. Phasellus eu tellus sit amet tortor gravida placerat. Phasellus eu tellus sit amet tortor gravida placer\n at.\n",
+                0,
+                2
+              ]
+            },
+            "first_diff_ms": 0.24191600000000002,
+            "incoming": {
+              "forward": true,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#438",
+            "name": "js438-text-reverse",
+            "native_bytes": 1593,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "/text",
+                "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus eu tellus sit amet tortor gravida placerat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+              }
+            ]
+          },
+          {
+            "actual": [
+              {
+                "id": "CC",
+                "relation": {
+                  "B": "22"
+                }
+              }
+            ],
+            "delta": {
+              "0": {
+                "relation": {
+                  "A": [
+                    "11",
+                    0,
+                    0
+                  ]
+                }
+              },
+              "_0": [
+                {
+                  "id": "AA"
+                },
+                0,
+                0
+              ],
+              "_1": [
+                {
+                  "id": "BB"
+                },
+                0,
+                0
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.023125,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#423",
+            "name": "js423-remove-edit",
+            "native_bytes": 90,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 3,
+            "plain_patch": [
+              {
+                "op": "remove",
+                "path": "/1"
+              },
+              {
+                "op": "remove",
+                "path": "/0"
+              },
+              {
+                "op": "remove",
+                "path": "/0/relation/A"
+              }
+            ]
+          },
+          {
+            "actual": [
+              "a1",
+              "b"
+            ],
+            "delta": {
+              "0": [
+                "a1"
+              ],
+              "_0": [
+                "a",
+                0,
+                0
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.002375,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#424",
+            "name": "js424-string-edit-default",
+            "native_bytes": 36,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 2,
+            "plain_patch": [
+              {
+                "op": "remove",
+                "path": "/0"
+              },
+              {
+                "op": "add",
+                "path": "/0",
+                "value": "a1"
+              }
+            ]
+          },
+          {
+            "actual": [
+              "a1",
+              "b"
+            ],
+            "delta": {
+              "0": [
+                "a",
+                "a1"
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.001916,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#424",
+            "name": "js424-string-edit-matcher",
+            "native_bytes": 25,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "/0",
+                "value": "a1"
+              }
+            ]
+          },
+          {
+            "actual": {
+              "A": [
+                [
+                  "B"
+                ],
+                1,
+                "C",
+                2,
+                "C"
+              ]
+            },
+            "delta": null,
+            "first_diff_ms": 0.00029099999999999997,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#420",
+            "name": "js420-identical-nested-array",
+            "native_bytes": 4,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 0,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 0,
+            "plain_patch": []
+          },
+          {
+            "actual": [
+              "fifth",
+              "fourth",
+              "third",
+              "second",
+              "first"
+            ],
+            "delta": {
+              "_1": [
+                "",
+                3,
+                3
+              ],
+              "_2": [
+                "",
+                2,
+                3
+              ],
+              "_3": [
+                "",
+                1,
+                3
+              ],
+              "_4": [
+                "",
+                0,
+                3
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.003333,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#380",
+            "name": "js380-multiple-moves",
+            "native_bytes": 66,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 4,
+            "plain_patch": [
+              {
+                "from": "/1",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/2",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/3",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/4",
+                "op": "move",
+                "path": "/0"
+              }
+            ]
+          },
+          {
+            "actual": {
+              "tree/item": 2,
+              "~key": 1
+            },
+            "delta": {
+              "tree/item": [
+                1,
+                2
+              ],
+              "~key": [
+                0,
+                1
+              ]
+            },
+            "first_diff_ms": 0.002417,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#371",
+            "name": "js371-pointer-escaping",
+            "native_bytes": 32,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 2,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "/tree~1item",
+                "value": 2
+              },
+              {
+                "op": "replace",
+                "path": "/~0key",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "actual": [
+              {
+                "capital": "Buenos Aires",
+                "independence": "1816-07-09T07:52:58.000Z",
+                "name": "Argentina",
+                "unasur": true
+              },
+              {
+                "capital": "La Pbz",
+                "independence": "1825-08-06T07:52:58.000Z",
+                "name": "Bolivia",
+                "unasur": false
+              },
+              {
+                "capital": "Brasilia",
+                "independence": "1822-09-07T07:52:58.000Z",
+                "name": "Brazil",
+                "unasur": true
+              },
+              {
+                "capital": "Sabc",
+                "independence": "1818-02-12T07:52:58.010Z",
+                "name": "Chile",
+                "unasur": true
+              }
+            ],
+            "delta": {
+              "1": {
+                "capital": [
+                  "La Paz",
+                  "La Pbz"
+                ],
+                "unasur": [
+                  true,
+                  false
+                ]
+              },
+              "3": {
+                "capital": [
+                  "Santiago",
+                  "Sabc"
+                ],
+                "independence": [
+                  "1818-02-12T07:52:58.000Z",
+                  "1818-02-12T07:52:58.010Z"
+                ]
+              },
+              "_2": [
+                "",
+                2,
+                3
+              ],
+              "_3": [
+                "",
+                1,
+                3
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.006209,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#275",
+            "name": "js275-swap-edit-undo",
+            "native_bytes": 203,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 6,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 6,
+            "plain_patch": [
+              {
+                "from": "/2",
+                "op": "move",
+                "path": "/1"
+              },
+              {
+                "from": "/3",
+                "op": "move",
+                "path": "/1"
+              },
+              {
+                "op": "replace",
+                "path": "/1/capital",
+                "value": "La Pbz"
+              },
+              {
+                "op": "replace",
+                "path": "/1/unasur",
+                "value": false
+              },
+              {
+                "op": "replace",
+                "path": "/3/capital",
+                "value": "Sabc"
+              },
+              {
+                "op": "replace",
+                "path": "/3/independence",
+                "value": "1818-02-12T07:52:58.010Z"
+              }
+            ]
+          },
+          {
+            "actual": [
+              {
+                "id": 7,
+                "style": {
+                  "zIndex": 1
+                }
+              },
+              {
+                "id": 8,
+                "style": {
+                  "zIndex": 2
+                }
+              },
+              {
+                "id": 9,
+                "style": {
+                  "zIndex": 3
+                }
+              },
+              {
+                "id": 1,
+                "style": {
+                  "zIndex": 4
+                }
+              },
+              {
+                "id": 2,
+                "style": {
+                  "zIndex": 5
+                }
+              },
+              {
+                "id": 3,
+                "style": {
+                  "zIndex": 6
+                }
+              },
+              {
+                "id": 4,
+                "style": {
+                  "zIndex": 7
+                }
+              },
+              {
+                "id": 5,
+                "style": {
+                  "zIndex": 8
+                }
+              },
+              {
+                "id": 6,
+                "style": {
+                  "zIndex": 9
+                }
+              }
+            ],
+            "delta": {
+              "0": {
+                "style": {
+                  "zIndex": [
+                    7,
+                    1
+                  ]
+                }
+              },
+              "1": {
+                "style": {
+                  "zIndex": [
+                    8,
+                    2
+                  ]
+                }
+              },
+              "2": {
+                "style": {
+                  "zIndex": [
+                    9,
+                    3
+                  ]
+                }
+              },
+              "3": {
+                "style": {
+                  "zIndex": [
+                    1,
+                    4
+                  ]
+                }
+              },
+              "4": {
+                "style": {
+                  "zIndex": [
+                    2,
+                    5
+                  ]
+                }
+              },
+              "5": {
+                "style": {
+                  "zIndex": [
+                    3,
+                    6
+                  ]
+                }
+              },
+              "6": {
+                "style": {
+                  "zIndex": [
+                    4,
+                    7
+                  ]
+                }
+              },
+              "7": {
+                "style": {
+                  "zIndex": [
+                    5,
+                    8
+                  ]
+                }
+              },
+              "8": {
+                "style": {
+                  "zIndex": [
+                    6,
+                    9
+                  ]
+                }
+              },
+              "_6": [
+                "",
+                0,
+                3
+              ],
+              "_7": [
+                "",
+                1,
+                3
+              ],
+              "_8": [
+                "",
+                2,
+                3
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.012875,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#295",
+            "name": "js295-move-and-style-undo",
+            "native_bytes": 331,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 12,
+            "plain_patch": [
+              {
+                "from": "/8",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/8",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/8",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "op": "replace",
+                "path": "/0/style/zIndex",
+                "value": 1
+              },
+              {
+                "op": "replace",
+                "path": "/1/style/zIndex",
+                "value": 2
+              },
+              {
+                "op": "replace",
+                "path": "/2/style/zIndex",
+                "value": 3
+              },
+              {
+                "op": "replace",
+                "path": "/3/style/zIndex",
+                "value": 4
+              },
+              {
+                "op": "replace",
+                "path": "/4/style/zIndex",
+                "value": 5
+              },
+              {
+                "op": "replace",
+                "path": "/5/style/zIndex",
+                "value": 6
+              },
+              {
+                "op": "replace",
+                "path": "/6/style/zIndex",
+                "value": 7
+              },
+              {
+                "op": "replace",
+                "path": "/7/style/zIndex",
+                "value": 8
+              },
+              {
+                "op": "replace",
+                "path": "/8/style/zIndex",
+                "value": 9
+              }
+            ]
+          },
+          {
+            "actual": [
+              {
+                "id": 3,
+                "val": 3
+              },
+              {
+                "id": 2,
+                "val": 2
+              },
+              {
+                "id": 1,
+                "nested": [
+                  {
+                    "id": 2,
+                    "val": 3
+                  }
+                ],
+                "val": 3
+              }
+            ],
+            "delta": {
+              "2": {
+                "nested": [
+                  [
+                    {
+                      "id": 2,
+                      "val": 3
+                    }
+                  ]
+                ]
+              },
+              "_0": [
+                {
+                  "id": 1,
+                  "nested": [
+                    {
+                      "id": 1,
+                      "val": 1
+                    },
+                    {
+                      "id": 2,
+                      "val": 2
+                    }
+                  ],
+                  "val": 1
+                },
+                0,
+                0
+              ],
+              "_3": [
+                "",
+                0,
+                3
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.0053750000000000004,
+            "incoming": null,
+            "issue": "seperman/deepdiff#540",
+            "name": "deep540-nested-duplicate-identity",
+            "native_bytes": 133,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 3,
+            "plain_patch": [
+              {
+                "op": "remove",
+                "path": "/0"
+              },
+              {
+                "from": "/2",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "op": "add",
+                "path": "/2/nested",
+                "value": [
+                  {
+                    "id": 2,
+                    "val": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "actual": {
+              "key": {
+                "bb": {
+                  "$numberInt": "1"
+                }
+              },
+              "name": "b1"
+            },
+            "delta": {
+              "key": {
+                "b": [
+                  {
+                    "$numberInt": "1"
+                  },
+                  0,
+                  0
+                ],
+                "bb": [
+                  {
+                    "$numberInt": "1"
+                  }
+                ]
+              }
+            },
+            "first_diff_ms": 0.003583,
+            "incoming": null,
+            "issue": "wI2L/jsondiff#45",
+            "name": "go45-factorize",
+            "native_bytes": 64,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 2,
+            "plain_patch": [
+              {
+                "op": "remove",
+                "path": "/key/b"
+              },
+              {
+                "op": "add",
+                "path": "/key/bb",
+                "value": {
+                  "$numberInt": "1"
+                }
+              }
+            ]
+          },
+          {
+            "actual": {
+              "nested": {
+                "include": true
+              }
+            },
+            "delta": {
+              "nested": [
+                {
+                  "include": true
+                }
+              ]
+            },
+            "first_diff_ms": 0.002,
+            "incoming": null,
+            "issue": "wI2L/jsondiff#15",
+            "name": "go15-nested-exclusion",
+            "native_bytes": 29,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "add",
+                "path": "/nested",
+                "value": {
+                  "include": true
+                }
+              }
+            ]
+          },
+          {
+            "actual": {
+              "CompareMe": 2,
+              "IgnoreMe": 2
+            },
+            "delta": [
+              null,
+              {
+                "CompareMe": 2,
+                "IgnoreMe": 2
+              }
+            ],
+            "first_diff_ms": 0.000542,
+            "incoming": null,
+            "issue": "weichch/system-text-json-jsondiffpatch#48",
+            "name": "net48-null-to-object-property-filter",
+            "native_bytes": 35,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "",
+                "value": {
+                  "CompareMe": 2,
+                  "IgnoreMe": 2
+                }
+              }
+            ]
+          },
+          {
+            "actual": {
+              "CompareMe": 2
+            },
+            "delta": [
+              null,
+              {
+                "CompareMe": 2
+              }
+            ],
+            "first_diff_ms": 0.0014169999999999999,
+            "incoming": null,
+            "issue": "weichch/system-text-json-jsondiffpatch#48",
+            "name": "net48-null-to-object-node-filter",
+            "native_bytes": 22,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "",
+                "value": {
+                  "CompareMe": 2
+                }
+              }
+            ]
+          },
+          {
+            "actual": null,
+            "delta": [
+              {
+                "CompareMe": 1,
+                "IgnoreMe": 1
+              },
+              null
+            ],
+            "first_diff_ms": 0.0005,
+            "incoming": null,
+            "issue": "weichch/system-text-json-jsondiffpatch#48",
+            "name": "net48-object-to-null-node-filter",
+            "native_bytes": 35,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "",
+                "value": null
+              }
+            ]
+          },
+          {
+            "delta1_unchanged": true,
+            "delta2_unchanged": true,
+            "forward": true,
+            "issue": "benjamine/jsondiffpatch#377",
+            "name": "js377-patch-isolation",
+            "source_unchanged": true,
+            "undo": true
+          },
+          {
+            "actual": {
+              "array": [
+                1,
+                2,
+                3
+              ]
+            },
+            "forward": true,
+            "inverse": [
+              {
+                "op": "remove",
+                "path": "/array/2"
+              }
+            ],
+            "issue": "benjamine/jsondiffpatch#434",
+            "name": "js434-append",
+            "non_mut_input": true,
+            "standard_to_native_roundtrip": true,
+            "undo": true
+          },
+          {
+            "actual": {
+              "keep": 0,
+              "old": [
+                1
+              ]
+            },
+            "forward": true,
+            "inverse": [
+              {
+                "op": "add",
+                "path": "/old/1",
+                "value": 2
+              }
+            ],
+            "issue": "idubrov/json-patch#7",
+            "name": "rust7-invert-standard",
+            "non_mut_input": true,
+            "standard_to_native_roundtrip": true,
+            "undo": true
+          },
+          {
+            "actual": {
+              "style": [
+                {
+                  "ref": "hello"
+                }
+              ]
+            },
+            "delta": {
+              "style": [
+                {
+                  "ref": "name"
+                },
+                [
+                  {
+                    "ref": "hello"
+                  }
+                ]
+              ]
+            },
+            "first_diff_ms": 0.002334,
+            "incoming": null,
+            "issue": "idubrov/json-patch#37",
+            "name": "rust37-object-to-array",
+            "native_bytes": 44,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "/style",
+                "value": [
+                  {
+                    "ref": "hello"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "actual": {
+              "preferences": {
+                "option": {
+                  "active": true,
+                  "parameters": {
+                    "alert_type": "everyone",
+                    "duration_value": 30
+                  }
+                }
+              }
+            },
+            "delta": {
+              "preferences": [
+                {
+                  "option": {
+                    "active": true,
+                    "parameters": {
+                      "alert_type": "everyone",
+                      "duration_value": 30
+                    }
+                  }
+                }
+              ]
+            },
+            "first_diff_ms": 0.0011250000000000001,
+            "incoming": null,
+            "issue": "wI2L/jsondiff#38",
+            "name": "go38-leaf-patch-granularity",
+            "native_bytes": 103,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "add",
+                "path": "/preferences",
+                "value": {
+                  "option": {
+                    "active": true,
+                    "parameters": {
+                      "alert_type": "everyone",
+                      "duration_value": 30
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "guarded_reordered_undo": {
+              "accepted": true,
+              "value": [
+                {
+                  "code": "2"
+                },
+                {
+                  "code": "3"
+                }
+              ]
+            },
+            "issue": "benjamine/jsondiffpatch#254",
+            "name": "js254-reordered-baseline",
+            "original_baseline_undo": true,
+            "reordered_undo": {
+              "accepted": false,
+              "error": "/0: array operation old value does not match"
+            }
+          },
+          {
+            "callback_paths": [],
+            "issue": "seperman/deepdiff#562",
+            "name": "deep562-common-fields",
+            "report": {
+              "differences": [],
+              "moves": [],
+              "similarity": 1.0,
+              "visited": 7
+            }
+          },
+          {
+            "callback_paths": [],
+            "issue": "weichch/system-text-json-jsondiffpatch#52",
+            "name": "net52-contain-subtree",
+            "report": {
+              "differences": [],
+              "moves": [],
+              "similarity": 1.0,
+              "visited": 5
+            }
+          },
+          {
+            "callback_paths": [],
+            "issue": "weichch/system-text-json-jsondiffpatch#39",
+            "name": "net39-unordered",
+            "report": {
+              "differences": [],
+              "moves": [],
+              "similarity": 1.0,
+              "visited": 55
+            }
+          },
+          {
+            "callback_paths": [],
+            "issue": "weichch/system-text-json-jsondiffpatch#39",
+            "name": "net39-unordered-count-change",
+            "report": {
+              "differences": [
+                {
+                  "left": 2,
+                  "path": "/2"
+                }
+              ],
+              "moves": [],
+              "similarity": 0.6666666666666666,
+              "visited": 14
+            }
+          },
+          {
+            "callback_paths": [
+              "",
+              "/a",
+              "/a/v"
+            ],
+            "issue": "seperman/deepdiff#633",
+            "name": "deep633-filter-before-callback",
+            "report": {
+              "differences": [],
+              "moves": [],
+              "similarity": 1.0,
+              "visited": 4
+            }
+          },
+          {
+            "actual": {
+              "x": 1
+            },
+            "forward": true,
+            "inverse": [],
+            "issue": "idubrov/json-patch#52",
+            "name": "rust52-test-immutable",
+            "non_mut_input": true,
+            "standard_to_native_roundtrip": true,
+            "undo": true
+          },
+          {
+            "error": "/?/name: operation '/0' failed at path '/?/name': path is invalid",
+            "issue": "idubrov/json-patch#42",
+            "name": "rust42-wildcard",
+            "rejected": true
+          },
+          {
+            "delta": {
+              "21936": [
+                "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+              ],
+              "21937": [
+                "de625f97-5e89-4726-9e02-d1306343bc04"
+              ],
+              "21938": [
+                "690859f5-23a6-4707-9410-81d97b5a9478"
+              ],
+              "21939": [
+                "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+              ],
+              "21940": [
+                "00e7772d-d772-4eea-bee8-e4589d54c393"
+              ],
+              "21941": [
+                "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+              ],
+              "21942": [
+                "f526f20d-51d9-490f-9b11-071f7b30601a"
+              ],
+              "21943": [
+                "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+              ],
+              "21944": [
+                "171ed67f-74ab-4182-92d2-4162af16b54c"
+              ],
+              "21945": [
+                "08480d68-50b9-4de0-914a-aabbcd57089a"
+              ],
+              "21946": [
+                "50c5553f-c4bd-48da-830c-5fda180cebc5"
+              ],
+              "21947": [
+                "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+              ],
+              "21948": [
+                "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+              ],
+              "21949": [
+                "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+              ],
+              "21950": [
+                "cb536672-15d0-4c62-bd70-299d4f619b33"
+              ],
+              "21951": [
+                "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+              ],
+              "21952": [
+                "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+              ],
+              "21953": [
+                "f24b53d1-ece9-4c95-84cd-0f868379e813"
+              ],
+              "21954": [
+                "9a3c797e-876e-4113-805c-d47d00967eeb"
+              ],
+              "21955": [
+                "55cff641-9dda-43cc-8300-d9b64ad813b3"
+              ],
+              "21956": [
+                "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+              ],
+              "21957": [
+                "643e5ef4-7072-452d-8d71-5a61272cde06"
+              ],
+              "21958": [
+                "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+              ],
+              "21959": [
+                "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+              ],
+              "21960": [
+                "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+              ],
+              "21961": [
+                "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+              ],
+              "21962": [
+                "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+              ],
+              "21963": [
+                "a0fa175b-d70f-45ac-a540-22a250446beb"
+              ],
+              "21964": [
+                "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+              ],
+              "21965": [
+                "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+              ],
+              "21966": [
+                "4d814145-4912-4d0b-ba51-47fa8d529183"
+              ],
+              "21967": [
+                "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+              ],
+              "21968": [
+                "442cb774-045c-4bb8-ad0d-c152b301319b"
+              ],
+              "21969": [
+                "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 1.996542,
+            "incoming": null,
+            "issue": "benjamine/jsondiffpatch#365",
+            "loaded_diff_samples_ms": [
+              1.3475,
+              20.423959,
+              1.413542
+            ],
+            "name": "js365-large-string-array",
+            "native_bytes": 1676,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 34,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 34,
+            "plain_patch": [
+              {
+                "op": "add",
+                "path": "/21936",
+                "value": "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+              },
+              {
+                "op": "add",
+                "path": "/21937",
+                "value": "de625f97-5e89-4726-9e02-d1306343bc04"
+              },
+              {
+                "op": "add",
+                "path": "/21938",
+                "value": "690859f5-23a6-4707-9410-81d97b5a9478"
+              },
+              {
+                "op": "add",
+                "path": "/21939",
+                "value": "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+              },
+              {
+                "op": "add",
+                "path": "/21940",
+                "value": "00e7772d-d772-4eea-bee8-e4589d54c393"
+              },
+              {
+                "op": "add",
+                "path": "/21941",
+                "value": "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+              },
+              {
+                "op": "add",
+                "path": "/21942",
+                "value": "f526f20d-51d9-490f-9b11-071f7b30601a"
+              },
+              {
+                "op": "add",
+                "path": "/21943",
+                "value": "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+              },
+              {
+                "op": "add",
+                "path": "/21944",
+                "value": "171ed67f-74ab-4182-92d2-4162af16b54c"
+              },
+              {
+                "op": "add",
+                "path": "/21945",
+                "value": "08480d68-50b9-4de0-914a-aabbcd57089a"
+              },
+              {
+                "op": "add",
+                "path": "/21946",
+                "value": "50c5553f-c4bd-48da-830c-5fda180cebc5"
+              },
+              {
+                "op": "add",
+                "path": "/21947",
+                "value": "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+              },
+              {
+                "op": "add",
+                "path": "/21948",
+                "value": "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+              },
+              {
+                "op": "add",
+                "path": "/21949",
+                "value": "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+              },
+              {
+                "op": "add",
+                "path": "/21950",
+                "value": "cb536672-15d0-4c62-bd70-299d4f619b33"
+              },
+              {
+                "op": "add",
+                "path": "/21951",
+                "value": "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+              },
+              {
+                "op": "add",
+                "path": "/21952",
+                "value": "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+              },
+              {
+                "op": "add",
+                "path": "/21953",
+                "value": "f24b53d1-ece9-4c95-84cd-0f868379e813"
+              },
+              {
+                "op": "add",
+                "path": "/21954",
+                "value": "9a3c797e-876e-4113-805c-d47d00967eeb"
+              },
+              {
+                "op": "add",
+                "path": "/21955",
+                "value": "55cff641-9dda-43cc-8300-d9b64ad813b3"
+              },
+              {
+                "op": "add",
+                "path": "/21956",
+                "value": "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+              },
+              {
+                "op": "add",
+                "path": "/21957",
+                "value": "643e5ef4-7072-452d-8d71-5a61272cde06"
+              },
+              {
+                "op": "add",
+                "path": "/21958",
+                "value": "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+              },
+              {
+                "op": "add",
+                "path": "/21959",
+                "value": "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+              },
+              {
+                "op": "add",
+                "path": "/21960",
+                "value": "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+              },
+              {
+                "op": "add",
+                "path": "/21961",
+                "value": "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+              },
+              {
+                "op": "add",
+                "path": "/21962",
+                "value": "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+              },
+              {
+                "op": "add",
+                "path": "/21963",
+                "value": "a0fa175b-d70f-45ac-a540-22a250446beb"
+              },
+              {
+                "op": "add",
+                "path": "/21964",
+                "value": "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+              },
+              {
+                "op": "add",
+                "path": "/21965",
+                "value": "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+              },
+              {
+                "op": "add",
+                "path": "/21966",
+                "value": "4d814145-4912-4d0b-ba51-47fa8d529183"
+              },
+              {
+                "op": "add",
+                "path": "/21967",
+                "value": "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+              },
+              {
+                "op": "add",
+                "path": "/21968",
+                "value": "442cb774-045c-4bb8-ad0d-c152b301319b"
+              },
+              {
+                "op": "add",
+                "path": "/21969",
+                "value": "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+              }
+            ]
+          }
+        ],
+        "javascript": [
+          {
+            "name": "js438-text-reverse",
+            "first_diff_ms": 535.573042,
+            "has_delta": true,
+            "native_forward": true,
+            "undo_error": "text patch failed",
+            "rfc_error": "JSONPatch (RFC 6902) doesn't support text diffs, disable textDiff option"
+          },
+          {
+            "name": "js423-remove-edit",
+            "first_diff_ms": 0.24208400000009078,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 3
+          },
+          {
+            "name": "js424-string-edit-default",
+            "first_diff_ms": 0.4307080000000951,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 2
+          },
+          {
+            "name": "js424-string-edit-matcher",
+            "first_diff_ms": 0.2640830000000278,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 2
+          },
+          {
+            "name": "js420-identical-nested-array",
+            "first_diff_ms": 0.058291999999937616,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 2
+          },
+          {
+            "name": "js380-multiple-moves",
+            "first_diff_ms": 0.08458299999995234,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 4
+          },
+          {
+            "name": "js371-pointer-escaping",
+            "first_diff_ms": 0.06779200000005403,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 2
+          },
+          {
+            "name": "js275-swap-edit-undo",
+            "first_diff_ms": 0.09154099999989285,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": false,
+            "rfc_forward": true,
+            "rfc_operations": 6
+          },
+          {
+            "name": "js295-move-and-style-undo",
+            "first_diff_ms": 0.48516699999993307,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": false,
+            "rfc_forward": true,
+            "rfc_operations": 12
+          },
+          {
+            "name": "deep540-nested-duplicate-identity",
+            "first_diff_ms": 0.0730829999999969,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 3
+          },
+          {
+            "name": "go45-factorize",
+            "first_diff_ms": 0.0257090000000062,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 2
+          },
+          {
+            "name": "go15-nested-exclusion",
+            "first_diff_ms": 0.0049999999999954525,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 1
+          },
+          {
+            "name": "net48-null-to-object-property-filter",
+            "first_diff_ms": 0.009584000000018023,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 1
+          },
+          {
+            "name": "net48-null-to-object-node-filter",
+            "first_diff_ms": 0.0012080000000196378,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 1
+          },
+          {
+            "name": "net48-object-to-null-node-filter",
+            "first_diff_ms": 0.0013749999999390639,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 1
+          },
+          {
+            "name": "js377-patch-isolation",
+            "forward": true,
+            "delta1_unchanged": false
+          },
+          {
+            "name": "rust37-object-to-array",
+            "first_diff_ms": 0.007291000000009262,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 1
+          },
+          {
+            "name": "go38-leaf-patch-granularity",
+            "first_diff_ms": 0.003249999999979991,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 1
+          },
+          {
+            "name": "js365-large-string-array",
+            "first_diff_ms": 13343.05875,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 34,
+            "loaded_diff_samples_ms": [
+              9820.741291999999,
+              11103.916042,
+              15379.589042
+            ]
+          },
+          {
+            "name": "js365-large-string-array-js-workaround",
+            "option": "matchByPosition:false",
+            "first_diff_ms": 11.217083000003186,
+            "has_delta": true,
+            "native_forward": true,
+            "native_undo": true,
+            "rfc_forward": true,
+            "rfc_operations": 34,
+            "loaded_diff_samples_ms": [
+              21.742082999997365,
+              3.742415999993682,
+              7.394916999997804
+            ]
+          }
+        ],
+        "js_packages": {
+          "jsondiffpatch": "0.7.6",
+          "fast-json-patch": "3.1.1"
+        },
+        "palim_import_js_delta": [
+          {
+            "actual": {
+              "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus eu tellus sit amet tortor gravida placerat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            },
+            "delta": {
+              "text": [
+                "@@ -1,180 +1,59 @@\n-Sed d\n+L\n o\n- \n+r\n e\n+m \n i\n-u\n+p\n s\n-mod tempor incidid\n u\n-nt ut labore et\n+m\n  dolo\n-re magna aliqua. Excepteu\n r si\n-n\n t \n-occ\n a\n+m\n e\n-cat cupidatat non proiden\n t, \n-sunt in \n c\n+onsectet\n u\n-l\n+r adi\n p\n-a qu\n i\n- offi\n+s\n ci\n-a deseru\n n\n-t mollit anim id\n+g\n  e\n-st \n l\n-aborum\n+it\n . Do\n@@ -125,77 +125,220 @@\n em. \n-D\n+Lorem ipsum dolor sit amet, c\n on\n+s\n ec\n+tetur adipiscing elit. Duis aute irure dolor in reprehenderit in\n  v\n+oluptate velit esse cillum dolore eu fugiat nulla p\n ari\n+atur. Phasell\n us\n-, orci\n  e\n+u tellus sit amet tortor \n g\n-et \n r\n+av\n i\n-sus\n+da\n  \n-s\n+pla\n ce\n-le\n r\n-isque, lec\n+a\n t\n-us sem tristique lorem\n . Ut\n@@ -443,777 +443,7 @@\n sequ\n-at. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.%0A%0ADonec varius, orci eget risus scelerisque, lectus sem tristique lorem. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.%0A%0ACurabitur pretium tincidunt lacus, nulla gravida orci a odio. Phasellus eu tellus sit amet tortor gravida placerat. Phasellus eu tellus sit amet tortor gravida placer\n at.\n",
+                0,
+                2
+              ]
+            },
+            "first_diff_ms": 0.08695900000000001,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": false,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#438",
+            "name": "js438-text-reverse",
+            "native_bytes": 1593,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "/text",
+                "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius, orci eget risus scelerisque, lectus sem tristique lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus eu tellus sit amet tortor gravida placerat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+              }
+            ]
+          },
+          {
+            "actual": [
+              {
+                "id": "CC",
+                "relation": {
+                  "B": "22"
+                }
+              }
+            ],
+            "delta": {
+              "0": {
+                "relation": {
+                  "A": [
+                    "11",
+                    0,
+                    0
+                  ]
+                }
+              },
+              "_0": [
+                {
+                  "id": "AA"
+                },
+                0,
+                0
+              ],
+              "_1": [
+                {
+                  "id": "BB"
+                },
+                0,
+                0
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.01275,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#423",
+            "name": "js423-remove-edit",
+            "native_bytes": 90,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 3,
+            "plain_patch": [
+              {
+                "op": "remove",
+                "path": "/1"
+              },
+              {
+                "op": "remove",
+                "path": "/0"
+              },
+              {
+                "op": "remove",
+                "path": "/0/relation/A"
+              }
+            ]
+          },
+          {
+            "actual": [
+              "a1",
+              "b"
+            ],
+            "delta": {
+              "0": [
+                "a1"
+              ],
+              "_0": [
+                "a",
+                0,
+                0
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.002458,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#424",
+            "name": "js424-string-edit-default",
+            "native_bytes": 36,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 2,
+            "plain_patch": [
+              {
+                "op": "remove",
+                "path": "/0"
+              },
+              {
+                "op": "add",
+                "path": "/0",
+                "value": "a1"
+              }
+            ]
+          },
+          {
+            "actual": [
+              "a1",
+              "b"
+            ],
+            "delta": {
+              "0": [
+                "a",
+                "a1"
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.003583,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#424",
+            "name": "js424-string-edit-matcher",
+            "native_bytes": 25,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "/0",
+                "value": "a1"
+              }
+            ]
+          },
+          {
+            "actual": {
+              "A": [
+                [
+                  "B"
+                ],
+                1,
+                "C",
+                2,
+                "C"
+              ]
+            },
+            "delta": null,
+            "first_diff_ms": 0.000375,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#420",
+            "name": "js420-identical-nested-array",
+            "native_bytes": 4,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 0,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 0,
+            "plain_patch": []
+          },
+          {
+            "actual": [
+              "fifth",
+              "fourth",
+              "third",
+              "second",
+              "first"
+            ],
+            "delta": {
+              "_1": [
+                "",
+                3,
+                3
+              ],
+              "_2": [
+                "",
+                2,
+                3
+              ],
+              "_3": [
+                "",
+                1,
+                3
+              ],
+              "_4": [
+                "",
+                0,
+                3
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.00325,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#380",
+            "name": "js380-multiple-moves",
+            "native_bytes": 66,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 4,
+            "plain_patch": [
+              {
+                "from": "/1",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/2",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/3",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/4",
+                "op": "move",
+                "path": "/0"
+              }
+            ]
+          },
+          {
+            "actual": {
+              "tree/item": 2,
+              "~key": 1
+            },
+            "delta": {
+              "tree/item": [
+                1,
+                2
+              ],
+              "~key": [
+                0,
+                1
+              ]
+            },
+            "first_diff_ms": 0.001708,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#371",
+            "name": "js371-pointer-escaping",
+            "native_bytes": 32,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 2,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "/tree~1item",
+                "value": 2
+              },
+              {
+                "op": "replace",
+                "path": "/~0key",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "actual": [
+              {
+                "capital": "Buenos Aires",
+                "independence": "1816-07-09T07:52:58.000Z",
+                "name": "Argentina",
+                "unasur": true
+              },
+              {
+                "capital": "La Pbz",
+                "independence": "1825-08-06T07:52:58.000Z",
+                "name": "Bolivia",
+                "unasur": false
+              },
+              {
+                "capital": "Brasilia",
+                "independence": "1822-09-07T07:52:58.000Z",
+                "name": "Brazil",
+                "unasur": true
+              },
+              {
+                "capital": "Sabc",
+                "independence": "1818-02-12T07:52:58.010Z",
+                "name": "Chile",
+                "unasur": true
+              }
+            ],
+            "delta": {
+              "1": {
+                "capital": [
+                  "La Paz",
+                  "La Pbz"
+                ],
+                "unasur": [
+                  true,
+                  false
+                ]
+              },
+              "3": {
+                "capital": [
+                  "Santiago",
+                  "Sabc"
+                ],
+                "independence": [
+                  "1818-02-12T07:52:58.000Z",
+                  "1818-02-12T07:52:58.010Z"
+                ]
+              },
+              "_2": [
+                "",
+                2,
+                3
+              ],
+              "_3": [
+                "",
+                1,
+                3
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.006208,
+            "incoming": {
+              "forward": true,
+              "js_inverse_error": "/2/capital: replacement old value does not match",
+              "js_inverse_exact": false,
+              "js_inverse_fuzzy": false,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#275",
+            "name": "js275-swap-edit-undo",
+            "native_bytes": 203,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 6,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 6,
+            "plain_patch": [
+              {
+                "from": "/2",
+                "op": "move",
+                "path": "/1"
+              },
+              {
+                "from": "/3",
+                "op": "move",
+                "path": "/1"
+              },
+              {
+                "op": "replace",
+                "path": "/1/capital",
+                "value": "La Pbz"
+              },
+              {
+                "op": "replace",
+                "path": "/1/unasur",
+                "value": false
+              },
+              {
+                "op": "replace",
+                "path": "/3/capital",
+                "value": "Sabc"
+              },
+              {
+                "op": "replace",
+                "path": "/3/independence",
+                "value": "1818-02-12T07:52:58.010Z"
+              }
+            ]
+          },
+          {
+            "actual": [
+              {
+                "id": 7,
+                "style": {
+                  "zIndex": 1
+                }
+              },
+              {
+                "id": 8,
+                "style": {
+                  "zIndex": 2
+                }
+              },
+              {
+                "id": 9,
+                "style": {
+                  "zIndex": 3
+                }
+              },
+              {
+                "id": 1,
+                "style": {
+                  "zIndex": 4
+                }
+              },
+              {
+                "id": 2,
+                "style": {
+                  "zIndex": 5
+                }
+              },
+              {
+                "id": 3,
+                "style": {
+                  "zIndex": 6
+                }
+              },
+              {
+                "id": 4,
+                "style": {
+                  "zIndex": 7
+                }
+              },
+              {
+                "id": 5,
+                "style": {
+                  "zIndex": 8
+                }
+              },
+              {
+                "id": 6,
+                "style": {
+                  "zIndex": 9
+                }
+              }
+            ],
+            "delta": {
+              "0": {
+                "style": {
+                  "zIndex": [
+                    7,
+                    1
+                  ]
+                }
+              },
+              "1": {
+                "style": {
+                  "zIndex": [
+                    8,
+                    2
+                  ]
+                }
+              },
+              "2": {
+                "style": {
+                  "zIndex": [
+                    9,
+                    3
+                  ]
+                }
+              },
+              "3": {
+                "style": {
+                  "zIndex": [
+                    1,
+                    4
+                  ]
+                }
+              },
+              "4": {
+                "style": {
+                  "zIndex": [
+                    2,
+                    5
+                  ]
+                }
+              },
+              "5": {
+                "style": {
+                  "zIndex": [
+                    3,
+                    6
+                  ]
+                }
+              },
+              "6": {
+                "style": {
+                  "zIndex": [
+                    4,
+                    7
+                  ]
+                }
+              },
+              "7": {
+                "style": {
+                  "zIndex": [
+                    5,
+                    8
+                  ]
+                }
+              },
+              "8": {
+                "style": {
+                  "zIndex": [
+                    6,
+                    9
+                  ]
+                }
+              },
+              "_6": [
+                "",
+                0,
+                3
+              ],
+              "_7": [
+                "",
+                1,
+                3
+              ],
+              "_8": [
+                "",
+                2,
+                3
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.012667,
+            "incoming": {
+              "forward": true,
+              "js_inverse_error": "/1/style/zIndex: replacement old value does not match",
+              "js_inverse_exact": false,
+              "js_inverse_fuzzy": false,
+              "undo": true
+            },
+            "issue": "benjamine/jsondiffpatch#295",
+            "name": "js295-move-and-style-undo",
+            "native_bytes": 331,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 12,
+            "plain_patch": [
+              {
+                "from": "/8",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/8",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "from": "/8",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "op": "replace",
+                "path": "/0/style/zIndex",
+                "value": 1
+              },
+              {
+                "op": "replace",
+                "path": "/1/style/zIndex",
+                "value": 2
+              },
+              {
+                "op": "replace",
+                "path": "/2/style/zIndex",
+                "value": 3
+              },
+              {
+                "op": "replace",
+                "path": "/3/style/zIndex",
+                "value": 4
+              },
+              {
+                "op": "replace",
+                "path": "/4/style/zIndex",
+                "value": 5
+              },
+              {
+                "op": "replace",
+                "path": "/5/style/zIndex",
+                "value": 6
+              },
+              {
+                "op": "replace",
+                "path": "/6/style/zIndex",
+                "value": 7
+              },
+              {
+                "op": "replace",
+                "path": "/7/style/zIndex",
+                "value": 8
+              },
+              {
+                "op": "replace",
+                "path": "/8/style/zIndex",
+                "value": 9
+              }
+            ]
+          },
+          {
+            "actual": [
+              {
+                "id": 3,
+                "val": 3
+              },
+              {
+                "id": 2,
+                "val": 2
+              },
+              {
+                "id": 1,
+                "nested": [
+                  {
+                    "id": 2,
+                    "val": 3
+                  }
+                ],
+                "val": 3
+              }
+            ],
+            "delta": {
+              "2": {
+                "nested": [
+                  [
+                    {
+                      "id": 2,
+                      "val": 3
+                    }
+                  ]
+                ]
+              },
+              "_0": [
+                {
+                  "id": 1,
+                  "nested": [
+                    {
+                      "id": 1,
+                      "val": 1
+                    },
+                    {
+                      "id": 2,
+                      "val": 2
+                    }
+                  ],
+                  "val": 1
+                },
+                0,
+                0
+              ],
+              "_3": [
+                "",
+                0,
+                3
+              ],
+              "_t": "a"
+            },
+            "first_diff_ms": 0.0052499999999999995,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "seperman/deepdiff#540",
+            "name": "deep540-nested-duplicate-identity",
+            "native_bytes": 133,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 3,
+            "plain_patch": [
+              {
+                "op": "remove",
+                "path": "/0"
+              },
+              {
+                "from": "/2",
+                "op": "move",
+                "path": "/0"
+              },
+              {
+                "op": "add",
+                "path": "/2/nested",
+                "value": [
+                  {
+                    "id": 2,
+                    "val": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "actual": {
+              "key": {
+                "bb": {
+                  "$numberInt": "1"
+                }
+              },
+              "name": "b1"
+            },
+            "delta": {
+              "key": {
+                "b": [
+                  {
+                    "$numberInt": "1"
+                  },
+                  0,
+                  0
+                ],
+                "bb": [
+                  {
+                    "$numberInt": "1"
+                  }
+                ]
+              }
+            },
+            "first_diff_ms": 0.0012920000000000002,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "wI2L/jsondiff#45",
+            "name": "go45-factorize",
+            "native_bytes": 64,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 2,
+            "plain_patch": [
+              {
+                "op": "remove",
+                "path": "/key/b"
+              },
+              {
+                "op": "add",
+                "path": "/key/bb",
+                "value": {
+                  "$numberInt": "1"
+                }
+              }
+            ]
+          },
+          {
+            "actual": {
+              "nested": {
+                "include": true
+              }
+            },
+            "delta": {
+              "nested": [
+                {
+                  "include": true
+                }
+              ]
+            },
+            "first_diff_ms": 0.00125,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "wI2L/jsondiff#15",
+            "name": "go15-nested-exclusion",
+            "native_bytes": 29,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "add",
+                "path": "/nested",
+                "value": {
+                  "include": true
+                }
+              }
+            ]
+          },
+          {
+            "actual": {
+              "CompareMe": 2,
+              "IgnoreMe": 2
+            },
+            "delta": [
+              null,
+              {
+                "CompareMe": 2,
+                "IgnoreMe": 2
+              }
+            ],
+            "first_diff_ms": 0.00029099999999999997,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "weichch/system-text-json-jsondiffpatch#48",
+            "name": "net48-null-to-object-property-filter",
+            "native_bytes": 35,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "",
+                "value": {
+                  "CompareMe": 2,
+                  "IgnoreMe": 2
+                }
+              }
+            ]
+          },
+          {
+            "actual": {
+              "CompareMe": 2
+            },
+            "delta": [
+              null,
+              {
+                "CompareMe": 2
+              }
+            ],
+            "first_diff_ms": 0.00075,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "weichch/system-text-json-jsondiffpatch#48",
+            "name": "net48-null-to-object-node-filter",
+            "native_bytes": 22,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "",
+                "value": {
+                  "CompareMe": 2
+                }
+              }
+            ]
+          },
+          {
+            "actual": null,
+            "delta": [
+              {
+                "CompareMe": 1,
+                "IgnoreMe": 1
+              },
+              null
+            ],
+            "first_diff_ms": 0.00025,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "weichch/system-text-json-jsondiffpatch#48",
+            "name": "net48-object-to-null-node-filter",
+            "native_bytes": 35,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "",
+                "value": null
+              }
+            ]
+          },
+          {
+            "actual": {
+              "style": [
+                {
+                  "ref": "hello"
+                }
+              ]
+            },
+            "delta": {
+              "style": [
+                {
+                  "ref": "name"
+                },
+                [
+                  {
+                    "ref": "hello"
+                  }
+                ]
+              ]
+            },
+            "first_diff_ms": 0.000709,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "idubrov/json-patch#37",
+            "name": "rust37-object-to-array",
+            "native_bytes": 44,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "replace",
+                "path": "/style",
+                "value": [
+                  {
+                    "ref": "hello"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "actual": {
+              "preferences": {
+                "option": {
+                  "active": true,
+                  "parameters": {
+                    "alert_type": "everyone",
+                    "duration_value": 30
+                  }
+                }
+              }
+            },
+            "delta": {
+              "preferences": [
+                {
+                  "option": {
+                    "active": true,
+                    "parameters": {
+                      "alert_type": "everyone",
+                      "duration_value": 30
+                    }
+                  }
+                }
+              ]
+            },
+            "first_diff_ms": 0.000958,
+            "incoming": {
+              "forward": true,
+              "js_inverse_exact": true,
+              "js_inverse_fuzzy": true,
+              "undo": true
+            },
+            "issue": "wI2L/jsondiff#38",
+            "name": "go38-leaf-patch-granularity",
+            "native_bytes": 103,
+            "native_forward": true,
+            "native_undo": true,
+            "optimized_forward": true,
+            "optimized_operations": 1,
+            "plain_forward": true,
+            "plain_inverse_independent": true,
+            "plain_operations": 1,
+            "plain_patch": [
+              {
+                "op": "add",
+                "path": "/preferences",
+                "value": {
+                  "option": {
+                    "active": true,
+                    "parameters": {
+                      "alert_type": "everyone",
+                      "duration_value": 30
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "js_large": {
+          "exit_code": 0,
+          "stderr": "",
+          "memory_limit_mib": 1024,
+          "timeout_seconds": 90
+        },
+        "large_processes": [
+          {
+            "process": 1,
+            "palim": [
+              {
+                "delta": {
+                  "21936": [
+                    "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+                  ],
+                  "21937": [
+                    "de625f97-5e89-4726-9e02-d1306343bc04"
+                  ],
+                  "21938": [
+                    "690859f5-23a6-4707-9410-81d97b5a9478"
+                  ],
+                  "21939": [
+                    "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+                  ],
+                  "21940": [
+                    "00e7772d-d772-4eea-bee8-e4589d54c393"
+                  ],
+                  "21941": [
+                    "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+                  ],
+                  "21942": [
+                    "f526f20d-51d9-490f-9b11-071f7b30601a"
+                  ],
+                  "21943": [
+                    "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+                  ],
+                  "21944": [
+                    "171ed67f-74ab-4182-92d2-4162af16b54c"
+                  ],
+                  "21945": [
+                    "08480d68-50b9-4de0-914a-aabbcd57089a"
+                  ],
+                  "21946": [
+                    "50c5553f-c4bd-48da-830c-5fda180cebc5"
+                  ],
+                  "21947": [
+                    "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+                  ],
+                  "21948": [
+                    "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+                  ],
+                  "21949": [
+                    "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+                  ],
+                  "21950": [
+                    "cb536672-15d0-4c62-bd70-299d4f619b33"
+                  ],
+                  "21951": [
+                    "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+                  ],
+                  "21952": [
+                    "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+                  ],
+                  "21953": [
+                    "f24b53d1-ece9-4c95-84cd-0f868379e813"
+                  ],
+                  "21954": [
+                    "9a3c797e-876e-4113-805c-d47d00967eeb"
+                  ],
+                  "21955": [
+                    "55cff641-9dda-43cc-8300-d9b64ad813b3"
+                  ],
+                  "21956": [
+                    "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+                  ],
+                  "21957": [
+                    "643e5ef4-7072-452d-8d71-5a61272cde06"
+                  ],
+                  "21958": [
+                    "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+                  ],
+                  "21959": [
+                    "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+                  ],
+                  "21960": [
+                    "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+                  ],
+                  "21961": [
+                    "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+                  ],
+                  "21962": [
+                    "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+                  ],
+                  "21963": [
+                    "a0fa175b-d70f-45ac-a540-22a250446beb"
+                  ],
+                  "21964": [
+                    "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+                  ],
+                  "21965": [
+                    "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+                  ],
+                  "21966": [
+                    "4d814145-4912-4d0b-ba51-47fa8d529183"
+                  ],
+                  "21967": [
+                    "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+                  ],
+                  "21968": [
+                    "442cb774-045c-4bb8-ad0d-c152b301319b"
+                  ],
+                  "21969": [
+                    "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+                  ],
+                  "_t": "a"
+                },
+                "first_diff_ms": 1.996542,
+                "incoming": null,
+                "issue": "benjamine/jsondiffpatch#365",
+                "loaded_diff_samples_ms": [
+                  1.3475,
+                  20.423959,
+                  1.413542
+                ],
+                "name": "js365-large-string-array",
+                "native_bytes": 1676,
+                "native_forward": true,
+                "native_undo": true,
+                "optimized_forward": true,
+                "optimized_operations": 34,
+                "plain_forward": true,
+                "plain_inverse_independent": true,
+                "plain_operations": 34,
+                "plain_patch": [
+                  {
+                    "op": "add",
+                    "path": "/21936",
+                    "value": "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21937",
+                    "value": "de625f97-5e89-4726-9e02-d1306343bc04"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21938",
+                    "value": "690859f5-23a6-4707-9410-81d97b5a9478"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21939",
+                    "value": "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21940",
+                    "value": "00e7772d-d772-4eea-bee8-e4589d54c393"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21941",
+                    "value": "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21942",
+                    "value": "f526f20d-51d9-490f-9b11-071f7b30601a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21943",
+                    "value": "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21944",
+                    "value": "171ed67f-74ab-4182-92d2-4162af16b54c"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21945",
+                    "value": "08480d68-50b9-4de0-914a-aabbcd57089a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21946",
+                    "value": "50c5553f-c4bd-48da-830c-5fda180cebc5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21947",
+                    "value": "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21948",
+                    "value": "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21949",
+                    "value": "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21950",
+                    "value": "cb536672-15d0-4c62-bd70-299d4f619b33"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21951",
+                    "value": "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21952",
+                    "value": "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21953",
+                    "value": "f24b53d1-ece9-4c95-84cd-0f868379e813"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21954",
+                    "value": "9a3c797e-876e-4113-805c-d47d00967eeb"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21955",
+                    "value": "55cff641-9dda-43cc-8300-d9b64ad813b3"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21956",
+                    "value": "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21957",
+                    "value": "643e5ef4-7072-452d-8d71-5a61272cde06"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21958",
+                    "value": "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21959",
+                    "value": "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21960",
+                    "value": "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21961",
+                    "value": "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21962",
+                    "value": "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21963",
+                    "value": "a0fa175b-d70f-45ac-a540-22a250446beb"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21964",
+                    "value": "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21965",
+                    "value": "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21966",
+                    "value": "4d814145-4912-4d0b-ba51-47fa8d529183"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21967",
+                    "value": "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21968",
+                    "value": "442cb774-045c-4bb8-ad0d-c152b301319b"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21969",
+                    "value": "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+                  }
+                ]
+              }
+            ],
+            "javascript": [
+              {
+                "name": "js365-large-string-array",
+                "first_diff_ms": 13343.05875,
+                "has_delta": true,
+                "native_forward": true,
+                "native_undo": true,
+                "rfc_forward": true,
+                "rfc_operations": 34,
+                "loaded_diff_samples_ms": [
+                  9820.741291999999,
+                  11103.916042,
+                  15379.589042
+                ]
+              },
+              {
+                "name": "js365-large-string-array-js-workaround",
+                "option": "matchByPosition:false",
+                "first_diff_ms": 11.217083000003186,
+                "has_delta": true,
+                "native_forward": true,
+                "native_undo": true,
+                "rfc_forward": true,
+                "rfc_operations": 34,
+                "loaded_diff_samples_ms": [
+                  21.742082999997365,
+                  3.742415999993682,
+                  7.394916999997804
+                ]
+              }
+            ]
+          },
+          {
+            "process": 2,
+            "javascript": [
+              {
+                "name": "js365-large-string-array",
+                "first_diff_ms": 9773.145041000002,
+                "has_delta": true,
+                "native_forward": true,
+                "native_undo": true,
+                "rfc_forward": true,
+                "rfc_operations": 34,
+                "loaded_diff_samples_ms": [
+                  7225.338958,
+                  4104.963833000002,
+                  9434.412292
+                ]
+              },
+              {
+                "name": "js365-large-string-array-js-workaround",
+                "option": "matchByPosition:false",
+                "first_diff_ms": 19.31654200000048,
+                "has_delta": true,
+                "native_forward": true,
+                "native_undo": true,
+                "rfc_forward": true,
+                "rfc_operations": 34,
+                "loaded_diff_samples_ms": [
+                  17.98516599999857,
+                  18.962749999998778,
+                  38.7734169999967
+                ]
+              }
+            ],
+            "palim": [
+              {
+                "delta": {
+                  "21936": [
+                    "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+                  ],
+                  "21937": [
+                    "de625f97-5e89-4726-9e02-d1306343bc04"
+                  ],
+                  "21938": [
+                    "690859f5-23a6-4707-9410-81d97b5a9478"
+                  ],
+                  "21939": [
+                    "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+                  ],
+                  "21940": [
+                    "00e7772d-d772-4eea-bee8-e4589d54c393"
+                  ],
+                  "21941": [
+                    "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+                  ],
+                  "21942": [
+                    "f526f20d-51d9-490f-9b11-071f7b30601a"
+                  ],
+                  "21943": [
+                    "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+                  ],
+                  "21944": [
+                    "171ed67f-74ab-4182-92d2-4162af16b54c"
+                  ],
+                  "21945": [
+                    "08480d68-50b9-4de0-914a-aabbcd57089a"
+                  ],
+                  "21946": [
+                    "50c5553f-c4bd-48da-830c-5fda180cebc5"
+                  ],
+                  "21947": [
+                    "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+                  ],
+                  "21948": [
+                    "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+                  ],
+                  "21949": [
+                    "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+                  ],
+                  "21950": [
+                    "cb536672-15d0-4c62-bd70-299d4f619b33"
+                  ],
+                  "21951": [
+                    "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+                  ],
+                  "21952": [
+                    "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+                  ],
+                  "21953": [
+                    "f24b53d1-ece9-4c95-84cd-0f868379e813"
+                  ],
+                  "21954": [
+                    "9a3c797e-876e-4113-805c-d47d00967eeb"
+                  ],
+                  "21955": [
+                    "55cff641-9dda-43cc-8300-d9b64ad813b3"
+                  ],
+                  "21956": [
+                    "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+                  ],
+                  "21957": [
+                    "643e5ef4-7072-452d-8d71-5a61272cde06"
+                  ],
+                  "21958": [
+                    "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+                  ],
+                  "21959": [
+                    "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+                  ],
+                  "21960": [
+                    "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+                  ],
+                  "21961": [
+                    "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+                  ],
+                  "21962": [
+                    "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+                  ],
+                  "21963": [
+                    "a0fa175b-d70f-45ac-a540-22a250446beb"
+                  ],
+                  "21964": [
+                    "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+                  ],
+                  "21965": [
+                    "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+                  ],
+                  "21966": [
+                    "4d814145-4912-4d0b-ba51-47fa8d529183"
+                  ],
+                  "21967": [
+                    "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+                  ],
+                  "21968": [
+                    "442cb774-045c-4bb8-ad0d-c152b301319b"
+                  ],
+                  "21969": [
+                    "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+                  ],
+                  "_t": "a"
+                },
+                "first_diff_ms": 6.047834,
+                "incoming": null,
+                "issue": "benjamine/jsondiffpatch#365",
+                "loaded_diff_samples_ms": [
+                  1.310208,
+                  1.4484579999999998,
+                  1.542542
+                ],
+                "name": "js365-large-string-array",
+                "native_bytes": 1676,
+                "native_forward": true,
+                "native_undo": true,
+                "optimized_forward": true,
+                "optimized_operations": 34,
+                "plain_forward": true,
+                "plain_inverse_independent": true,
+                "plain_operations": 34,
+                "plain_patch": [
+                  {
+                    "op": "add",
+                    "path": "/21936",
+                    "value": "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21937",
+                    "value": "de625f97-5e89-4726-9e02-d1306343bc04"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21938",
+                    "value": "690859f5-23a6-4707-9410-81d97b5a9478"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21939",
+                    "value": "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21940",
+                    "value": "00e7772d-d772-4eea-bee8-e4589d54c393"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21941",
+                    "value": "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21942",
+                    "value": "f526f20d-51d9-490f-9b11-071f7b30601a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21943",
+                    "value": "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21944",
+                    "value": "171ed67f-74ab-4182-92d2-4162af16b54c"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21945",
+                    "value": "08480d68-50b9-4de0-914a-aabbcd57089a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21946",
+                    "value": "50c5553f-c4bd-48da-830c-5fda180cebc5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21947",
+                    "value": "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21948",
+                    "value": "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21949",
+                    "value": "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21950",
+                    "value": "cb536672-15d0-4c62-bd70-299d4f619b33"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21951",
+                    "value": "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21952",
+                    "value": "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21953",
+                    "value": "f24b53d1-ece9-4c95-84cd-0f868379e813"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21954",
+                    "value": "9a3c797e-876e-4113-805c-d47d00967eeb"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21955",
+                    "value": "55cff641-9dda-43cc-8300-d9b64ad813b3"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21956",
+                    "value": "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21957",
+                    "value": "643e5ef4-7072-452d-8d71-5a61272cde06"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21958",
+                    "value": "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21959",
+                    "value": "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21960",
+                    "value": "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21961",
+                    "value": "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21962",
+                    "value": "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21963",
+                    "value": "a0fa175b-d70f-45ac-a540-22a250446beb"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21964",
+                    "value": "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21965",
+                    "value": "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21966",
+                    "value": "4d814145-4912-4d0b-ba51-47fa8d529183"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21967",
+                    "value": "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21968",
+                    "value": "442cb774-045c-4bb8-ad0d-c152b301319b"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21969",
+                    "value": "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "process": 3,
+            "palim": [
+              {
+                "delta": {
+                  "21936": [
+                    "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+                  ],
+                  "21937": [
+                    "de625f97-5e89-4726-9e02-d1306343bc04"
+                  ],
+                  "21938": [
+                    "690859f5-23a6-4707-9410-81d97b5a9478"
+                  ],
+                  "21939": [
+                    "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+                  ],
+                  "21940": [
+                    "00e7772d-d772-4eea-bee8-e4589d54c393"
+                  ],
+                  "21941": [
+                    "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+                  ],
+                  "21942": [
+                    "f526f20d-51d9-490f-9b11-071f7b30601a"
+                  ],
+                  "21943": [
+                    "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+                  ],
+                  "21944": [
+                    "171ed67f-74ab-4182-92d2-4162af16b54c"
+                  ],
+                  "21945": [
+                    "08480d68-50b9-4de0-914a-aabbcd57089a"
+                  ],
+                  "21946": [
+                    "50c5553f-c4bd-48da-830c-5fda180cebc5"
+                  ],
+                  "21947": [
+                    "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+                  ],
+                  "21948": [
+                    "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+                  ],
+                  "21949": [
+                    "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+                  ],
+                  "21950": [
+                    "cb536672-15d0-4c62-bd70-299d4f619b33"
+                  ],
+                  "21951": [
+                    "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+                  ],
+                  "21952": [
+                    "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+                  ],
+                  "21953": [
+                    "f24b53d1-ece9-4c95-84cd-0f868379e813"
+                  ],
+                  "21954": [
+                    "9a3c797e-876e-4113-805c-d47d00967eeb"
+                  ],
+                  "21955": [
+                    "55cff641-9dda-43cc-8300-d9b64ad813b3"
+                  ],
+                  "21956": [
+                    "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+                  ],
+                  "21957": [
+                    "643e5ef4-7072-452d-8d71-5a61272cde06"
+                  ],
+                  "21958": [
+                    "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+                  ],
+                  "21959": [
+                    "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+                  ],
+                  "21960": [
+                    "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+                  ],
+                  "21961": [
+                    "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+                  ],
+                  "21962": [
+                    "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+                  ],
+                  "21963": [
+                    "a0fa175b-d70f-45ac-a540-22a250446beb"
+                  ],
+                  "21964": [
+                    "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+                  ],
+                  "21965": [
+                    "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+                  ],
+                  "21966": [
+                    "4d814145-4912-4d0b-ba51-47fa8d529183"
+                  ],
+                  "21967": [
+                    "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+                  ],
+                  "21968": [
+                    "442cb774-045c-4bb8-ad0d-c152b301319b"
+                  ],
+                  "21969": [
+                    "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+                  ],
+                  "_t": "a"
+                },
+                "first_diff_ms": 1.385083,
+                "incoming": null,
+                "issue": "benjamine/jsondiffpatch#365",
+                "loaded_diff_samples_ms": [
+                  1.447959,
+                  2.306416,
+                  2.367625
+                ],
+                "name": "js365-large-string-array",
+                "native_bytes": 1676,
+                "native_forward": true,
+                "native_undo": true,
+                "optimized_forward": true,
+                "optimized_operations": 34,
+                "plain_forward": true,
+                "plain_inverse_independent": true,
+                "plain_operations": 34,
+                "plain_patch": [
+                  {
+                    "op": "add",
+                    "path": "/21936",
+                    "value": "d347b6f1-7c52-44f9-aaa7-1b29fdfda59d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21937",
+                    "value": "de625f97-5e89-4726-9e02-d1306343bc04"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21938",
+                    "value": "690859f5-23a6-4707-9410-81d97b5a9478"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21939",
+                    "value": "b42f5f21-0c39-414d-b6c1-d9fd9dcd9c15"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21940",
+                    "value": "00e7772d-d772-4eea-bee8-e4589d54c393"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21941",
+                    "value": "fdd76c8a-9ac4-423b-8283-0d58efd961d2"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21942",
+                    "value": "f526f20d-51d9-490f-9b11-071f7b30601a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21943",
+                    "value": "d5c5fdaa-3252-4b6c-8be7-28ab3242b0e5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21944",
+                    "value": "171ed67f-74ab-4182-92d2-4162af16b54c"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21945",
+                    "value": "08480d68-50b9-4de0-914a-aabbcd57089a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21946",
+                    "value": "50c5553f-c4bd-48da-830c-5fda180cebc5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21947",
+                    "value": "74d2d7c8-b9f2-4852-a84f-a8479e23f3d5"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21948",
+                    "value": "fa009dbf-ea27-43fd-af7e-e5e100c5ab7a"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21949",
+                    "value": "2d6fc7a3-1155-4953-ad0e-5c797d3b669c"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21950",
+                    "value": "cb536672-15d0-4c62-bd70-299d4f619b33"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21951",
+                    "value": "5d65d593-8436-4939-9fbd-a53e02ff8b3d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21952",
+                    "value": "a58609cf-cd88-4d15-a680-867bd0ef7a61"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21953",
+                    "value": "f24b53d1-ece9-4c95-84cd-0f868379e813"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21954",
+                    "value": "9a3c797e-876e-4113-805c-d47d00967eeb"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21955",
+                    "value": "55cff641-9dda-43cc-8300-d9b64ad813b3"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21956",
+                    "value": "121fc5af-6313-42a4-a7f2-7107143b2fa6"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21957",
+                    "value": "643e5ef4-7072-452d-8d71-5a61272cde06"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21958",
+                    "value": "ad8b5fea-23a1-489f-8434-b09e36c94e7f"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21959",
+                    "value": "0e0eb92a-5ff1-4df7-a496-ec4303f5b6e6"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21960",
+                    "value": "ff120cf0-7af0-4b43-80b5-a6d4ea12fa8f"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21961",
+                    "value": "2d680a73-052d-4da1-b2fa-d1f6c31a3c84"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21962",
+                    "value": "cdcbfda5-a6b4-4b02-a539-28f9b16e3dd4"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21963",
+                    "value": "a0fa175b-d70f-45ac-a540-22a250446beb"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21964",
+                    "value": "c0123eef-3d2d-457b-8ab9-4a83b1d5df16"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21965",
+                    "value": "aa5d48e3-13cd-41b8-950d-01f162e41eda"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21966",
+                    "value": "4d814145-4912-4d0b-ba51-47fa8d529183"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21967",
+                    "value": "ae2f7ee0-70e2-4fc5-b159-ac22b9dae54d"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21968",
+                    "value": "442cb774-045c-4bb8-ad0d-c152b301319b"
+                  },
+                  {
+                    "op": "add",
+                    "path": "/21969",
+                    "value": "c1765b3e-bcf8-4f61-b4f0-4a189ca0d758"
+                  }
+                ]
+              }
+            ],
+            "javascript": [
+              {
+                "name": "js365-large-string-array",
+                "first_diff_ms": 6810.439375,
+                "has_delta": true,
+                "native_forward": true,
+                "native_undo": true,
+                "rfc_forward": true,
+                "rfc_operations": 34,
+                "loaded_diff_samples_ms": [
+                  8677.286709,
+                  7696.3565419999995,
+                  9868.087667000003
+                ]
+              },
+              {
+                "name": "js365-large-string-array-js-workaround",
+                "option": "matchByPosition:false",
+                "first_diff_ms": 16.061667000001762,
+                "has_delta": true,
+                "native_forward": true,
+                "native_undo": true,
+                "rfc_forward": true,
+                "rfc_operations": 34,
+                "loaded_diff_samples_ms": [
+                  7.205000000001746,
+                  3.0466250000026776,
+                  3.903250000003027
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "stdout": "js438-text-reverse {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 1}\njs423-remove-edit {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 3}\njs424-string-edit-default {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 2}\njs424-string-edit-matcher {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 1}\njs420-identical-nested-array {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 0}\njs380-multiple-moves {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 4}\njs371-pointer-escaping {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 2}\njs275-swap-edit-undo {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 6}\njs295-move-and-style-undo {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 12}\ndeep540-nested-duplicate-identity {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 3}\ngo45-factorize {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 2}\ngo15-nested-exclusion {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 1}\nnet48-null-to-object-property-filter {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 1}\nnet48-null-to-object-node-filter {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 1}\nnet48-object-to-null-node-filter {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 1}\njs377-patch-isolation {'delta1_unchanged': True, 'forward': True, 'undo': True}\njs434-append {'forward': True, 'undo': True}\nrust7-invert-standard {'forward': True, 'undo': True}\nrust37-object-to-array {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 1}\ngo38-leaf-patch-granularity {'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 1}\njs254-reordered-baseline {'reordered_undo': {'accepted': False, 'error': '/0: array operation old value does not match'}}\ndeep562-common-fields {'callback_paths': []}\nnet52-contain-subtree {'callback_paths': []}\nnet39-unordered {'callback_paths': []}\nnet39-unordered-count-change {'callback_paths': []}\ndeep633-filter-before-callback {'callback_paths': ['', '/a', '/a/v']}\nrust52-test-immutable {'forward': True, 'undo': True}\nrust42-wildcard {'rejected': True}\njs365-large-string-array {'loaded_diff_samples_ms': [1.3475, 20.423959, 1.413542], 'native_forward': True, 'native_undo': True, 'optimized_forward': True, 'plain_forward': True, 'plain_operations': 34}\nJS large {'exit_code': 0, 'stderr': '', 'memory_limit_mib': 1024, 'timeout_seconds': 90}\n",
+      "historical_result_comparison": {
+        "rows": 46,
+        "flags": 187,
+        "changes": []
+      }
+    }
+  ],
+  "not_rerun": [
+    "cross-OS local execution",
+    "full release suites",
+    "Clippy",
+    "Criterion",
+    "fuzz",
+    "Helixflow integration"
+  ],
+  "new_performance_claims": false
+}
