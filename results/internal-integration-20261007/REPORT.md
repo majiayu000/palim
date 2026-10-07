@@ -18,7 +18,8 @@ RFC `test` 与 compare 的 `1`/`1.0` 数学相等规则在两种配置下均保�
 
 Helixflow 已在当前主线 `e090a240590a3dc6559b96dfb7eef3369581f5f0` 上应用接入，
 提交 [`882802c`](https://github.com/majiayu000/helixflow/commit/882802c95b46377cf9cf05c16d5968fa5d4fecb4)，
-并推送为 [PR #225](https://github.com/majiayu000/helixflow/pull/225)。
+通过 [PR #225](https://github.com/majiayu000/helixflow/pull/225) 合并到主线，
+合并提交为 [`e1738c4`](https://github.com/majiayu000/helixflow/commit/e1738c412e1d44499aa1b966c709da2eafead532)。
 `Cargo.lock` 使用真实 registry source 和上述 checksum；验证命令没有本地 patch 覆盖。
 依赖 metadata 确认 Palim 为 0.3.0，serde_json 特性只有 alloc/default/raw_value/std，
 没有 arbitrary_precision 或 float_roundtrip。
@@ -26,7 +27,15 @@ Helixflow 已在当前主线 `e090a240590a3dc6559b96dfb7eef3369581f5f0` 上应�
 在这个更新后的主线基线上，fmt、locked workspace check、strict all-targets Clippy、
 663 项 workspace/all-targets 测试及 workspace doctest 检查均通过；1 项原有测试 ignored。
 此前 0f4992a 基线的 Clippy 问题已由上游主线修复，本次接入没有清理这些无关文件。
-本次仅更新七个接入相关文件，不把同步上游已有改动计作本次实现。
+接入修改七个相关文件，不把同步上游已有改动计作本次实现。
+
+首次 PR CI 的 Rust 检查通过，前端审计被原有 source-map-js 1.2.1 漏洞挡住。
+另一个提交仅更新 `web/package-lock.json` 中该传递依赖的 version、resolved、integrity
+三项到 1.2.2，未修改 package.json 或其他依赖。
+本地 npm ci、零漏洞审计、lint、378 项前端测试与 build 均通过。
+最终八文件 PR 的 [远端 CI 全部通过](https://github.com/majiayu000/helixflow/actions/runs/37593926702)，
+包括 workspace Rust 检查、Rust 依赖审计、前端审计和浏览器测试。
+这是内部差异展示接入，不能算作外部用户、生产采用或大数组性能证据。
 
 0.3.0 本地验证：默认普通配置 debug/release 各 186 项及 1 doctest；显式
 `exact-numbers` debug/release 各 203 项及 1 doctest。两种配置的全目标 Clippy、

@@ -60,11 +60,11 @@ choice. It is faster on the measured random shuffles and wide additions; JS
 libraries are faster on the measured small configurations. Palim's advantage
 is specific to the change representation and workload. See
 [COMPARISON.md](https://github.com/majiayu000/palim/blob/main/COMPARISON.md) for the boundaries.
-External users and public downstream adoption have not yet been confirmed;
+External users and production adoption have not yet been confirmed;
 these benchmarks and examples are not production adoption evidence.
 An [internal Helixflow proposal-diff integration](https://github.com/majiayu000/palim/blob/main/results/internal-integration-20261007/REPORT.md)
 uses published 0.3.0 and has passed registry integration tests. Its
-[pull request](https://github.com/majiayu000/helixflow/pull/225) is separate from
+[merged pull request](https://github.com/majiayu000/helixflow/pull/225) is separate from
 evidence of external users or production adoption.
 
 ## Installation
