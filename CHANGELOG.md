@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1
+
+### Documentation
+
+- Publish the refreshed README with the `0.2` installation example, guarded subtree reuse, adaptive plain reorders and the scope of native move guarantees.
+- Include the measured performance tradeoffs, verification results and links to the complete reports.
+- Update the current release link to 0.2.1.
+
 ## 0.2.0
 
 ### Changed

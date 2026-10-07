@@ -18,7 +18,7 @@ LIS for unique array identities, `imara-diff` for other sequence matching and
 Minimum Rust: **1.85**. See the [API documentation](https://docs.rs/palim),
 [benchmarks](https://github.com/majiayu000/palim/blob/main/BENCHMARK.md) and
 [release history](https://github.com/majiayu000/palim/releases).
-The current release is [0.2.0](https://github.com/majiayu000/palim/releases/tag/v0.2.0).
+The current release is [0.2.1](https://github.com/majiayu000/palim/releases/tag/v0.2.1).
 Guarded and some plain JSON Patch output shapes changed; see the
 [changelog](https://github.com/majiayu000/palim/blob/main/CHANGELOG.md).
 
