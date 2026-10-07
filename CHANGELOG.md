@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.0
+
+- **Breaking:** stop enabling serde_json's `arbitrary_precision` and `float_roundtrip`
+  features by default. Adding `palim = "0.3"` preserves ordinary serde_json numeric
+  representation and parsing rather than changing downstream Value equality and
+  float parsing throughout the dependency graph.
+- Opt in with `palim = { version = "0.3", features = ["exact-numbers"] }` to retain
+  the arbitrary-precision numbers and float wire round trips provided by 0.2.
+  This explicitly enables those serde_json features for the shared dependency.
+- RFC `test` and comparison reports still use mathematical numeric equality in
+  both configurations, including `1` and `1.0`. Ordinary parsing can round or
+  reject numbers beyond serde_json's normal range before Palim sees them.
+- Test both feature configurations in CI and at the minimum Rust version.
+
 ## 0.2.1
 
 ### Documentation

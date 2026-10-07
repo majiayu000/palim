@@ -1,0 +1,526 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index f83d13d..00e65ef 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -137,0 +138,9 @@ dependencies = [
++[[package]]
++name = "bstr"
++version = "1.13.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "6bb31b46c14244e20ee9984b11bf5c992b91fb6939fea616e3512c8baecdbe5f"
++dependencies = [
++ "memchr",
++]
++
+@@ -398,0 +408,6 @@ dependencies = [
++[[package]]
++name = "foldhash"
++version = "0.1.5"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2"
++
+@@ -545,0 +561,10 @@ dependencies = [
++[[package]]
++name = "gix-imara-diff"
++version = "0.2.5"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "1c91d8cffac8849493a82233811bd02b2b183b8cf39bf704de0fa0841b737595"
++dependencies = [
++ "bstr",
++ "hashbrown 0.17.1",
++]
++
+@@ -554 +579 @@ dependencies = [
+- "foldhash",
++ "foldhash 0.2.0",
+@@ -561,0 +587,3 @@ checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
++dependencies = [
++ "foldhash 0.2.0",
++]
+@@ -624,0 +653 @@ dependencies = [
++ "palim",
+@@ -981,0 +1011,22 @@ dependencies = [
++[[package]]
++name = "json-patch"
++version = "4.2.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "7421438de105a0827e44fadd05377727847d717c80ce29a229f85fd04c427b72"
++dependencies = [
++ "jsonptr",
++ "serde",
++ "serde_json",
++ "thiserror",
++]
++
++[[package]]
++name = "jsonptr"
++version = "0.7.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "a5a3cc660ba5d72bce0b3bb295bf20847ccbb40fd423f3f05b61273672e561fe"
++dependencies = [
++ "serde",
++ "serde_json",
++]
++
+@@ -1097,0 +1149,19 @@ dependencies = [
++[[package]]
++name = "num-bigint"
++version = "0.4.8"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "c89e69e7e0f03bea5ef08013795c25018e101932225a656383bd384495ecc367"
++dependencies = [
++ "num-integer",
++ "num-traits",
++]
++
++[[package]]
++name = "num-integer"
++version = "0.1.47"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "7ce2d95d4b3734dc35aa2f45e1aa22cd416814592a4f9d9205e11affd5b8e10b"
++dependencies = [
++ "num-traits",
++]
++
+@@ -1112,0 +1183,13 @@ checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
++[[package]]
++name = "palim"
++version = "0.2.2"
++dependencies = [
++ "foldhash 0.1.5",
++ "gix-imara-diff",
++ "json-patch",
++ "num-bigint",
++ "percent-encoding",
++ "serde",
++ "serde_json",
++]
++
+diff --git a/crates/graph/Cargo.toml b/crates/graph/Cargo.toml
+index c0ac7ce..d97ea16 100644
+--- a/crates/graph/Cargo.toml
++++ b/crates/graph/Cargo.toml
+@@ -10,0 +11 @@ helixflow-store.workspace = true
++palim = { version = "0.2.2", default-features = false }
+diff --git a/crates/graph/src/lib.rs b/crates/graph/src/lib.rs
+index ce6c62b..646b29b 100644
+--- a/crates/graph/src/lib.rs
++++ b/crates/graph/src/lib.rs
+@@ -198 +198 @@ impl GraphService {
+-            diff_summary: summarize_diff(base_graph, &preview_graph),
++            diff_summary: summarize_diff(base_graph, &preview_graph)?,
+@@ -557,0 +558 @@ pub enum GraphError {
++    DiffSummary(String),
+@@ -611,0 +613 @@ impl fmt::Display for GraphError {
++            Self::DiffSummary(err) => write!(f, "graph diff summary: {err}"),
+@@ -704,9 +706,22 @@ fn topological_order(graph: &WorkflowGraph) -> GraphResult<Vec<String>> {
+-fn summarize_diff(base: &WorkflowGraph, preview: &WorkflowGraph) -> Vec<String> {
+-    let added = preview.nodes.len().saturating_sub(base.nodes.len());
+-    let removed = base.nodes.len().saturating_sub(preview.nodes.len());
+-    let edge_delta = preview.edges.len() as isize - base.edges.len() as isize;
+-    vec![
+-        format!("nodes_added={added}"),
+-        format!("nodes_removed={removed}"),
+-        format!("edge_delta={edge_delta}"),
+-    ]
++/// Describe actual graph changes using JSON Pointer paths without exposing values.
++pub fn summarize_diff(base: &WorkflowGraph, preview: &WorkflowGraph) -> GraphResult<Vec<String>> {
++    let base = serde_json::to_value(base)
++        .map_err(|err| GraphError::DiffSummary(format!("encode base graph: {err}")))?;
++    let preview = serde_json::to_value(preview)
++        .map_err(|err| GraphError::DiffSummary(format!("encode preview graph: {err}")))?;
++    let report = palim::compare(&base, &preview, &palim::CompareOptions::default())
++        .map_err(|err| GraphError::DiffSummary(err.to_string()))?;
++    Ok(report
++        .differences
++        .into_iter()
++        .map(|difference| {
++            let prefix = if difference.left.is_none() {
++                '+'
++            } else if difference.right.is_none() {
++                '-'
++            } else {
++                '~'
++            };
++            format!("{prefix} {}", difference.path)
++        })
++        .collect())
+diff --git a/crates/graph/src/tests.rs b/crates/graph/src/tests.rs
+index 53acedc..ed03578 100644
+--- a/crates/graph/src/tests.rs
++++ b/crates/graph/src/tests.rs
+@@ -98,0 +99,119 @@ fn serializes_workflow_graph_boundary() {
++#[test]
++fn diff_summary_reports_node_addition_and_removal_when_counts_match() {
++    let base = sample_graph();
++    let mut preview = base.clone();
++    let removed = preview.nodes.remove("writer").expect("writer node");
++    preview.nodes.insert("new-writer".to_owned(), removed);
++
++    assert_eq!(preview.nodes.len(), base.nodes.len());
++    assert_eq!(
++        summarize_diff(&base, &preview).expect("summarize node changes"),
++        ["- /nodes/writer", "+ /nodes/new-writer"]
++    );
++}
++
++#[test]
++fn diff_summary_reports_parameter_and_layout_paths_without_values() {
++    let base = sample_graph();
++    let mut preview = base.clone();
++    let node = preview.nodes.get_mut("video").expect("video node");
++    node.params["duration_sec"] = json!(3);
++    node.params["prompt"] = json!("private-example-value");
++    node.pos[0] = 480.0;
++    node.size = Some([260.0, 180.0]);
++
++    assert_eq!(
++        summarize_diff(&base, &preview).expect("summarize parameter and layout changes"),
++        [
++            "~ /nodes/video/params/duration_sec",
++            "~ /nodes/video/params/prompt",
++            "~ /nodes/video/pos/0",
++            "+ /nodes/video/size",
++        ]
++    );
++}
++
++#[test]
++fn diff_summary_escapes_node_and_parameter_names_as_json_pointers() {
++    let mut base = sample_graph();
++    let node = base.nodes.remove("video").expect("video node");
++    base.nodes.insert("video/~node".to_owned(), node);
++    base.nodes
++        .get_mut("video/~node")
++        .expect("renamed video node")
++        .params["key/~name"] = Value::Null;
++    let mut preview = base.clone();
++    preview
++        .nodes
++        .get_mut("video/~node")
++        .expect("renamed video node")
++        .params["key/~name"] = json!("private-example-value");
++
++    assert_eq!(
++        summarize_diff(&base, &preview).expect("summarize escaped path"),
++        ["~ /nodes/video~1~0node/params/key~1~0name"]
++    );
++}
++
++#[test]
++fn diff_summary_treats_equivalent_json_numbers_as_unchanged() {
++    let base = sample_graph();
++    let mut preview = base.clone();
++    preview.nodes.get_mut("video").expect("video node").params["duration_sec"] = json!(5.0);
++
++    assert!(
++        summarize_diff(&base, &preview)
++            .expect("compare equivalent numbers")
++            .is_empty()
++    );
++}
++
++#[test]
++fn diff_summary_is_empty_for_unchanged_graph() {
++    let graph = sample_graph();
++
++    assert!(
++        summarize_diff(&graph, &graph)
++            .expect("compare unchanged graph")
++            .is_empty()
++    );
++}
++
++#[test]
++fn diff_dependency_preserves_existing_numeric_parameter_guards() {
++    for (current, expected) in [("0.1", "0.10"), ("1.0", "1e0")] {
++        let mut graph = sample_graph();
++        graph.nodes.get_mut("input").expect("input node").params["amount"] =
++            serde_json::from_str(current).expect("current number");
++        service()
++            .apply_op_in_place(
++                &mut graph,
++                &ProposalOp::SetParam {
++                    id: "input".to_owned(),
++                    key: "amount".to_owned(),
++                    prev: Some(serde_json::from_str(expected).expect("expected number")),
++                    value: json!(2),
++                },
++            )
++            .expect("equivalent decimal representations must not introduce a conflict");
++        assert_eq!(graph.nodes["input"].params["amount"], json!(2));
++    }
++    let parsed: f64 = serde_json::from_str("51.248178375505404").expect("float");
++    assert_eq!(parsed.to_bits(), 0x4049_9fc4_4f1b_2f61);
++}
++
++#[test]
++fn diff_summary_propagates_deep_comparison_failure() {
++    let base = sample_graph();
++    let mut preview = base.clone();
++    let mut nested = Value::Null;
++    for _ in 0..130 {
++        nested = Value::Array(vec![nested]);
++    }
++    preview.nodes.get_mut("video").expect("video node").params["nested"] = nested;
++
++    let error = summarize_diff(&base, &preview).expect_err("deep graph must fail comparison");
++    assert!(matches!(error, GraphError::DiffSummary(_)));
++    assert!(error.to_string().contains("JSON nesting exceeds max_depth"));
++}
++
+@@ -178,0 +298,4 @@ fn validates_proposal_ops_and_preview_graph() {
++    assert_eq!(
++        proposal.diff_summary,
++        ["~ /nodes/video/params/duration_sec", "+ /nodes/video/size"]
++    );
+diff --git a/crates/server/src/workbench_payload.rs b/crates/server/src/workbench_payload.rs
+index 1412a6f..7f697ea 100644
+--- a/crates/server/src/workbench_payload.rs
++++ b/crates/server/src/workbench_payload.rs
+@@ -353,0 +354 @@ pub(crate) fn pending_proposal_payload_from_record(
++    base_graph: &WorkflowGraph,
+@@ -363 +364,2 @@ pub(crate) fn pending_proposal_payload_from_record(
+-        diff_summary: Vec::new(),
++        diff_summary: helixflow_graph::summarize_diff(base_graph, &preview_graph)
++            .map_err(|error| error.to_string())?,
+diff --git a/crates/server/src/workspace_state.rs b/crates/server/src/workspace_state.rs
+index cad06f4..f45f026 100644
+--- a/crates/server/src/workspace_state.rs
++++ b/crates/server/src/workspace_state.rs
+@@ -81,0 +82,2 @@ pub(crate) async fn workspace_state_value(
++        current_version.as_ref(),
++        &graph,
+@@ -248,0 +251,2 @@ async fn pending_proposal_payload(
++    current_version: Option<&VersionRecord>,
++    current_graph: &WorkflowGraph,
+@@ -262 +266,28 @@ async fn pending_proposal_payload(
+-    pending_proposal_payload_from_record(proposal, ops, preview_graph)
++    let stored_base;
++    let base_version =
++        match current_version.filter(|version| version.id == proposal.base_version_id) {
++            Some(version) => version,
++            None => {
++                stored_base = state
++                    .store
++                    .version(&proposal.base_version_id)
++                    .await
++                    .map_err(ApiError::store)?;
++                &stored_base
++            }
++        };
++    if base_version.workspace_id != proposal.workspace_id {
++        return Err(ApiError::server_error(
++            "pending proposal base version belongs to another workspace",
++        ));
++    }
++    let stored_base_graph;
++    let base_graph = if current_version.is_some_and(|version| version.id == base_version.id) {
++        current_graph
++    } else {
++        stored_base_graph = read_version_graph(&state.data_dir, base_version)
++            .await
++            .map_err(|error| ApiError::server_error(error.to_string()))?;
++        &stored_base_graph
++    };
++    pending_proposal_payload_from_record(proposal, ops, base_graph, preview_graph)
+diff --git a/crates/server/src/workspace_state_tests.rs b/crates/server/src/workspace_state_tests.rs
+index 10b26b7..b8b1ce5 100644
+--- a/crates/server/src/workspace_state_tests.rs
++++ b/crates/server/src/workspace_state_tests.rs
+@@ -9 +9,3 @@ use helixflow_run::EventBus;
+-use helixflow_store::{NewMessage, NewRun, NewRunStep, NewVersion, Store, VersionSource};
++use helixflow_store::{
++    NewMessage, NewProposal, NewRun, NewRunStep, NewVersion, Store, VersionSource,
++};
+@@ -359,0 +362,190 @@ async fn verified_read_workspace_state_rejects_corrupt_graph_without_side_effect
++#[tokio::test]
++async fn persisted_pending_proposal_reloads_parameter_diff_without_values() {
++    let (state, workspace_id, dir) = state_with_workspace().await;
++    let base_version_id = state
++        .store
++        .workspace(&workspace_id)
++        .await
++        .expect("workspace")
++        .cur_version_id
++        .expect("current version");
++    persist_parameter_proposal(&state, &workspace_id, &base_version_id).await;
++    drop(state);
++    let state = test_state(open_store(dir.path()).await, dir.path().to_path_buf());
++
++    let body = workspace_state_value(&state, &workspace_id)
++        .await
++        .expect("reload workspace state");
++
++    assert_eq!(
++        body["pendingProposal"]["diffSummary"],
++        json!(["~ /nodes/input/params/summary"])
++    );
++    assert_eq!(body["pendingProposal"]["baseVersionId"], base_version_id);
++    let summary = body["pendingProposal"]["diffSummary"].to_string();
++    assert!(!summary.contains("Source text"));
++    assert!(!summary.contains("private-example-value"));
++}
++
++#[tokio::test]
++async fn stale_pending_proposal_diff_uses_its_base_instead_of_current_graph() {
++    let (state, workspace_id, _dir) = state_with_workspace().await;
++    let base_version_id = state
++        .store
++        .workspace(&workspace_id)
++        .await
++        .expect("workspace")
++        .cur_version_id
++        .expect("current version");
++    persist_parameter_proposal(&state, &workspace_id, &base_version_id).await;
++    advance_current_graph(&state, &workspace_id, &base_version_id).await;
++
++    let body = workspace_state_value(&state, &workspace_id)
++        .await
++        .expect("workspace state with stale proposal");
++
++    assert_ne!(body["workspace"]["versionId"], base_version_id);
++    assert_eq!(
++        body["pendingProposal"]["diffSummary"],
++        json!(["~ /nodes/input/params/summary"])
++    );
++}
++
++#[tokio::test]
++async fn stale_pending_proposal_rejects_corrupt_historical_base() {
++    let (state, workspace_id, _dir) = state_with_workspace().await;
++    let base_version_id = state
++        .store
++        .workspace(&workspace_id)
++        .await
++        .expect("workspace")
++        .cur_version_id
++        .expect("current version");
++    persist_parameter_proposal(&state, &workspace_id, &base_version_id).await;
++    advance_current_graph(&state, &workspace_id, &base_version_id).await;
++    tokio::fs::write(state.data_dir.join("graphs/current.json"), b"{}")
++        .await
++        .expect("corrupt historical base");
++
++    let error = workspace_state_value(&state, &workspace_id)
++        .await
++        .expect_err("historical base hash mismatch must fail closed");
++
++    assert_eq!(error.status, axum::http::StatusCode::INTERNAL_SERVER_ERROR);
++    assert!(error.message.contains("mismatched version_graph hash"));
++    assert!(
++        !error
++            .message
++            .contains(state.data_dir.to_string_lossy().as_ref())
++    );
++    assert_eq!(
++        state
++            .store
++            .workspace_proposals(&workspace_id)
++            .await
++            .expect("proposals")[0]
++            .state,
++        "pending"
++    );
++}
++
++#[tokio::test]
++async fn pending_proposal_rejects_base_from_another_workspace() {
++    let (state, workspace_id, _dir) = state_with_workspace().await;
++    let other_workspace = state
++        .store
++        .create_workspace("Other workspace")
++        .await
++        .expect("other workspace");
++    let graph_bytes = serde_json::to_vec(&sample_graph()).expect("graph json");
++    let foreign_base = state
++        .store
++        .create_version(NewVersion {
++            workspace_id: &other_workspace.id,
++            label: "Foreign base",
++            source: VersionSource::Manual,
++            graph_path: "graphs/current.json",
++            graph_hash: &graph_hash(&graph_bytes),
++            parent_id: None,
++            semantics_json: None,
++        })
++        .await
++        .expect("foreign version");
++    persist_parameter_proposal(&state, &workspace_id, &foreign_base.id).await;
++
++    let error = workspace_state_value(&state, &workspace_id)
++        .await
++        .expect_err("foreign base must fail closed");
++
++    assert_eq!(error.status, axum::http::StatusCode::INTERNAL_SERVER_ERROR);
++    assert_eq!(
++        error.message,
++        "pending proposal base version belongs to another workspace"
++    );
++}
++
++async fn persist_parameter_proposal(state: &AppState, workspace_id: &str, base_version_id: &str) {
++    let mut preview = sample_graph();
++    preview.nodes.get_mut("input").expect("input node").params["summary"] =
++        json!("private-example-value");
++    let ops = vec![helixflow_graph::ProposalOp::SetParam {
++        id: "input".to_owned(),
++        key: "summary".to_owned(),
++        prev: Some(json!("Source text")),
++        value: json!("private-example-value"),
++    }];
++    tokio::fs::write(
++        state.data_dir.join("graphs/proposal-ops.json"),
++        serde_json::to_vec(&ops).expect("ops json"),
++    )
++    .await
++    .expect("write proposal ops");
++    tokio::fs::write(
++        state.data_dir.join("graphs/proposal-preview.json"),
++        serde_json::to_vec(&preview).expect("preview json"),
++    )
++    .await
++    .expect("write proposal preview");
++    state
++        .store
++        .create_proposal(NewProposal {
++            workspace_id,
++            base_version_id,
++            kind: "modify",
++            title: "Change input text",
++            summary: "Update the source text",
++            ops_path: "graphs/proposal-ops.json",
++            preview_graph_path: Some("graphs/proposal-preview.json"),
++            message_id: None,
++        })
++        .await
++        .expect("persist proposal");
++}
++
++async fn advance_current_graph(state: &AppState, workspace_id: &str, base_version_id: &str) {
++    let mut current = sample_graph();
++    let node = current.nodes.get_mut("input").expect("input node");
++    node.params["summary"] = json!("private-example-value");
++    node.title = "Later title".to_owned();
++    let graph_bytes = serde_json::to_vec(&current).expect("current graph json");
++    tokio::fs::write(state.data_dir.join("graphs/later.json"), &graph_bytes)
++        .await
++        .expect("write later graph");
++    state
++        .store
++        .create_version_after(
++            NewVersion {
++                workspace_id,
++                label: "Later graph",
++                source: VersionSource::Manual,
++                graph_path: "graphs/later.json",
++                graph_hash: &graph_hash(&graph_bytes),
++                parent_id: Some(base_version_id),
++                semantics_json: None,
++            },
++            base_version_id,
++        )
++        .await
++        .expect("advance current graph");
++}
++

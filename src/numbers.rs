@@ -37,7 +37,24 @@ pub(crate) fn numbers_equal(left: &Number, right: &Number) -> bool {
 }
 
 pub(crate) fn number_key(number: &Number) -> NumberKey<'_> {
-    let text = number.as_str();
+    match number_text(number) {
+        Cow::Borrowed(text) => number_key_text(text),
+        Cow::Owned(text) => number_key_text(&text).into_owned(),
+    }
+}
+
+pub(crate) fn number_text(number: &Number) -> Cow<'_, str> {
+    #[cfg(feature = "exact-numbers")]
+    {
+        Cow::Borrowed(number.as_str())
+    }
+    #[cfg(not(feature = "exact-numbers"))]
+    {
+        Cow::Owned(number.to_string())
+    }
+}
+
+fn number_key_text(text: &str) -> NumberKey<'_> {
     let (negative, unsigned) = match text.strip_prefix('-') {
         Some(unsigned) => (true, unsigned),
         None => (false, text),
@@ -100,8 +117,8 @@ pub(crate) fn within_tolerance(
     if left == right {
         return Ok(true);
     }
-    spend(left.as_str().len())?;
-    spend(right.as_str().len())?;
+    spend(number_text(left).len())?;
+    spend(number_text(right).len())?;
     let left = number_key(left);
     let right = number_key(right);
     if left == right {
@@ -347,7 +364,9 @@ mod tests {
             ("0", "-0.0"),
             ("1000", "1E+3"),
             ("-123.4500", "-12345e-2"),
+            #[cfg(feature = "exact-numbers")]
             ("18446744073709551616", "1.8446744073709551616e19"),
+            #[cfg(feature = "exact-numbers")]
             ("1e10000", "10e9999"),
         ] {
             let left: Number = serde_json::from_str(left).unwrap();

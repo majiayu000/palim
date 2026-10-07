@@ -1,5 +1,6 @@
 use palim::{CompareOptions, Delta, Patch, apply_json_patch, compare, diff, patch, reverse};
 use serde_json::{Value, json};
+#[cfg(feature = "exact-numbers")]
 use std::sync::Arc;
 
 fn value(text: &str) -> Value {
@@ -15,6 +16,84 @@ fn standard_test(left: &Value, expected: &Value) -> Result<Value, palim::Error> 
     apply_json_patch(left, &operations)
 }
 
+#[cfg(not(feature = "exact-numbers"))]
+#[test]
+fn ordinary_numeric_spellings_match_value_equality_and_patch_preconditions() {
+    let left = value(r#"{"params":{"ratio":0.1}}"#);
+    let same = value(r#"{"params":{"ratio":0.10}}"#);
+    assert_eq!(
+        left, same,
+        "ordinary serde_json values discard trailing zeros"
+    );
+    assert!(
+        compare(&left, &same, &CompareOptions::default())
+            .unwrap()
+            .differences
+            .is_empty()
+    );
+    assert!(diff(&left, &same).unwrap().is_none());
+    let operations: Patch = serde_json::from_str(
+        r#"[{"op":"test","path":"/params/ratio","value":0.10},{"op":"replace","path":"/params/ratio","value":0.25}]"#,
+    ).unwrap();
+    assert_eq!(
+        apply_json_patch(&left, &operations).unwrap(),
+        json!({"params":{"ratio":0.25}})
+    );
+    let drifted = json!({"params":{"ratio":0.2}});
+    assert!(apply_json_patch(&drifted, &operations).is_err());
+    assert_eq!(drifted, json!({"params":{"ratio":0.2}}));
+}
+
+#[test]
+fn ordinary_numeric_documents_replay_native_rfc_and_merge_changes() {
+    let before = value(
+        r#"{"params":{"ratio":0.1,"count":3},"items":[1.5,2.5],"signed":-9223372036854775808,"unsigned":18446744073709551615,"removed":"old"}"#,
+    );
+    let after = value(
+        r#"{"params":{"ratio":0.25,"count":4},"items":[2.5,1.5,3],"signed":-9223372036854775808,"unsigned":18446744073709551615,"added":true}"#,
+    );
+    let report = compare(&before, &after, &CompareOptions::default()).unwrap();
+    assert!(
+        report
+            .differences
+            .iter()
+            .any(|difference| difference.path == "/params/ratio")
+    );
+    assert!(
+        report
+            .differences
+            .iter()
+            .all(|difference| !matches!(difference.path.as_str(), "/signed" | "/unsigned"))
+    );
+    let delta = diff(&before, &after).unwrap().unwrap();
+    let decoded: Delta = serde_json::from_str(&serde_json::to_string(&delta).unwrap()).unwrap();
+    assert_eq!(patch(&before, &decoded).unwrap(), after);
+    assert_eq!(patch(&after, &reverse(&decoded).unwrap()).unwrap(), before);
+    let operations =
+        palim::diff_json_patch(&before, &after, &palim::JsonPatchOptions::default()).unwrap();
+    let decoded: Patch =
+        serde_json::from_str(&serde_json::to_string(&operations).unwrap()).unwrap();
+    assert_eq!(apply_json_patch(&before, &decoded).unwrap(), after);
+    let inverse = palim::invert_json_patch(&before, &decoded).unwrap();
+    assert_eq!(apply_json_patch(&after, &inverse).unwrap(), before);
+    let merge = palim::diff_merge_patch(&before, &after).unwrap();
+    assert_eq!(palim::merge_patch(&before, &merge).unwrap(), after);
+    assert_eq!(
+        standard_test(&json!([1, 2]), &json!([1.0, 2.0])).unwrap(),
+        json!([1, 2])
+    );
+}
+
+#[test]
+fn ordinary_decimal_tolerances_keep_their_inclusive_boundary() {
+    assert_tolerance("0.1", "0.3", 0.2, 0.0, true);
+    assert_tolerance("0.1", "0.31", 0.2, 0.0, false);
+    assert_tolerance("-0.1", "0.1", 0.2, 0.0, true);
+    assert_tolerance("100", "101", 0.0, 0.01, true);
+    assert_tolerance("100", "102", 0.0, 0.01, false);
+}
+
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn arbitrary_precision_values_round_trip_through_native_delta() {
     for (before, after) in [
@@ -53,6 +132,7 @@ fn arbitrary_precision_values_round_trip_through_native_delta() {
     }
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn standard_tests_and_reports_compare_exact_decimal_values() {
     for (left, right) in [
@@ -99,6 +179,7 @@ fn standard_tests_and_reports_compare_exact_decimal_values() {
     }
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn enormous_exponents_are_compared_without_expanding_the_number() {
     let exponent = format!("1{}", "0".repeat(4096));
@@ -120,6 +201,7 @@ fn enormous_exponents_are_compared_without_expanding_the_number() {
     );
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn unordered_reports_use_the_same_exact_number_equality_as_standard_test() {
     let options = CompareOptions {
@@ -151,6 +233,7 @@ fn unordered_reports_use_the_same_exact_number_equality_as_standard_test() {
     );
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn tolerance_compares_arbitrary_precision_decimal_values() {
     let options = CompareOptions {
@@ -200,6 +283,7 @@ fn assert_tolerance(left: &str, right: &str, absolute: f64, relative: f64, expec
     );
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn absolute_tolerance_is_exact_at_decimal_boundaries_and_cancellation() {
     for (left, right, tolerance, equal) in [
@@ -236,6 +320,7 @@ fn absolute_tolerance_is_exact_at_decimal_boundaries_and_cancellation() {
     }
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn relative_tolerance_handles_huge_small_and_signed_numbers_exactly() {
     for (left, right, tolerance, equal) in [
@@ -258,6 +343,7 @@ fn relative_tolerance_handles_huge_small_and_signed_numbers_exactly() {
     assert_tolerance("100", "101", 0.01, 0.01, true);
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn huge_exponent_tolerance_is_sparse_and_obeys_existing_work_budget() {
     let exponent = format!("1{}", "0".repeat(4096));
@@ -279,6 +365,7 @@ fn huge_exponent_tolerance_is_sparse_and_obeys_existing_work_budget() {
     assert!(error.message.contains("max_comparisons"));
 }
 
+#[cfg(feature = "exact-numbers")]
 proptest::proptest! {
     #![proptest_config(proptest::test_runner::Config {
         cases: 512,

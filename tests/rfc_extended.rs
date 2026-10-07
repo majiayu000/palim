@@ -367,12 +367,17 @@ fn copies_numbers_added_or_replaced_by_an_earlier_operation() {
 #[test]
 fn copy_candidates_use_mathematical_number_equality() {
     for (source, wanted) in [
+        ("9223372036854775807", "9223372036854775807"),
+        #[cfg(feature = "exact-numbers")]
         ("1", "1.000000000000000000000000000000000000000000"),
+        #[cfg(feature = "exact-numbers")]
         ("0", "-0.000000000000000000000000000000000000000000"),
+        #[cfg(feature = "exact-numbers")]
         (
             "18446744073709551616",
             "1.8446744073709551616000000000000000000000e19",
         ),
+        #[cfg(feature = "exact-numbers")]
         ("1e10000", "10.000000000000000000000000000000000000e9999"),
     ] {
         let source: Value = serde_json::from_str(source).unwrap();
@@ -736,6 +741,7 @@ fn inversion_preserves_original_error_and_input() {
     assert_eq!(before, json!({"a": 1}));
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn arbitrary_precision_numbers_survive_all_standard_diff_options_and_wire() {
     for (before_number, after_number) in [
@@ -782,6 +788,7 @@ fn arbitrary_precision_numbers_survive_all_standard_diff_options_and_wire() {
     }
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn arbitrary_precision_payloads_survive_move_copy_guards_and_inverse() {
     let large: Value = serde_json::from_str("18446744073709551617").unwrap();

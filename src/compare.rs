@@ -299,8 +299,8 @@ impl Context<'_> {
             if a == b {
                 return Ok(true);
             }
-            self.spend(path, a.as_str().len())?;
-            self.spend(path, b.as_str().len())?;
+            self.spend(path, crate::numbers::number_text(a).len())?;
+            self.spend(path, crate::numbers::number_text(b).len())?;
             return Ok(crate::numbers::numbers_equal(a, b));
         }
         crate::numbers::within_tolerance(
@@ -446,7 +446,7 @@ impl Context<'_> {
                 let item_path = pointer(path, i);
                 self.visit(&item_path)?;
                 if let Value::Number(number) = value {
-                    self.spend(&item_path, number.as_str().len())?;
+                    self.spend(&item_path, crate::numbers::number_text(number).len())?;
                 }
                 keys.entry(scalar_key(value)).or_default().push_back(i);
             }
@@ -455,7 +455,7 @@ impl Context<'_> {
                 let item_path = pointer(path, j);
                 self.visit(&item_path)?;
                 if let Value::Number(number) = value {
-                    self.spend(&item_path, number.as_str().len())?;
+                    self.spend(&item_path, crate::numbers::number_text(number).len())?;
                 }
                 result.push(
                     keys.get_mut(&scalar_key(value))
@@ -520,7 +520,7 @@ impl Context<'_> {
             _ => {
                 2_u8.hash(&mut hasher);
                 if let Value::Number(number) = value {
-                    self.spend(path, number.as_str().len())?;
+                    self.spend(path, crate::numbers::number_text(number).len())?;
                 }
                 scalar_key(value).hash(&mut hasher);
             }

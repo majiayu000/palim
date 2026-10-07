@@ -22,10 +22,13 @@ fn read_only_tests_keep_recursive_number_equality_and_escaped_paths() {
     test_json_patch(&doc, &tests).unwrap();
     assert_eq!(apply_json_patch(&doc, &tests).unwrap(), doc);
     test_json_patch(&doc, &Patch::default()).unwrap();
-    let huge: Value = serde_json::from_str("{\"n\":1e10000}").unwrap();
-    let tests: Patch =
-        serde_json::from_str("[{\"op\":\"test\",\"path\":\"/n\",\"value\":10e9999}]").unwrap();
-    test_json_patch(&huge, &tests).unwrap();
+    #[cfg(feature = "exact-numbers")]
+    {
+        let huge: Value = serde_json::from_str("{\"n\":1e10000}").unwrap();
+        let tests: Patch =
+            serde_json::from_str("[{\"op\":\"test\",\"path\":\"/n\",\"value\":10e9999}]").unwrap();
+        test_json_patch(&huge, &tests).unwrap();
+    }
 }
 
 #[test]

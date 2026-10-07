@@ -1,0 +1,5296 @@
+{
+  "checked_at": "2026-10-07T05:58:20.067572+00:00",
+  "source_commit": "ca2c28ab78b28a4ec92c25e63ba499f78d6a3e7a",
+  "source_archive_sha256": "2c9ec356fecaa25ddd75cdca4c2fd16b2c21948871b74d1b1ed1dbfb9e9a9eaf",
+  "prototype_sha256": "639a2376ddd3604be4a0c70e03d681090e037f3cfdd692668362573119da7e1d",
+  "runner_sha256": "6216fe2e6222f10c6177ec72afaeef49b7092bc8844f8ffed9503f6e31f8c3b1",
+  "fixture_archive_sha256": "49a8876b7168d080ae3eb30718a42fdc69330e250ebddad80b74da903a24c5fe",
+  "environment": {
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6",
+    "cargo": "cargo 1.97.0 (c980f4866 2026-06-30)",
+    "cpu": "Apple M2 Max"
+  },
+  "method": {
+    "scope": "Experimental add/replace only; no changed array pairs, deletions, callbacks or optimization.",
+    "core": "Parsed Values -> generate and destroy Patch; owned-ready receives a prepared target outside timing.",
+    "generation": "Same Core operation; timestamp immediately after generation, before destroying Patch.",
+    "owned_clone_core": "Clone right inside timing -> owned generation -> destroy Patch.",
+    "pipeline": "Same raw bytes -> parse both documents -> generate -> serialize -> destroy inputs and output.",
+    "sampling": "3 warmups, >=10ms calibration capped at 2048, 9 batches, 3 serial processes; rotated engine order.",
+    "comparison": "Borrowed and consuming Core are different ownership contracts; pipeline boundaries are identical."
+  },
+  "records": [
+    {
+      "core_iterations": 4,
+      "core_samples_ms": [
+        2.562959,
+        2.61411475,
+        2.3331355,
+        2.64101075,
+        2.451104,
+        2.318969,
+        2.3818125,
+        2.6180625,
+        2.6984477499999997
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.6336252499999997,
+        1.74375,
+        1.463771,
+        1.7456044999999998,
+        1.55004175,
+        1.4424375,
+        1.4530934999999998,
+        1.7175414999999998,
+        1.7588122499999999
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 2,
+      "pipeline_samples_ms": [
+        8.341250500000001,
+        7.70175,
+        7.324042,
+        7.587375,
+        7.142479,
+        7.519833,
+        8.0981875,
+        8.1062295,
+        7.6068745
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 0,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        1.75845325,
+        1.852036375,
+        1.839072875,
+        1.8459947499999998,
+        1.87708875,
+        1.877942625,
+        1.8145569999999998,
+        1.8560728750000002,
+        1.890255
+      ],
+      "engine": "json-patch",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.9031927499999999,
+        0.92669275,
+        0.9492134999999999,
+        0.9443540000000001,
+        0.9310364999999998,
+        0.9537187500000001,
+        0.9115572500000001,
+        0.92132275,
+        0.9844478750000001
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 2,
+      "pipeline_samples_ms": [
+        6.959645500000001,
+        6.7656244999999995,
+        7.113896,
+        7.515917,
+        6.9968960000000004,
+        6.6011665,
+        6.747521000000001,
+        7.0893745,
+        7.0075
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 0,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 16,
+      "core_samples_ms": [
+        1.2565653125,
+        1.2132809375,
+        1.3949869374999997,
+        1.1625209375,
+        1.2190236875,
+        1.1956198125,
+        1.2998438125000003,
+        1.1794946875,
+        1.2254245625
+      ],
+      "engine": "owned-ready",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.35491156250000006,
+        0.30166131250000006,
+        0.4673906875,
+        0.2963829375,
+        0.32861218750000004,
+        0.3221848125,
+        0.3794869999999999,
+        0.30242175,
+        0.32168237499999996
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 4,
+      "pipeline_samples_ms": [
+        5.120093499999999,
+        4.79656275,
+        4.63373975,
+        5.091729,
+        4.7512289999999995,
+        5.11437475,
+        4.831302,
+        4.7299375,
+        4.9443125000000006
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 0,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        2.3106095,
+        2.4747395,
+        2.303182375,
+        2.4349950000000002,
+        2.28076575,
+        2.387791625,
+        2.1992238750000004,
+        2.2850208750000003,
+        2.554437375
+      ],
+      "engine": "owned-clone",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.441333375,
+        1.5577862500000001,
+        1.4117656250000001,
+        1.548052125,
+        1.3759843749999998,
+        1.5101403750000002,
+        1.2950417499999998,
+        1.3751197500000003,
+        1.6331198750000002
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 0,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        30.982709,
+        30.697208,
+        31.445291,
+        30.834459000000003,
+        30.689958,
+        31.154999999999998,
+        30.733832999999997,
+        31.982625000000002,
+        31.321917
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        22.221334,
+        21.804875000000003,
+        22.606082999999998,
+        22.048417,
+        21.769833,
+        22.005416999999998,
+        21.968417,
+        23.010333,
+        22.610417
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        84.191333,
+        85.233208,
+        84.242875,
+        83.930583,
+        83.92704099999999,
+        82.565792,
+        84.090666,
+        83.987042,
+        85.089666
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 0,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        23.276542,
+        23.274,
+        24.559041,
+        24.181041,
+        23.461083000000002,
+        24.152333000000002,
+        24.642208,
+        23.932125,
+        23.660708999999997
+      ],
+      "engine": "json-patch",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        14.217375,
+        14.239833,
+        15.320125,
+        15.081707999999999,
+        14.372083,
+        14.546415999999999,
+        15.282166,
+        14.251042,
+        14.613209
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        81.34462500000001,
+        78.675333,
+        80.488583,
+        81.668083,
+        78.438334,
+        79.10025,
+        78.699584,
+        79.554917,
+        79.685084
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 0,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        19.897542,
+        20.287375,
+        19.019624999999998,
+        19.454541,
+        19.038,
+        20.203834,
+        19.88775,
+        19.557833,
+        18.744708999999997
+      ],
+      "engine": "owned-ready",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        10.544709,
+        10.583083,
+        9.977,
+        10.320333,
+        10.161833999999999,
+        10.351667,
+        10.630166,
+        10.537041,
+        9.853041999999999
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        63.345625000000005,
+        65.89150000000001,
+        63.877917000000004,
+        64.815708,
+        67.4105,
+        63.179458,
+        63.519209,
+        64.77266700000001,
+        65.134208
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 0,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        33.95725,
+        35.697792,
+        33.5675,
+        34.077749999999995,
+        33.749916999999996,
+        33.921708,
+        34.350792,
+        32.756791,
+        33.932167
+      ],
+      "engine": "owned-clone",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        25.137667,
+        26.618125,
+        24.998625,
+        25.269416,
+        24.906667,
+        25.032833,
+        24.982875,
+        23.925416000000002,
+        25.009375
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 0,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        14.863833,
+        14.975499999999998,
+        15.317792,
+        13.869875,
+        14.593625000000001,
+        14.867750000000001,
+        16.049542,
+        14.985375000000001,
+        14.934459
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        12.405541000000001,
+        12.610375,
+        12.867666999999999,
+        11.653959,
+        12.391334,
+        12.353084,
+        13.717875,
+        12.840582999999999,
+        12.367125
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        76.415834,
+        75.900417,
+        75.445334,
+        74.451958,
+        73.863625,
+        74.367625,
+        75.356625,
+        74.768958,
+        75.033916
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 0,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        31.498749999999998,
+        31.307083,
+        31.137874999999998,
+        31.123917000000002,
+        31.348417000000005,
+        31.6575,
+        31.053791,
+        31.129125000000002,
+        30.962500000000002
+      ],
+      "engine": "json-patch",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        29.22075,
+        28.760166,
+        28.965375,
+        28.85075,
+        29.035709,
+        29.180500000000002,
+        28.73525,
+        28.855667,
+        28.71325
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        88.83625,
+        88.54020799999999,
+        88.385208,
+        89.141125,
+        88.351833,
+        89.11075,
+        89.069917,
+        89.265167,
+        87.95637500000001
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 0,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        13.3945,
+        14.19,
+        13.928083,
+        13.754792,
+        14.150375,
+        13.540583,
+        14.517957999999998,
+        14.175084,
+        15.143125
+      ],
+      "engine": "owned-ready",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        11.097416,
+        11.678208000000001,
+        11.713708,
+        11.281542,
+        11.449667,
+        11.305625,
+        12.123083,
+        11.824667,
+        12.526041999999999
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        74.33175,
+        74.88300000000001,
+        74.397167,
+        74.42741699999999,
+        73.857917,
+        73.449625,
+        73.6845,
+        73.352292,
+        73.40762500000001
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 0,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        16.824667,
+        18.056625,
+        17.856459,
+        17.958083,
+        17.892917,
+        17.27275,
+        17.849833999999998,
+        16.852541,
+        17.79975
+      ],
+      "engine": "owned-clone",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        14.55875,
+        15.762416000000002,
+        15.612542,
+        15.688916,
+        15.616375,
+        15.044917,
+        15.453875,
+        14.632916,
+        15.492417
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 0,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 16,
+      "core_samples_ms": [
+        0.610265625,
+        0.6197553750000001,
+        0.5826693125,
+        0.595302125,
+        0.5923724375,
+        0.5931509374999998,
+        0.576533875,
+        0.588573,
+        0.6024583125
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.6102265,
+        0.6197214375,
+        0.5826379375000001,
+        0.595270875,
+        0.59234125,
+        0.5931173750000001,
+        0.5764923125,
+        0.58854175,
+        0.6024271250000001
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        11.377416,
+        11.119875,
+        11.235167,
+        10.806458,
+        11.431791,
+        11.061667,
+        11.531583,
+        11.254792,
+        11.129375
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 0,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 2,
+      "core_samples_ms": [
+        5.878583000000001,
+        5.8611875,
+        5.728021,
+        5.7857295,
+        5.8128955,
+        5.8339165,
+        5.897375,
+        5.956645999999999,
+        5.6918125
+      ],
+      "engine": "json-patch",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        5.8785415,
+        5.861146,
+        5.727979,
+        5.7857085,
+        5.812812,
+        5.8338540000000005,
+        5.897311999999999,
+        5.9565625,
+        5.69175
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        15.815958000000002,
+        16.207417,
+        16.322625,
+        15.87475,
+        15.998959,
+        16.408834000000002,
+        16.212708,
+        16.166792,
+        16.16575
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 0,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        1.63264075,
+        1.6492970000000002,
+        1.566567875,
+        1.61275525,
+        1.654994875,
+        1.6391771249999998,
+        1.671609375,
+        1.639937375,
+        1.656125
+      ],
+      "engine": "owned-ready",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.6326041249999999,
+        1.6492499999999999,
+        1.566541875,
+        1.6127239999999998,
+        1.6549428749999997,
+        1.639135375,
+        1.671567625,
+        1.6397914999999998,
+        1.656088625
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        11.086875,
+        11.332917,
+        11.187249999999999,
+        11.035542000000001,
+        11.198583999999999,
+        11.386000000000001,
+        11.195292,
+        11.0505,
+        11.109375
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 0,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 4,
+      "core_samples_ms": [
+        2.8918539999999995,
+        2.90103125,
+        2.8667395,
+        2.94051025,
+        2.883344,
+        2.8839997499999996,
+        2.83769775,
+        2.8976874999999995,
+        2.9505732499999997
+      ],
+      "engine": "owned-clone",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        2.89177075,
+        2.9009894999999997,
+        2.866698,
+        2.940177,
+        2.883302,
+        2.88395825,
+        2.837677,
+        2.8976144999999995,
+        2.9505105
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 0,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.0026309013671875097,
+        0.0024995312500000247,
+        0.002452455566406229,
+        0.0024242470703124755,
+        0.0024937089843750045,
+        0.0025507602539062437,
+        0.002556288574218767,
+        0.002511450195312441,
+        0.0025367592773437087
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.0025689877929687237,
+        0.0024410107421874794,
+        0.0024032817382812197,
+        0.0023755395507812213,
+        0.0024438291015624605,
+        0.002499903320312448,
+        0.00251488867187496,
+        0.0024707661132812443,
+        0.002496146484374973
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 1024,
+      "pipeline_samples_ms": [
+        0.010325751953124967,
+        0.010149530273437535,
+        0.010057834960937519,
+        0.010211265625000021,
+        0.010051248046874971,
+        0.01026461035156249,
+        0.010233206054687508,
+        0.009870675781250005,
+        0.010079215820312529
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 0,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.002915059082031239,
+        0.0028974169921874874,
+        0.00292788232421877,
+        0.003037716796875039,
+        0.0029649526367187557,
+        0.002975062988281269,
+        0.0029276733398437816,
+        0.0029529799804687337,
+        0.0029846962890625337
+      ],
+      "engine": "json-patch",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.0028549633789062656,
+        0.002838716796875027,
+        0.0028783525390625032,
+        0.002985121582031267,
+        0.002911064453125007,
+        0.0029240747070312274,
+        0.002887253906249987,
+        0.002912954589843778,
+        0.0029446591796874768
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 1024,
+      "pipeline_samples_ms": [
+        0.010365966796874976,
+        0.010241036132812461,
+        0.01028878808593744,
+        0.01020499707031246,
+        0.010270450195312477,
+        0.010310745117187462,
+        0.010192843749999975,
+        0.010188962890624985,
+        0.010296504882812507
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 0,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.0035021606445311865,
+        0.0035538500976562432,
+        0.00356530566406249,
+        0.003543252929687498,
+        0.003432428222656269,
+        0.0035521186523437467,
+        0.0034595483398436808,
+        0.00353300537109375,
+        0.003535158691406253
+      ],
+      "engine": "owned-ready",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.003438374023437495,
+        0.0034903608398437302,
+        0.003500813476562441,
+        0.0034787832031249405,
+        0.0033701542968749424,
+        0.0034881660156249666,
+        0.003408243652343779,
+        0.0034747568359374797,
+        0.003481764160156202
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 1024,
+      "pipeline_samples_ms": [
+        0.010737725585937484,
+        0.010921750976562445,
+        0.010781848632812487,
+        0.011003320312499985,
+        0.01091991992187499,
+        0.010820971679687453,
+        0.010992321289062452,
+        0.01098939257812497,
+        0.010897226562499949
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 0,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.0038903076171874734,
+        0.0038832490234375003,
+        0.0039044746093749765,
+        0.003920690917968717,
+        0.0039041469726562215,
+        0.003886991210937495,
+        0.003753685058593785,
+        0.003905707031249976,
+        0.003879028808593769
+      ],
+      "engine": "owned-clone",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.003837862304687543,
+        0.0038314814453125497,
+        0.0038512470703125357,
+        0.003868724609375044,
+        0.0038497685546875168,
+        0.003834992187500021,
+        0.003712747070312527,
+        0.0038636396484375253,
+        0.0038375068359374964
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 0,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        2.0208335,
+        1.947072875,
+        1.9756719999999999,
+        2.1057135000000002,
+        1.9584582499999998,
+        2.09840625,
+        2.0103542500000002,
+        2.046432375,
+        2.1345208749999998
+      ],
+      "engine": "json-patch",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.13475025,
+        1.0671928750000002,
+        1.067473875,
+        1.17379675,
+        1.0891926250000001,
+        1.15658325,
+        1.087552125,
+        1.12036475,
+        1.20277075
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 2,
+      "pipeline_samples_ms": [
+        7.10675,
+        7.307188,
+        7.4121465,
+        7.0205415,
+        7.5107295,
+        7.2368334999999995,
+        7.620979,
+        6.6451455,
+        7.3699580000000005
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 1,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 16,
+      "core_samples_ms": [
+        1.27606775,
+        1.2331639375,
+        1.2117160625000003,
+        1.269473875,
+        1.244908625,
+        1.1837265624999997,
+        1.2556224375,
+        1.2319715625,
+        1.1966716875
+      ],
+      "engine": "owned-ready",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.37255749999999993,
+        0.31095575000000003,
+        0.2952760625,
+        0.364362,
+        0.34640093750000006,
+        0.29137749999999996,
+        0.3596693125,
+        0.33806768750000005,
+        0.28257806250000006
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 4,
+      "pipeline_samples_ms": [
+        5.06038575,
+        5.03494775,
+        4.86842725,
+        4.945302,
+        4.888197750000001,
+        4.9278855,
+        4.9977497500000005,
+        5.041833,
+        5.0803227500000006
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 1,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        2.16041675,
+        2.174541625,
+        2.133093625,
+        2.25777075,
+        2.2274738750000003,
+        2.189817375,
+        2.2059740000000003,
+        2.0894844999999997,
+        2.15164575
+      ],
+      "engine": "owned-clone",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.3099740000000002,
+        1.285499875,
+        1.2512292500000002,
+        1.3500416249999998,
+        1.3427447499999998,
+        1.2857759999999998,
+        1.303344,
+        1.1962085000000002,
+        1.244323
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 1,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        2.6749321249999998,
+        2.76334875,
+        2.5832863749999997,
+        2.8211458749999996,
+        2.5706872499999998,
+        2.6234375,
+        2.490656,
+        2.489864625,
+        2.5453801249999994
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.8015987500000001,
+        1.8221198749999998,
+        1.6500990000000002,
+        1.8926146249999998,
+        1.64796875,
+        1.7175261249999998,
+        1.55199475,
+        1.5978125,
+        1.6568281249999999
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 2,
+      "pipeline_samples_ms": [
+        8.3076665,
+        7.9077085,
+        7.563583,
+        7.106667,
+        7.6837915,
+        7.411875,
+        7.7449585,
+        7.6594165,
+        7.782583499999999
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 1,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        21.800875,
+        20.610333,
+        21.867082999999997,
+        21.613542,
+        21.822833,
+        21.571958,
+        22.130625000000002,
+        21.438708000000002,
+        22.220584000000002
+      ],
+      "engine": "json-patch",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        12.659125,
+        11.629624999999999,
+        12.882249999999999,
+        12.652417,
+        12.697999999999999,
+        12.503917,
+        12.68125,
+        12.204125,
+        13.131917
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        77.245417,
+        75.722584,
+        75.308792,
+        76.003792,
+        76.263667,
+        77.05616699999999,
+        77.458833,
+        76.66625,
+        75.819
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 1,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        18.99375,
+        18.827209,
+        19.969625,
+        19.992167000000002,
+        18.755541,
+        18.700167,
+        19.854792,
+        20.109875,
+        19.914958
+      ],
+      "engine": "owned-ready",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        9.320625000000001,
+        9.726334,
+        10.732917,
+        10.688082999999999,
+        9.573500000000001,
+        9.444833,
+        10.164542,
+        10.853958,
+        10.388
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        58.775833999999996,
+        58.969333,
+        59.029667,
+        59.845333000000004,
+        60.28870800000001,
+        58.246791,
+        59.044167,
+        58.992208,
+        57.884875
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 1,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        31.784791,
+        32.236166,
+        32.234458000000004,
+        32.663584,
+        31.685707999999998,
+        31.012042,
+        31.121166,
+        31.552583000000002,
+        31.935875000000003
+      ],
+      "engine": "owned-clone",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        22.250916,
+        22.597333,
+        23.113333,
+        23.173792,
+        22.794249999999998,
+        21.86825,
+        22.087290999999997,
+        22.873333,
+        22.202792
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 1,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        31.11825,
+        31.801208,
+        31.778292,
+        31.476416,
+        31.48075,
+        31.362792,
+        32.656958,
+        31.724500000000003,
+        30.365792
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        22.335250000000002,
+        22.43,
+        22.788875,
+        21.83875,
+        22.534,
+        22.452666999999998,
+        23.755042,
+        22.649625,
+        21.360334
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        83.606,
+        83.473334,
+        83.673125,
+        83.701709,
+        83.267709,
+        84.43362499999999,
+        83.767083,
+        83.67137500000001,
+        82.5735
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 1,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        30.203292,
+        31.810667000000002,
+        30.878208,
+        31.213291,
+        30.884416,
+        31.035166999999998,
+        30.948083,
+        30.810167,
+        30.641416
+      ],
+      "engine": "json-patch",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        27.975084000000003,
+        29.478125000000002,
+        28.558875,
+        28.919875,
+        28.52875,
+        28.874875000000003,
+        28.786833,
+        28.522375,
+        28.356040999999998
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        87.543667,
+        86.361625,
+        88.567709,
+        88.983542,
+        87.723667,
+        88.62579199999999,
+        89.033083,
+        90.261917,
+        88.79537499999999
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 1,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        14.399000000000001,
+        13.700709,
+        14.55425,
+        14.168333,
+        13.596167,
+        14.663458,
+        13.748375,
+        14.104999999999999,
+        13.497125
+      ],
+      "engine": "owned-ready",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        12.087583,
+        11.531375,
+        12.264917,
+        11.812916,
+        11.401083,
+        12.299291,
+        11.407125,
+        11.738,
+        11.238916999999999
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        71.42483299999999,
+        73.66,
+        73.44924999999999,
+        73.86675,
+        72.588334,
+        72.892334,
+        72.946792,
+        72.00833399999999,
+        72.52891699999999
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 1,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        17.861416000000002,
+        17.812333,
+        17.578,
+        18.271083,
+        17.403583,
+        16.754333,
+        17.136167,
+        16.664624999999997,
+        17.785708
+      ],
+      "engine": "owned-clone",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        15.6355,
+        15.258208,
+        15.359584,
+        16.012124999999997,
+        15.117417,
+        14.422625,
+        14.8375,
+        14.435125,
+        15.476542
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 1,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        14.853917,
+        15.198875000000001,
+        15.30775,
+        14.587,
+        14.617417000000001,
+        14.732292,
+        17.197042,
+        14.416375,
+        14.284583999999999
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        12.561709,
+        12.9145,
+        13.029917000000001,
+        12.365417,
+        12.329792,
+        12.292375,
+        14.971709,
+        12.264959000000001,
+        11.915125
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        75.93670800000001,
+        80.361583,
+        74.786625,
+        75.99799999999999,
+        81.01641699999999,
+        75.83425000000001,
+        76.26108400000001,
+        75.76962499999999,
+        76.386917
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 1,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 2,
+      "core_samples_ms": [
+        5.83575,
+        5.812021,
+        5.855229,
+        5.78325,
+        5.861146,
+        5.7617080000000005,
+        5.9201875,
+        5.7107085,
+        5.8467705
+      ],
+      "engine": "json-patch",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        5.8354585,
+        5.811979,
+        5.8552085,
+        5.783125,
+        5.861104000000001,
+        5.7616665000000005,
+        5.9201665000000006,
+        5.710666499999999,
+        5.84675
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        16.364916,
+        15.805709,
+        16.377791,
+        16.230958,
+        16.322167,
+        16.299791000000003,
+        16.407833,
+        16.130458,
+        16.097541
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 1,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        1.6098805,
+        1.6056458750000002,
+        1.6478540000000002,
+        1.5992186249999998,
+        1.6295832499999998,
+        1.620593875,
+        1.604385625,
+        1.6627291250000003,
+        1.616171375
+      ],
+      "engine": "owned-ready",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.60984375,
+        1.605588375,
+        1.64779675,
+        1.5991666249999998,
+        1.62949475,
+        1.6205365,
+        1.6043593749999998,
+        1.6626874999999999,
+        1.6161143750000002
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        10.927208,
+        11.317584,
+        10.800542,
+        10.989709,
+        11.211041999999999,
+        10.991959000000001,
+        10.917875,
+        10.743667,
+        11.124458
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 1,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 4,
+      "core_samples_ms": [
+        2.9382395,
+        2.9410204999999996,
+        2.9205309999999995,
+        2.84206225,
+        2.8588855,
+        2.9476250000000004,
+        2.91277075,
+        2.83111475,
+        2.90698925
+      ],
+      "engine": "owned-clone",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        2.9381457500000003,
+        2.9409167500000004,
+        2.9204895,
+        2.8419997500000003,
+        2.8588435000000003,
+        2.9475935,
+        2.912729,
+        2.831073,
+        2.9069477499999996
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 1,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 32,
+      "core_samples_ms": [
+        0.6092147500000001,
+        0.5975312187499998,
+        0.5907070625000002,
+        0.614542875,
+        0.62115103125,
+        0.6116381250000001,
+        0.5869440312499998,
+        0.59078778125,
+        0.6056041875
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.6091783125000001,
+        0.5974921875,
+        0.59067065625,
+        0.61451046875,
+        0.6211198125,
+        0.61160040625,
+        0.5869009687500002,
+        0.5907539687500001,
+        0.605565
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        10.9975,
+        11.002791,
+        11.121916,
+        11.115666,
+        10.699292,
+        11.155291,
+        11.358709,
+        11.242666999999999,
+        10.880374999999999
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 1,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.0029766879882812706,
+        0.0029171186523437834,
+        0.002924481445312526,
+        0.00291423144531255,
+        0.002989050292968763,
+        0.0028894584960936884,
+        0.0028661640625000226,
+        0.0029401411132812584,
+        0.0029456762695312462
+      ],
+      "engine": "json-patch",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.0029162265625000032,
+        0.002858514648437533,
+        0.0028750610351562372,
+        0.0028646718749999974,
+        0.0029394345703125098,
+        0.0028400053710937625,
+        0.0028268525390625016,
+        0.0028991591796875254,
+        0.002904495605468788
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 1024,
+      "pipeline_samples_ms": [
+        0.01012321679687499,
+        0.010079185546874994,
+        0.010036187499999986,
+        0.01034846874999999,
+        0.010054619140624988,
+        0.010258295898437464,
+        0.010050144531249996,
+        0.013591522460937451,
+        0.021179293945312382
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 1,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.002986283691406225,
+        0.003030945312499976,
+        0.003037327148437482,
+        0.0030003984374999755,
+        0.0030849360351562294,
+        0.003065452148437505,
+        0.0029312143554687704,
+        0.0030018627929687615,
+        0.002977111816406274
+      ],
+      "engine": "owned-ready",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.002935751953125042,
+        0.002978167480468785,
+        0.002986158691406279,
+        0.0029496157226562595,
+        0.0030326938476562485,
+        0.0030135263671875316,
+        0.0028904008789062572,
+        0.0029612734375000153,
+        0.0029364213867187797
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 2048,
+      "pipeline_samples_ms": [
+        0.009567760742187495,
+        0.009540701171875015,
+        0.009611115722656287,
+        0.009550997070312475,
+        0.009624982421875015,
+        0.009502013183593743,
+        0.009586034667968747,
+        0.009524074707031285,
+        0.00962067431640621
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 1,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.0037841845703124734,
+        0.003808018554687469,
+        0.004012842773437486,
+        0.003928344238281197,
+        0.0038393471679687196,
+        0.0038447431640624944,
+        0.0038786430664062618,
+        0.0038837324218750093,
+        0.0038524296874999915
+      ],
+      "engine": "owned-clone",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.003732916015625051,
+        0.0037571669921875493,
+        0.003956671874999996,
+        0.0038761669921875204,
+        0.0037894008789063067,
+        0.0037946816406250234,
+        0.0038366118164063195,
+        0.0038416435546875455,
+        0.0038105703125000216
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 1,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.0025976381835937294,
+        0.002482544921875018,
+        0.002443633300781238,
+        0.002575362304687498,
+        0.0025242890625,
+        0.0025273032226562587,
+        0.002508471679687481,
+        0.002553400878906238,
+        0.002519693847656254
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.002534894042968724,
+        0.002423155761718693,
+        0.002394309082031222,
+        0.0025237534179687157,
+        0.0024701708984374597,
+        0.0024767641601562136,
+        0.0024667666015624444,
+        0.0025101840820312125,
+        0.002477716308593691
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 1024,
+      "pipeline_samples_ms": [
+        0.009689088867187522,
+        0.009710316406249999,
+        0.010064865234374993,
+        0.00972785156249999,
+        0.009717610351562479,
+        0.009754545898437491,
+        0.009924979492187467,
+        0.010036103515624962,
+        0.009892559570312449
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 1,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 16,
+      "core_samples_ms": [
+        1.2215651875,
+        1.2428203125,
+        1.1932109375,
+        1.189992125,
+        1.197372375,
+        1.1919114375,
+        1.2834375624999999,
+        1.2276249999999997,
+        1.2890235625000002
+      ],
+      "engine": "owned-ready",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.33103899999999997,
+        0.34440375,
+        0.3024505,
+        0.32496356249999997,
+        0.331445125,
+        0.29283325,
+        0.4074010625,
+        0.31317693750000003,
+        0.36291668750000006
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 2,
+      "pipeline_samples_ms": [
+        4.7756045,
+        4.645666500000001,
+        4.6888545,
+        4.641146,
+        4.629333000000001,
+        4.638479500000001,
+        4.480771,
+        4.9119585,
+        5.1271664999999995
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 2,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 4,
+      "core_samples_ms": [
+        2.49243725,
+        2.5303125,
+        2.5017815,
+        2.2514895,
+        2.5256145,
+        2.2642184999999997,
+        2.66478125,
+        2.41044775,
+        2.2609269999999997
+      ],
+      "engine": "owned-clone",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.5780414999999999,
+        1.6190942499999998,
+        1.56955225,
+        1.3718022499999998,
+        1.6360834999999998,
+        1.3650105,
+        1.7622915,
+        1.48174975,
+        1.342177
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 2,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 4,
+      "core_samples_ms": [
+        2.250396,
+        2.50763575,
+        2.3322815,
+        2.21445825,
+        2.4762704999999996,
+        2.39141675,
+        2.6293645,
+        2.1908125,
+        2.4934685
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.3925729999999998,
+        1.5854792500000001,
+        1.4555310000000001,
+        1.3623750000000001,
+        1.5865935,
+        1.5214064999999999,
+        1.7158019999999998,
+        1.34162525,
+        1.5979477500000001
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 2,
+      "pipeline_samples_ms": [
+        7.7574795000000005,
+        7.0280625,
+        6.4185419999999995,
+        7.0855205,
+        7.7460415000000005,
+        8.162937,
+        7.476437499999999,
+        7.5446455,
+        7.49275
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 2,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        2.022510375,
+        1.742588375,
+        2.028473875,
+        2.035526125,
+        2.248890625,
+        2.024375125,
+        2.0326925000000005,
+        1.9151040000000001,
+        2.1266511250000004
+      ],
+      "engine": "json-patch",
+      "fixture": "add-wide-10000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.1537032500000002,
+        0.9051405,
+        1.064713625,
+        1.06644275,
+        1.28935925,
+        1.107926875,
+        1.099859375,
+        1.046036375,
+        1.2133541250000002
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 2,
+      "pipeline_samples_ms": [
+        7.059063,
+        7.146187,
+        7.156416999999999,
+        7.7151255,
+        6.994854,
+        7.041166499999999,
+        7.7751255,
+        7.2208334999999995,
+        7.081666500000001
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 418932,
+      "repeat": 2,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        19.0225,
+        18.900791,
+        18.179875000000003,
+        18.955541999999998,
+        18.293416,
+        20.196334,
+        18.760041,
+        18.987084000000003,
+        20.005042
+      ],
+      "engine": "owned-ready",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        10.090333999999999,
+        10.268333,
+        9.496125,
+        10.001209000000001,
+        9.272375,
+        10.3085,
+        9.7135,
+        10.338042,
+        10.968292
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        65.864708,
+        63.022124999999996,
+        63.488958,
+        66.015333,
+        64.79025,
+        66.33225,
+        63.966333,
+        65.782542,
+        63.64429200000001
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 2,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        31.301250000000003,
+        30.334291999999998,
+        31.613500000000002,
+        30.408375000000003,
+        31.361124999999998,
+        33.582916999999995,
+        32.202416,
+        32.665958,
+        32.767292000000005
+      ],
+      "engine": "owned-clone",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        22.627834,
+        21.769417,
+        22.468667,
+        21.631916,
+        22.424375,
+        23.618334,
+        23.442291,
+        23.789624999999997,
+        23.797292000000002
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 2,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        32.076541,
+        32.259541000000006,
+        32.331167,
+        32.014874999999996,
+        34.223208,
+        33.114917,
+        31.590166000000004,
+        31.708875,
+        31.637958
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        22.875791,
+        23.27425,
+        23.374125,
+        23.259333,
+        24.5485,
+        24.109667,
+        22.693041,
+        22.766083,
+        22.542541999999997
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        81.857709,
+        81.961542,
+        85.16291600000001,
+        83.300292,
+        85.770958,
+        86.910084,
+        87.078083,
+        90.001,
+        82.945583
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 2,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        23.954832999999997,
+        24.121457999999997,
+        23.722666999999998,
+        22.688041,
+        23.1125,
+        23.613833,
+        23.427540999999998,
+        23.685624999999998,
+        23.301417
+      ],
+      "engine": "json-patch",
+      "fixture": "add-wide-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        14.511583,
+        14.643041,
+        14.496500000000001,
+        13.396375,
+        13.97925,
+        14.311124999999999,
+        14.108458,
+        14.55625,
+        14.099333
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "add": 1
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        79.29679200000001,
+        78.930666,
+        78.123708,
+        79.47883399999999,
+        79.33833299999999,
+        81.899416,
+        77.694292,
+        78.59933299999999,
+        79.095084
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 4288932,
+      "repeat": 2,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        14.140834,
+        14.191958,
+        13.832959,
+        14.272292,
+        15.048791000000001,
+        15.198082999999999,
+        13.557125,
+        14.099125,
+        13.690624999999999
+      ],
+      "engine": "owned-ready",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        11.744584000000001,
+        11.849708,
+        11.469834,
+        11.906666999999999,
+        12.631458,
+        12.837916,
+        11.350709,
+        11.742625,
+        11.409291
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        72.769666,
+        72.454959,
+        71.803625,
+        72.3575,
+        72.221041,
+        73.11562500000001,
+        72.870375,
+        73.715916,
+        72.450292
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 2,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        17.00875,
+        17.637333,
+        17.053874999999998,
+        17.207166,
+        17.454541,
+        18.020459,
+        17.762041999999997,
+        16.874292,
+        16.878125
+      ],
+      "engine": "owned-clone",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        14.769291,
+        15.337290999999999,
+        14.856541,
+        14.881166,
+        15.245541,
+        15.802084,
+        15.401708,
+        14.641959,
+        14.600708000000001
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 2,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        14.395334,
+        14.747583,
+        14.944749999999999,
+        13.813666000000001,
+        14.6735,
+        14.569208999999999,
+        14.327625,
+        14.113459,
+        13.669417
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        12.076459,
+        12.42975,
+        12.680874999999999,
+        11.202166,
+        12.530708,
+        12.352459,
+        11.950208,
+        11.904417,
+        11.337250000000001
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        75.24283299999999,
+        74.715375,
+        74.4935,
+        75.415125,
+        73.986416,
+        75.7425,
+        75.92999999999999,
+        75.378416,
+        75.530417
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 2,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 1,
+      "core_samples_ms": [
+        30.80175,
+        30.459334000000002,
+        31.382583,
+        31.013584,
+        30.830917,
+        30.748834,
+        30.8405,
+        31.439375,
+        31.242292000000003
+      ],
+      "engine": "json-patch",
+      "fixture": "scalar-guards-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        28.481792,
+        28.304292,
+        29.072667,
+        28.735459000000002,
+        28.513707999999998,
+        28.450125,
+        28.531292,
+        29.180333,
+        28.923125000000002
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 100000
+      },
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        88.284375,
+        88.19375,
+        89.02837500000001,
+        88.318167,
+        88.355042,
+        88.219041,
+        87.879541,
+        88.9655,
+        87.510458
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 5978896,
+      "repeat": 2,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+    },
+    {
+      "core_iterations": 8,
+      "core_samples_ms": [
+        1.613296625,
+        1.6230833750000002,
+        1.6091667500000002,
+        1.6392446250000001,
+        1.672911375,
+        1.62269275,
+        1.6530676249999998,
+        1.6391143750000003,
+        1.598250125
+      ],
+      "engine": "owned-ready",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        1.6132552500000001,
+        1.62303675,
+        1.6091250000000001,
+        1.6391302500000002,
+        1.672890625,
+        1.62265625,
+        1.6530366250000004,
+        1.6390781249999997,
+        1.5982136249999999
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        11.064333000000001,
+        11.355042,
+        10.8275,
+        11.382875,
+        11.227375,
+        11.402541000000001,
+        11.36825,
+        11.670542000000001,
+        11.55675
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 2,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 4,
+      "core_samples_ms": [
+        2.87737525,
+        2.9875935,
+        2.9402497499999996,
+        2.90504175,
+        2.88469775,
+        2.88975,
+        2.91947925,
+        2.9480312499999997,
+        2.9382292499999996
+      ],
+      "engine": "owned-clone",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        2.8772605,
+        2.9874687499999997,
+        2.940198,
+        2.9050000000000002,
+        2.88466675,
+        2.8896562500000003,
+        2.91944775,
+        2.948,
+        2.93820825
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 2,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 16,
+      "core_samples_ms": [
+        0.6251587500000001,
+        0.6342292500000001,
+        0.6234166250000001,
+        0.6217682499999999,
+        0.6544298125000001,
+        0.6314999374999999,
+        0.6268204375,
+        0.6397136874999999,
+        0.6286301249999999
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.6251300000000001,
+        0.63420575,
+        0.6233906874999999,
+        0.621737125,
+        0.6543985000000001,
+        0.6314636875,
+        0.626760625,
+        0.63967725,
+        0.628596125
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        11.176333,
+        11.231,
+        11.276167000000001,
+        11.117583,
+        10.971125,
+        11.228167000000001,
+        11.099166,
+        10.934292,
+        11.153458
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 2,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 2,
+      "core_samples_ms": [
+        5.8283745,
+        5.898771,
+        5.8247495,
+        5.937708499999999,
+        5.815854,
+        5.895104,
+        5.853479500000001,
+        5.809917,
+        5.7039795
+      ],
+      "engine": "json-patch",
+      "fixture": "unchanged-100000",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        5.828333,
+        5.8987289999999994,
+        5.824708,
+        5.937667,
+        5.8158125,
+        5.895042,
+        5.8534585,
+        5.809875,
+        5.703938
+      ],
+      "inverse_verified": true,
+      "operation_counts": {},
+      "pipeline_iterations": 1,
+      "pipeline_samples_ms": [
+        16.410417,
+        16.436875,
+        16.438084,
+        16.3765,
+        16.441000000000003,
+        16.187125,
+        16.213167000000002,
+        16.517125,
+        16.574167
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 2,
+      "repeat": 2,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.003020570800781262,
+        0.0029730761718750063,
+        0.003082073242187511,
+        0.0030895048828124693,
+        0.003043119628906218,
+        0.0030766689453124766,
+        0.0030639150390624707,
+        0.0030668164062499486,
+        0.0030544013671874874
+      ],
+      "engine": "owned-ready",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.002970351562500067,
+        0.0029238330078125412,
+        0.0030282329101562365,
+        0.0030387602539063236,
+        0.0029934946289062437,
+        0.003025600097656268,
+        0.0030228715820312863,
+        0.0030263759765625166,
+        0.0030138925781250155
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 2048,
+      "pipeline_samples_ms": [
+        0.009796572753906174,
+        0.009821921386718672,
+        0.009905235351562408,
+        0.009723388671874925,
+        0.009631769042968728,
+        0.00988242089843741,
+        0.009760116699218654,
+        0.009790913085937398,
+        0.009567264648437511
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 2,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.0038868051757812343,
+        0.0038479843749999877,
+        0.003941172851562482,
+        0.0038818222656249604,
+        0.003851575683593706,
+        0.0038256894531249657,
+        0.003851992675781229,
+        0.0038612841796875335,
+        0.0038637021484374955
+      ],
+      "engine": "owned-clone",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.0038341357421874923,
+        0.0037940834960937106,
+        0.00388684521484373,
+        0.003830312011718728,
+        0.0037999296875000995,
+        0.003775104492187487,
+        0.0038105102539062784,
+        0.0038201196289063214,
+        0.0038211738281250427
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": null,
+      "pipeline_samples_ms": null,
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 2,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.0026372680664062597,
+        0.0026039907226562413,
+        0.002553449218749994,
+        0.002566365234374988,
+        0.002576728027343739,
+        0.0025752631835937634,
+        0.0025153535156249994,
+        0.002513264648437445,
+        0.0025403134765625114
+      ],
+      "engine": "palim-borrowed",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.0025770776367187113,
+        0.0025426059570312475,
+        0.002502961914062472,
+        0.0025155927734374747,
+        0.0025233007812499827,
+        0.0025249858398437,
+        0.0024750102539062217,
+        0.002472938476562493,
+        0.0024986767578124595
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 1024,
+      "pipeline_samples_ms": [
+        0.009803186523437465,
+        0.009781165039062513,
+        0.009929311523437467,
+        0.009807184570312523,
+        0.00995029882812497,
+        0.00998218554687497,
+        0.009946078124999978,
+        0.00982058886718749,
+        0.01009844140624999
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 2,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    },
+    {
+      "core_iterations": 2048,
+      "core_samples_ms": [
+        0.002995050781250015,
+        0.0029495375976562885,
+        0.0028856806640624906,
+        0.0030023686523437247,
+        0.002926603515624991,
+        0.003037968261718761,
+        0.0030033876953124614,
+        0.002842959960937518,
+        0.002936644042968774
+      ],
+      "engine": "json-patch",
+      "fixture": "small-config-edit",
+      "forward_verified": true,
+      "generation_samples_ms": [
+        0.0029340224609375487,
+        0.002889347167968791,
+        0.0028371508789062773,
+        0.002951797851562521,
+        0.002869133300781286,
+        0.00298149023437503,
+        0.0029540458984374995,
+        0.0028048447265625006,
+        0.002895166015624985
+      ],
+      "inverse_verified": true,
+      "operation_counts": {
+        "replace": 1
+      },
+      "pipeline_iterations": 1024,
+      "pipeline_samples_ms": [
+        0.010504025390624944,
+        0.010304124023437446,
+        0.010310786132812444,
+        0.010282236328124965,
+        0.010293364257812495,
+        0.010400389648437496,
+        0.010337119140624969,
+        0.010366693359374969,
+        0.01033463769531244
+      ],
+      "plain_output_identical": true,
+      "wire_bytes": 53,
+      "repeat": 2,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+    }
+  ],
+  "fixtures": {
+    "add-wide-10000": "313ce77c3581a6424e21cf19fb8a61c5f7dc5038d4eaab189e8c07db80b4eab5",
+    "add-wide-100000": "776612c046b5b25deb904e329ae0663c139963e4234a690e65b58b97e271e12e",
+    "scalar-guards-100000": "2870ab8e843aa990b575d9f634a535df4ac7d1265b5d8afcbd6618234c99349f",
+    "unchanged-100000": "a15d9e82098de9f4f62e051a9dedaa2a531f2b6f79c3ead891c3dbb3c8593cab",
+    "small-config-edit": "d5bada274b5263089b907a4d1ee750b85d8eb87ab33e9ddaddf09301777730b2"
+  },
+  "checks": {
+    "prototype_tests_debug": "running 4 tests\ntest owned_probe::tests::unsupported_changes_return_errors_instead_of_partial_patches ... ok\ntest owned_probe::tests::numeric_additions_and_replacements_keep_distinct_contracts ... ok\ntest owned_probe::tests::supported_changes_keep_wire_contract_and_move_storage ... ok\ntest owned_probe::tests::depth_errors_match_and_rejected_owned_input_drops_iteratively ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.07s",
+    "prototype_tests_release": "running 4 tests\ntest owned_probe::tests::unsupported_changes_return_errors_instead_of_partial_patches ... ok\ntest owned_probe::tests::supported_changes_keep_wire_contract_and_move_storage ... ok\ntest owned_probe::tests::numeric_additions_and_replacements_keep_distinct_contracts ... ok\ntest owned_probe::tests::depth_errors_match_and_rejected_owned_input_drops_iteratively ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.01s",
+    "prototype_clippy_all_targets": "exit 0",
+    "prototype_msrv_library": "exit 0",
+    "wire_equality_all_engines": "all five fixtures; three processes per engine"
+  },
+  "summary": [
+    {
+      "fixture": "add-wide-10000",
+      "engine": "palim-borrowed",
+      "core_ms": 2.562959,
+      "generation_ms": 1.6336252499999997,
+      "pipeline_ms": 7.6068745,
+      "wire_bytes": 418932,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049",
+      "operation_counts": {
+        "add": 1
+      }
+    },
+    {
+      "fixture": "add-wide-10000",
+      "engine": "json-patch",
+      "core_ms": 2.0208335,
+      "generation_ms": 1.099859375,
+      "pipeline_ms": 7.146187,
+      "wire_bytes": 418932,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049",
+      "operation_counts": {
+        "add": 1
+      }
+    },
+    {
+      "fixture": "add-wide-10000",
+      "engine": "owned-ready",
+      "core_ms": 1.2215651875,
+      "generation_ms": 0.33103899999999997,
+      "pipeline_ms": 4.831302,
+      "wire_bytes": 418932,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049",
+      "operation_counts": {
+        "add": 1
+      }
+    },
+    {
+      "fixture": "add-wide-10000",
+      "engine": "owned-clone",
+      "core_ms": 2.3106095,
+      "generation_ms": 1.441333375,
+      "pipeline_ms": null,
+      "wire_bytes": 418932,
+      "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049",
+      "operation_counts": {
+        "add": 1
+      }
+    },
+    {
+      "fixture": "add-wide-100000",
+      "engine": "palim-borrowed",
+      "core_ms": 31.48075,
+      "generation_ms": 22.452666999999998,
+      "pipeline_ms": 84.090666,
+      "wire_bytes": 4288932,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31",
+      "operation_counts": {
+        "add": 1
+      }
+    },
+    {
+      "fixture": "add-wide-100000",
+      "engine": "json-patch",
+      "core_ms": 23.613833,
+      "generation_ms": 14.311124999999999,
+      "pipeline_ms": 79.095084,
+      "wire_bytes": 4288932,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31",
+      "operation_counts": {
+        "add": 1
+      }
+    },
+    {
+      "fixture": "add-wide-100000",
+      "engine": "owned-ready",
+      "core_ms": 19.557833,
+      "generation_ms": 10.164542,
+      "pipeline_ms": 64.77266700000001,
+      "wire_bytes": 4288932,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31",
+      "operation_counts": {
+        "add": 1
+      }
+    },
+    {
+      "fixture": "add-wide-100000",
+      "engine": "owned-clone",
+      "core_ms": 31.784791,
+      "generation_ms": 22.627834,
+      "pipeline_ms": null,
+      "wire_bytes": 4288932,
+      "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31",
+      "operation_counts": {
+        "add": 1
+      }
+    },
+    {
+      "fixture": "scalar-guards-100000",
+      "engine": "palim-borrowed",
+      "core_ms": 14.732292,
+      "generation_ms": 12.365417,
+      "pipeline_ms": 75.378416,
+      "wire_bytes": 5978896,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "operation_counts": {
+        "replace": 100000
+      }
+    },
+    {
+      "fixture": "scalar-guards-100000",
+      "engine": "json-patch",
+      "core_ms": 30.884416,
+      "generation_ms": 28.558875,
+      "pipeline_ms": 88.62579199999999,
+      "wire_bytes": 5978896,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "operation_counts": {
+        "replace": 100000
+      }
+    },
+    {
+      "fixture": "scalar-guards-100000",
+      "engine": "owned-ready",
+      "core_ms": 14.140834,
+      "generation_ms": 11.738,
+      "pipeline_ms": 72.892334,
+      "wire_bytes": 5978896,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "operation_counts": {
+        "replace": 100000
+      }
+    },
+    {
+      "fixture": "scalar-guards-100000",
+      "engine": "owned-clone",
+      "core_ms": 17.578,
+      "generation_ms": 15.258208,
+      "pipeline_ms": null,
+      "wire_bytes": 5978896,
+      "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+      "operation_counts": {
+        "replace": 100000
+      }
+    },
+    {
+      "fixture": "unchanged-100000",
+      "engine": "palim-borrowed",
+      "core_ms": 0.6056041875,
+      "generation_ms": 0.605565,
+      "pipeline_ms": 11.153458,
+      "wire_bytes": 2,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "operation_counts": {}
+    },
+    {
+      "fixture": "unchanged-100000",
+      "engine": "json-patch",
+      "core_ms": 5.8339165,
+      "generation_ms": 5.8338540000000005,
+      "pipeline_ms": 16.299791000000003,
+      "wire_bytes": 2,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "operation_counts": {}
+    },
+    {
+      "fixture": "unchanged-100000",
+      "engine": "owned-ready",
+      "core_ms": 1.6230833750000002,
+      "generation_ms": 1.62303675,
+      "pipeline_ms": 11.187249999999999,
+      "wire_bytes": 2,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "operation_counts": {}
+    },
+    {
+      "fixture": "unchanged-100000",
+      "engine": "owned-clone",
+      "core_ms": 2.91277075,
+      "generation_ms": 2.912729,
+      "pipeline_ms": null,
+      "wire_bytes": 2,
+      "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "operation_counts": {}
+    },
+    {
+      "fixture": "small-config-edit",
+      "engine": "palim-borrowed",
+      "core_ms": 0.0025242890625,
+      "generation_ms": 0.0024767641601562136,
+      "pipeline_ms": 0.009929311523437467,
+      "wire_bytes": 53,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "operation_counts": {
+        "replace": 1
+      }
+    },
+    {
+      "fixture": "small-config-edit",
+      "engine": "json-patch",
+      "core_ms": 0.0029495375976562885,
+      "generation_ms": 0.002895166015624985,
+      "pipeline_ms": 0.010270450195312477,
+      "wire_bytes": 53,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "operation_counts": {
+        "replace": 1
+      }
+    },
+    {
+      "fixture": "small-config-edit",
+      "engine": "owned-ready",
+      "core_ms": 0.0030639150390624707,
+      "generation_ms": 0.0030228715820312863,
+      "pipeline_ms": 0.009790913085937398,
+      "wire_bytes": 53,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "operation_counts": {
+        "replace": 1
+      }
+    },
+    {
+      "fixture": "small-config-edit",
+      "engine": "owned-clone",
+      "core_ms": 0.0038612841796875335,
+      "generation_ms": 0.0038201196289063214,
+      "pipeline_ms": null,
+      "wire_bytes": 53,
+      "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+      "operation_counts": {
+        "replace": 1
+      }
+    }
+  ],
+  "pilot": {
+    "checked_at": "2026-10-07T05:55:51.012409+00:00",
+    "source_commit": "ca2c28ab78b28a4ec92c25e63ba499f78d6a3e7a",
+    "source_archive_sha256": "2c9ec356fecaa25ddd75cdca4c2fd16b2c21948871b74d1b1ed1dbfb9e9a9eaf",
+    "prototype_sha256": "b5066a64311c9bb00cca8986537af48393948577ff957a9ec8915155b570a7a3",
+    "runner_sha256": "8209b71bd2b1b72aa6b5e703507316266a6c7b9dbb63c590ed022ce0ec047c23",
+    "fixture_archive_sha256": "49a8876b7168d080ae3eb30718a42fdc69330e250ebddad80b74da903a24c5fe",
+    "environment": {
+      "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+      "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: aarch64-apple-darwin\nrelease: 1.97.0\nLLVM version: 22.1.6",
+      "cargo": "cargo 1.97.0 (c980f4866 2026-06-30)"
+    },
+    "method": {
+      "scope": "Experimental add/replace only; no changed array pairs, deletions, callbacks or optimization.",
+      "core": "Parsed Values -> generate and destroy Patch; owned-ready receives a prepared target outside timing.",
+      "owned_clone_core": "Clone right inside timing -> owned generation -> destroy Patch.",
+      "pipeline": "Same raw bytes -> parse both documents -> generate -> serialize -> destroy inputs and output.",
+      "sampling": "3 warmups, >=10ms calibration capped at 2048, 9 batches, 3 serial processes; rotated engine order.",
+      "comparison": "Borrowed and consuming Core are different ownership contracts; pipeline boundaries are identical."
+    },
+    "records": [
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          2.401114375,
+          2.1895885,
+          2.1849115,
+          2.453135375,
+          2.260171875,
+          2.4271515,
+          2.1909375,
+          2.2586825,
+          2.317869625
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 2,
+        "pipeline_samples_ms": [
+          7.5668545,
+          6.7977085,
+          7.245791499999999,
+          7.9762915,
+          7.328292,
+          6.5247715,
+          7.3729585,
+          7.724624499999999,
+          7.087146
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 0,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          1.93604175,
+          1.838114625,
+          1.757198125,
+          1.841203375,
+          2.064833375,
+          2.028182125,
+          1.8123645,
+          1.862640875,
+          1.8465470000000002
+        ],
+        "engine": "json-patch",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 2,
+        "pipeline_samples_ms": [
+          7.128125,
+          6.9840005000000005,
+          6.232021,
+          7.047396,
+          6.8865415,
+          6.7912295,
+          7.2534585,
+          6.811707999999999,
+          6.9936039999999995
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 0,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 16,
+        "core_samples_ms": [
+          1.1754738125000002,
+          1.2368803125,
+          1.1805415625,
+          1.1763774999999999,
+          1.2523046874999997,
+          1.1620026250000002,
+          1.19224475,
+          1.2084505625,
+          1.370833375
+        ],
+        "engine": "owned-ready",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 4,
+        "pipeline_samples_ms": [
+          4.72301075,
+          4.7123645,
+          4.7467500000000005,
+          4.7798125,
+          4.9740625000000005,
+          4.7447395,
+          5.02823975,
+          5.087364750000001,
+          4.984177
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 0,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          2.132192625,
+          2.003520875,
+          2.043713375,
+          2.085302375,
+          2.207557375,
+          2.102046875,
+          2.1831093750000004,
+          2.047505375,
+          2.1899636250000003
+        ],
+        "engine": "owned-clone",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 0,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          31.935666,
+          32.938,
+          31.739875,
+          31.466541,
+          32.18625,
+          32.527958000000005,
+          31.798750000000002,
+          31.985333999999998,
+          32.289208
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          86.92833399999999,
+          86.967,
+          87.17825,
+          86.83866599999999,
+          88.04983299999999,
+          86.86000000000001,
+          86.91529100000001,
+          87.486125,
+          86.32275
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 0,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          21.333458,
+          23.223209,
+          21.824084,
+          21.035249999999998,
+          21.60625,
+          21.619291999999998,
+          21.826833999999998,
+          22.253292000000002,
+          21.837291
+        ],
+        "engine": "json-patch",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          75.977292,
+          76.767875,
+          75.751875,
+          75.923792,
+          75.340708,
+          76.833292,
+          76.000917,
+          76.036833,
+          75.45062499999999
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 0,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          19.138042000000002,
+          18.437209,
+          18.369542,
+          18.389334,
+          19.480375000000002,
+          19.007417,
+          19.764209,
+          19.121667,
+          19.200333
+        ],
+        "engine": "owned-ready",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          58.867208999999995,
+          57.450666999999996,
+          59.051792,
+          57.318708,
+          56.452583000000004,
+          58.628583,
+          58.0005,
+          58.458917,
+          57.835583
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 0,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          32.121083,
+          32.903209000000004,
+          33.220208,
+          32.257374999999996,
+          32.985625,
+          31.655999999999995,
+          30.736833,
+          30.701542,
+          31.130583
+        ],
+        "engine": "owned-clone",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 0,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          13.870959000000001,
+          14.50775,
+          14.656,
+          14.144791,
+          13.886000000000001,
+          14.612125,
+          13.871625,
+          14.338792,
+          14.283125
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          77.256,
+          79.10012499999999,
+          76.163291,
+          75.53154199999999,
+          74.699208,
+          72.79079200000001,
+          72.800584,
+          73.194542,
+          73.733666
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 0,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          30.442207999999997,
+          30.288959000000002,
+          30.135667,
+          30.359375,
+          31.634458,
+          30.188166,
+          30.764166999999997,
+          30.224207999999997,
+          30.616625000000003
+        ],
+        "engine": "json-patch",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          88.48995799999999,
+          88.187542,
+          88.298917,
+          88.17970799999999,
+          88.535292,
+          88.35324999999999,
+          89.22541700000001,
+          88.33983300000001,
+          88.005291
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 0,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          14.59525,
+          14.576084,
+          15.365917,
+          14.807583,
+          14.408583,
+          14.600458,
+          14.061625,
+          13.741625,
+          14.035874999999999
+        ],
+        "engine": "owned-ready",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          73.19704200000001,
+          73.668791,
+          73.73879099999999,
+          72.823375,
+          73.624167,
+          74.143416,
+          72.78283300000001,
+          73.803375,
+          73.38725
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 0,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          17.965334,
+          18.847541,
+          17.966375,
+          18.346208,
+          18.325125,
+          17.529333,
+          17.623208,
+          17.719833,
+          17.275292
+        ],
+        "engine": "owned-clone",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 0,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 32,
+        "core_samples_ms": [
+          0.6306510937499998,
+          0.61954559375,
+          0.6330366249999999,
+          0.6085376875,
+          0.6463776874999999,
+          0.6171105937500001,
+          0.6578345624999998,
+          0.6376861875,
+          0.6398359374999999
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          11.374209,
+          11.283375,
+          11.43825,
+          11.461875,
+          11.532499999999999,
+          11.503083,
+          11.490874999999999,
+          11.437625,
+          11.588542
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 0,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 2,
+        "core_samples_ms": [
+          5.846833,
+          5.627708500000001,
+          5.818979,
+          5.736041500000001,
+          5.7790415,
+          5.7883545000000005,
+          5.7071875,
+          5.7997084999999995,
+          5.7258335
+        ],
+        "engine": "json-patch",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          16.290166,
+          16.458667,
+          16.452624999999998,
+          16.471916,
+          16.163334000000003,
+          16.505125,
+          16.430291999999998,
+          16.233584,
+          16.164708
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 0,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          1.65500525,
+          1.6504531249999999,
+          1.6626875,
+          1.625291625,
+          1.642328125,
+          1.673130375,
+          1.59334375,
+          1.62088025,
+          1.6540261250000001
+        ],
+        "engine": "owned-ready",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          11.336250000000001,
+          11.383916,
+          11.600542,
+          11.556417,
+          11.54275,
+          11.630875000000001,
+          11.482917,
+          11.374291999999999,
+          11.761875
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 0,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 4,
+        "core_samples_ms": [
+          3.01110425,
+          2.883,
+          3.02756275,
+          2.93431225,
+          2.899354,
+          2.88999975,
+          2.94905225,
+          2.9446145,
+          2.99156225
+        ],
+        "engine": "owned-clone",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 0,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.002527808105468742,
+          0.002537715332031246,
+          0.0024946464843749933,
+          0.002493342285156203,
+          0.0024916279296874474,
+          0.0025260219726562154,
+          0.0024890834960937473,
+          0.002513944335937477,
+          0.0024752763671874803
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 2048,
+        "pipeline_samples_ms": [
+          0.009835458984374894,
+          0.009799481933593585,
+          0.009853938476562385,
+          0.009947531738281145,
+          0.009910340332031121,
+          0.009982760742187326,
+          0.009881569335937342,
+          0.009951293457031139,
+          0.009791319824218603
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 0,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.0028775317382812903,
+          0.002954329101562514,
+          0.0029533066406250085,
+          0.002919530273437512,
+          0.002960567382812517,
+          0.003008495605468752,
+          0.0029298666992187616,
+          0.0029135620117187546,
+          0.0029077553710937423
+        ],
+        "engine": "json-patch",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 1024,
+        "pipeline_samples_ms": [
+          0.01038537695312497,
+          0.010221048828124949,
+          0.010306460937499954,
+          0.01027787597656249,
+          0.01034019433593745,
+          0.010131998046874976,
+          0.010231446289062458,
+          0.010241363281249985,
+          0.010332989257812501
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 0,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.0029641679687500565,
+          0.003020567871093793,
+          0.0030609804687500497,
+          0.003052014160156282,
+          0.003038166015625048,
+          0.0030265161132812897,
+          0.003005582519531298,
+          0.002992306152343755,
+          0.003009657714843774
+        ],
+        "engine": "owned-ready",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 2048,
+        "pipeline_samples_ms": [
+          0.009662623535156234,
+          0.009816249023437442,
+          0.00970215429687491,
+          0.009596888183593727,
+          0.009607904296874907,
+          0.009565672851562422,
+          0.009845021484374954,
+          0.00973790722656246,
+          0.009726563476562495
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 0,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.003731771972656352,
+          0.003725374023437525,
+          0.0036820043945313186,
+          0.0037218095703125766,
+          0.0038038505859375104,
+          0.0038436352539061957,
+          0.003789169921875043,
+          0.003766604492187526,
+          0.0038009375000000044
+        ],
+        "engine": "owned-clone",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 0,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          1.7558177499999998,
+          1.7942135,
+          1.8360208750000002,
+          1.750369875,
+          1.8518957500000002,
+          1.8836565,
+          1.8866248749999999,
+          1.848005125,
+          1.7833176250000002
+        ],
+        "engine": "json-patch",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 2,
+        "pipeline_samples_ms": [
+          6.880875,
+          7.315208,
+          6.4614165,
+          6.849812,
+          7.129312499999999,
+          6.6469165,
+          6.8446875,
+          6.7029585,
+          6.569125
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 1,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 16,
+        "core_samples_ms": [
+          1.2652317499999999,
+          1.1542865624999998,
+          1.1862264999999999,
+          1.18497925,
+          1.1109973125,
+          1.1509973750000002,
+          1.209406375,
+          1.1916719375,
+          1.196143
+        ],
+        "engine": "owned-ready",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 4,
+        "pipeline_samples_ms": [
+          4.6509375,
+          4.7717395,
+          4.69345825,
+          4.76013525,
+          4.72113525,
+          4.933499749999999,
+          4.75466675,
+          4.7205105,
+          4.8570835
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 1,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          2.0185885,
+          2.1384950000000003,
+          2.15680725,
+          2.055786375,
+          2.123156375,
+          1.9347552499999998,
+          2.10780725,
+          2.009135375,
+          2.17310425
+        ],
+        "engine": "owned-clone",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 1,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          2.342380125,
+          2.2624323750000004,
+          2.3135728749999998,
+          2.38569275,
+          2.36150525,
+          2.19470825,
+          2.290177125,
+          2.2511616250000004,
+          2.34979675
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 2,
+        "pipeline_samples_ms": [
+          7.104625,
+          6.449604,
+          6.955541500000001,
+          8.159813,
+          7.945749999999999,
+          7.5266665,
+          7.1434370000000005,
+          7.0122085,
+          7.6864375
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 1,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          21.328542,
+          21.547416,
+          21.975916,
+          21.472209,
+          20.632208,
+          21.950584,
+          21.306625,
+          21.555041,
+          20.814083
+        ],
+        "engine": "json-patch",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          74.906458,
+          76.513792,
+          75.65020899999999,
+          75.975042,
+          77.476416,
+          77.226792,
+          76.131833,
+          75.16208300000001,
+          74.686583
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 1,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          19.049625,
+          18.328625000000002,
+          19.288166,
+          19.229959,
+          19.164875000000002,
+          19.377625,
+          19.276334,
+          19.351042,
+          18.979959
+        ],
+        "engine": "owned-ready",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          58.896417,
+          57.249625,
+          58.427916,
+          57.676458,
+          58.455209,
+          59.15,
+          57.088625,
+          57.099917,
+          55.959375
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 1,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          31.629917,
+          32.057666999999995,
+          32.120125,
+          32.500834,
+          31.077792,
+          32.113583,
+          31.377375,
+          31.437832999999998,
+          31.519790999999998
+        ],
+        "engine": "owned-clone",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 1,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          30.63725,
+          31.803375000000003,
+          31.91825,
+          31.966166999999995,
+          31.275499999999997,
+          32.440541,
+          32.159124999999996,
+          30.877708000000002,
+          31.536833
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          86.575708,
+          89.982041,
+          85.508875,
+          88.671292,
+          84.2105,
+          86.97120899999999,
+          86.46716599999999,
+          87.560125,
+          88.44866599999999
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 1,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          30.82,
+          31.127333,
+          31.064958,
+          31.309833,
+          30.957334,
+          30.795708,
+          30.905208,
+          30.622458,
+          30.216167
+        ],
+        "engine": "json-patch",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          89.254375,
+          87.743167,
+          88.54495800000001,
+          88.584417,
+          89.583125,
+          89.355542,
+          87.686458,
+          88.305542,
+          88.27795900000001
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 1,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          13.968708,
+          13.94975,
+          14.084708,
+          14.041334,
+          14.906125,
+          15.201667,
+          14.858458,
+          14.593917,
+          14.134834000000001
+        ],
+        "engine": "owned-ready",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          72.779167,
+          73.25925,
+          74.259542,
+          72.63650000000001,
+          71.39304200000001,
+          74.056625,
+          73.633333,
+          73.920125,
+          72.158583
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 1,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          17.20775,
+          16.81275,
+          16.996750000000002,
+          16.171625,
+          17.3795,
+          17.555583,
+          17.622459,
+          17.436833999999998,
+          18.178083
+        ],
+        "engine": "owned-clone",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 1,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          15.497375,
+          14.337625,
+          14.920916,
+          14.157584,
+          15.168917,
+          15.771833999999998,
+          15.383125,
+          14.019791999999999,
+          14.556541
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          75.5705,
+          75.651916,
+          75.903791,
+          76.217459,
+          76.584667,
+          75.989833,
+          75.01487499999999,
+          75.728875,
+          74.93320800000001
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 1,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 2,
+        "core_samples_ms": [
+          5.750313,
+          5.9028125000000005,
+          5.808104,
+          5.6605834999999995,
+          5.724500000000001,
+          5.7641665,
+          5.701917,
+          5.8657705,
+          5.828688
+        ],
+        "engine": "json-patch",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          16.266959,
+          16.462292,
+          16.400417,
+          16.62625,
+          16.1915,
+          16.407667,
+          16.26625,
+          16.656000000000002,
+          16.557291
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 1,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          1.6312082499999998,
+          1.605385625,
+          1.593125125,
+          1.6248281249999998,
+          1.5836668749999998,
+          1.651656125,
+          1.627677125,
+          1.6899375,
+          1.67744275
+        ],
+        "engine": "owned-ready",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          11.378791,
+          11.3925,
+          11.277584000000001,
+          11.476,
+          11.376333,
+          11.268458,
+          11.351458,
+          10.952458,
+          11.290875
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 1,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 4,
+        "core_samples_ms": [
+          2.9374582499999997,
+          2.89915625,
+          2.9720310000000003,
+          2.924854,
+          2.93760425,
+          2.8366145,
+          2.9545415,
+          2.9197395,
+          2.9595835
+        ],
+        "engine": "owned-clone",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 1,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 16,
+        "core_samples_ms": [
+          0.6702186875,
+          0.6378333125,
+          0.6176144375000001,
+          0.6320651875,
+          0.6486432500000001,
+          0.6158515000000001,
+          0.6494428125000001,
+          0.6531563749999999,
+          0.6180051875
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          11.354584,
+          11.468458,
+          11.546166999999999,
+          11.64925,
+          11.379,
+          11.685917,
+          11.604334,
+          11.686375,
+          11.635458
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 1,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.002851371093750014,
+          0.002927549316406263,
+          0.0029228974609375037,
+          0.002798277343750023,
+          0.0029034819335937603,
+          0.0029017875976562945,
+          0.002914875488281268,
+          0.0029474370117187256,
+          0.002912617187499977
+        ],
+        "engine": "json-patch",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 1024,
+        "pipeline_samples_ms": [
+          0.010395398437499951,
+          0.010327662109374943,
+          0.010468573242187456,
+          0.01042135253906248,
+          0.009999348632812495,
+          0.010373492187499986,
+          0.010195370117187472,
+          0.010210382812499958,
+          0.010341417968749954
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 1,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.002988213378906284,
+          0.003056739257812544,
+          0.0030716508789062845,
+          0.0030299492187500286,
+          0.00295122949218756,
+          0.0030387392578125364,
+          0.0030279682617187845,
+          0.0030079829101562687,
+          0.003013204589843769
+        ],
+        "engine": "owned-ready",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 1024,
+        "pipeline_samples_ms": [
+          0.009845501953124985,
+          0.00982546972656249,
+          0.009745106445312485,
+          0.00978612207031251,
+          0.009801862304687475,
+          0.009717151367187489,
+          0.009572594726562503,
+          0.009699095703125007,
+          0.009743361328124988
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 1,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.003807107910156262,
+          0.0036473671875000536,
+          0.0037869785156250282,
+          0.003775966796875061,
+          0.003699689941406289,
+          0.003800348144531332,
+          0.003761731445312537,
+          0.0038134013671875136,
+          0.003779691406250064
+        ],
+        "engine": "owned-clone",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 1,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.0025291357421875094,
+          0.0025089448242187552,
+          0.002485789062499969,
+          0.002412354980468671,
+          0.002420092285156173,
+          0.0024172075195311917,
+          0.0025096987304687366,
+          0.0024400932617187126,
+          0.002448080078124962
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 1024,
+        "pipeline_samples_ms": [
+          0.009576343750000008,
+          0.009953817382812542,
+          0.009665325195312477,
+          0.009620546874999992,
+          0.009930745117187435,
+          0.010006807617187466,
+          0.009892911132812479,
+          0.009526416992187536,
+          0.00989150976562498
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 1,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 16,
+        "core_samples_ms": [
+          1.1343697499999998,
+          1.17654675,
+          1.2196458125,
+          1.1631561875,
+          1.188216,
+          1.212172,
+          1.2020259375,
+          1.1171301249999999,
+          1.1698516874999998
+        ],
+        "engine": "owned-ready",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 4,
+        "pipeline_samples_ms": [
+          4.6660520000000005,
+          4.62297925,
+          4.7750520000000005,
+          4.8909477500000005,
+          4.65825025,
+          4.83135425,
+          4.81773925,
+          4.6747815,
+          4.71423975
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 2,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          2.15997425,
+          2.062276125,
+          2.1414218750000003,
+          2.2479585,
+          2.13060925,
+          2.04485425,
+          2.272218625,
+          2.152770625,
+          2.141286375
+        ],
+        "engine": "owned-clone",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 2,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          2.4487034999999997,
+          2.370651,
+          2.43978625,
+          2.260598875,
+          2.56985925,
+          2.487317625,
+          2.314156375,
+          2.2452710000000002,
+          2.3019845
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 2,
+        "pipeline_samples_ms": [
+          7.885292,
+          7.524125,
+          7.646042,
+          6.907,
+          7.4192085,
+          8.066021,
+          7.172146,
+          7.202542,
+          6.787667
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 2,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          1.9125782499999997,
+          1.89090625,
+          1.90880725,
+          1.7135365,
+          1.7199428749999999,
+          1.7352862500000001,
+          1.7658643749999998,
+          1.921750125,
+          1.80502075
+        ],
+        "engine": "json-patch",
+        "fixture": "add-wide-10000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 2,
+        "pipeline_samples_ms": [
+          7.618499999999999,
+          7.467708,
+          6.863125,
+          6.921228999999999,
+          6.7823744999999995,
+          6.4350625,
+          6.477771000000001,
+          6.9524375,
+          6.390458499999999
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 418932,
+        "repeat": 2,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          19.30575,
+          18.148833,
+          18.541792,
+          18.648791000000003,
+          19.320625,
+          17.859584,
+          19.622291,
+          19.016624999999998,
+          18.564
+        ],
+        "engine": "owned-ready",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          59.066250000000004,
+          58.494208,
+          57.792167,
+          57.596292,
+          56.680583,
+          59.647541,
+          57.420083,
+          58.311375,
+          59.082457999999995
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 2,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          31.023292,
+          30.072292,
+          31.9515,
+          32.066375,
+          31.798333,
+          31.583624999999998,
+          31.33225,
+          31.767375,
+          31.723208000000003
+        ],
+        "engine": "owned-clone",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 2,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          32.967375,
+          33.17675,
+          31.268417,
+          32.222916,
+          32.638,
+          31.443375000000003,
+          33.125583,
+          32.298167,
+          31.923917000000003
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          87.82775,
+          85.429125,
+          88.690417,
+          87.493375,
+          85.647417,
+          86.47916599999999,
+          85.130208,
+          86.816125,
+          85.41283299999999
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 2,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          20.892208999999998,
+          20.722583,
+          20.7545,
+          20.636416,
+          20.97825,
+          20.289749999999998,
+          20.6955,
+          20.860042,
+          20.834584
+        ],
+        "engine": "json-patch",
+        "fixture": "add-wide-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "add": 1
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          77.372416,
+          76.055459,
+          75.598416,
+          75.472334,
+          76.530708,
+          75.886042,
+          74.235125,
+          73.312542,
+          74.497208
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 4288932,
+        "repeat": 2,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          13.696667,
+          13.627625,
+          13.656625,
+          13.984333,
+          15.018042000000001,
+          15.476458000000001,
+          15.230834,
+          15.790249999999999,
+          14.754
+        ],
+        "engine": "owned-ready",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          73.906417,
+          74.298834,
+          73.835959,
+          73.54712500000001,
+          73.15762500000001,
+          73.17470900000001,
+          72.2535,
+          74.151167,
+          73.367083
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 2,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          18.218999999999998,
+          17.181709,
+          18.020417000000002,
+          17.167667,
+          17.916666000000003,
+          17.222416,
+          18.254208000000002,
+          17.811459000000003,
+          17.668458
+        ],
+        "engine": "owned-clone",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 2,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          14.072375,
+          14.068249999999999,
+          15.471791,
+          14.496083,
+          14.339041,
+          14.628084,
+          14.631292,
+          14.410584,
+          13.962
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          75.769875,
+          75.909416,
+          76.278125,
+          75.903083,
+          76.376625,
+          75.92,
+          76.810375,
+          76.38125,
+          75.474
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 2,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 1,
+        "core_samples_ms": [
+          30.824,
+          30.359875000000002,
+          31.245167000000002,
+          30.746833000000002,
+          30.878042,
+          31.050624999999997,
+          31.117874999999998,
+          30.678417,
+          30.71975
+        ],
+        "engine": "json-patch",
+        "fixture": "scalar-guards-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 100000
+        },
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          87.786542,
+          87.6065,
+          87.838875,
+          88.316666,
+          87.775458,
+          89.078166,
+          90.031625,
+          89.37825000000001,
+          90.611542
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 5978896,
+        "repeat": 2,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a"
+      },
+      {
+        "core_iterations": 8,
+        "core_samples_ms": [
+          1.619994875,
+          1.66322925,
+          1.5967395,
+          1.6707345,
+          1.670177125,
+          1.65109375,
+          1.6397865,
+          1.6534635,
+          1.5993437499999998
+        ],
+        "engine": "owned-ready",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          11.365958000000001,
+          11.656417000000001,
+          11.392041,
+          11.241083000000001,
+          11.131708,
+          11.315999999999999,
+          11.475917,
+          11.767958,
+          11.378499999999999
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 2,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 4,
+        "core_samples_ms": [
+          2.9153540000000002,
+          2.9832289999999997,
+          2.9190207500000005,
+          2.8616562500000002,
+          2.8855935000000006,
+          2.916,
+          2.8894687500000003,
+          2.92355175,
+          2.91140625
+        ],
+        "engine": "owned-clone",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 2,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 16,
+        "core_samples_ms": [
+          0.6290129999999999,
+          0.6573461875,
+          0.6184896875,
+          0.6198411875,
+          0.6317421874999999,
+          0.6482944374999999,
+          0.6427761875,
+          0.616676875,
+          0.646156125
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          11.51925,
+          11.697458000000001,
+          11.511416,
+          11.466958,
+          11.437707999999999,
+          11.594583,
+          11.451334000000001,
+          11.461083,
+          11.283
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 2,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 2,
+        "core_samples_ms": [
+          5.874479,
+          5.745979,
+          5.818792,
+          5.837959,
+          5.810313000000001,
+          5.8593545,
+          5.8620625,
+          5.7479795,
+          5.8459375
+        ],
+        "engine": "json-patch",
+        "fixture": "unchanged-100000",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {},
+        "pipeline_iterations": 1,
+        "pipeline_samples_ms": [
+          16.814542,
+          16.423833,
+          16.803167000000002,
+          16.724542,
+          16.835958,
+          16.445916,
+          16.95825,
+          16.315042,
+          16.76
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 2,
+        "repeat": 2,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.0029293188476563255,
+          0.0029178837890625345,
+          0.0030009326171875172,
+          0.002978905761718785,
+          0.0029918593750000275,
+          0.002964137207031284,
+          0.0029533037109374712,
+          0.003016251953125045,
+          0.002931010253906268
+        ],
+        "engine": "owned-ready",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 2048,
+        "pipeline_samples_ms": [
+          0.009614721679687466,
+          0.00956131201171875,
+          0.009633199707031142,
+          0.00970767773437492,
+          0.00966488623046869,
+          0.0097489999999999,
+          0.009663918945312416,
+          0.009664066894531222,
+          0.00971094677734376
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 2,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.0037418574218749507,
+          0.0038051406249999848,
+          0.0037883452148437507,
+          0.00374884716796878,
+          0.003822972656249981,
+          0.0038223950195312353,
+          0.003680469726562557,
+          0.0037650903320313052,
+          0.0037596069335938016
+        ],
+        "engine": "owned-clone",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": null,
+        "pipeline_samples_ms": null,
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 2,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.0024215429687499627,
+          0.0025057319335937524,
+          0.002507464355468733,
+          0.002474085449218717,
+          0.0024747973632812128,
+          0.0024971235351562183,
+          0.002477380371093726,
+          0.00247271289062495,
+          0.002478046874999972
+        ],
+        "engine": "palim-borrowed",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 1024,
+        "pipeline_samples_ms": [
+          0.009747473632812522,
+          0.009883449218749996,
+          0.009793093749999995,
+          0.009835298828124969,
+          0.009895702148437475,
+          0.009618813476562519,
+          0.00948440625000004,
+          0.009667575195312477,
+          0.009805926757812479
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 2,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      },
+      {
+        "core_iterations": 2048,
+        "core_samples_ms": [
+          0.002945018066406238,
+          0.0029072070312500483,
+          0.002959861328125002,
+          0.0029479995117187713,
+          0.0028860532226562554,
+          0.0029306860351562703,
+          0.0029570336914062326,
+          0.0028971381835937635,
+          0.0029312504882812633
+        ],
+        "engine": "json-patch",
+        "fixture": "small-config-edit",
+        "forward_verified": true,
+        "inverse_verified": true,
+        "operation_counts": {
+          "replace": 1
+        },
+        "pipeline_iterations": 1024,
+        "pipeline_samples_ms": [
+          0.010220609374999934,
+          0.010105277343749948,
+          0.010053667968749964,
+          0.010190789062499971,
+          0.01027062304687496,
+          0.010241457031249951,
+          0.01036462304687494,
+          0.01049631933593743,
+          0.010422878906249966
+        ],
+        "plain_output_identical": true,
+        "wire_bytes": 53,
+        "repeat": 2,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea"
+      }
+    ],
+    "fixtures": {
+      "add-wide-10000": "313ce77c3581a6424e21cf19fb8a61c5f7dc5038d4eaab189e8c07db80b4eab5",
+      "add-wide-100000": "776612c046b5b25deb904e329ae0663c139963e4234a690e65b58b97e271e12e",
+      "scalar-guards-100000": "2870ab8e843aa990b575d9f634a535df4ac7d1265b5d8afcbd6618234c99349f",
+      "unchanged-100000": "a15d9e82098de9f4f62e051a9dedaa2a531f2b6f79c3ead891c3dbb3c8593cab",
+      "small-config-edit": "d5bada274b5263089b907a4d1ee750b85d8eb87ab33e9ddaddf09301777730b2"
+    },
+    "checks": {
+      "prototype_tests_debug": "running 4 tests\ntest owned_probe::tests::unsupported_changes_return_errors_instead_of_partial_patches ... ok\ntest owned_probe::tests::supported_changes_keep_wire_contract_and_move_storage ... ok\ntest owned_probe::tests::numeric_additions_and_replacements_keep_distinct_contracts ... ok\ntest owned_probe::tests::depth_errors_match_and_rejected_owned_input_drops_iteratively ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.08s",
+      "prototype_tests_release": "running 4 tests\ntest owned_probe::tests::unsupported_changes_return_errors_instead_of_partial_patches ... ok\ntest owned_probe::tests::supported_changes_keep_wire_contract_and_move_storage ... ok\ntest owned_probe::tests::numeric_additions_and_replacements_keep_distinct_contracts ... ok\ntest owned_probe::tests::depth_errors_match_and_rejected_owned_input_drops_iteratively ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.01s",
+      "prototype_clippy_all_targets": "exit 0",
+      "prototype_msrv_library": "exit 0",
+      "wire_equality_all_engines": "all five fixtures; three processes per engine"
+    },
+    "summary": [
+      {
+        "fixture": "add-wide-10000",
+        "engine": "palim-borrowed",
+        "core_ms": 2.3135728749999998,
+        "pipeline_ms": 7.328292,
+        "wire_bytes": 418932,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049",
+        "operation_counts": {
+          "add": 1
+        }
+      },
+      {
+        "fixture": "add-wide-10000",
+        "engine": "json-patch",
+        "core_ms": 1.8360208750000002,
+        "pipeline_ms": 6.863125,
+        "wire_bytes": 418932,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049",
+        "operation_counts": {
+          "add": 1
+        }
+      },
+      {
+        "fixture": "add-wide-10000",
+        "engine": "owned-ready",
+        "core_ms": 1.1862264999999999,
+        "pipeline_ms": 4.75466675,
+        "wire_bytes": 418932,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049",
+        "operation_counts": {
+          "add": 1
+        }
+      },
+      {
+        "fixture": "add-wide-10000",
+        "engine": "owned-clone",
+        "core_ms": 2.10780725,
+        "pipeline_ms": null,
+        "wire_bytes": 418932,
+        "wire_sha256": "06df01f09837eef49b66b81a916183d9e56a9b8b679bc91677249dc556591049",
+        "operation_counts": {
+          "add": 1
+        }
+      },
+      {
+        "fixture": "add-wide-100000",
+        "engine": "palim-borrowed",
+        "core_ms": 31.985333999999998,
+        "pipeline_ms": 86.92833399999999,
+        "wire_bytes": 4288932,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31",
+        "operation_counts": {
+          "add": 1
+        }
+      },
+      {
+        "fixture": "add-wide-100000",
+        "engine": "json-patch",
+        "core_ms": 21.472209,
+        "pipeline_ms": 75.975042,
+        "wire_bytes": 4288932,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31",
+        "operation_counts": {
+          "add": 1
+        }
+      },
+      {
+        "fixture": "add-wide-100000",
+        "engine": "owned-ready",
+        "core_ms": 19.121667,
+        "pipeline_ms": 58.0005,
+        "wire_bytes": 4288932,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31",
+        "operation_counts": {
+          "add": 1
+        }
+      },
+      {
+        "fixture": "add-wide-100000",
+        "engine": "owned-clone",
+        "core_ms": 31.723208000000003,
+        "pipeline_ms": null,
+        "wire_bytes": 4288932,
+        "wire_sha256": "a3abfa163f3be7542f03b3f6d60dc7eeb0a98e4fb175fd8662ca0db878232b31",
+        "operation_counts": {
+          "add": 1
+        }
+      },
+      {
+        "fixture": "scalar-guards-100000",
+        "engine": "palim-borrowed",
+        "core_ms": 14.410584,
+        "pipeline_ms": 75.728875,
+        "wire_bytes": 5978896,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+        "operation_counts": {
+          "replace": 100000
+        }
+      },
+      {
+        "fixture": "scalar-guards-100000",
+        "engine": "json-patch",
+        "core_ms": 30.824,
+        "pipeline_ms": 88.33983300000001,
+        "wire_bytes": 5978896,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+        "operation_counts": {
+          "replace": 100000
+        }
+      },
+      {
+        "fixture": "scalar-guards-100000",
+        "engine": "owned-ready",
+        "core_ms": 14.576084,
+        "pipeline_ms": 73.54712500000001,
+        "wire_bytes": 5978896,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+        "operation_counts": {
+          "replace": 100000
+        }
+      },
+      {
+        "fixture": "scalar-guards-100000",
+        "engine": "owned-clone",
+        "core_ms": 17.811459000000003,
+        "pipeline_ms": null,
+        "wire_bytes": 5978896,
+        "wire_sha256": "5befbc0bd234b1af661656b4e9ddc6f6100ba639d51f86343ec14375b1525d8a",
+        "operation_counts": {
+          "replace": 100000
+        }
+      },
+      {
+        "fixture": "unchanged-100000",
+        "engine": "palim-borrowed",
+        "core_ms": 0.6330366249999999,
+        "pipeline_ms": 11.466958,
+        "wire_bytes": 2,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "operation_counts": {}
+      },
+      {
+        "fixture": "unchanged-100000",
+        "engine": "json-patch",
+        "core_ms": 5.7790415,
+        "pipeline_ms": 16.430291999999998,
+        "wire_bytes": 2,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "operation_counts": {}
+      },
+      {
+        "fixture": "unchanged-100000",
+        "engine": "owned-ready",
+        "core_ms": 1.6504531249999999,
+        "pipeline_ms": 11.378499999999999,
+        "wire_bytes": 2,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "operation_counts": {}
+      },
+      {
+        "fixture": "unchanged-100000",
+        "engine": "owned-clone",
+        "core_ms": 2.9374582499999997,
+        "pipeline_ms": null,
+        "wire_bytes": 2,
+        "wire_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "operation_counts": {}
+      },
+      {
+        "fixture": "small-config-edit",
+        "engine": "palim-borrowed",
+        "core_ms": 0.002477380371093726,
+        "pipeline_ms": 0.009881569335937342,
+        "wire_bytes": 53,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+        "operation_counts": {
+          "replace": 1
+        }
+      },
+      {
+        "fixture": "small-config-edit",
+        "engine": "json-patch",
+        "core_ms": 0.0029298666992187616,
+        "pipeline_ms": 0.01027787597656249,
+        "wire_bytes": 53,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+        "operation_counts": {
+          "replace": 1
+        }
+      },
+      {
+        "fixture": "small-config-edit",
+        "engine": "owned-ready",
+        "core_ms": 0.003020567871093793,
+        "pipeline_ms": 0.00970215429687491,
+        "wire_bytes": 53,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+        "operation_counts": {
+          "replace": 1
+        }
+      },
+      {
+        "fixture": "small-config-edit",
+        "engine": "owned-clone",
+        "core_ms": 0.003766604492187526,
+        "pipeline_ms": null,
+        "wire_bytes": 53,
+        "wire_sha256": "686be91198f7696c8dc25d83f142e12218df612b84b7238ee0e75bb32d6674ea",
+        "operation_counts": {
+          "replace": 1
+        }
+      }
+    ],
+    "prototype_source": "//! Experimental plain RFC add/replace generation and its measurement probe.\n//! Loaded into a temporary copy of the library by run-owned-patch.py only.\nuse crate::{DiffPatcher, Error, JsonPatchOptions, delta, export};\nuse json_patch::{AddOperation, Patch, PatchOperation, ReplaceOperation, jsonptr::PointerBuf};\nuse serde_json::{Value, json};\nuse std::{fs, hint::black_box, time::Instant};\n\n/// Consume an already-owned target. Changed array pairs and deletions are out of scope.\npub fn diff_json_patch_owned(left: &Value, right: Value) -> Result<Patch, Error> {\n    let input_depth = match DiffPatcher::default().check_inputs(left, &right) {\n        Ok(depth) => depth,\n        Err(error) => {\n            // A rejected target can be arbitrarily deep: recursive Value::drop\n            // would otherwise turn this consuming API's error into a stack overflow.\n            let mut pending = vec![right];\n            while let Some(value) = pending.pop() {\n                match value {\n                    Value::Array(items) => pending.extend(items),\n                    Value::Object(items) => pending.extend(items.into_values()),\n                    _ => {}\n                }\n            }\n            return Err(error);\n        }\n    };\n    let mut operations = Vec::new();\n    walk(\n        left,\n        right,\n        &mut PointerBuf::new(),\n        0,\n        input_depth < delta::MAX_DELTA_DEPTH,\n        &mut operations,\n    )?;\n    Ok(Patch(operations))\n}\n\nfn walk(\n    left: &Value,\n    right: Value,\n    path: &mut PointerBuf,\n    depth: usize,\n    bounded_delta: bool,\n    operations: &mut Vec<PatchOperation>,\n) -> Result<(), Error> {\n    if left == &right {\n        return Ok(());\n    }\n    match (left, right) {\n        (Value::Object(source), Value::Object(target)) => {\n            // The production path also has a separate preserve_order fallback.\n            if !source.keys().is_sorted() || !target.keys().is_sorted() {\n                return Err(Error::new(path.as_str(), \"prototype requires sorted maps\"));\n            }\n            let mut source = source.iter().peekable();\n            let mut target = target.into_iter().peekable();\n            loop {\n                let order = match (source.peek(), target.peek()) {\n                    (Some((old, _)), Some((new, _))) => old.cmp(&new),\n                    (Some(_), None) => std::cmp::Ordering::Less,\n                    (None, Some(_)) => std::cmp::Ordering::Greater,\n                    (None, None) => break,\n                };\n                if order == std::cmp::Ordering::Less {\n                    path.push_back(source.peek().unwrap().0.as_str());\n                    return Err(Error::new(\n                        path.as_str(),\n                        \"prototype does not support deletions\",\n                    ));\n                }\n                let (key, mut value) = target.next().unwrap();\n                path.push_back(key.as_str());\n                if order == std::cmp::Ordering::Equal {\n                    let (_, old) = source.next().unwrap();\n                    walk(old, value, path, depth + 1, bounded_delta, operations)?;\n                } else {\n                    if !bounded_delta {\n                        export::check_leaf_depth(depth + 1, &[&value])?;\n                    }\n                    // Keep the production Add number contract while moving its\n                    // containers and strings directly into the operation.\n                    export::normalize_addition(&mut value);\n                    operations.push(PatchOperation::Add(AddOperation {\n                        path: path.clone(),\n                        value,\n                    }));\n                }\n                path.pop_back();\n            }\n            Ok(())\n        }\n        (Value::Array(_), Value::Array(_)) => Err(Error::new(\n            path.as_str(),\n            \"prototype does not support changed array pairs\",\n        )),\n        (_, right) => {\n            if !bounded_delta {\n                export::check_leaf_depth(depth, &[left, &right])?;\n            }\n            operations.push(PatchOperation::Replace(ReplaceOperation {\n                path: path.clone(),\n                value: right,\n            }));\n            Ok(())\n        }\n    }\n}\n\ntype ProbeResult<T> = Result<T, Box<dyn std::error::Error>>;\n\nfn plain() -> JsonPatchOptions {\n    JsonPatchOptions {\n        factorize: false,\n        rationalize: false,\n        tests: false,\n    }\n}\n\nfn borrowed(engine: &str, left: &Value, right: &Value) -> ProbeResult<Patch> {\n    Ok(match engine {\n        \"palim-borrowed\" => DiffPatcher::default().diff_json_patch(left, right, &plain())?,\n        \"json-patch\" => json_patch::diff(left, right),\n        _ => return Err(format!(\"unknown borrowed engine: {engine}\").into()),\n    })\n}\n\nfn verify(left: &Value, right: &Value, patch: &Patch) -> ProbeResult<()> {\n    let wire = serde_json::to_vec(patch)?;\n    let decoded: Patch = serde_json::from_slice(&wire)?;\n    let mut result = left.clone();\n    json_patch::patch(&mut result, &decoded)?;\n    assert_eq!(result, *right);\n    let inverse = crate::invert_json_patch(left, &decoded)?;\n    json_patch::patch(&mut result, &inverse)?;\n    assert_eq!(result, *left);\n    Ok(())\n}\n\n// Each operation uses the same clock boundary. For owned-ready Core only,\n// preparing the pre-owned target is deliberately outside that boundary.\nfn measure(mut once: impl FnMut() -> ProbeResult<f64>) -> ProbeResult<(Vec<f64>, usize)> {\n    for _ in 0..3 {\n        once()?;\n    }\n    let mut iterations = 1;\n    loop {\n        let mut elapsed = 0.;\n        for _ in 0..iterations {\n            elapsed += once()?;\n        }\n        if elapsed >= 10. || iterations >= 2048 {\n            break;\n        }\n        iterations *= 2;\n    }\n    let mut samples = Vec::new();\n    for _ in 0..9 {\n        let mut elapsed = 0.;\n        for _ in 0..iterations {\n            elapsed += once()?;\n        }\n        samples.push(elapsed / iterations as f64);\n    }\n    Ok((samples, iterations))\n}\n\npub fn run() -> ProbeResult<()> {\n    let args: Vec<_> = std::env::args().collect();\n    if args.len() != 3 {\n        return Err(\"usage: owned_probe ENGINE FIXTURE\".into());\n    }\n    let mode = args[1].as_str();\n    if ![\"palim-borrowed\", \"json-patch\", \"owned-ready\", \"owned-clone\"].contains(&mode) {\n        return Err(format!(\"unknown engine: {mode}\").into());\n    }\n    let fixture: Value = serde_json::from_slice(&fs::read(&args[2])?)?;\n    let left = fixture.get(\"left\").ok_or(\"missing left\")?;\n    let right = fixture.get(\"right\").ok_or(\"missing right\")?;\n    let raw_left = fixture[\"left_raw\"]\n        .as_str()\n        .ok_or(\"missing raw left\")?\n        .as_bytes();\n    let raw_right = fixture[\"right_raw\"]\n        .as_str()\n        .ok_or(\"missing raw right\")?\n        .as_bytes();\n    assert_eq!(serde_json::from_slice::<Value>(raw_left)?, *left);\n    assert_eq!(serde_json::from_slice::<Value>(raw_right)?, *right);\n    let initial = if mode.starts_with(\"owned-\") {\n        diff_json_patch_owned(left, right.clone())?\n    } else {\n        borrowed(mode, left, right)?\n    };\n    verify(left, right, &initial)?;\n    // On these supported fixtures, compare exact output against Palim's existing\n    // plain path as well as independently applying serialized operations.\n    assert_eq!(initial, borrowed(\"palim-borrowed\", left, right)?);\n    let wire = serde_json::to_vec(&initial)?;\n    let mut counts = std::collections::BTreeMap::<&str, usize>::new();\n    for op in &initial.0 {\n        let kind = match op {\n            PatchOperation::Add(_) => \"add\",\n            PatchOperation::Replace(_) => \"replace\",\n            _ => \"other\",\n        };\n        *counts.entry(kind).or_default() += 1;\n    }\n    drop(initial);\n    let (core, core_iterations) = measure(|| {\n        let prepared = (mode == \"owned-ready\").then(|| right.clone());\n        let started = Instant::now();\n        let result = if let Some(target) = prepared {\n            diff_json_patch_owned(black_box(left), target)?\n        } else if mode == \"owned-clone\" {\n            diff_json_patch_owned(black_box(left), black_box(right).clone())?\n        } else {\n            borrowed(mode, black_box(left), black_box(right))?\n        };\n        drop(black_box(result));\n        Ok(started.elapsed().as_secs_f64() * 1000.)\n    })?;\n    let pipeline = if mode == \"owned-clone\" {\n        None\n    } else {\n        Some(measure(|| {\n            let started = Instant::now();\n            let left: Value = serde_json::from_slice(black_box(raw_left))?;\n            let right: Value = serde_json::from_slice(black_box(raw_right))?;\n            let result = if mode == \"owned-ready\" {\n                diff_json_patch_owned(&left, right)?\n            } else {\n                let result = borrowed(mode, &left, &right)?;\n                drop(right);\n                result\n            };\n            drop(black_box(serde_json::to_vec(&result)?));\n            drop(result);\n            drop(left);\n            Ok(started.elapsed().as_secs_f64() * 1000.)\n        })?)\n    };\n    println!(\n        \"{}\",\n        json!({\"fixture\":fixture[\"name\"],\"engine\":mode,\n            \"core_samples_ms\":core,\"core_iterations\":core_iterations,\n            \"pipeline_samples_ms\":pipeline.as_ref().map(|v| &v.0),\n            \"pipeline_iterations\":pipeline.as_ref().map(|v| v.1),\n            \"wire_bytes\":wire.len(),\"wire\":String::from_utf8(wire)?,\n            \"operation_counts\":counts,\"forward_verified\":true,\"inverse_verified\":true,\n            \"plain_output_identical\":true})\n    );\n    Ok(())\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn supported_changes_keep_wire_contract_and_move_storage() {\n        let cases = [\n            (json!({}), json!({\"~/\": [{\"nested\": \"payload\"}]})),\n            (json!({\"a\": 1}), json!({\"a\": {\"nested\": [1, 2]}})),\n            (json!([1, 2]), json!(\"root replacement\")),\n            (\n                json!({\"a\": 1, \"b\": {\"c\": false}}),\n                json!({\"a\": 2, \"b\": {\"c\": true, \"d\": 3}}),\n            ),\n            (json!({\"a\": [1, 2]}), json!({\"a\": [1, 2]})),\n        ];\n        for (left, right) in cases {\n            let actual = diff_json_patch_owned(&left, right.clone()).unwrap();\n            assert_eq!(actual, borrowed(\"palim-borrowed\", &left, &right).unwrap());\n            verify(&left, &right, &actual).unwrap();\n        }\n        let target = json!({\"added\": [\"owned string\", {\"nested\": true}]});\n        let storage = target[\"added\"].as_array().unwrap().as_ptr();\n        let result = diff_json_patch_owned(&json!({}), target).unwrap();\n        let PatchOperation::Add(add) = &result.0[0] else {\n            panic!(\"expected Add\")\n        };\n        assert_eq!(storage, add.value.as_array().unwrap().as_ptr());\n    }\n\n    #[test]\n    fn numeric_additions_and_replacements_keep_distinct_contracts() {\n        let object = |raw: &str| {\n            Value::Object(serde_json::Map::from_iter([(\n                \"n\".into(),\n                Value::Number(serde_json::Number::from_string_unchecked(raw.into())),\n            )]))\n        };\n        for raw in [\n            \"-0\",\n            \"1E2\",\n            \"1e2\",\n            \"10000000000000000000000000\",\n            \"1e+999999\",\n        ] {\n            for (left, right) in [(json!({}), object(raw)), (json!({\"n\": 7}), object(raw))] {\n                assert_eq!(\n                    diff_json_patch_owned(&left, right.clone()).unwrap(),\n                    borrowed(\"palim-borrowed\", &left, &right).unwrap()\n                );\n            }\n        }\n        let malformed = object(\"invalid\");\n        assert!(\n            std::panic::catch_unwind(|| diff_json_patch_owned(&json!({}), malformed.clone()))\n                .is_err()\n        );\n        assert!(\n            std::panic::catch_unwind(|| borrowed(\"palim-borrowed\", &json!({}), &malformed))\n                .is_err()\n        );\n    }\n\n    #[test]\n    fn depth_errors_match_and_rejected_owned_input_drops_iteratively() {\n        for depth in 124..=129 {\n            let target = (0..depth).fold(json!({\"added\": []}), |v, _| json!({\"a\": v}));\n            let left = (0..depth).fold(json!({}), |v, _| json!({\"a\": v}));\n            assert_eq!(\n                diff_json_patch_owned(&left, target.clone()),\n                DiffPatcher::default().diff_json_patch(&left, &target, &plain())\n            );\n        }\n        let very_deep = (0..100_000).fold(Value::Null, |v, _| Value::Array(vec![v]));\n        assert_eq!(\n            diff_json_patch_owned(&Value::Null, very_deep).unwrap_err(),\n            Error::new(\"\", \"JSON nesting exceeds max_depth\")\n        );\n    }\n\n    #[test]\n    fn unsupported_changes_return_errors_instead_of_partial_patches() {\n        assert_eq!(\n            diff_json_patch_owned(&json!({\"a\": 1, \"b\": 2}), json!({\"a\": 3}))\n                .unwrap_err()\n                .path,\n            \"/b\"\n        );\n        assert_eq!(\n            diff_json_patch_owned(&json!({\"a\": [1]}), json!({\"a\": [2]}))\n                .unwrap_err()\n                .path,\n            \"/a\"\n        );\n    }\n}\n",
+    "runner_source": "#!/usr/bin/env python3\n\"\"\"Build the owned add/replace prototype in a temporary frozen source copy.\"\"\"\nimport argparse\nimport collections\nimport datetime\nimport hashlib\nimport io\nimport json\nimport pathlib\nimport platform\nimport statistics\nimport subprocess\nimport tarfile\nimport tempfile\nimport zipfile\n\nROOT = pathlib.Path(__file__).resolve().parents[1]\nPROBE = ROOT / \"scratchpad/owned_patch.rs\"\nARCHIVE = ROOT / \"results/addition-copy-20261006/evidence.zip\"\nCASES = [\"add-wide-10000\", \"add-wide-100000\", \"scalar-guards-100000\", \"unchanged-100000\", \"small-config-edit\"]\nENGINES = [\"palim-borrowed\", \"json-patch\", \"owned-ready\", \"owned-clone\"]\n\n\ndef digest(data):\n    return hashlib.sha256(data).hexdigest()\n\n\ndef command(args, cwd=None, timeout=300):\n    result = subprocess.run(args, cwd=cwd, capture_output=True, timeout=timeout)\n    if result.returncode:\n        raise RuntimeError(f\"{args} exited {result.returncode}:\\n{result.stderr.decode(errors='replace')}\\n{result.stdout.decode(errors='replace')}\")\n    return result.stdout.decode()\n\n\ndef main():\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument(\"--source-ref\", default=\"HEAD\")\n    parser.add_argument(\"--output\", type=pathlib.Path, required=True)\n    parser.add_argument(\"--verify-only\", action=\"store_true\")\n    args = parser.parse_args()\n    commit = command([\"git\", \"rev-parse\", args.source_ref], ROOT).strip()\n    source = subprocess.run(\n        [\"git\", \"archive\", commit, \"Cargo.toml\", \"Cargo.lock\", \"src\", \"benches\", \"README.md\"],\n        cwd=ROOT, capture_output=True, check=True,\n    ).stdout\n    evidence = {\n        \"checked_at\": datetime.datetime.now(datetime.timezone.utc).isoformat(),\n        \"source_commit\": commit,\n        \"source_archive_sha256\": digest(source),\n        \"prototype_sha256\": digest(PROBE.read_bytes()),\n        \"runner_sha256\": digest(pathlib.Path(__file__).read_bytes()),\n        \"fixture_archive_sha256\": digest(ARCHIVE.read_bytes()),\n        \"environment\": {\"platform\": platform.platform(), \"rustc\": command([\"rustc\", \"-Vv\"]).strip(),\n                        \"cargo\": command([\"cargo\", \"-V\"]).strip()},\n        \"method\": {\n            \"scope\": \"Experimental add/replace only; no changed array pairs, deletions, callbacks or optimization.\",\n            \"core\": \"Parsed Values -> generate and destroy Patch; owned-ready receives a prepared target outside timing.\",\n            \"owned_clone_core\": \"Clone right inside timing -> owned generation -> destroy Patch.\",\n            \"pipeline\": \"Same raw bytes -> parse both documents -> generate -> serialize -> destroy inputs and output.\",\n            \"sampling\": \"3 warmups, >=10ms calibration capped at 2048, 9 batches, 3 serial processes; rotated engine order.\",\n            \"comparison\": \"Borrowed and consuming Core are different ownership contracts; pipeline boundaries are identical.\",\n        },\n        \"records\": [], \"fixtures\": {}, \"checks\": {},\n    }\n    with tempfile.TemporaryDirectory(prefix=\"palim-owned-\") as work:\n        folder = pathlib.Path(work)\n        with tarfile.open(fileobj=io.BytesIO(source)) as archive:\n            archive.extractall(folder, filter=\"data\")\n        (folder / \"scratchpad\").mkdir()\n        (folder / \"scratchpad/owned_patch.rs\").write_bytes(PROBE.read_bytes())\n        lib = folder / \"src/lib.rs\"\n        lib.write_text(lib.read_text() + '\\n#[path = \"../scratchpad/owned_patch.rs\"]\\npub mod owned_probe;\\n')\n        export = folder / \"src/export.rs\"\n        content = export.read_text()\n        for name in [\"normalize_addition\", \"check_leaf_depth\"]:\n            needle = f\"fn {name}(\"\n            if content.count(needle) != 1:\n                raise RuntimeError(f\"expected one existing helper: {name}\")\n            content = content.replace(needle, \"pub(crate) \" + needle)\n        export.write_text(content)\n        (folder / \"examples\").mkdir()\n        (folder / \"examples/owned_probe.rs\").write_text(\n            \"fn main() -> Result<(), Box<dyn std::error::Error>> { palim::owned_probe::run() }\\n\"\n        )\n        evidence[\"checks\"][\"prototype_tests_debug\"] = command(\n            [\"cargo\", \"test\", \"--locked\", \"--offline\", \"--lib\", \"owned_probe::tests\"], folder\n        ).strip()\n        evidence[\"checks\"][\"prototype_tests_release\"] = command(\n            [\"cargo\", \"test\", \"--release\", \"--locked\", \"--offline\", \"--lib\", \"owned_probe::tests\"], folder\n        ).strip()\n        command([\"cargo\", \"build\", \"--release\", \"--locked\", \"--offline\", \"--example\", \"owned_probe\"], folder)\n        command([\"cargo\", \"clippy\", \"--all-targets\", \"--locked\", \"--offline\", \"--\", \"-D\", \"warnings\"], folder)\n        evidence[\"checks\"][\"prototype_clippy_all_targets\"] = \"exit 0\"\n        command([\"cargo\", \"+1.85.0\", \"check\", \"--lib\", \"--locked\", \"--offline\"], folder)\n        evidence[\"checks\"][\"prototype_msrv_library\"] = \"exit 0\"\n        print(\"prototype: debug/release tests, Clippy and Rust 1.85 passed\", flush=True)\n        if not args.verify_only:\n            fixtures = folder / \"fixtures\"\n            fixtures.mkdir()\n            with zipfile.ZipFile(ARCHIVE) as archive:\n                for case in CASES:\n                    raw = archive.read(\"fixtures/\" + case + \".json\")\n                    (fixtures / (case + \".json\")).write_bytes(raw)\n                    evidence[\"fixtures\"][case] = digest(raw)\n            binary = folder / \"target/release/examples/owned_probe\"\n            for repeat in range(3):\n                order = ENGINES[repeat:] + ENGINES[:repeat]\n                for case in CASES:\n                    for engine in order:\n                        result = json.loads(command([str(binary), engine, str(fixtures / (case + \".json\"))], timeout=120))\n                        result[\"repeat\"] = repeat\n                        result[\"wire_sha256\"] = digest(result.pop(\"wire\").encode())\n                        evidence[\"records\"].append(result)\n                    print(f\"round {repeat + 1}/3: {case}\", flush=True)\n            groups = collections.defaultdict(list)\n            for result in evidence[\"records\"]:\n                groups[(result[\"fixture\"], result[\"engine\"])].append(result)\n            summaries = []\n            for (case, engine), records in groups.items():\n                if len({record[\"wire_sha256\"] for record in records}) != 1:\n                    raise RuntimeError(f\"nondeterministic output: {case}/{engine}\")\n                summaries.append({\n                    \"fixture\": case, \"engine\": engine,\n                    \"core_ms\": statistics.median(statistics.median(r[\"core_samples_ms\"]) for r in records),\n                    \"pipeline_ms\": None if engine == \"owned-clone\" else statistics.median(\n                        statistics.median(r[\"pipeline_samples_ms\"]) for r in records),\n                    \"wire_bytes\": records[0][\"wire_bytes\"], \"wire_sha256\": records[0][\"wire_sha256\"],\n                    \"operation_counts\": records[0][\"operation_counts\"],\n                })\n            for case in CASES:\n                hashes = {r[\"wire_sha256\"] for r in summaries if r[\"fixture\"] == case}\n                if len(hashes) != 1:\n                    raise RuntimeError(f\"engines differ in output: {case}\")\n            evidence[\"summary\"] = summaries\n            evidence[\"checks\"][\"wire_equality_all_engines\"] = \"all five fixtures; three processes per engine\"\n    args.output.parent.mkdir(parents=True, exist_ok=True)\n    args.output.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + \"\\n\")\n    print(f\"saved {args.output}\", flush=True)\n\n\nif __name__ == \"__main__\":\n    main()\n"
+  },
+  "prototype_source": "//! Experimental plain RFC add/replace generation and its measurement probe.\n//! Loaded into a temporary copy of the library by run-owned-patch.py only.\nuse crate::{DiffPatcher, Error, JsonPatchOptions, delta, export};\nuse json_patch::{AddOperation, Patch, PatchOperation, ReplaceOperation, jsonptr::PointerBuf};\nuse serde_json::{Value, json};\nuse std::{fs, hint::black_box, time::Instant};\n\n/// Consume an already-owned target. Changed array pairs and deletions are out of scope.\npub fn diff_json_patch_owned(left: &Value, right: Value) -> Result<Patch, Error> {\n    let input_depth = match DiffPatcher::default().check_inputs(left, &right) {\n        Ok(depth) => depth,\n        Err(error) => {\n            // A rejected target can be arbitrarily deep: recursive Value::drop\n            // would otherwise turn this consuming API's error into a stack overflow.\n            let mut pending = vec![right];\n            while let Some(value) = pending.pop() {\n                match value {\n                    Value::Array(items) => pending.extend(items),\n                    Value::Object(items) => pending.extend(items.into_values()),\n                    _ => {}\n                }\n            }\n            return Err(error);\n        }\n    };\n    let mut operations = Vec::new();\n    walk(\n        left,\n        right,\n        &mut PointerBuf::new(),\n        0,\n        input_depth < delta::MAX_DELTA_DEPTH,\n        &mut operations,\n    )?;\n    Ok(Patch(operations))\n}\n\nfn walk(\n    left: &Value,\n    right: Value,\n    path: &mut PointerBuf,\n    depth: usize,\n    bounded_delta: bool,\n    operations: &mut Vec<PatchOperation>,\n) -> Result<(), Error> {\n    if left == &right {\n        return Ok(());\n    }\n    match (left, right) {\n        (Value::Object(source), Value::Object(target)) => {\n            // The production path also has a separate preserve_order fallback.\n            if !source.keys().is_sorted() || !target.keys().is_sorted() {\n                return Err(Error::new(path.as_str(), \"prototype requires sorted maps\"));\n            }\n            let mut source = source.iter().peekable();\n            let mut target = target.into_iter().peekable();\n            loop {\n                let order = match (source.peek(), target.peek()) {\n                    (Some((old, _)), Some((new, _))) => old.cmp(&new),\n                    (Some(_), None) => std::cmp::Ordering::Less,\n                    (None, Some(_)) => std::cmp::Ordering::Greater,\n                    (None, None) => break,\n                };\n                if order == std::cmp::Ordering::Less {\n                    path.push_back(source.peek().unwrap().0.as_str());\n                    return Err(Error::new(\n                        path.as_str(),\n                        \"prototype does not support deletions\",\n                    ));\n                }\n                let (key, mut value) = target.next().unwrap();\n                path.push_back(key.as_str());\n                if order == std::cmp::Ordering::Equal {\n                    let (_, old) = source.next().unwrap();\n                    walk(old, value, path, depth + 1, bounded_delta, operations)?;\n                } else {\n                    if !bounded_delta {\n                        export::check_leaf_depth(depth + 1, &[&value])?;\n                    }\n                    // Keep the production Add number contract while moving its\n                    // containers and strings directly into the operation.\n                    export::normalize_addition(&mut value);\n                    operations.push(PatchOperation::Add(AddOperation {\n                        path: path.clone(),\n                        value,\n                    }));\n                }\n                path.pop_back();\n            }\n            Ok(())\n        }\n        (Value::Array(_), Value::Array(_)) => Err(Error::new(\n            path.as_str(),\n            \"prototype does not support changed array pairs\",\n        )),\n        (_, right) => {\n            if !bounded_delta {\n                export::check_leaf_depth(depth, &[left, &right])?;\n            }\n            operations.push(PatchOperation::Replace(ReplaceOperation {\n                path: path.clone(),\n                value: right,\n            }));\n            Ok(())\n        }\n    }\n}\n\ntype ProbeResult<T> = Result<T, Box<dyn std::error::Error>>;\n\nfn plain() -> JsonPatchOptions {\n    JsonPatchOptions {\n        factorize: false,\n        rationalize: false,\n        tests: false,\n    }\n}\n\nfn borrowed(engine: &str, left: &Value, right: &Value) -> ProbeResult<Patch> {\n    Ok(match engine {\n        \"palim-borrowed\" => DiffPatcher::default().diff_json_patch(left, right, &plain())?,\n        \"json-patch\" => json_patch::diff(left, right),\n        _ => return Err(format!(\"unknown borrowed engine: {engine}\").into()),\n    })\n}\n\nfn verify(left: &Value, right: &Value, patch: &Patch) -> ProbeResult<()> {\n    let wire = serde_json::to_vec(patch)?;\n    let decoded: Patch = serde_json::from_slice(&wire)?;\n    let mut result = left.clone();\n    json_patch::patch(&mut result, &decoded)?;\n    assert_eq!(result, *right);\n    let inverse = crate::invert_json_patch(left, &decoded)?;\n    json_patch::patch(&mut result, &inverse)?;\n    assert_eq!(result, *left);\n    Ok(())\n}\n\n// Each operation uses the same clock boundary. For owned-ready Core only,\n// preparing the pre-owned target is deliberately outside that boundary.\nfn measure(\n    mut once: impl FnMut() -> ProbeResult<(f64, f64)>,\n) -> ProbeResult<(Vec<f64>, Vec<f64>, usize)> {\n    for _ in 0..3 {\n        once()?;\n    }\n    let mut iterations = 1;\n    loop {\n        let mut elapsed = 0.;\n        for _ in 0..iterations {\n            elapsed += once()?.0;\n        }\n        if elapsed >= 10. || iterations >= 2048 {\n            break;\n        }\n        iterations *= 2;\n    }\n    let mut samples = Vec::new();\n    let mut generation_samples = Vec::new();\n    for _ in 0..9 {\n        let mut elapsed = 0.;\n        let mut generation = 0.;\n        for _ in 0..iterations {\n            let sample = once()?;\n            elapsed += sample.0;\n            generation += sample.1;\n        }\n        samples.push(elapsed / iterations as f64);\n        generation_samples.push(generation / iterations as f64);\n    }\n    Ok((samples, generation_samples, iterations))\n}\n\npub fn run() -> ProbeResult<()> {\n    let args: Vec<_> = std::env::args().collect();\n    if args.len() != 3 {\n        return Err(\"usage: owned_probe ENGINE FIXTURE\".into());\n    }\n    let mode = args[1].as_str();\n    if ![\"palim-borrowed\", \"json-patch\", \"owned-ready\", \"owned-clone\"].contains(&mode) {\n        return Err(format!(\"unknown engine: {mode}\").into());\n    }\n    let fixture: Value = serde_json::from_slice(&fs::read(&args[2])?)?;\n    let left = fixture.get(\"left\").ok_or(\"missing left\")?;\n    let right = fixture.get(\"right\").ok_or(\"missing right\")?;\n    let raw_left = fixture[\"left_raw\"]\n        .as_str()\n        .ok_or(\"missing raw left\")?\n        .as_bytes();\n    let raw_right = fixture[\"right_raw\"]\n        .as_str()\n        .ok_or(\"missing raw right\")?\n        .as_bytes();\n    assert_eq!(serde_json::from_slice::<Value>(raw_left)?, *left);\n    assert_eq!(serde_json::from_slice::<Value>(raw_right)?, *right);\n    let initial = if mode.starts_with(\"owned-\") {\n        diff_json_patch_owned(left, right.clone())?\n    } else {\n        borrowed(mode, left, right)?\n    };\n    verify(left, right, &initial)?;\n    // On these supported fixtures, compare exact output against Palim's existing\n    // plain path as well as independently applying serialized operations.\n    assert_eq!(initial, borrowed(\"palim-borrowed\", left, right)?);\n    let wire = serde_json::to_vec(&initial)?;\n    let mut counts = std::collections::BTreeMap::<&str, usize>::new();\n    for op in &initial.0 {\n        let kind = match op {\n            PatchOperation::Add(_) => \"add\",\n            PatchOperation::Replace(_) => \"replace\",\n            _ => \"other\",\n        };\n        *counts.entry(kind).or_default() += 1;\n    }\n    drop(initial);\n    let (core, generation, core_iterations) = measure(|| {\n        let prepared = (mode == \"owned-ready\").then(|| right.clone());\n        let started = Instant::now();\n        let result = if let Some(target) = prepared {\n            diff_json_patch_owned(black_box(left), target)?\n        } else if mode == \"owned-clone\" {\n            diff_json_patch_owned(black_box(left), black_box(right).clone())?\n        } else {\n            borrowed(mode, black_box(left), black_box(right))?\n        };\n        let generated = started.elapsed().as_secs_f64() * 1000.;\n        drop(black_box(result));\n        Ok((started.elapsed().as_secs_f64() * 1000., generated))\n    })?;\n    let pipeline = if mode == \"owned-clone\" {\n        None\n    } else {\n        Some(measure(|| {\n            let started = Instant::now();\n            let left: Value = serde_json::from_slice(black_box(raw_left))?;\n            let right: Value = serde_json::from_slice(black_box(raw_right))?;\n            let result = if mode == \"owned-ready\" {\n                diff_json_patch_owned(&left, right)?\n            } else {\n                let result = borrowed(mode, &left, &right)?;\n                drop(right);\n                result\n            };\n            drop(black_box(serde_json::to_vec(&result)?));\n            drop(result);\n            drop(left);\n            let elapsed = started.elapsed().as_secs_f64() * 1000.;\n            Ok((elapsed, elapsed))\n        })?)\n    };\n    println!(\n        \"{}\",\n        json!({\"fixture\":fixture[\"name\"],\"engine\":mode,\n            \"core_samples_ms\":core,\"core_iterations\":core_iterations,\n            \"generation_samples_ms\":generation,\n            \"pipeline_samples_ms\":pipeline.as_ref().map(|v| &v.0),\n            \"pipeline_iterations\":pipeline.as_ref().map(|v| v.2),\n            \"wire_bytes\":wire.len(),\"wire\":String::from_utf8(wire)?,\n            \"operation_counts\":counts,\"forward_verified\":true,\"inverse_verified\":true,\n            \"plain_output_identical\":true})\n    );\n    Ok(())\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn supported_changes_keep_wire_contract_and_move_storage() {\n        let cases = [\n            (json!({}), json!({\"~/\": [{\"nested\": \"payload\"}]})),\n            (json!({\"a\": 1}), json!({\"a\": {\"nested\": [1, 2]}})),\n            (json!([1, 2]), json!(\"root replacement\")),\n            (\n                json!({\"a\": 1, \"b\": {\"c\": false}}),\n                json!({\"a\": 2, \"b\": {\"c\": true, \"d\": 3}}),\n            ),\n            (json!({\"a\": [1, 2]}), json!({\"a\": [1, 2]})),\n        ];\n        for (left, right) in cases {\n            let actual = diff_json_patch_owned(&left, right.clone()).unwrap();\n            assert_eq!(actual, borrowed(\"palim-borrowed\", &left, &right).unwrap());\n            verify(&left, &right, &actual).unwrap();\n        }\n        let target = json!({\"added\": [\"owned string\", {\"nested\": true}]});\n        let storage = target[\"added\"].as_array().unwrap().as_ptr();\n        let result = diff_json_patch_owned(&json!({}), target).unwrap();\n        let PatchOperation::Add(add) = &result.0[0] else {\n            panic!(\"expected Add\")\n        };\n        assert_eq!(storage, add.value.as_array().unwrap().as_ptr());\n    }\n\n    #[test]\n    fn numeric_additions_and_replacements_keep_distinct_contracts() {\n        let object = |raw: &str| {\n            Value::Object(serde_json::Map::from_iter([(\n                \"n\".into(),\n                Value::Number(serde_json::Number::from_string_unchecked(raw.into())),\n            )]))\n        };\n        for raw in [\n            \"-0\",\n            \"1E2\",\n            \"1e2\",\n            \"10000000000000000000000000\",\n            \"1e+999999\",\n        ] {\n            for (left, right) in [(json!({}), object(raw)), (json!({\"n\": 7}), object(raw))] {\n                assert_eq!(\n                    diff_json_patch_owned(&left, right.clone()).unwrap(),\n                    borrowed(\"palim-borrowed\", &left, &right).unwrap()\n                );\n            }\n        }\n        let malformed = object(\"invalid\");\n        assert!(\n            std::panic::catch_unwind(|| diff_json_patch_owned(&json!({}), malformed.clone()))\n                .is_err()\n        );\n        assert!(\n            std::panic::catch_unwind(|| borrowed(\"palim-borrowed\", &json!({}), &malformed))\n                .is_err()\n        );\n    }\n\n    #[test]\n    fn depth_errors_match_and_rejected_owned_input_drops_iteratively() {\n        for depth in 124..=129 {\n            let target = (0..depth).fold(json!({\"added\": []}), |v, _| json!({\"a\": v}));\n            let left = (0..depth).fold(json!({}), |v, _| json!({\"a\": v}));\n            assert_eq!(\n                diff_json_patch_owned(&left, target.clone()),\n                DiffPatcher::default().diff_json_patch(&left, &target, &plain())\n            );\n        }\n        let very_deep = (0..100_000).fold(Value::Null, |v, _| Value::Array(vec![v]));\n        assert_eq!(\n            diff_json_patch_owned(&Value::Null, very_deep).unwrap_err(),\n            Error::new(\"\", \"JSON nesting exceeds max_depth\")\n        );\n    }\n\n    #[test]\n    fn unsupported_changes_return_errors_instead_of_partial_patches() {\n        assert_eq!(\n            diff_json_patch_owned(&json!({\"a\": 1, \"b\": 2}), json!({\"a\": 3}))\n                .unwrap_err()\n                .path,\n            \"/b\"\n        );\n        assert_eq!(\n            diff_json_patch_owned(&json!({\"a\": [1]}), json!({\"a\": [2]}))\n                .unwrap_err()\n                .path,\n            \"/a\"\n        );\n    }\n}\n",
+  "runner_source": "#!/usr/bin/env python3\n\"\"\"Build the owned add/replace prototype in a temporary frozen source copy.\"\"\"\nimport argparse\nimport collections\nimport datetime\nimport hashlib\nimport io\nimport json\nimport pathlib\nimport platform\nimport statistics\nimport subprocess\nimport tarfile\nimport tempfile\nimport zipfile\n\nROOT = pathlib.Path(__file__).resolve().parents[1]\nPROBE = ROOT / \"scratchpad/owned_patch.rs\"\nARCHIVE = ROOT / \"results/addition-copy-20261006/evidence.zip\"\nCASES = [\"add-wide-10000\", \"add-wide-100000\", \"scalar-guards-100000\", \"unchanged-100000\", \"small-config-edit\"]\nENGINES = [\"palim-borrowed\", \"json-patch\", \"owned-ready\", \"owned-clone\"]\n\n\ndef digest(data):\n    return hashlib.sha256(data).hexdigest()\n\n\ndef command(args, cwd=None, timeout=300):\n    result = subprocess.run(args, cwd=cwd, capture_output=True, timeout=timeout)\n    if result.returncode:\n        raise RuntimeError(f\"{args} exited {result.returncode}:\\n{result.stderr.decode(errors='replace')}\\n{result.stdout.decode(errors='replace')}\")\n    return result.stdout.decode()\n\n\ndef main():\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument(\"--source-ref\", default=\"HEAD\")\n    parser.add_argument(\"--output\", type=pathlib.Path, required=True)\n    parser.add_argument(\"--verify-only\", action=\"store_true\")\n    args = parser.parse_args()\n    commit = command([\"git\", \"rev-parse\", args.source_ref], ROOT).strip()\n    source = subprocess.run(\n        [\"git\", \"archive\", commit, \"Cargo.toml\", \"Cargo.lock\", \"src\", \"benches\", \"README.md\"],\n        cwd=ROOT, capture_output=True, check=True,\n    ).stdout\n    evidence = {\n        \"checked_at\": datetime.datetime.now(datetime.timezone.utc).isoformat(),\n        \"source_commit\": commit,\n        \"source_archive_sha256\": digest(source),\n        \"prototype_sha256\": digest(PROBE.read_bytes()),\n        \"runner_sha256\": digest(pathlib.Path(__file__).read_bytes()),\n        \"fixture_archive_sha256\": digest(ARCHIVE.read_bytes()),\n        \"environment\": {\"platform\": platform.platform(), \"rustc\": command([\"rustc\", \"-Vv\"]).strip(),\n                        \"cargo\": command([\"cargo\", \"-V\"]).strip()},\n        \"method\": {\n            \"scope\": \"Experimental add/replace only; no changed array pairs, deletions, callbacks or optimization.\",\n            \"core\": \"Parsed Values -> generate and destroy Patch; owned-ready receives a prepared target outside timing.\",\n            \"generation\": \"Same Core operation; timestamp immediately after generation, before destroying Patch.\",\n            \"owned_clone_core\": \"Clone right inside timing -> owned generation -> destroy Patch.\",\n            \"pipeline\": \"Same raw bytes -> parse both documents -> generate -> serialize -> destroy inputs and output.\",\n            \"sampling\": \"3 warmups, >=10ms calibration capped at 2048, 9 batches, 3 serial processes; rotated engine order.\",\n            \"comparison\": \"Borrowed and consuming Core are different ownership contracts; pipeline boundaries are identical.\",\n        },\n        \"records\": [], \"fixtures\": {}, \"checks\": {},\n    }\n    with tempfile.TemporaryDirectory(prefix=\"palim-owned-\") as work:\n        folder = pathlib.Path(work)\n        with tarfile.open(fileobj=io.BytesIO(source)) as archive:\n            archive.extractall(folder, filter=\"data\")\n        (folder / \"scratchpad\").mkdir()\n        (folder / \"scratchpad/owned_patch.rs\").write_bytes(PROBE.read_bytes())\n        lib = folder / \"src/lib.rs\"\n        lib.write_text(lib.read_text() + '\\n#[path = \"../scratchpad/owned_patch.rs\"]\\npub mod owned_probe;\\n')\n        export = folder / \"src/export.rs\"\n        content = export.read_text()\n        for name in [\"normalize_addition\", \"check_leaf_depth\"]:\n            needle = f\"fn {name}(\"\n            if content.count(needle) != 1:\n                raise RuntimeError(f\"expected one existing helper: {name}\")\n            content = content.replace(needle, \"pub(crate) \" + needle)\n        export.write_text(content)\n        (folder / \"examples\").mkdir()\n        (folder / \"examples/owned_probe.rs\").write_text(\n            \"fn main() -> Result<(), Box<dyn std::error::Error>> { palim::owned_probe::run() }\\n\"\n        )\n        evidence[\"checks\"][\"prototype_tests_debug\"] = command(\n            [\"cargo\", \"test\", \"--locked\", \"--offline\", \"--lib\", \"owned_probe::tests\"], folder\n        ).strip()\n        evidence[\"checks\"][\"prototype_tests_release\"] = command(\n            [\"cargo\", \"test\", \"--release\", \"--locked\", \"--offline\", \"--lib\", \"owned_probe::tests\"], folder\n        ).strip()\n        command([\"cargo\", \"build\", \"--release\", \"--locked\", \"--offline\", \"--example\", \"owned_probe\"], folder)\n        command([\"cargo\", \"clippy\", \"--all-targets\", \"--locked\", \"--offline\", \"--\", \"-D\", \"warnings\"], folder)\n        evidence[\"checks\"][\"prototype_clippy_all_targets\"] = \"exit 0\"\n        command([\"cargo\", \"+1.85.0\", \"check\", \"--lib\", \"--locked\", \"--offline\"], folder)\n        evidence[\"checks\"][\"prototype_msrv_library\"] = \"exit 0\"\n        print(\"prototype: debug/release tests, Clippy and Rust 1.85 passed\", flush=True)\n        if not args.verify_only:\n            fixtures = folder / \"fixtures\"\n            fixtures.mkdir()\n            with zipfile.ZipFile(ARCHIVE) as archive:\n                for case in CASES:\n                    raw = archive.read(\"fixtures/\" + case + \".json\")\n                    (fixtures / (case + \".json\")).write_bytes(raw)\n                    evidence[\"fixtures\"][case] = digest(raw)\n            binary = folder / \"target/release/examples/owned_probe\"\n            for repeat in range(3):\n                order = ENGINES[repeat:] + ENGINES[:repeat]\n                for case in CASES:\n                    for engine in order:\n                        result = json.loads(command([str(binary), engine, str(fixtures / (case + \".json\"))], timeout=120))\n                        result[\"repeat\"] = repeat\n                        result[\"wire_sha256\"] = digest(result.pop(\"wire\").encode())\n                        evidence[\"records\"].append(result)\n                    print(f\"round {repeat + 1}/3: {case}\", flush=True)\n            groups = collections.defaultdict(list)\n            for result in evidence[\"records\"]:\n                groups[(result[\"fixture\"], result[\"engine\"])].append(result)\n            summaries = []\n            for (case, engine), records in groups.items():\n                if len({record[\"wire_sha256\"] for record in records}) != 1:\n                    raise RuntimeError(f\"nondeterministic output: {case}/{engine}\")\n                summaries.append({\n                    \"fixture\": case, \"engine\": engine,\n                    \"core_ms\": statistics.median(statistics.median(r[\"core_samples_ms\"]) for r in records),\n                    \"generation_ms\": statistics.median(statistics.median(r[\"generation_samples_ms\"]) for r in records),\n                    \"pipeline_ms\": None if engine == \"owned-clone\" else statistics.median(\n                        statistics.median(r[\"pipeline_samples_ms\"]) for r in records),\n                    \"wire_bytes\": records[0][\"wire_bytes\"], \"wire_sha256\": records[0][\"wire_sha256\"],\n                    \"operation_counts\": records[0][\"operation_counts\"],\n                })\n            for case in CASES:\n                hashes = {r[\"wire_sha256\"] for r in summaries if r[\"fixture\"] == case}\n                if len(hashes) != 1:\n                    raise RuntimeError(f\"engines differ in output: {case}\")\n            evidence[\"summary\"] = summaries\n            evidence[\"checks\"][\"wire_equality_all_engines\"] = \"all five fixtures; three processes per engine\"\n    args.output.parent.mkdir(parents=True, exist_ok=True)\n    args.output.write_text(json.dumps(evidence, ensure_ascii=False, indent=2) + \"\\n\")\n    print(f\"saved {args.output}\", flush=True)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "task_checks": {
+    "root_debug_tests": "cargo test --locked: exit 0; 201 tests + 1 doctest",
+    "root_release_tests": "cargo test --release --locked: exit 0; 201 tests + 1 doctest",
+    "root_fmt": "cargo fmt --check: exit 0",
+    "root_clippy": "cargo clippy --all-targets --locked -- -D warnings: exit 0",
+    "root_msrv": "cargo +1.85.0 check --lib --locked: exit 0",
+    "id_list_example": "cargo run --example id_list_history --locked: exit 0; 2 changes, 233 B; RFC replay, undo and redo verified",
+    "package_list": "cargo package --list --locked --allow-dirty: exit 0; ID example included, scratchpad/results excluded",
+    "prototype_fmt": "rustfmt --edition 2024 --check scratchpad/owned_patch.rs: exit 0",
+    "runner_syntax": "python3 -m py_compile scratchpad/run-owned-patch.py: exit 0",
+    "not_rerun": [
+      "JavaScript interop",
+      "fuzz",
+      "remote CI"
+    ]
+  }
+}

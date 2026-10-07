@@ -11,7 +11,7 @@ cargo-fuzz = true
 libfuzzer-sys = "0.4"
 arbitrary = "1.4"
 serde_json = { version = "1.0", features = ["float_roundtrip", "arbitrary_precision"] }
-palim = { path = ".." }
+palim = { path = "..", features = ["exact-numbers"] }
 
 [[bin]]
 name = "core"

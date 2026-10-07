@@ -13,6 +13,7 @@ fn standard_test_uses_mathematical_recursive_numeric_equality() {
         (json!(-1), json!(-1.0)),
         (json!(0), json!(-0.0)),
         (json!({"x":[1,2]}), json!({"x":[1.0,2.0]})),
+        #[cfg(feature = "exact-numbers")]
         (
             json!(9223372036854775808_u64),
             serde_json::from_str("9223372036854775808.0").unwrap(),

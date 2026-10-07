@@ -49,6 +49,7 @@ fn exact_json_report_and_mathematical_numbers() {
     );
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn arbitrary_precision_number_matching_and_exact_decimal_tolerance() {
     let left: Value = serde_json::from_str("[1e10000,1000000000000000000000000000001]").unwrap();
@@ -95,6 +96,7 @@ fn arbitrary_precision_number_matching_and_exact_decimal_tolerance() {
     );
 }
 
+#[cfg(feature = "exact-numbers")]
 #[test]
 fn numeric_work_budget_precedes_exact_and_unordered_canonicalization() {
     let exponent = format!("1{}", "0".repeat(4096));
@@ -223,6 +225,7 @@ fn tolerance_uses_absolute_relative_and_exact_large_integer_distance() {
         .len(),
         1
     );
+    #[cfg(feature = "exact-numbers")]
     assert!(
         compare(
             &json!(u64::MAX),

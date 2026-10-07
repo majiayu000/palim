@@ -345,50 +345,53 @@ fn risk_cases(c: &mut Criterion) {
     });
     filter.finish();
 
-    let mut decimal = c.benchmark_group("risk/decimal");
-    for (name, left, right, absolute, relative) in [
-        (
-            "beyond-f64-2000",
-            "9007199254740993.0001",
-            "9007199254740993.0002",
-            0.01,
-            0.0,
-        ),
-        (
-            "huge-positive-exponent",
-            "1e1000000000",
-            "1.005e1000000000",
-            0.0,
-            0.01,
-        ),
-        (
-            "huge-negative-exponent",
-            "1e-1000000000",
-            "2e-1000000000",
-            0.01,
-            0.0,
-        ),
-    ] {
-        let left: Value = serde_json::from_str(left).unwrap();
-        let right: Value = serde_json::from_str(right).unwrap();
-        let (a, b) = if name == "beyond-f64-2000" {
-            (json!(vec![left; 2000]), json!(vec![right; 2000]))
-        } else {
-            (left, right)
-        };
-        let options = CompareOptions {
-            absolute_tolerance: absolute,
-            relative_tolerance: relative,
-            ..Default::default()
-        };
-        let report = compare(&a, &b, &options).unwrap();
-        assert!(report.differences.is_empty() && report.moves.is_empty());
-        assert_eq!(report.similarity, 1.0);
-        decimal.bench_function(name, |bencher| {
-            bencher.iter(|| compare(black_box(&a), black_box(&b), &options).unwrap());
-        });
+    #[cfg(feature = "exact-numbers")]
+    {
+        let mut decimal = c.benchmark_group("risk/decimal");
+        for (name, left, right, absolute, relative) in [
+            (
+                "beyond-f64-2000",
+                "9007199254740993.0001",
+                "9007199254740993.0002",
+                0.01,
+                0.0,
+            ),
+            (
+                "huge-positive-exponent",
+                "1e1000000000",
+                "1.005e1000000000",
+                0.0,
+                0.01,
+            ),
+            (
+                "huge-negative-exponent",
+                "1e-1000000000",
+                "2e-1000000000",
+                0.01,
+                0.0,
+            ),
+        ] {
+            let left: Value = serde_json::from_str(left).unwrap();
+            let right: Value = serde_json::from_str(right).unwrap();
+            let (a, b) = if name == "beyond-f64-2000" {
+                (json!(vec![left; 2000]), json!(vec![right; 2000]))
+            } else {
+                (left, right)
+            };
+            let options = CompareOptions {
+                absolute_tolerance: absolute,
+                relative_tolerance: relative,
+                ..Default::default()
+            };
+            let report = compare(&a, &b, &options).unwrap();
+            assert!(report.differences.is_empty() && report.moves.is_empty());
+            assert_eq!(report.similarity, 1.0);
+            decimal.bench_function(name, |bencher| {
+                bencher.iter(|| compare(black_box(&a), black_box(&b), &options).unwrap());
+            });
+        }
+        decimal.finish();
     }
-    decimal.finish();
 
     let a = json!({"items": (0..2000).map(|i| json!({"nested": {"score": i, "keep": "unchanged"}}))
         .collect::<Vec<_>>(), "untouched": vec!["unchanged payload"; 5000]});

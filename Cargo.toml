@@ -1,6 +1,6 @@
 [package]
 name = "palim"
-version = "0.2.1"
+version = "0.3.0"
 edition = "2024"
 rust-version = "1.85"
 description = "Reversible JSON diff and patch for Rust, with array moves, text deltas, JSON Patch and Merge Patch"
@@ -11,11 +11,15 @@ homepage = "https://github.com/majiayu000/palim"
 documentation = "https://docs.rs/palim"
 keywords = ["json", "diff", "patch", "jsondiffpatch", "merge-patch"]
 categories = ["algorithms", "data-structures", "encoding"]
-exclude = ["results", "tools", "node_modules", "fuzz"]
+exclude = ["results", "tools", "node_modules", "fuzz", "scratchpad"]
+
+[features]
+default = []
+exact-numbers = ["serde_json/arbitrary_precision", "serde_json/float_roundtrip"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
-serde_json = { version = "1.0", features = ["float_roundtrip", "arbitrary_precision"] }
+serde_json = "1.0"
 num-bigint = "0.4.6"
 imara-diff = { package = "gix-imara-diff", version = "0.2.5", default-features = false }
 json-patch = "4.2.0"

@@ -1,14 +1,15 @@
-# Palim: JSON diff and patch for Rust
+# Palim: reversible JSON changes and large-array moves for Rust
 
 [![crates.io](https://img.shields.io/crates/v/palim.svg)](https://crates.io/crates/palim)
 [![API documentation](https://docs.rs/palim/badge.svg)](https://docs.rs/palim)
 [![CI](https://github.com/majiayu000/palim/actions/workflows/ci.yml/badge.svg)](https://github.com/majiayu000/palim/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/majiayu000/palim/blob/main/LICENSE)
 
-Palim is a Rust library for **reversible JSON structural diffs**, array identity
-matching and moves, Unicode text deltas, RFC 6902 JSON Patch, RFC 7396 JSON Merge
-Patch and configurable comparison reports. Use it to compare JSON documents,
-store changes and restore previous values.
+Palim is a Rust JSON diff/patch library for **large-array reorders and reversible
+changes**. Use stable item IDs to track list moves and edits, store deltas for
+undo/redo or replay, and export RFC 6902 patches for other clients.
+It also supports Unicode text deltas, RFC 7396 JSON Merge Patch and configurable
+comparison reports.
 It reads and writes the JSON delta format used by
 [jsondiffpatch](https://github.com/benjamine/jsondiffpatch), and exports RFC 6902
 JSON Patch operations. This is an independently implemented JSON core, using
@@ -18,9 +19,51 @@ LIS for unique array identities, `imara-diff` for other sequence matching and
 Minimum Rust: **1.85**. See the [API documentation](https://docs.rs/palim),
 [benchmarks](https://github.com/majiayu000/palim/blob/main/BENCHMARK.md) and
 [release history](https://github.com/majiayu000/palim/releases).
-The current release is [0.2.1](https://github.com/majiayu000/palim/releases/tag/v0.2.1).
+The 0.3 series makes exact JSON numbers opt-in; see the
+[0.3.0 changelog](https://github.com/majiayu000/palim/blob/main/CHANGELOG.md).
 Guarded and some plain JSON Patch output shapes changed; see the
 [changelog](https://github.com/majiayu000/palim/blob/main/CHANGELOG.md).
+
+## When to use Palim
+
+- **Undo/redo and change history:** complete deltas retain old values and can be
+  reversed without keeping a second full document for each edit.
+- **Lists with stable IDs:** sorting, drag-and-drop and edits inside moved items
+  use identity matching. Replay requires the correct baseline; this is not a
+  conflict-resolution or collaborative merge engine.
+- **Standard patches for large reorders or migrations:** emit array moves,
+  optionally factorize move/copy operations and rationalize subtree replacement,
+  then generate an inverse patch from the baseline.
+
+Measured examples, in milliseconds. Each row names its output contract; these
+are dated single-machine results, not a promise for arbitrary JSON.
+These 0.2 measurements used exact-number serde_json features; they do not measure
+the ordinary-number default introduced in 0.3.
+
+| Input and output contract | Palim | Compared library | Output bytes: Palim / compared |
+|---|---:|---:|---:|
+| 2,000-item rotation, reversible delta pipeline | 0.2503 ms | jsondiffpatch 0.7.6: 39.1601 ms | 27 / 27 |
+| 2,000 entirely different items, reversible delta pipeline | 1.4315 ms | jsondiffpatch 0.7.6: 287.9724 ms | 111,790 / 111,790 |
+| 5,000-file migration, optimized RFC pipeline | 44.0676 ms | Go jsondiff 0.7.1 optimized: 113.7361 ms | 505,072 / 4,699,005 |
+| 1,000,000-item rotation, plain RFC pipeline | 209.4459 ms | Rust json-patch 4.2.0: 259.1759 ms | 44 / 58,888,891 |
+
+Pipeline includes parsing both inputs, generating the change and serializing it.
+The first three rows come from the
+[2026-10-06 cross-language run](https://github.com/majiayu000/palim/blob/main/results/ci-crosslang-20261006/REPORT.md);
+the million-item row comes from the
+[2026-10-06–07 Rust run](https://github.com/majiayu000/palim/blob/main/results/adaptive-rfc-20261006/REPORT.md).
+Do not combine the runs into an overall ranking.
+
+For ordinary positional RFC patches, `json-patch` remains a strong, simpler
+choice. It is faster on the measured random shuffles and wide additions; JS
+libraries are faster on the measured small configurations. Palim's advantage
+is specific to the change representation and workload. See
+[COMPARISON.md](https://github.com/majiayu000/palim/blob/main/COMPARISON.md) for the boundaries.
+External users and public downstream adoption have not yet been confirmed;
+these benchmarks and examples are not production adoption evidence.
+An [internal Helixflow proposal-diff trial](https://github.com/majiayu000/palim/blob/main/results/internal-integration-20261007/REPORT.md)
+has passed local integration tests using an unpublished 0.3.0 package; registry
+integration and production adoption remain pending.
 
 ## Installation
 
@@ -32,9 +75,23 @@ Or add these dependencies to `Cargo.toml`:
 
 ```toml
 [dependencies]
-palim = "0.2"
+palim = "0.3"
 serde_json = "1.0"
 ```
+
+The default configuration uses serde_json's ordinary numeric behavior.
+For arbitrary-precision integers/decimals and precise float wire round trips,
+opt in explicitly:
+
+```toml
+palim = { version = "0.3", features = ["exact-numbers"] }
+```
+
+This enables serde_json's `arbitrary_precision` and `float_roundtrip` features
+for the shared dependency, which can change `Value` equality and float parsing
+elsewhere in your project. To retain the numeric capabilities of Palim 0.2,
+enable `exact-numbers` when upgrading. Without it, numbers outside serde_json's
+ordinary range may round or fail to parse before Palim sees them.
 
 ## Example
 
@@ -67,6 +124,14 @@ assert_eq!(apply_json_patch(&before, &standard)?, after);
 # }
 ```
 
+For a complete ID-based task-list history with reorder, edit, insert, delete,
+serialized deltas, undo and redo, run the
+[list history example](https://github.com/majiayu000/palim/blob/main/examples/id_list_history.rs):
+
+```sh
+cargo run --example id_list_history --locked
+```
+
 ## Features
 
 - All JSON value types, nested objects and arrays, and root type changes.
@@ -84,7 +149,7 @@ assert_eq!(apply_json_patch(&before, &standard)?, after);
 - RFC 7396 Merge Patch application, generation and representable composition.
 - Comparison reports with path-dependent unordered multisets, custom equality,
   numeric tolerances, identity moves, similarity and work/output budgets.
-- Arbitrary precision JSON numbers; mathematical numeric equality for standard tests
+- Opt-in arbitrary precision JSON numbers; mathematical numeric equality for standard tests
   and reports, without expanding huge exponents.
 - Consuming application APIs, atomic in-place APIs and cumulative copy byte limits.
 - Immutable inputs, errors with paths, no global configuration, shareable instances.
@@ -222,8 +287,10 @@ that reconstructs the original target after ignoring order or values.
 Numeric tolerance checks the exact decimal inequality
 `abs(a - b) <= max(absolute, relative * max(abs(a), abs(b)))`.
 The finite f64 options denote their shortest JSON decimal values: `0.2` means
-decimal `0.2`. Inputs stay arbitrary precision, including huge symbolic exponents;
-no conversion of inputs to f64 or expansion of exponent gaps occurs. Decimal digit
+decimal `0.2`. The comparison uses the decimal representation of the supplied
+serde_json numbers; ordinary parsing may already have rounded those inputs.
+With `exact-numbers`, inputs retain arbitrary precision, including huge symbolic
+exponents, without conversion to f64 or expansion of exponent gaps. Decimal digit
 work counts toward `max_comparisons` and `visited`.
 `array_item_matcher` takes precedence over `object_hash` in reports.
 
@@ -317,7 +384,8 @@ serde_json's default reader. A near-limit source can therefore produce a depth
 error if its delta exceeds the limit. Lower `max_depth` when needed;
 values above 128 are rejected. Sequence lengths are checked against imara's i32 limit.
 
-Numbers enable serde_json's `arbitrary_precision` and `float_roundtrip` features.
+The opt-in `exact-numbers` Cargo feature enables serde_json's
+`arbitrary_precision` and `float_roundtrip` features.
 Native deltas retain numeric representation changes; standard `test` and reports
 compare decimal numeric values (`1`, `1.0` and `1e0` are equal). Parse exact decimal
 inputs from JSON text: converting a Rust f64 to JSON already chooses its shortest
@@ -326,6 +394,10 @@ consumers. For standard patches containing large integers, deserialize JSON text
 with `serde_json::from_str::<Patch>`; the upstream tagged enum's `from_value` path
 has a u128 buffering limitation. Generated operations use typed construction and
 preserve those numbers. Strings must be valid Unicode.
+In the default configuration, numeric precision and wire round trips have
+serde_json's ordinary limits. RFC `test` and reports still compare mathematical
+numeric values (`1` equals `1.0`). Cargo unifies dependency features: another
+dependency can still enable exact numbers throughout the workspace.
 Identity/filter callbacks are caller code; panic or allocation failure is not caught.
 
 JS Date/undefined/functions, browser HTML/CSS/animations, a product CLI and language
@@ -359,7 +431,7 @@ sources. The earlier Go/JS results are a
 [separate cross-language run](https://github.com/majiayu000/palim/blob/main/results/ci-crosslang-20261006/REPORT.md);
 they do not measure the final adaptive implementation.
 
-Release validation includes 202 debug and 202 release tests, 1,073 required JS
+The 0.2.0 release validation included 202 debug and 202 release tests, 1,073 required JS
 interoperability paths and 135,242 local structured fuzz runs without failure.
 All 3,305 legacy frozen records are unchanged; 128 additional direct-generation
 records cover the changed plain output across all eight RFC flag combinations.
@@ -370,11 +442,15 @@ including Windows/macOS/Linux, Rust 1.85, JS interoperability and structured fuz
 
 ```sh
 cargo test --locked
+cargo test --features exact-numbers --locked
 cargo test --release --locked
+cargo test --release --features exact-numbers --locked
 cargo clippy --all-targets --locked -- -D warnings
+cargo clippy --all-targets --features exact-numbers --locked -- -D warnings
 cargo fmt --check
 cargo +1.85.0 check --lib --locked
-cargo bench --bench core --locked -- --noplot
+cargo +1.85.0 check --lib --features exact-numbers --locked
+cargo bench --bench core --features exact-numbers --locked -- --noplot
 ```
 
 Optional JavaScript interoperability and comparison (requires Node 20+, Python 3
@@ -385,7 +461,7 @@ npm ci --prefix tools --ignore-scripts --no-audit --no-fund
 cargo build --release --example fixture_runner --locked
 node tools/interop.mjs
 python3 tools/benchmark.py
-cargo build --release --example standard_bench --locked
+cargo build --release --example standard_bench --features exact-numbers --locked
 python3 tools/standard-benchmark.py --task pipeline
 python3 tools/standard-benchmark.py --task export
 python3 tools/standard-benchmark.py --task apply

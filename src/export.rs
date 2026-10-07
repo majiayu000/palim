@@ -51,8 +51,15 @@ fn normalize_addition(value: &mut Value) {
         Value::Object(values) => values.values_mut().for_each(normalize_addition),
         // Use the same parser and unwrap behavior as json!(value), including
         // malformed Numbers constructed through from_string_unchecked.
-        Value::Number(number) if !normalized_number(number.as_str()) => {
-            *number = number.as_str().parse().unwrap();
+        Value::Number(number) if !normalized_number(&crate::numbers::number_text(number)) => {
+            #[cfg(feature = "exact-numbers")]
+            {
+                *number = number.as_str().parse().unwrap();
+            }
+            #[cfg(not(feature = "exact-numbers"))]
+            {
+                *value = json!(&*number);
+            }
         }
         _ => {}
     }
@@ -363,7 +370,7 @@ pub(crate) fn positional_reorder(
         Value::Array(_) | Value::Object(_) => false,
         // Preserve normalization and malformed unchecked-number behavior on
         // the native path; only already-normalized numbers enter this shortcut.
-        Value::Number(number) => normalized_number(number.as_str()),
+        Value::Number(number) => normalized_number(&crate::numbers::number_text(number)),
         _ => true,
     };
     let mut cost = 0u128;
@@ -378,7 +385,7 @@ pub(crate) fn positional_reorder(
             let digits = index.checked_ilog10().map_or(1, |v| v + 1) as u128;
             let value_bytes = match new {
                 // arbitrary_precision serializes a normalized Number verbatim.
-                Value::Number(number) => number.as_str().len(),
+                Value::Number(number) => crate::numbers::number_text(number).len(),
                 _ => crate::rfc::bytes(new)?,
             };
             // Replace has 33 bytes besides its serialized path and value.
@@ -656,6 +663,7 @@ mod direct_tests {
     use std::sync::{Arc, Mutex};
 
     #[test]
+    #[cfg(feature = "exact-numbers")]
     fn normalized_number_matches_serde_parser() {
         for raw in [
             "0",
@@ -703,6 +711,7 @@ mod direct_tests {
             raw in "[0-9.eE+\\-a-z \\n]{0,64}",
             float in any::<f64>(),
         ) {
+            #[cfg(feature = "exact-numbers")]
             if normalized_number(&raw) {
                 let parsed = raw.parse::<serde_json::Number>().unwrap();
                 prop_assert_eq!(parsed.as_str(), raw.as_str());
@@ -719,6 +728,7 @@ mod direct_tests {
     }
 
     #[test]
+    #[cfg(feature = "exact-numbers")]
     fn addition_copy_keeps_nested_number_normalization_and_patch_bytes() {
         for raw in [
             "0",
@@ -760,6 +770,7 @@ mod direct_tests {
     }
 
     #[test]
+    #[cfg(feature = "exact-numbers")]
     fn addition_copy_keeps_malformed_unchecked_number_failure() {
         let message = |result: std::thread::Result<Value>| {
             let error = result.expect_err("malformed unchecked Number must fail");
@@ -967,6 +978,7 @@ mod direct_tests {
 
     #[test]
     fn direct_objects_keep_native_wire_order_and_payloads() {
+        #[cfg(feature = "exact-numbers")]
         for raw in ["-0", "1E+0003", "1.00e00", "1.0", "1e9999"] {
             let number = Value::Number(serde_json::Number::from_string_unchecked(raw.into()));
             let mut right = json!({"":{"a/~🦀":2},"add":null,"z":true});
@@ -1051,6 +1063,7 @@ mod direct_tests {
     }
 
     #[test]
+    #[cfg(feature = "exact-numbers")]
     fn positional_reorders_keep_unchecked_number_behavior() {
         for raw in ["-0", "1E5", "01", "not-a-number"] {
             let mut source: Vec<Value> = (0..16).map(|i| json!(i)).collect();

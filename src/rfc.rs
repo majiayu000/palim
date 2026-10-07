@@ -1926,9 +1926,11 @@ mod guard_cost_tests {
                     "/items/0" => json!({"items":[initial]}),
                     _ => json!({"a/~🦀":initial}),
                 };
-                let values: Value = serde_json::from_str(
-                    r#"[1.0,1e9999,123456789012345678901234567890,{"escaped":"\n\"🦀"},[true,null]]"#,
-                ).unwrap();
+                let values: Value = serde_json::from_str(if cfg!(feature = "exact-numbers") {
+                    r#"[1.0,1e9999,123456789012345678901234567890,{"escaped":"\n\"🦀"},[true,null]]"#
+                } else {
+                    r#"[1.0,1e20,1234567890,{"escaped":"\n\"🦀"},[true,null]]"#
+                }).unwrap();
                 let original = Patch(values.as_array().unwrap().iter().enumerate().map(|(index,value)| {
                     decode(json!({"op":"add","path":pointer(container,if index%2==0 {"0"} else {"-"}),"value":value})).unwrap()
                 }).collect());
@@ -2028,6 +2030,7 @@ mod guard_cost_tests {
     }
 
     #[test]
+    #[cfg(feature = "exact-numbers")]
     fn guard_payloads_keep_existing_number_normalization_and_escaped_paths() {
         for (raw, expected) in [
             ("-0", "0"),
@@ -2852,9 +2855,11 @@ mod guard_cost_tests {
 
     #[test]
     fn object_rename_snapshot_costs_match_serialized_prefixes_and_resumed_replay() {
-        let payload: Value = serde_json::from_str(
-            r#"{"float":1.0,"integer":1234567890123456789012345678901234567890,"exponent":1e9999}"#,
-        )
+        let payload: Value = serde_json::from_str(if cfg!(feature = "exact-numbers") {
+            r#"{"float":1.0,"integer":1234567890123456789012345678901234567890,"exponent":1e9999}"#
+        } else {
+            r#"{"float":1.0,"integer":1234567890,"exponent":1e20}"#
+        })
         .unwrap();
         let object = json!({"":payload,"a/~\"\\\n":payload,"~1":[payload,"🦀"]});
         for container in ["", "/outer~1~0", "/items/0"] {

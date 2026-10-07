@@ -14,7 +14,18 @@ fn check(patcher: &DiffPatcher, left: &Value, right: &Value) {
     assert_eq!(reverse(&reversed).unwrap(), delta);
     let wire = serde_json::to_string(&delta).unwrap();
     let decoded: Delta = serde_json::from_str(&wire).unwrap();
+    #[cfg(feature = "exact-numbers")]
     assert_eq!(decoded, delta);
+    #[cfg(not(feature = "exact-numbers"))]
+    {
+        // Without float_roundtrip, serde_json may round a serialized f64 again.
+        // Replay the wire delta against documents decoded by the same parser.
+        let wire_left: Value = serde_json::from_str(&serde_json::to_string(left).unwrap()).unwrap();
+        let wire_right: Value =
+            serde_json::from_str(&serde_json::to_string(right).unwrap()).unwrap();
+        assert_eq!(patch(&wire_left, &decoded).unwrap(), wire_right);
+        assert_eq!(unpatch(&wire_right, &decoded).unwrap(), wire_left);
+    }
     assert_eq!(
         apply_json_patch(left, &delta.to_json_patch(left).unwrap()).unwrap(),
         *right
@@ -59,14 +70,22 @@ fn atomic_replacements_keep_valid_number_and_mixed_payload_representations() {
         "1",
         "1.0",
         "-0.0",
+        #[cfg(feature = "exact-numbers")]
         "18446744073709551617",
+        #[cfg(feature = "exact-numbers")]
         "-18446744073709551617",
+        #[cfg(feature = "exact-numbers")]
         "0.012345678900000001234567890000000123456789",
+        #[cfg(feature = "exact-numbers")]
         "1e10000",
+        #[cfg(feature = "exact-numbers")]
         "10e9999",
+        #[cfg(feature = "exact-numbers")]
         "-1e-10000",
         r#""escaped \" text 🦀\n""#,
+        #[cfg(feature = "exact-numbers")]
         r#"[null,true,1.0,{"n":18446744073709551617}]"#,
+        #[cfg(feature = "exact-numbers")]
         r#"{"a/b":[-0.0,1e10000],"~key":{"n":0.01234567890000000123456789}}"#,
     ]
     .iter()

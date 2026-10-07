@@ -27,7 +27,16 @@ fn round_trip(dp: &DiffPatcher, a: &Value, b: &Value) {
         assert_eq!(unpatch(b, &d).unwrap(), *a);
         assert_eq!(reverse(&reverse(&d).unwrap()).unwrap(), d);
         let imported: Delta = serde_json::from_str(&serde_json::to_string(&d).unwrap()).unwrap();
+        #[cfg(feature = "exact-numbers")]
         assert_eq!(imported, d);
+        #[cfg(not(feature = "exact-numbers"))]
+        {
+            // serde_json without float_roundtrip may round serialized f64 values.
+            let wire_a: Value = serde_json::from_str(&serde_json::to_string(a).unwrap()).unwrap();
+            let wire_b: Value = serde_json::from_str(&serde_json::to_string(b).unwrap()).unwrap();
+            assert_eq!(patch(&wire_a, &imported).unwrap(), wire_b);
+            assert_eq!(unpatch(&wire_b, &imported).unwrap(), wire_a);
+        }
         assert_eq!(
             apply_json_patch(a, &d.to_json_patch(a).unwrap()).unwrap(),
             *b
@@ -36,7 +45,14 @@ fn round_trip(dp: &DiffPatcher, a: &Value, b: &Value) {
         assert_eq!(forward.patch(a).unwrap(), *b);
         let wire = serde_json::to_string(&forward).unwrap();
         let imported: palim::ForwardDelta = serde_json::from_str(&wire).unwrap();
+        #[cfg(feature = "exact-numbers")]
         assert_eq!(imported.patch(a).unwrap(), *b);
+        #[cfg(not(feature = "exact-numbers"))]
+        {
+            let wire_a: Value = serde_json::from_str(&serde_json::to_string(a).unwrap()).unwrap();
+            let wire_b: Value = serde_json::from_str(&serde_json::to_string(b).unwrap()).unwrap();
+            assert_eq!(imported.patch(&wire_a).unwrap(), wire_b);
+        }
     } else {
         assert_eq!(a, b);
     }
