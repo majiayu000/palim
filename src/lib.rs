@@ -191,6 +191,36 @@ impl DiffPatcher {
     pub fn new(options: DiffOptions) -> Self {
         Self { options }
     }
+    /// Match array objects by a named field, such as `"id"`.
+    ///
+    /// The key is a literal field name, not a JSON Pointer. Identities use the
+    /// field's JSON representation, so `1` and `"1"` are distinct. Items without
+    /// the field fall back to their complete JSON value. Repeated identities are
+    /// paired deterministically; stable unique IDs usually produce smaller deltas.
+    /// All other options retain their defaults.
+    ///
+    /// ```
+    /// use palim::{DiffPatcher, patch, unpatch};
+    /// use serde_json::json;
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let before = json!([{"id": 1, "done": false}, {"id": 2, "done": false}]);
+    /// let after = json!([{"id": 2, "done": true}, {"id": 1, "done": false}]);
+    /// if let Some(delta) = DiffPatcher::by_key("id").diff(&before, &after)? {
+    ///     assert_eq!(patch(&before, &delta)?, after);
+    ///     assert_eq!(unpatch(&after, &delta)?, before);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn by_key(key: impl Into<String>) -> Self {
+        let key = key.into();
+        Self::new(DiffOptions {
+            object_hash: Some(Arc::new(move |item, _| {
+                item.as_object()?.get(&key).map(Value::to_string)
+            })),
+            ..Default::default()
+        })
+    }
     /// Compare JSON values; None means no differences after property filtering.
     pub fn diff(&self, left: &Value, right: &Value) -> Result<Option<Delta>, Error> {
         self.check_inputs(left, right)?;

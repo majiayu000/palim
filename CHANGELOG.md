@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.1
+
+- Add `DiffPatcher::by_key("id")` for stable-ID array matching without writing an
+  identity callback. It uses the field's JSON representation and existing matching
+  behavior: missing IDs fall back to the full value and repeated IDs are allowed.
+- Put installation, a short undo/redo example and API selection tables first in
+  the README. Keep detailed contracts in the [API guide](API_GUIDE.md) and dated
+  performance results in [BENCHMARK.md](BENCHMARK.md).
+- Add runnable RFC patch transport, configuration comparison and JS jsondiffpatch
+  import examples; simplify the existing list-history example with `by_key`.
+- Keep the 0.3.0 numeric defaults, error type and options unchanged.
+
 ## 0.3.0
 
 - **Breaking:** stop enabling serde_json's `arbitrary_precision` and `float_roundtrip`

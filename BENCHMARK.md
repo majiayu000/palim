@@ -4,16 +4,139 @@
 
 ## 当前版本与历史测量边界（2026-10-07）
 
-当前版本为 0.3.0。下方 0.2 及更早的性能数据启用了 serde_json 的
+2026-10-07 复核时版本为 0.3.0。下方 0.2 及更早的性能数据启用了 serde_json 的
 `arbitrary_precision` 和 `float_roundtrip`，不代表 0.3 默认数字配置的性能。
 在当前源码上复现这些测量边界时，应显式启用 `--features exact-numbers`；
 Cargo 特性由依赖图统一，消费者直接启用这两个 serde_json 特性也会影响 Palim。
 默认配置可能在调用 Palim 前已将数字舍入或拒绝，不能据此承诺保留任意精度的原始输入。
-[0.3.0 变更说明](CHANGELOG.md#030)、[数字合同](README.md#error-and-interoperability-contract)。
+[0.3.0 变更说明](CHANGELOG.md#030)、[数字合同](API_GUIDE.md#error-and-interoperability-contract)。
 
 本轮只复核现有输入、API 与验证入口，不新增性能排名。
 [维护复核记录](results/maintenance-20261007/REPORT.md) 区分当前提交的远端 CI、
 本机重新完成的检查及未重新运行的历史测量；下方旧快照保持原始版本与状态。
+
+## Reading these results
+
+These records preserve historical measurement and validation snapshots. Release
+status is in the [changelog](CHANGELOG.md) and [GitHub releases](https://github.com/majiayu000/palim/releases).
+The 0.2 performance runs enabled serde_json's exact-number features; the ordinary
+number default introduced in Palim 0.3 has not been measured by those runs.
+A newer release does not turn a dated snapshot into a measurement of that release.
+
+## Selected workloads and adoption evidence
+
+Measured examples, in milliseconds. Each row names its output contract; these
+are dated single-machine results, not a promise for arbitrary JSON.
+These 0.2 measurements used exact-number serde_json features; they do not measure
+the ordinary-number default introduced in 0.3.
+
+| Input and output contract | Palim | Compared library | Output bytes: Palim / compared |
+|---|---:|---:|---:|
+| 2,000-item rotation, reversible delta pipeline | 0.2503 ms | jsondiffpatch 0.7.6: 39.1601 ms | 27 / 27 |
+| 2,000 entirely different items, reversible delta pipeline | 1.4315 ms | jsondiffpatch 0.7.6: 287.9724 ms | 111,790 / 111,790 |
+| 5,000-file migration, optimized RFC pipeline | 44.0676 ms | Go jsondiff 0.7.1 optimized: 113.7361 ms | 505,072 / 4,699,005 |
+| 1,000,000-item rotation, plain RFC pipeline | 209.4459 ms | Rust json-patch 4.2.0: 259.1759 ms | 44 / 58,888,891 |
+
+Pipeline includes parsing both inputs, generating the change and serializing it.
+The first three rows come from the
+[2026-10-06 cross-language run](https://github.com/majiayu000/palim/blob/main/results/ci-crosslang-20261006/REPORT.md);
+the million-item row comes from the
+[2026-10-06–07 Rust run](https://github.com/majiayu000/palim/blob/main/results/adaptive-rfc-20261006/REPORT.md).
+Do not combine the runs into an overall ranking.
+
+For ordinary positional RFC patches, `json-patch` remains a strong, simpler
+choice. It is faster on the measured random shuffles and wide additions; JS
+libraries are faster on the measured small configurations. Palim's advantage
+is specific to the change representation and workload. See
+[COMPARISON.md](https://github.com/majiayu000/palim/blob/main/COMPARISON.md) for the boundaries.
+External users and production adoption have not yet been confirmed;
+these benchmarks and examples are not production adoption evidence.
+An [internal Helixflow proposal-diff integration](https://github.com/majiayu000/palim/blob/main/results/internal-integration-20261007/REPORT.md)
+uses published 0.3.0 and has passed registry integration tests. Its
+[merged pull request](https://github.com/majiayu000/helixflow/pull/225) is separate from
+evidence of external users or production adoption.
+
+## 0.2.0 Rust measurements
+
+Same-run Rust comparison on 2026-10-06–07, with matching serde_json features.
+Each entry is the median of three independent process medians, with nine timed
+batches per process. Core generates and drops an owned patch from parsed Values;
+pipeline parses both inputs, generates and serializes. Plain uses all three
+`JsonPatchOptions` flags set to false. Validation runs outside timing.
+
+| Plain RFC input | Palim Core ms | json-patch 4.2.0 Core ms | Palim pipeline ms | json-patch pipeline ms | Patch bytes: Palim / json-patch |
+|---|---:|---:|---:|---:|---:|
+| shuffle-2000 | 0.2715 | 0.2056 | 0.5933 | 0.5289 | 87,736 / 87,736 |
+| shuffle-20000 | 3.1130 | 2.1254 | 6.4768 | 5.3771 | 917,781 / 917,781 |
+| rotate-1000000 | 131.2561 | 114.8378 | 209.4459 | 259.1759 | 44 / 58,888,891 |
+
+Relative to the source before the adaptive changes (`ca8235a`), the plain path
+makes these 2k/20k shuffles about 5.4 times faster, with 8.1%/5.2% larger output.
+Foldhash alone reduces generation time by 8.1%–13.9% in three large optimized
+fixtures, with unchanged output bytes and allocation counts. Shuffle generation
+still trails Rust json-patch, and results vary by input and machine. The
+[full A/B report](https://github.com/majiayu000/palim/blob/main/results/adaptive-rfc-20261006/REPORT.md)
+retains all 19 fixtures, four RFC modes, 522 timing processes, regressions and replay
+sources. The earlier Go/JS results are a
+[separate cross-language run](https://github.com/majiayu000/palim/blob/main/results/ci-crosslang-20261006/REPORT.md);
+they do not measure the final adaptive implementation.
+
+The 0.2.0 release validation included 202 debug and 202 release tests, 1,073 required JS
+interoperability paths and 135,242 local structured fuzz runs without failure.
+All 3,305 legacy frozen records are unchanged; 128 additional direct-generation
+records cover the changed plain output across all eight RFC flag combinations.
+[The tagged source passed all six remote CI jobs](https://github.com/majiayu000/palim/actions/runs/37495591648),
+including Windows/macOS/Linux, Rust 1.85, JS interoperability and structured fuzzing.
+
+## Current verification commands
+
+```sh
+cargo test --locked
+cargo test --features exact-numbers --locked
+cargo test --release --locked
+cargo test --release --features exact-numbers --locked
+cargo clippy --all-targets --locked -- -D warnings
+cargo clippy --all-targets --features exact-numbers --locked -- -D warnings
+cargo fmt --check
+cargo +1.85.0 check --lib --locked
+cargo +1.85.0 check --lib --features exact-numbers --locked
+cargo bench --bench core --features exact-numbers --locked -- --noplot
+```
+
+Optional JavaScript interoperability and comparison (requires Node 20+, Python 3
+and npm; Node 24.14.0 was tested):
+
+```sh
+npm ci --prefix tools --ignore-scripts --no-audit --no-fund
+cargo build --release --example fixture_runner --locked
+node tools/interop.mjs
+python3 tools/benchmark.py
+cargo build --release --example standard_bench --features exact-numbers --locked
+python3 tools/standard-benchmark.py --task pipeline
+python3 tools/standard-benchmark.py --task export
+python3 tools/standard-benchmark.py --task apply
+python3 tools/standard-benchmark.py --task inverse
+```
+
+Structured fuzzing uses a separate developer workspace and requires nightly Rust:
+
+```sh
+cargo install cargo-fuzz --version 0.13.2 --locked
+cargo +nightly fuzz run core -- -max_total_time=115 -max_len=2048 -rss_limit_mb=1024 -seed=20261001
+```
+
+The CI workflow runs Rust tests on Linux, Windows and macOS, plus MSRV,
+JavaScript interoperability and a 60-second fuzz smoke test. Local cross-target
+library checks establish compilation only; see the verification record for checks
+that actually ran.
+
+The default Rust suite has no network or Node dependency. It includes deterministic
+regressions, 373 saved document pairs, 92 active public JSON Patch cases, exhaustive
+unique permutations through length seven, and fixed-seed property suites for trees,
+real array deltas, matching, text, Merge Patch and standard inverses. JS verification saves every
+delta and checks 1,073 cases in both directions, including complex repeated identities
+and Unicode text. Upstream JS reverse failures are reported separately, while Rust's
+own inverse must restore every source.
 
 ## 2026-10-06–07：采用 foldhash 与 plain 自适应重排
 

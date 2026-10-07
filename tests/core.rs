@@ -33,6 +33,59 @@ fn check(patcher: &DiffPatcher, left: &Value, right: &Value) {
 }
 
 #[test]
+fn by_key_tracks_moves_and_edits_with_typed_literal_field_ids() {
+    let engine = DiffPatcher::by_key(String::from("user/id"));
+    let before = json!([
+        {"user/id": 1, "name": "Ada"},
+        {"user/id": "1", "name": "Grace"},
+        {"user/id": 2, "name": "Linus"}
+    ]);
+    let after = json!([
+        {"user/id": 2, "name": "Linus updated"},
+        {"user/id": 1, "name": "Ada"},
+        {"user/id": "1", "name": "Grace updated"}
+    ]);
+    let delta = engine.diff(&before, &after).unwrap().unwrap();
+    assert_eq!(delta.as_value()["_2"], json!(["", 0, 3]));
+    assert_eq!(
+        delta.as_value()["0"]["name"],
+        json!(["Linus", "Linus updated"])
+    );
+    assert_eq!(
+        delta.as_value()["2"]["name"],
+        json!(["Grace", "Grace updated"])
+    );
+    check(&engine, &before, &after);
+}
+
+#[test]
+fn by_key_accepts_missing_and_repeated_ids_and_primitive_items() {
+    let engine = DiffPatcher::by_key("id");
+    let pairs = [
+        (
+            json!([{"label": "unkeyed"}, {"id": "a", "done": false}, 7, null, [1]]),
+            json!([[1], null, 7, {"id": "a", "done": true}, {"label": "unkeyed"}]),
+        ),
+        (
+            json!([{"id": "same", "v": 1}, {"id": "same", "v": 2}]),
+            json!([{"id": "same", "v": 2}, {"id": "same", "v": 3}]),
+        ),
+    ];
+    for (before, after) in pairs {
+        check(&engine, &before, &after);
+    }
+    assert!(
+        engine
+            .diff(
+                &json!([{ "label": "unkeyed" }]),
+                &json!([{ "label": "unkeyed" }])
+            )
+            .unwrap()
+            .is_none()
+    );
+}
+
+#[test]
 fn structural_round_trips() {
     let dp = DiffPatcher::default();
     let pairs = [

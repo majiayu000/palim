@@ -1,14 +1,10 @@
 //! Store reversible task-list changes, then undo and redo on the same baseline.
 //! Run with `cargo run --example id_list_history --locked`.
-use palim::{Delta, DiffOptions, DiffPatcher, apply_json_patch, patch, unpatch};
-use serde_json::{Value, json};
-use std::sync::Arc;
+use palim::{Delta, DiffPatcher, apply_json_patch, patch, unpatch};
+use serde_json::json;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let engine = DiffPatcher::new(DiffOptions {
-        object_hash: Some(Arc::new(|item, _| item.get("id").map(Value::to_string))),
-        ..Default::default()
-    });
+    let engine = DiffPatcher::by_key("id");
     let initial = json!([
         {"id": "draft", "title": "Write draft", "done": false},
         {"id": "review", "title": "Review draft", "done": false},
