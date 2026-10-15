@@ -68,8 +68,13 @@ The existing `fixture_runner benchmark` produces five timed batches per process;
 this table takes the median of the three process medians. No new benchmark engine
 was added. Peak RSS is `/usr/bin/time -l` maximum resident set size in bytes and
 includes process startup, retained parsed inputs and verification, not only diff
-allocations. Raw timing samples, load observations, binary/input hashes and full
-environment are in [measurements.json](measurements.json).
+allocations. [measurements.json](measurements.json) preserves the five sorted
+batch timing samples per process for diff and pipeline, but only per-process
+medians for patch and reverse. The patch/reverse table values can be recomputed
+from those process medians; their within-process batch samples were not retained,
+so batch-level variability cannot be inspected or process medians independently
+recomputed from raw samples for those stages. Load observations, binary/input
+hashes and the full environment are also recorded there.
 
 | Workload / mode | Diff ms | Parse→diff→serialize ms | Patch ms | Reverse ms | Median peak RSS bytes | Delta bytes |
 |---|---:|---:|---:|---:|---:|---:|

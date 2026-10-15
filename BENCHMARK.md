@@ -21,10 +21,10 @@ Cargo 特性由依赖图统一，消费者直接启用这两个 serde_json 特�
 没有增加算法或选项。两个输入是 ID 移动+编辑任务列表，以及依据 Helixflow 真实
 map/edge 字段形状构造的模拟图编辑；**不是捕获的真实用户历史**。
 
-| 输入（各 2,000 项） | ordinary pipeline / exact pipeline | ordinary / exact 峰值 RSS 中位数 | Delta 大小 |
+| 输入（初始规模） | ordinary pipeline / exact pipeline | ordinary / exact 峰值 RSS 中位数 | Delta 大小 |
 |---|---:|---:|---:|
-| ID列表移动+编辑 | 1.9104 / 2.3191 ms | 14,761,984 / 15,532,032 bytes | 278 bytes |
-| Workflow map/edge形状 | 6.3676 / 7.3682 ms | 42,795,008 / 44,089,344 bytes | 9,841 bytes |
+| ID列表移动+编辑（2,000 个任务） | 1.9104 / 2.3191 ms | 14,761,984 / 15,532,032 bytes | 278 bytes |
+| Workflow map/edge形状（2,000 个节点 + 1,999 条边） | 6.3676 / 7.3682 ms | 42,795,008 / 44,089,344 bytes | 9,841 bytes |
 
 每种配置各3个进程，进程内沿用5批采样；逐次前后回放正确，两模式输出一致。
 本机1分钟负载27.46–29.91且有其他构建，数值只作为同机观察，不能当隔离基准或排名。
