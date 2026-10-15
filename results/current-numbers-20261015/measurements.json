@@ -1,0 +1,473 @@
+{
+  "environment": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "rustc": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+    "cpu": "Apple M3 Max",
+    "physical_memory_bytes": 137438953472,
+    "load_average": [
+      28.64892578125,
+      23.07568359375,
+      30.55419921875
+    ],
+    "build_jobs": 2,
+    "baseline": "2f7f1504602a09eaa902614486b46ae7c7585786",
+    "palim_version": "0.3.1",
+    "shared_machine": true
+  },
+  "workloads": {
+    "id-history-2000.json": {
+      "bytes": 315622,
+      "sha256": "13f4256bb3a6fa1652bb76c35cf4409e4724157a6e9e2fc07919cfb6096ac2e8"
+    },
+    "helixflow-schema-2000.json": {
+      "bytes": 812698,
+      "sha256": "07ce4310ea5d2c56b323c72f3f474d3f9bccc6a3b92bbeb61817e780c9e546f6"
+    }
+  },
+  "binaries": {
+    "ordinary": "ea488c9dcb3ea494bb2070b5fff09e7338508ac96fa1eb4b824185b96d58e297",
+    "exact": "6de2b97d95ff1d91f55d0f78546b4aab911227ac9b2614e984668ecbcf25a0d5"
+  },
+  "summary": [
+    {
+      "name": "id-history-2000",
+      "mode": "ordinary",
+      "diff_ms": 0.4438497142857143,
+      "pipeline_ms": 1.9104181034482761,
+      "patch_ms": 0.4138653214285714,
+      "reverse_ms": 0.0022418214285714285,
+      "peak_rss_bytes": 14761984,
+      "patch_bytes": 278
+    },
+    {
+      "name": "id-history-2000",
+      "mode": "exact",
+      "diff_ms": 0.4644751538461538,
+      "pipeline_ms": 2.31907334,
+      "patch_ms": 0.49933918,
+      "reverse_ms": 0.00251916,
+      "peak_rss_bytes": 15532032,
+      "patch_bytes": 278
+    },
+    {
+      "name": "helixflow-schema-2000",
+      "mode": "ordinary",
+      "diff_ms": 1.581262,
+      "pipeline_ms": 6.367636857142857,
+      "patch_ms": 1.6152797142857143,
+      "reverse_ms": 0.15001161111111108,
+      "peak_rss_bytes": 42795008,
+      "patch_bytes": 9841
+    },
+    {
+      "name": "helixflow-schema-2000",
+      "mode": "exact",
+      "diff_ms": 1.6267306,
+      "pipeline_ms": 7.368208333333333,
+      "patch_ms": 1.7436028000000001,
+      "reverse_ms": 0.16954464285714282,
+      "peak_rss_bytes": 44089344,
+      "patch_bytes": 9841
+    }
+  ],
+  "runs": [
+    {
+      "diff_ms": 0.4438497142857143,
+      "diff_samples_ms": [
+        0.43973808928571423,
+        0.44288169642857145,
+        0.4438497142857143,
+        0.4441019464285714,
+        0.44504612500000007
+      ],
+      "engine": "palim",
+      "iterations": 56,
+      "name": "id-history-2000",
+      "ok": true,
+      "patch_bytes": 278,
+      "patch_ms": 0.4138653214285714,
+      "pipeline_ms": 1.8913816964285712,
+      "pipeline_samples_ms": [
+        1.8843050714285714,
+        1.8881867499999998,
+        1.8913816964285712,
+        1.9154010357142859,
+        1.9397715892857144
+      ],
+      "reverse_ms": 0.0022418214285714285,
+      "mode": "ordinary",
+      "process_run": 0,
+      "peak_rss_bytes": 14761984,
+      "load_average": [
+        29.90771484375,
+        24.02587890625,
+        29.20361328125
+      ]
+    },
+    {
+      "diff_ms": 0.46746418,
+      "diff_samples_ms": [
+        0.446815,
+        0.45917916000000003,
+        0.46746418,
+        0.46860916,
+        0.47705834
+      ],
+      "engine": "palim",
+      "iterations": 50,
+      "name": "id-history-2000",
+      "ok": true,
+      "patch_bytes": 278,
+      "patch_ms": 0.49933918,
+      "pipeline_ms": 2.31907334,
+      "pipeline_samples_ms": [
+        2.30158332,
+        2.3123050000000003,
+        2.31907334,
+        2.34764834,
+        2.46708584
+      ],
+      "reverse_ms": 0.00251916,
+      "mode": "exact",
+      "process_run": 0,
+      "peak_rss_bytes": 15581184,
+      "load_average": [
+        28.8740234375,
+        23.9091796875,
+        29.1318359375
+      ]
+    },
+    {
+      "diff_ms": 0.4564464285714286,
+      "diff_samples_ms": [
+        0.4554657678571429,
+        0.4558035714285714,
+        0.4564464285714286,
+        0.45675373214285714,
+        0.45948362499999995
+      ],
+      "engine": "palim",
+      "iterations": 56,
+      "name": "id-history-2000",
+      "ok": true,
+      "patch_bytes": 278,
+      "patch_ms": 0.4977090714285714,
+      "pipeline_ms": 2.315801339285714,
+      "pipeline_samples_ms": [
+        2.2967120535714285,
+        2.309334821428571,
+        2.315801339285714,
+        2.3241011964285714,
+        2.3677946428571426
+      ],
+      "reverse_ms": 0.0023154642857142853,
+      "mode": "exact",
+      "process_run": 1,
+      "peak_rss_bytes": 15532032,
+      "load_average": [
+        27.7626953125,
+        23.76123046875,
+        29.048828125
+      ]
+    },
+    {
+      "diff_ms": 0.45246563157894737,
+      "diff_samples_ms": [
+        0.4372404912280701,
+        0.43785599999999997,
+        0.45246563157894737,
+        0.45713743859649125,
+        0.47700512280701757
+      ],
+      "engine": "palim",
+      "iterations": 57,
+      "name": "id-history-2000",
+      "ok": true,
+      "patch_bytes": 278,
+      "patch_ms": 0.4193377192982456,
+      "pipeline_ms": 1.9376783684210526,
+      "pipeline_samples_ms": [
+        1.9192660701754387,
+        1.9201023333333334,
+        1.9376783684210526,
+        1.9503508771929825,
+        2.0058837719298244
+      ],
+      "reverse_ms": 0.0022222280701754385,
+      "mode": "ordinary",
+      "process_run": 1,
+      "peak_rss_bytes": 14925824,
+      "load_average": [
+        27.7626953125,
+        23.76123046875,
+        29.048828125
+      ]
+    },
+    {
+      "diff_ms": 0.4423060344827586,
+      "diff_samples_ms": [
+        0.43984986206896554,
+        0.4399331896551725,
+        0.4423060344827586,
+        0.44531179310344826,
+        0.4518699655172414
+      ],
+      "engine": "palim",
+      "iterations": 58,
+      "name": "id-history-2000",
+      "ok": true,
+      "patch_bytes": 278,
+      "patch_ms": 0.4136716896551724,
+      "pipeline_ms": 1.9104181034482761,
+      "pipeline_samples_ms": [
+        1.8780862068965518,
+        1.8803275862068964,
+        1.9104181034482761,
+        1.922646551724138,
+        2.2632442586206896
+      ],
+      "reverse_ms": 0.002280896551724138,
+      "mode": "ordinary",
+      "process_run": 2,
+      "peak_rss_bytes": 14696448,
+      "load_average": [
+        27.7626953125,
+        23.76123046875,
+        29.048828125
+      ]
+    },
+    {
+      "diff_ms": 0.4644751538461538,
+      "diff_samples_ms": [
+        0.4617347884615385,
+        0.46332532692307693,
+        0.4644751538461538,
+        0.47441265384615383,
+        0.5004567307692308
+      ],
+      "engine": "palim",
+      "iterations": 52,
+      "name": "id-history-2000",
+      "ok": true,
+      "patch_bytes": 278,
+      "patch_ms": 0.5017740384615385,
+      "pipeline_ms": 2.3791835,
+      "pipeline_samples_ms": [
+        2.334596153846154,
+        2.3406658653846155,
+        2.3791835,
+        2.453696307692308,
+        2.558975153846154
+      ],
+      "reverse_ms": 0.0025432692307692305,
+      "mode": "exact",
+      "process_run": 2,
+      "peak_rss_bytes": 15450112,
+      "load_average": [
+        27.7626953125,
+        23.76123046875,
+        29.048828125
+      ]
+    },
+    {
+      "diff_ms": 1.581262,
+      "diff_samples_ms": [
+        1.5369464285714287,
+        1.5772915714285713,
+        1.581262,
+        1.6139345714285713,
+        2.116511857142857
+      ],
+      "engine": "palim",
+      "iterations": 7,
+      "name": "helixflow-schema-2000",
+      "ok": true,
+      "patch_bytes": 9841,
+      "patch_ms": 1.6152797142857143,
+      "pipeline_ms": 6.367636857142857,
+      "pipeline_samples_ms": [
+        6.241750000000001,
+        6.272922714285714,
+        6.367636857142857,
+        6.539619142857143,
+        6.640422714285713
+      ],
+      "reverse_ms": 0.1655297142857143,
+      "mode": "ordinary",
+      "process_run": 0,
+      "peak_rss_bytes": 42532864,
+      "load_average": [
+        27.7626953125,
+        23.76123046875,
+        29.048828125
+      ]
+    },
+    {
+      "diff_ms": 1.591267857142857,
+      "diff_samples_ms": [
+        1.5233392857142856,
+        1.5723690714285714,
+        1.591267857142857,
+        1.6345565714285715,
+        2.0526845714285717
+      ],
+      "engine": "palim",
+      "iterations": 14,
+      "name": "helixflow-schema-2000",
+      "ok": true,
+      "patch_bytes": 9841,
+      "patch_ms": 1.7362857142857142,
+      "pipeline_ms": 7.253184499999999,
+      "pipeline_samples_ms": [
+        7.182038642857143,
+        7.1936219999999995,
+        7.253184499999999,
+        7.617211285714285,
+        7.633601214285713
+      ],
+      "reverse_ms": 0.17506249999999998,
+      "mode": "exact",
+      "process_run": 0,
+      "peak_rss_bytes": 44089344,
+      "load_average": [
+        27.7626953125,
+        23.76123046875,
+        29.048828125
+      ]
+    },
+    {
+      "diff_ms": 1.8201131428571429,
+      "diff_samples_ms": [
+        1.4627648571428573,
+        1.791267857142857,
+        1.8201131428571429,
+        1.861994,
+        2.2568244285714285
+      ],
+      "engine": "palim",
+      "iterations": 14,
+      "name": "helixflow-schema-2000",
+      "ok": true,
+      "patch_bytes": 9841,
+      "patch_ms": 1.8287292142857143,
+      "pipeline_ms": 7.734910714285715,
+      "pipeline_samples_ms": [
+        7.4657857142857145,
+        7.571389857142857,
+        7.734910714285715,
+        8.1849435,
+        16.338693499999998
+      ],
+      "reverse_ms": 0.16954464285714282,
+      "mode": "exact",
+      "process_run": 1,
+      "peak_rss_bytes": 43974656,
+      "load_average": [
+        27.4609375,
+        23.76513671875,
+        29.01904296875
+      ]
+    },
+    {
+      "diff_ms": 1.5824560555555556,
+      "diff_samples_ms": [
+        1.4618819444444444,
+        1.567344888888889,
+        1.5824560555555556,
+        1.5989189444444445,
+        2.6600277777777777
+      ],
+      "engine": "palim",
+      "iterations": 18,
+      "name": "helixflow-schema-2000",
+      "ok": true,
+      "patch_bytes": 9841,
+      "patch_ms": 1.6265347222222222,
+      "pipeline_ms": 6.3345949444444445,
+      "pipeline_samples_ms": [
+        6.236534722222222,
+        6.2556573888888884,
+        6.3345949444444445,
+        6.452182888888889,
+        6.901659722222223
+      ],
+      "reverse_ms": 0.15001161111111108,
+      "mode": "ordinary",
+      "process_run": 1,
+      "peak_rss_bytes": 43057152,
+      "load_average": [
+        27.4609375,
+        23.76513671875,
+        29.01904296875
+      ]
+    },
+    {
+      "diff_ms": 1.5700963125,
+      "diff_samples_ms": [
+        1.4474166875,
+        1.4637239375,
+        1.5700963125,
+        1.605846375,
+        3.1531614375
+      ],
+      "engine": "palim",
+      "iterations": 16,
+      "name": "helixflow-schema-2000",
+      "ok": true,
+      "patch_bytes": 9841,
+      "patch_ms": 1.581653625,
+      "pipeline_ms": 6.4008385,
+      "pipeline_samples_ms": [
+        5.986317687500001,
+        6.291390625,
+        6.4008385,
+        7.087708312499999,
+        7.4777421875
+      ],
+      "reverse_ms": 0.147302125,
+      "mode": "ordinary",
+      "process_run": 2,
+      "peak_rss_bytes": 42795008,
+      "load_average": [
+        27.4609375,
+        23.76513671875,
+        29.01904296875
+      ]
+    },
+    {
+      "diff_ms": 1.6267306,
+      "diff_samples_ms": [
+        1.4229333333333332,
+        1.5402805333333334,
+        1.6267306,
+        1.6829389333333333,
+        1.8044305333333335
+      ],
+      "engine": "palim",
+      "iterations": 15,
+      "name": "helixflow-schema-2000",
+      "ok": true,
+      "patch_bytes": 9841,
+      "patch_ms": 1.7436028000000001,
+      "pipeline_ms": 7.368208333333333,
+      "pipeline_samples_ms": [
+        7.181933333333333,
+        7.274013933333333,
+        7.368208333333333,
+        7.539594466666667,
+        7.701313933333333
+      ],
+      "reverse_ms": 0.16549166666666668,
+      "mode": "exact",
+      "process_run": 2,
+      "peak_rss_bytes": 44515328,
+      "load_average": [
+        27.4609375,
+        23.76513671875,
+        29.01904296875
+      ]
+    }
+  ],
+  "ordinary_exact_generated_delta_and_inverse_equal": true
+}

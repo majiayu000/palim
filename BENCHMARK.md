@@ -15,6 +15,25 @@ Cargo 特性由依赖图统一，消费者直接启用这两个 serde_json 特�
 [维护复核记录](results/maintenance-20261007/REPORT.md) 区分当前提交的远端 CI、
 本机重新完成的检查及未重新运行的历史测量；下方旧快照保持原始版本与状态。
 
+## 0.3.1 普通 / exact-numbers 同场观察（2026-10-15）
+
+已用当前 0.3.1 的同一源码和输入补测两种数字模式，复用现有 `fixture_runner`，
+没有增加算法或选项。两个输入是 ID 移动+编辑任务列表，以及依据 Helixflow 真实
+map/edge 字段形状构造的模拟图编辑；**不是捕获的真实用户历史**。
+
+| 输入（各 2,000 项） | ordinary pipeline / exact pipeline | ordinary / exact 峰值 RSS 中位数 | Delta 大小 |
+|---|---:|---:|---:|
+| ID列表移动+编辑 | 1.9104 / 2.3191 ms | 14,761,984 / 15,532,032 bytes | 278 bytes |
+| Workflow map/edge形状 | 6.3676 / 7.3682 ms | 42,795,008 / 44,089,344 bytes | 9,841 bytes |
+
+每种配置各3个进程，进程内沿用5批采样；逐次前后回放正确，两模式输出一致。
+本机1分钟负载27.46–29.91且有其他构建，数值只作为同机观察，不能当隔离基准或排名。
+新版历史示例另通过持久化delta的undo/redo/重新打开后replay，并演示应用层拒绝错baseline。
+Helixflow本机checkout使用不可变图快照恢复，本轮没有迁移其存储或证明delta的实际采用。
+[输入、完整边界与复现命令](results/current-numbers-20261015/REPORT.md)；
+[样本、RSS、输入/二进制hash与环境](results/current-numbers-20261015/measurements.json)。
+下方旧数据继续保留原日期和配置。
+
 ## Reading these results
 
 These records preserve historical measurement and validation snapshots. Release
