@@ -88,7 +88,7 @@ and [library comparison](https://github.com/majiayu000/palim/blob/main/COMPARISO
 
 | Example | Demonstrates |
 |---|---|
-| [id_list_history](https://github.com/majiayu000/palim/blob/main/examples/id_list_history.rs) | ID-based list moves, edits, saved deltas, undo and redo |
+| [id_list_history](https://github.com/majiayu000/palim/blob/main/examples/id_list_history.rs) | ID moves + edits, saved/reopened history, undo/redo, stale revision rejection, and simulated workflow graph edits |
 | [rfc_patch_transport](https://github.com/majiayu000/palim/blob/main/examples/rfc_patch_transport.rs) | Serialize RFC 6902 operations, apply them and generate an inverse |
 | [config_report](https://github.com/majiayu000/palim/blob/main/examples/config_report.rs) | Compare configuration paths and print a report |
 | [jsondiffpatch_interop](https://github.com/majiayu000/palim/blob/main/examples/jsondiffpatch_interop.rs) | Import a forward JS delta and use Rust to apply and undo it |
